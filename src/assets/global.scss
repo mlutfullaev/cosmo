@@ -1,0 +1,48 @@
+@import './fonts';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'PT Root UI', serif;
+}
+a {
+  text-decoration: none;
+}
+.logo {
+  font-weight: 700;
+
+  span {
+    font-weight: 400;
+  }
+}
+.number {
+  &-large {
+    color: $black;
+    font-family: 'PT Root UI', serif;
+    font-size: 250px;
+    font-style: normal;
+    font-weight: 700;
+  }
+  &-small {
+    color: $black;
+    font-family: 'PT Root UI', serif;
+    font-size: 52px;
+    font-style: normal;
+    font-weight: 700;
+  }
+  &-medium {
+    color: $black;
+    font-family: 'PT Root UI', serif;
+    font-size: 150px;
+    font-style: normal;
+    font-weight: 700;
+  }
+}
+.bg-img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
