@@ -23,5 +23,9 @@ a {
   font-size: 36px;
   font-style: normal;
   font-weight: 400;
+
+  @media (max-width: 1541px) {
+    font-size: 30px;
+  }
 }
 </style>

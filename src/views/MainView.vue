@@ -111,6 +111,10 @@ main {
         text-align: center;
         font-size: 52px;
         font-weight: 400;
+
+        @media (max-width: 1540px) {
+          font-size: 42px;
+        }
       }
     }
     &:nth-child(9) {
@@ -132,10 +136,18 @@ main {
     font-size: 36px;
     font-style: normal;
     font-weight: 400;
+
+    @media (max-width: 1541px) {
+      font-size: 30px;
+    }
   }
   .logo {
     font-size: 52px;
     padding-bottom: 10px;
+
+    @media (max-width: 1541px) {
+      font-size: 42px;
+    }
   }
 }
 </style>
