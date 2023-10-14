@@ -359,21 +359,27 @@ export default defineComponent({
         <button v-for="tab in aboutTabs" :class="{active: aboutActiveTab === tab}" :key="tab" @click="aboutActiveTab = tab">{{tab}}</button>
       </div>
       <div class="content">
-        <div class="content-tab" v-show="aboutActiveTab === aboutTabs[0]">
-          <h3 class="title">Argan Foundation Pure Oil</h3>
-          <p class="text">Because we have many types of elements we created Live Editor for you so you can see live changes. link of elements we created Live tEditor for you so forat you can for you so you can. </p>
-          <p class="text bold">benefits:</p>
-          <p class="text bold">+ Improved Skin Hydration</p>
-          <p class="text bold">+ Slows Down Aging</p>
-          <p class="text bold">+ Better Skin Condition</p>
-          <p class="text bold">+ Cumulative Results</p>
-        </div>
-        <div class="content-tab" v-show="aboutActiveTab === aboutTabs[1]">
-          <p class="text"><b>Full ingredients: </b>dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus nunc. Viverra massa tincidunt massa nibh vestibulum proin vitae enim lectus. Convallis dolor hac integer euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.</p>
-        </div>
-        <div class="content-tab" v-show="aboutActiveTab === aboutTabs[2]">
-          <p class="text">Apply 2-3 pumps of Cleansing Oil to dry skin and massage, focusing on congested, imbalanced areas. Add warm water to fingertips and massage further until oil transforms into a milky lather. Rinse thoroughly or remove with a warm cloth. Follow with Toning Mist and Face Oil.</p>
-        </div>
+        <Transition name="tab">
+          <div class="content-tab" v-if="aboutActiveTab === aboutTabs[0]">
+            <h3 class="title">Argan Foundation Pure Oil</h3>
+            <p class="text">Because we have many types of elements we created Live Editor for you so you can see live changes. link of elements we created Live tEditor for you so forat you can for you so you can. </p>
+            <p class="text bold">benefits:</p>
+            <p class="text bold">+ Improved Skin Hydration</p>
+            <p class="text bold">+ Slows Down Aging</p>
+            <p class="text bold">+ Better Skin Condition</p>
+            <p class="text bold">+ Cumulative Results</p>
+          </div>
+        </Transition>
+        <Transition name="tab">
+          <div class="content-tab" v-if="aboutActiveTab === aboutTabs[1]">
+            <p class="text"><b>Full ingredients: </b>dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus nunc. Viverra massa tincidunt massa nibh vestibulum proin vitae enim lectus. Convallis dolor hac integer euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.</p>
+          </div>
+        </Transition>
+        <Transition name="tab">
+          <div class="content-tab" v-if="aboutActiveTab === aboutTabs[2]">
+            <p class="text">Apply 2-3 pumps of Cleansing Oil to dry skin and massage, focusing on congested, imbalanced areas. Add warm water to fingertips and massage further until oil transforms into a milky lather. Rinse thoroughly or remove with a warm cloth. Follow with Toning Mist and Face Oil.</p>
+          </div>
+        </Transition>
       </div>
       <div class="scan">
         <img src="@/assets/img/product/qr.png" alt="">
@@ -426,12 +432,14 @@ export default defineComponent({
 .aboutProduct {
   display: grid;
   grid-template-columns: 50% 50%;
+  align-items: center;
   border-bottom: 1px solid $black;
 
   .slider {
-    padding: 50px 0;
+    padding: 50px 20px;
   }
   &-inner {
+    height: 100%;
     border-left: 1px solid $black;
     display: grid;
     grid-template-rows: 65px auto auto;
@@ -456,7 +464,8 @@ export default defineComponent({
       }
     }
     .content {
-      padding: $padding;
+      //padding: $padding;
+      @include pad();
 
       h3 {
         padding-bottom: 20px;

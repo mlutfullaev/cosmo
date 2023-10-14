@@ -41,7 +41,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 footer {
   background: $grey;
-  padding: 60px;
+  @include pad();
+
   .footer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

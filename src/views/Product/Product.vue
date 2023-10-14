@@ -112,7 +112,26 @@ export default defineComponent({
         description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
       },
     ],
-    activeDesc: 'AI ASSISTANCE IN YOUR SMARTPHONE'
+    activeDesc: 'AI ASSISTANCE IN YOUR SMARTPHONE',
+    description2: [
+      {
+        title: 'SEPHORA',
+        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+      },
+      {
+        title: 'DOUGLAS',
+        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+      },
+      {
+        title: 'BRUNI',
+        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+      },
+      {
+        title: 'LOOKFANTASTIC',
+        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+      },
+    ],
+    activeDesc2: 'LOOKFANTASTIC'
   })
 })
 </script>
@@ -196,15 +215,20 @@ export default defineComponent({
         >0{{ idx + 1 }} {{ desc.title }}
         </button>
       </div>
-      <div
-        class="description-item"
-        v-for="(desc, idx) in descriptions"
-        :key="desc.title"
-        v-show="activeDesc === desc.title">
-        <h1 class="text-large">0{{ idx + 1 }}</h1>
-        <div>
-          <p class="text bold">{{ desc.title }}</p>
-          <p class="text">{{ desc.description }}</p>
+      <div>
+        <div
+          class="description-item"
+          v-for="(desc, idx) in descriptions"
+          :key="desc.title">
+          <Transition name="tab">
+            <div v-if="activeDesc === desc.title">
+              <h1 class="text-large">0{{ idx + 1 }}</h1>
+              <div>
+                <p class="text bold">{{ desc.title }}</p>
+                <p class="text">{{ desc.description }}</p>
+              </div>
+            </div>
+          </Transition>
         </div>
       </div>
     </div>
@@ -350,14 +374,26 @@ export default defineComponent({
         <h3 class="title">free samples</h3>
       </div>
       <div class="description-inner">
-        <h3 class="title">SEPHORA</h3>
-        <h3 class="title">DOUGLAS</h3>
-        <h3 class="title">BRUNI</h3>
-        <h3 class="title">lookfantastic</h3>
+        <button
+          v-for="desc in description2"
+          :key="desc.title"
+          @click="activeDesc2 = desc.title"
+          class="title"
+          :class="{active: activeDesc2 === desc.title}"
+        >{{desc.title}}</button>
       </div>
-      <div class="description-text">
-        <p class="text bold">lookfantastic</p>
-        <p class="text">Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home.  Anything You wanted to know about this product now.</p>
+      <div>
+        <div
+            class="description-text"
+            v-for="desc in description2"
+            :key="desc.title">
+          <Transition name="tab">
+            <div v-if="activeDesc2 === desc.title">
+              <p class="text bold">{{desc.title}}</p>
+              <p class="text">{{desc.text}}</p>
+            </div>
+          </Transition>
+        </div>
       </div>
     </div>
   </section>
@@ -401,14 +437,20 @@ main {
     @include display-center();
     background-color: $orange;
     text-align: center;
-    padding: 50px;
+    @include pad();
 
     & > div {
       padding: 20px 20px 0;
       background-color: $white;
+      width: 100%;
+      height: 100%;
 
       img {
-        width: 90%;
+        width: 70%;
+
+        @media (max-width: 1640px) {
+          width: auto;
+        }
       }
 
       p {
@@ -417,12 +459,14 @@ main {
         font-size: 20px;
         font-style: normal;
         font-weight: 400;
+        padding-bottom: 10px;
       }
 
       h4 {
         font-family: 'PT Root UI', serif;
         font-size: 46px;
         font-weight: 700;
+        padding-bottom: 20px;
       }
     }
   }
@@ -524,6 +568,7 @@ main {
     button {
       color: $grey;
       transition: .3s;
+      text-align: left;
 
       &.active {
         color: $orange;
@@ -551,6 +596,8 @@ main {
   .scan {
     max-width: 900px;
     margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -567,7 +614,8 @@ main {
       align-content: space-between;
 
       .review {
-        padding: $padding;
+        //padding: $padding;
+        @include pad();
         border-top: 1px solid $black;
         display: grid;
         grid-template-columns: auto auto;
@@ -581,7 +629,8 @@ main {
         }
       }
       .review-top {
-        padding: $padding;
+        //padding: $padding;
+        @include pad();
 
         .rates {
           display: flex;
@@ -603,7 +652,8 @@ main {
     &.reviews-orange {
       background: $orange;
       display: grid;
-      padding: $padding;
+      //padding: $padding;
+      @include pad();
 
       .scan {
         align-self: end;
@@ -615,7 +665,8 @@ main {
       }
     }
     &.reviews-picture {
-      padding: $padding;
+      //padding: $padding;
+      @include pad();
       background-image: url("@/assets/img/product/reviews-img.png");
       color: $white;
     }
@@ -630,6 +681,8 @@ main {
 
     .scan {
       max-width: 800px;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
   .description-content {
@@ -647,11 +700,20 @@ main {
         text-transform: uppercase;
       }
     }
-    .description-inner .title {
-      padding: 20px 0;
+    .description-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      .title {
+        padding: 20px 0;
+        text-align: left;
+        transition: .3s;
 
-      &:not(:last-child) {
-        border-bottom: 1px solid $black;
+        &.active {
+          color: $orange;
+        }
+        &:not(:last-child) {
+          border-bottom: 1px solid $black;
+        }
       }
     }
     p {
@@ -680,7 +742,8 @@ main {
     > div {
       border-bottom: 1px solid $black;
       border-right: 1px solid $black;
-      padding: $padding;
+      //padding: $padding;
+      @include pad();
 
       h3 {
         padding-bottom: 20px;

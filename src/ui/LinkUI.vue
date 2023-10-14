@@ -24,8 +24,18 @@ a {
   font-style: normal;
   font-weight: 400;
 
+  &:hover {
+    span {
+      right: -20px;
+    }
+  }
   @media (max-width: 1541px) {
     font-size: 30px;
+  }
+  span {
+    transition: .3s;
+    position: relative;
+    right: 0;
   }
 }
 </style>

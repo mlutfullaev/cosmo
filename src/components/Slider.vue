@@ -78,9 +78,11 @@ export default defineComponent({
 .slider {
   position: relative;
   #carousel .carousel-item img {
-    width: 60%;
+      width: 60%;
   }
   #thumbnails {
+    padding-top: 30px;
+
     .thumbnails-item img {
       width: 100px;
     }

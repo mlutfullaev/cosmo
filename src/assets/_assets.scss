@@ -4,6 +4,16 @@ $white: #fff;
 $grey: #D7D7D7;
 $padding: 60px;
 
+@mixin pad() {
+  padding: 60px;
+
+  @media (min-width: 2040px) {
+    padding: 80px;
+  }
+  @media (max-width: 1540px) {
+    padding: 40px;
+  }
+}
 @mixin display-center($jc: center, $ai: center) {
   display: flex;
   justify-content: $jc;
