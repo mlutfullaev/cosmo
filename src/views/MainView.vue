@@ -1,34 +1,3 @@
-<template>
-  <main>
-    <div class="main-item">
-      <LinkUI router-link="#">Find Details about Beauty Products</LinkUI>
-    </div>
-    <div class="main-item">
-      <h3 class="main-text">Get Your AI Personal Beauty Assistant </h3>
-      <h3 class="number-small">02</h3>
-    </div>
-    <div class="main-item bg-img">
-      <h2 class="number-medium">03</h2>
-      <LinkUI router-link="#">Discover Beauty Routines for every occasion</LinkUI>
-    </div>
-    <div class="main-item">
-      <h2 class="logo">cosmo.<span>wiki</span></h2>
-    </div>
-    <div class="main-item bg-img">
-      <h1 class="number-large">01</h1>
-    </div>
-    <div class="main-item bg-img"></div>
-    <div class="main-item bg-img"></div>
-    <div class="main-item">
-      <h1 class="title-main">Independent Library of Beauty Products and Skin Routines Experiences</h1>
-    </div>
-    <div class="main-item">
-      <h3 class="number-small">04</h3>
-      <LinkUI router-link="#">Find what your SkinTwin are using</LinkUI>
-    </div>
-  </main>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import LinkUI from '@/ui/LinkUI.vue'
@@ -38,6 +7,37 @@ export default defineComponent({
   components: { LinkUI }
 })
 </script>
+
+<template>
+  <main>
+    <div class="main-item">
+      <LinkUI router-link="#">Find Details about Beauty Products</LinkUI>
+    </div>
+    <div class="main-item">
+      <h3 class="main-text">Get Your AI Personal Beauty Assistant </h3>
+      <h3 class="text-small">02</h3>
+    </div>
+    <div class="main-item bg-img">
+      <h2 class="text-medium">03</h2>
+      <LinkUI router-link="#">Discover Beauty Routines for every occasion</LinkUI>
+    </div>
+    <div class="main-item">
+      <h2 class="logo">cosmo.<span>wiki</span></h2>
+    </div>
+    <div class="main-item bg-img">
+      <h1 class="text-large">01</h1>
+    </div>
+    <div class="main-item bg-img"></div>
+    <div class="main-item bg-img"></div>
+    <div class="main-item">
+      <h1 class="title-main">Independent Library of Beauty Products and Skin Routines Experiences</h1>
+    </div>
+    <div class="main-item">
+      <h3 class="text-small">04</h3>
+      <LinkUI router-link="#">Find what your SkinTwin are using</LinkUI>
+    </div>
+  </main>
+</template>
 
 <style lang="scss" scoped>
 main {
@@ -57,7 +57,7 @@ main {
     &:nth-child(2) {
       display: grid;
 
-      .number-small {
+      .text-small {
         align-self: end;
         justify-self: end;
       }
@@ -69,7 +69,7 @@ main {
       display: grid;
       align-content: space-between;
 
-      .number-medium {
+      .text-medium {
         color: $orange;
       }
       a {
@@ -77,9 +77,7 @@ main {
       }
     }
     &:nth-child(4) {
-      display: grid;
-      align-items: center;
-      justify-content: center;
+      @include display-center();
       background-color: $orange;
     }
     &:nth-child(5) {
@@ -88,7 +86,7 @@ main {
       background-image: url('@/assets/img/main/01.png');
       display: grid;
 
-      .number-large {
+      .text-large {
         color: $orange;
         align-self: end;
       }

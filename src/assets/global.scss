@@ -25,7 +25,19 @@ button {
     font-weight: 400;
   }
 }
-.number {
+.text {
+  font-size: 24px;
+}
+.title {
+  font-size: 46px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+.bold {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.text {
   &-small {
     color: $black;
     font-family: 'PT Root UI', serif;
@@ -54,6 +66,7 @@ button {
     font-size: 250px;
     font-style: normal;
     font-weight: 700;
+    text-transform: uppercase;
 
     @media (max-width: 1540px) {
       font-size: 180px;
@@ -64,4 +77,15 @@ button {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.scan {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  grid-gap: 30px;
+  padding: 50px;
+
+  img {
+    width: 100px;
+  }
 }

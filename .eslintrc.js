@@ -15,6 +15,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'comma-dangle': 0,
-    'no-trailing-spaces': ['error', { skipBlankLines: true }]
+    'no-trailing-spaces': ['error', { skipBlankLines: true }],
+    'vue/multi-word-component-names': 0
   }
 }

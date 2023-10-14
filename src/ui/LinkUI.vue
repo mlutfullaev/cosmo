@@ -1,9 +1,3 @@
-<template>
-  <router-link :to="routerLink">
-    <slot /> <span>→</span>
-  </router-link>
-</template>
-
 <script>
 export default {
   name: 'LinkUI',
@@ -15,6 +9,12 @@ export default {
   }
 }
 </script>
+
+<template>
+  <router-link :to="routerLink">
+    <slot /> <span>→</span>
+  </router-link>
+</template>
 
 <style lang="scss" scoped>
 a {
