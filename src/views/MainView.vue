@@ -8,29 +8,29 @@ export default defineComponent({
 
 <template>
   <main>
-    <div class="main-item d-center bg-orange">
+    <div class="main-item d-center bg-orange find-details">
       <router-link to="/" class="link bold">Find Details about Beauty Products <span>→</span></router-link>
     </div>
-    <div class="main-item d-center">
+    <div class="main-item d-center get-ai">
       <router-link to="/" class="link bold">Get Your AI Personal Beauty Assistant <span>→</span></router-link>
       <p class="main-num">02</p>
     </div>
-    <div class="main-item bg-img">
+    <div class="main-item bg-img discover-beauty">
       <h2 class="main-num-large">03</h2>
       <router-link to="/" class="link bold">Discover Beauty Routines for every occasion <span>→</span></router-link>
     </div>
-    <div class="main-item d-center bg-orange">
+    <div class="main-item d-center bg-orange cosmo-wiki">
       <h2 class="logo">cosmo.<span>wiki</span></h2>
     </div>
-    <div class="main-item bg-img">
+    <div class="main-item bg-img number-one">
       <h1 class="highlight orange">01</h1>
     </div>
-    <div class="main-item bg-img"></div>
-    <div class="main-item bg-img"></div>
-    <div class="main-item d-center">
+    <div class="main-item bg-img first-img"></div>
+    <div class="main-item bg-img second-img"></div>
+    <div class="main-item d-center independent-library">
       <h1 class="main-title">Independent Library of Beauty Products and Skin Routines Experiences</h1>
     </div>
-    <div class="main-item d-center bg-orange">
+    <div class="main-item d-center bg-orange find-what">
       <p class="main-num">04</p>
       <router-link to="/" class="link bold">Find what your SkinTwin are using <span>→</span></router-link>
     </div>
@@ -46,38 +46,93 @@ main {
 
   .main-item {
     position: relative;
-    padding: 30px;
+    padding: 40px 30px;
 
-    &:nth-child(3) {
+    &.find-details {
+      @media (max-width: 768px) {
+        grid-column: 2;
+        grid-row: 3;
+      }
+    }
+    &.get-ai {
+      @media (max-width: 768px) {
+        grid-column: 1;
+        grid-row: 4;
+      }
+    }
+    &.cosmo-wiki {
+      @media (max-width: 768px) {
+        grid-column: 1 / 3;
+        grid-row: 1;
+      }
+    }
+    &.discover-beauty {
       grid-row: 1 / 3;
       grid-column: 3;
       background-image: url('@/assets/img/main/03.png');
       display: grid;
+      gap: 50px;
       align-content: space-between;
       color: $white;
+
+      @media (max-width: 768px) {
+        grid-column: 1 / 3;
+        grid-row: 5;
+      }
     }
-    &:nth-child(5) {
+
+    &.number-one {
       grid-row: 2 / 5;
       grid-column: 1;
       background-image: url('@/assets/img/main/01.png');
+
+      @media (max-width: 768px) {
+        grid-column: 1;
+        grid-row: 3;
+      }
     }
-    &:nth-child(6) {
-      background-image: url('@/assets/img/main/02.jpeg')
+
+    &.first-img {
+      background-image: url('@/assets/img/main/02.jpeg');
+
+      @media (max-width: 768px) {
+        grid-column: 2;
+        grid-row: 4;
+      }
     }
-    &:nth-child(7) {
+
+    &.second-img {
       grid-row: 2 / 4;
       grid-column: 4;
-      background-image: url('@/assets/img/main/04.png')
+      background-image: url('@/assets/img/main/04.png');
+
+      @media (max-width: 768px) {
+        grid-column: 1;
+        grid-row: 6;
+      }
     }
-    &:nth-child(8) {
+
+    &.independent-library {
       grid-row: 3 / 5;
       grid-column: 2 / 4;
+
+      @media (max-width: 768px) {
+        grid-column: 1 / 3;
+        grid-row: 2;
+      }
     }
-    &:nth-child(9) {
+
+    &.find-what {
       grid-row: 4;
       grid-column: 4;
+
+      @media (max-width: 768px) {
+        grid-column: 2;
+        grid-row: 6;
+      }
     }
   }
+
   .logo {
     font-size: 52px;
     padding-bottom: 10px;
@@ -85,7 +140,17 @@ main {
     @media (max-width: 1541px) {
       font-size: 42px;
     }
+    @media (max-width: 1340px) {
+      font-size: 36px;
+    }
+    @media (max-width: 1000px) {
+      font-size: 30px;
+    }
+    @media (max-width: 768px) {
+      font-size: 52px;
+    }
   }
+
   .main-title {
     text-align: center;
     font-size: 58px;
@@ -94,7 +159,17 @@ main {
     @media (max-width: 1540px) {
       font-size: 42px;
     }
+    @media (max-width: 1340px) {
+      font-size: 36px;
+    }
+    @media (max-width: 1000px) {
+      font-size: 30px;
+    }
+    @media (max-width: 768px) {
+      font-size: 48px;
+    }
   }
+
   .main-num {
     color: $black;
     font-family: 'PT Root UI', serif;
@@ -108,7 +183,11 @@ main {
     @media (max-width: 1540px) {
       font-size: 42px;
     }
+    @media (max-width: 1140px) {
+      font-size: 30px;
+    }
   }
+
   .main-num-large {
     color: $orange;
     font-family: 'PT Root UI', serif;
@@ -117,8 +196,35 @@ main {
     font-weight: 700;
 
     @media (max-width: 1540px) {
-      font-size: 120px;
+      font-size: 100px;
     }
+    @media (max-width: 1340px) {
+      font-size: 90px;
+    }
+    @media (max-width: 1000px) {
+      font-size: 70px;
+    }
+    @media (max-width: 768px) {
+      font-size: 150px;
+    }
+  }
+
+  .link {
+    @media (max-width: 900px) {
+      font-size: 18px;
+    }
+    @media (max-width: 768px) {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 1340px) {
+    min-height: 100vh;
+    height: auto;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 250px 480px 480px auto 510px;
   }
 }
 </style>
