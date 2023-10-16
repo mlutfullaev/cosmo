@@ -92,6 +92,9 @@ a {
   @media (max-width: 1340px) {
     font-size: 24px;
   }
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
 }
 .text {
   font-size: 24px;
@@ -125,6 +128,9 @@ a {
   }
   @media (max-width: 768px) {
     font-size: 200px;
+  }
+  @media (max-width: 480px) {
+    font-size: 150px;
   }
 }
 .orange {

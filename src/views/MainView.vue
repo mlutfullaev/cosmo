@@ -53,17 +53,18 @@ main {
         grid-column: 2;
         grid-row: 3;
       }
+      @media (max-width: 480px) {
+        grid-column: 1;
+        grid-row: 4;
+      }
     }
     &.get-ai {
       @media (max-width: 768px) {
         grid-column: 1;
         grid-row: 4;
       }
-    }
-    &.cosmo-wiki {
-      @media (max-width: 768px) {
-        grid-column: 1 / 3;
-        grid-row: 1;
+      @media (max-width: 480px) {
+        grid-row: 6;
       }
     }
     &.discover-beauty {
@@ -79,8 +80,20 @@ main {
         grid-column: 1 / 3;
         grid-row: 5;
       }
+      @media (max-width: 480px) {
+        grid-column: 1;
+        grid-row: 7;
+      }
     }
-
+    &.cosmo-wiki {
+      @media (max-width: 768px) {
+        grid-column: 1 / 3;
+        grid-row: 1;
+      }
+      @media (max-width: 480px) {
+        grid-column: 1;
+      }
+    }
     &.number-one {
       grid-row: 2 / 5;
       grid-column: 1;
@@ -90,8 +103,10 @@ main {
         grid-column: 1;
         grid-row: 3;
       }
+      @media (max-width: 480px) {
+        grid-column: 1;
+      }
     }
-
     &.first-img {
       background-image: url('@/assets/img/main/02.jpeg');
 
@@ -99,8 +114,11 @@ main {
         grid-column: 2;
         grid-row: 4;
       }
+      @media (max-width: 480px) {
+        grid-column: 1;
+        grid-row: 5;
+      }
     }
-
     &.second-img {
       grid-row: 2 / 4;
       grid-column: 4;
@@ -110,8 +128,11 @@ main {
         grid-column: 1;
         grid-row: 6;
       }
+      @media (max-width: 480px) {
+        grid-column: 1;
+        grid-row: 9;
+      }
     }
-
     &.independent-library {
       grid-row: 3 / 5;
       grid-column: 2 / 4;
@@ -120,8 +141,10 @@ main {
         grid-column: 1 / 3;
         grid-row: 2;
       }
+      @media (max-width: 480px) {
+        grid-column: 1;
+      }
     }
-
     &.find-what {
       grid-row: 4;
       grid-column: 4;
@@ -129,6 +152,10 @@ main {
       @media (max-width: 768px) {
         grid-column: 2;
         grid-row: 6;
+      }
+      @media (max-width: 480px) {
+        grid-column: 1;
+        grid-row: 8;
       }
     }
   }
@@ -149,6 +176,9 @@ main {
     @media (max-width: 768px) {
       font-size: 52px;
     }
+    @media (max-width: 360px) {
+      font-size: 40px;
+    }
   }
 
   .main-title {
@@ -167,6 +197,12 @@ main {
     }
     @media (max-width: 768px) {
       font-size: 48px;
+    }
+    @media (max-width: 480px) {
+      font-size: 30px;
+    }
+    @media (max-width: 360px) {
+      font-size: 24px;
     }
   }
 
@@ -216,6 +252,10 @@ main {
     @media (max-width: 768px) {
       font-size: 30px;
     }
+    @media (max-width: 480px) {
+      font-size: 18px;
+      padding-bottom: 25px;
+    }
   }
 
   @media (max-width: 1340px) {
@@ -225,6 +265,10 @@ main {
   @media (max-width: 768px) {
     grid-template-columns: 50% 50%;
     grid-template-rows: 250px 480px 480px auto 510px;
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 480px auto 250px auto 500px auto 250px;
   }
 }
 </style>
