@@ -1,5 +1,6 @@
 @import './fonts';
 
+// Base
 * {
   margin: 0;
   padding: 0;
@@ -8,21 +9,86 @@
 body {
   font-family: 'PT Root UI', serif;
 }
-a {
-  text-decoration: none;
-  color: inherit;
-}
-button {
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-}
 .logo {
   font-weight: 700;
   text-transform: uppercase;
 
   span {
     font-weight: 400;
+  }
+}
+.bg-img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+// Div
+.scan {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  grid-gap: 30px;
+  @include pad();
+
+  img {
+    width: 100px;
+  }
+  p.bold {
+    padding-bottom: 10px;
+  }
+}
+.tab {
+  &-leave-to {
+    display: none;
+  }
+  &-enter-from  {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  &-leave-active,
+  &-enter-active {
+    transition: .5s;
+  }
+}
+.d-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bg-orange {
+  background-color: $orange;
+}
+
+// Text
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &.link {
+    font-family: 'PT Root UI', serif;
+    font-size: 36px;
+    font-style: normal;
+    text-transform: uppercase;
+
+    &:hover {
+      span {
+        right: -20px;
+      }
+    }
+    @media (max-width: 1541px) {
+      font-size: 30px;
+    }
+    span {
+      transition: .3s;
+      position: relative;
+      right: 0;
+    }
   }
 }
 .text {
@@ -41,32 +107,22 @@ button {
     font-size: 40px;
   }
 }
-.bold {
+.highlight {
+  color: $black;
+  font-family: 'PT Root UI', serif;
+  font-size: 250px;
+  font-style: normal;
   font-weight: 700;
   text-transform: uppercase;
 }
+.orange {
+  color: $orange;
+}
+.bold {
+  font-weight: 700;
+}
 .text {
-  &-small {
-    color: $black;
-    font-family: 'PT Root UI', serif;
-    font-size: 52px;
-    font-style: normal;
-    font-weight: 700;
-
-    @media (max-width: 1540px) {
-      font-size: 42px;
-    }
-  }
   &-medium {
-    color: $black;
-    font-family: 'PT Root UI', serif;
-    font-size: 150px;
-    font-style: normal;
-    font-weight: 700;
-
-    @media (max-width: 1540px) {
-      font-size: 120px;
-    }
   }
   &-large {
     color: $black;
@@ -81,36 +137,4 @@ button {
     }
   }
 }
-.bg-img {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.scan {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  grid-gap: 30px;
-  @include pad();
 
-  img {
-    width: 100px;
-  }
-  p.bold {
-    padding-bottom: 10px;
-  }
-}
-
-.tab {
-  &-leave-to {
-    display: none;
-  }
-  &-enter-from  {
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-  &-leave-active,
-  &-enter-active {
-    transition: .5s;
-  }
-}

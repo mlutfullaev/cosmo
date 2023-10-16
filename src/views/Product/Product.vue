@@ -215,21 +215,20 @@ export default defineComponent({
         >0{{ idx + 1 }} {{ desc.title }}
         </button>
       </div>
-      <div>
-        <div
-          class="description-item"
-          v-for="(desc, idx) in descriptions"
-          :key="desc.title">
-          <Transition name="tab">
-            <div v-if="activeDesc === desc.title">
-              <h1 class="text-large">0{{ idx + 1 }}</h1>
-              <div>
-                <p class="text bold">{{ desc.title }}</p>
-                <p class="text">{{ desc.description }}</p>
-              </div>
+      <div
+        class="description-item"
+        v-for="(desc, idx) in descriptions"
+        :key="desc.title"
+        v-show="activeDesc === desc.title">
+        <Transition name="tab">
+          <div v-if="activeDesc === desc.title">
+            <h1 class="text-large">0{{ idx + 1 }}</h1>
+            <div>
+              <p class="text bold">{{ desc.title }}</p>
+              <p class="text">{{ desc.description }}</p>
             </div>
-          </Transition>
-        </div>
+          </div>
+        </Transition>
       </div>
     </div>
     <div class="scan">
@@ -486,7 +485,6 @@ main {
       color: $orange;
       font-weight: 400;
     }
-
     h3 {
       font-weight: 700;
     }
@@ -614,7 +612,6 @@ main {
       align-content: space-between;
 
       .review {
-        //padding: $padding;
         @include pad();
         border-top: 1px solid $black;
         display: grid;
@@ -629,7 +626,6 @@ main {
         }
       }
       .review-top {
-        //padding: $padding;
         @include pad();
 
         .rates {
@@ -652,7 +648,6 @@ main {
     &.reviews-orange {
       background: $orange;
       display: grid;
-      //padding: $padding;
       @include pad();
 
       .scan {
@@ -665,7 +660,6 @@ main {
       }
     }
     &.reviews-picture {
-      //padding: $padding;
       @include pad();
       background-image: url("@/assets/img/product/reviews-img.png");
       color: $white;
