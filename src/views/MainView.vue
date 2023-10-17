@@ -36,6 +36,7 @@ export default defineComponent({
       <router-link to="/" class="link bold">Find what your SkinTwin are using <span>→</span></router-link>
     </div>
   </main>
+  <TheFooter />
 </template>
 
 <style lang="scss" scoped>

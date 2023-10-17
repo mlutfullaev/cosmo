@@ -99,6 +99,9 @@ a {
     font-size: 18px;
   }
 }
+.txt {
+  font-size: 14px;
+}
 .text {
   font-size: 24px;
 
@@ -143,8 +146,6 @@ a {
   font-weight: 700;
 }
 .text {
-  &-medium {
-  }
   &-large {
     color: $black;
     font-family: 'PT Root UI', serif;

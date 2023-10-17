@@ -2,12 +2,10 @@
 import { defineComponent } from 'vue'
 import AboutProduct from '@/views/Product/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
-import Footer from '@/layouts/Footer.vue'
 
 export default defineComponent({
   name: 'product',
   components: {
-    Footer,
     ProductCard,
     AboutProduct
   },
@@ -423,7 +421,7 @@ export default defineComponent({
       </div>
     </div>
   </section>
-  <Footer />
+  <TheFooter />
 </template>
 
 <style lang="scss" scoped>

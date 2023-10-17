@@ -10,8 +10,8 @@ export default defineComponent({
   <footer>
     <div class="footer">
       <div class="footer-item">
-        <router-link to="/" class="text bold">cosmo.wiki</router-link>
-        <p class="text">Make smart Beauty decisions with Independed Skincare Wikipedia for Beauty products and Routine references.</p>
+        <router-link to="/" class="logo">cosmo<span>.wiki</span></router-link>
+        <p class="txt">Make smart Beauty decisions with Independed Skincare Wikipedia for Beauty products and Routine references.</p>
       </div>
       <div class="footer-item">
         <router-link to="#" class="text bold">Skincare Products Library</router-link>
