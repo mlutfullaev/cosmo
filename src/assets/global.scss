@@ -33,6 +33,9 @@ a {
 }
 
 // Div
+.menu-active {
+  overflow: hidden;
+}
 .scan {
   display: grid;
   grid-template-columns: auto auto;

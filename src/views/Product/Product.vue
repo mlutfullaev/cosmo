@@ -137,7 +137,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Header/>
+  <TheHeader />
   <main>
     <div class="main-inner">
       <div>

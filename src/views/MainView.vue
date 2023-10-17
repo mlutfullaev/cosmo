@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
+  <TheHeader />
   <main>
     <div class="main-item d-center bg-orange find-details">
       <router-link to="/" class="link bold">Find Details about Beauty Products <span>→</span></router-link>
