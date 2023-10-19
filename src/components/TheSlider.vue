@@ -11,7 +11,7 @@ export default defineComponent({
       required: true
     }
   },
-  name: 'Slider',
+  name: 'TheSlider',
   components: {
     Carousel,
     Slide,
@@ -26,6 +26,9 @@ export default defineComponent({
     next () {
       this.currentSlide = this.currentSlide === this.sliders.length - 1 ? 0 : this.currentSlide + 1
     },
+    paginate (index: number) {
+      this.currentSlide = index
+    }
   }
 })
 </script>
@@ -71,14 +74,28 @@ export default defineComponent({
         </svg>
       </button>
     </div>
+    <div class="pagination">
+      <button
+        v-for="(slide, idx) in sliders"
+        :key="slide"
+        @click="currentSlide = idx"
+        :class="{active: currentSlide === idx}"
+      ></button>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .slider {
   position: relative;
-  #carousel .carousel-item img {
+  #carousel {
+    .carousel-item img {
       width: 60%;
+
+      @media (max-width: 1200px) {
+        width: 80%;
+      }
+    }
   }
   #thumbnails {
     padding-top: 30px;
@@ -90,8 +107,14 @@ export default defineComponent({
     .carousel__slide--active .thumbnails-item {
       border: 1px solid $black;
     }
+    @media (max-width: 900px) {
+      display: none;
+    }
   }
   .navigation {
+    @media (max-width: 900px) {
+      display: none;
+    }
     button {
       position: absolute;
       top: 50%;
@@ -101,6 +124,11 @@ export default defineComponent({
     }
     .prev {
       left: 20px;
+    }
+  }
+  @media (max-width: 900px) {
+    .pagination {
+      display: flex;
     }
   }
 }

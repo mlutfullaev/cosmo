@@ -49,6 +49,9 @@ a {
   p.bold {
     padding-bottom: 10px;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 .tab {
   &-leave-to {
@@ -71,8 +74,77 @@ a {
 .bg-orange {
   background-color: $orange;
 }
+.tablet {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+.min-tablet {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+.phone {
+  display: none;
+
+  @media (max-width: 480px) {
+    display: block;
+  }
+}
+.min-phone {
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+.pagination {
+  padding-top: 10px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  button {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $grey;
+    transition: .3s;
+
+    &.active {
+      background: $black;
+    }
+  }
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
 
 // Text
+.title {
+  font-size: 46px;
+  font-weight: 700;
+
+  @media (max-width: 1540px) {
+    font-size: 40px;
+  }
+  @media (max-width: 1140px) {
+    font-size: 36px;
+  }
+  @media (max-width: 1000px) {
+    font-size: 30px;
+  }
+}
+.title-secondary {
+  font-size: 36px;
+  text-transform: uppercase;
+  font-weight: 400;
+
+  @media (max-width: 1000px) {
+    font-size: 18px;
+  }
+}
 .link {
   font-family: 'PT Root UI', serif;
   font-size: 36px;
@@ -89,6 +161,14 @@ a {
     position: relative;
     right: 0;
   }
+  &.tablet-orange {
+    @media (max-width: 768px) {
+      padding: 20px;
+      width: 100%;
+      background: $orange;
+      text-align: left;
+    }
+  }
   @media (max-width: 1541px) {
     font-size: 30px;
   }
@@ -100,22 +180,29 @@ a {
   }
 }
 .txt {
-  font-size: 14px;
+  font-size: 20px;
+
+  @media (max-width: 1540px) {
+    font-size: 16px;
+  }
+}
+.txt-highlight {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  @media (max-width: 1540px) {
+    font-size: 16px;
+  }
+}
+.t-up {
+  text-transform: uppercase;
 }
 .text {
   font-size: 24px;
 
   @media (max-width: 1540px) {
     font-size: 20px;
-  }
-}
-.title {
-  font-size: 46px;
-  font-weight: 400;
-  text-transform: uppercase;
-
-  @media (max-width: 1540px) {
-    font-size: 40px;
   }
 }
 .highlight {
@@ -159,4 +246,3 @@ a {
     }
   }
 }
-

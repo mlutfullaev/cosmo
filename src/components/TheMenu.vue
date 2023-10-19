@@ -144,17 +144,17 @@ export default defineComponent({
   .menu-content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: 80px;
     text-align: right;
     height: 100%;
     background: $white;
-    padding: 120px 60px 100px;
+    padding: 140px 60px 100px;
     width: max-content;
+    align-content: start;
 
     @media (max-width: 400px) {
       padding: 80px 40px 40px;
       gap: 40px;
-      align-content: start;
       width: 100%;
     }
 

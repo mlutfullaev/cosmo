@@ -24,20 +24,4 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-div {
-  padding: 30px 50px;
-  border-bottom: 1px solid $black;
-
-  a {
-    text-transform: uppercase;
-  }
-  p {
-    color: $black;
-    padding-top: 20px;
-    font-family: 'PT Root UI', serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-  }
-}
 </style>
