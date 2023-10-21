@@ -6,6 +6,7 @@ import '@/assets/global.scss'
 import UI from './ui'
 import TheHeader from '@/layouts/TheHeader.vue'
 import TheFooter from '@/layouts/TheFooter.vue'
+import scrollToTop from '@/directives/scrollToTop'
 
 const app = createApp(App)
 app.use(store)
@@ -16,5 +17,6 @@ UI.forEach(el => {
 })
 app.component('TheHeader', TheHeader)
 app.component('TheFooter', TheFooter)
+app.directive('scrollToTop', scrollToTop)
 
 app.mount('#app')

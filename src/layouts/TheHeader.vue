@@ -24,7 +24,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 2;
   padding: 20px;
   border-bottom: 1px solid $black;
   @include display-center(space-between);
@@ -53,6 +59,7 @@ header {
       &:hover span {
         width: 100%;
       }
+
       @media (max-width: 769px) {
         display: none;
       }
