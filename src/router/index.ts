@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainView from '@/views/MainView.vue'
 import Product from '@/views/Product/Product.vue'
+import RegistrationView from '@/views/RegistrationView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,10 +10,15 @@ const routes: Array<RouteRecordRaw> = [
     component: MainView
   },
   {
-    path: '/product',
+    path: '/product/:id',
     name: 'product',
     component: Product
-  }
+  },
+  {
+    path: '/registration',
+    name: 'registration',
+    component: RegistrationView
+  },
 ]
 
 const router = createRouter({

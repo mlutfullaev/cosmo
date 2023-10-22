@@ -168,8 +168,10 @@ a {
   font-size: 36px;
   text-transform: uppercase;
   font-weight: 400;
+  line-height: 44px;
 
   @media (max-width: 1000px) {
+    line-height: 30px;
     font-size: 18px;
   }
 }
