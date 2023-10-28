@@ -585,7 +585,7 @@ export default defineComponent({
           </Transition>
         </div>
         <div class="scan">
-          <img src="@/assets/img/product/qr.png" alt="">
+          <img src="@/assets/img/global/qr.png" alt="">
           <div class="scan-content">
             <p class="txt-highlight">scan qr code to make most from product page</p>
             <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>

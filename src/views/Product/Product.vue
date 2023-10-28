@@ -2,10 +2,14 @@
 import { defineComponent } from 'vue'
 import AboutProduct from '@/views/Product/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
+import BaseReviews from '@/components/BaseReviews.vue'
+import AiAssistance from '@/components/AiAssistance.vue'
 
 export default defineComponent({
   name: 'product',
   components: {
+    AiAssistance,
+    BaseReviews,
     ProductCard,
     AboutProduct
   },
@@ -50,6 +54,7 @@ export default defineComponent({
         promoted: true,
         recommended: true,
         rate: 4,
+        id: 1
       },
       {
         title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
@@ -58,6 +63,7 @@ export default defineComponent({
         promoted: true,
         recommended: true,
         rate: 4,
+        id: 2
       },
       {
         title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
@@ -66,6 +72,7 @@ export default defineComponent({
         promoted: true,
         recommended: true,
         rate: 4,
+        id: 3
       },
       {
         title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
@@ -74,6 +81,7 @@ export default defineComponent({
         promoted: true,
         recommended: true,
         rate: 4,
+        id: 4
       },
       {
         title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
@@ -82,6 +90,7 @@ export default defineComponent({
         promoted: true,
         recommended: true,
         rate: 4,
+        id: 5
       },
       {
         title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
@@ -90,28 +99,10 @@ export default defineComponent({
         promoted: true,
         recommended: true,
         rate: 4,
+        id: 6
       },
     ],
-    descriptions: [
-      {
-        title: 'PRODUCT DETAILS',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-      {
-        title: 'AI ASSISTANCE IN YOUR SMARTPHONE',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-      {
-        title: 'SKINTWIN RELEVANT ARTICLES',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-      {
-        title: 'REMINDERS, NOTIFICATIONS and more',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-    ],
-    activeDesc: 'AI ASSISTANCE IN YOUR SMARTPHONE',
-    description2: [
+    description: [
       {
         title: 'SEPHORA',
         text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
@@ -129,7 +120,7 @@ export default defineComponent({
         text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
       },
     ],
-    activeDesc2: 'LOOKFANTASTIC'
+    activeDesc: 'LOOKFANTASTIC'
   })
 })
 </script>
@@ -196,136 +187,12 @@ export default defineComponent({
       <router-link to="#" class="link bold">discover more <span>→</span></router-link>
     </div>
   </section>
-  <section id="ai-assistance" class="description">
-    <h3 class="title">Get most Support with Your Personal AI Beauty Assistant</h3>
-    <div class="description-content">
-      <div class="description-switcher">
-        <button
-          v-for="(desc, idx) in descriptions"
-          :key="desc.title"
-          @click="activeDesc = desc.title"
-          class="txt-highlight"
-          :class="{active: activeDesc === desc.title}"
-        >0{{ idx + 1 }} {{ desc.title }}
-        </button>
-      </div>
-      <div class="description-inner">
-        <div
-          class="description-item"
-          v-for="(desc, idx) in descriptions"
-          :key="desc.title"
-          v-show="activeDesc === desc.title">
-          <Transition name="tab">
-            <div v-if="activeDesc === desc.title">
-              <h1 class="description-number">0{{ idx + 1 }}</h1>
-              <div>
-                <p class="txt-highlight">{{ desc.title }}</p>
-                <p class="txt">{{ desc.description }}</p>
-              </div>
-            </div>
-          </Transition>
-        </div>
-      </div>
-      <div class="scan">
-        <img src="@/assets/img/product/qr.png" alt="">
-        <div class="scan-content">
-          <p class="txt bold t-up">scan qr code to make most from product page</p>
-          <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-            maximum details about products and experiences Your SkinTwins had with this product.</p>
-        </div>
-      </div>
-    </div>
-    <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
-  </section>
+  <AiAssistance />
   <section id="reviews" class="reviews">
-    <div class="reviews-item reviews-text">
-      <div class="review-top">
-        <h3 class="title">Reviews</h3>
-        <div class="rates">
-          <h5 class="title">4.7/5</h5>
-          <div class="rate">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#D7D7D7"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-          </div>
-          <span>251 Reviews</span>
-        </div>
-      </div>
-      <div class="review-bottom">
-        <div class="review">
-          <p class="txt bold t-up">Name</p>
-          <div class="rate">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#D7D7D7"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-          </div>
-          <p class="txt">Lorem ipsum dolor sit amet consectetur. Neque magna pharetra consectetur non molestie. </p>
-        </div>
-        <div class="review">
-          <p class="txt bold t-up">Name</p>
-          <div class="rate">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#FF8A00"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M19.8257 8.81619L15.3586 13.3962L16.4087 19.8783C16.5012 20.3956 15.9403 20.7743 15.4919 20.5291L9.99976 17.484V0.607178C10.2331 0.607178 10.4665 0.71563 10.5665 0.940877L13.3251 6.82234L19.4673 7.7567C19.9807 7.84846 20.1699 8.45329 19.8257 8.81619Z" fill="#D7D7D7"/>
-              <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" fill="#FF8A00"/>
-            </svg>
-          </div>
-          <p class="txt">Lorem ipsum dolor sit amet consectetur. Neque magna pharetra consectetur non molestie. </p>
-        </div>
-      </div>
-    </div>
+    <BaseReviews />
     <div class="reviews-item reviews-orange">
       <div class="scan">
-        <img src="@/assets/img/product/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
           <p class="txt bold t-up">Make most from Product Page</p>
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
@@ -338,7 +205,7 @@ export default defineComponent({
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
-  <section id="free-samples" class="description2">
+  <section id="free-samples" class="description">
     <div class="description-top">
       <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121" fill="none">
         <path d="M46.0891 85.9371C28.2096 75.8278 18.2198 55.5045 24.0661 34.9192C29.8557 14.5959 50.1758 0.348587 72.7664 0.610485C96.3787 0.872384 116.018 16.0625 121.069 36.4382C126.178 57.233 115.337 76.6135 98.5924 85.9371C95.7544 83.2134 96.2084 79.8087 96.322 76.3516C102.566 70.9565 105.006 64.1995 103.758 56.3949C102.849 50.8427 99.9546 46.2856 95.2435 42.7762C84.4591 49.8998 82.4725 66.9756 94.0516 76.5088C93.8813 78.4992 94.2218 80.5944 93.3704 82.5848C91.3838 87.2466 85.1402 89.9704 80.1453 88.399C77.5911 87.5609 75.8883 85.8847 74.8098 83.6324C73.9016 81.7467 73.5043 79.7563 73.5043 77.7135C73.4476 71.847 73.5043 65.9281 73.5043 60.0615C79.6344 54.6664 82.1319 48.0666 81.0534 40.3667C80.0885 33.5574 75.945 28.7908 72.4259 26.3813C61.7549 33.4526 59.6548 50.5284 71.2339 60.0615C71.2339 60.1139 71.2907 60.1663 71.2907 60.1663C71.2907 66.2947 71.2907 72.4755 71.2339 78.604C71.2339 80.5944 70.6663 82.4801 69.6446 84.261C67.658 87.8228 63.7983 89.5513 59.5413 88.6609C55.1708 87.7704 52.0489 85.4133 51.0272 81.2753C50.6299 79.7563 50.8002 78.0802 50.6867 76.5088C57.1574 70.9041 59.5413 64.0948 58.2358 56.1854C57.3276 50.7379 54.4329 46.2856 49.7785 42.7762C39.0508 49.7951 36.9507 66.9233 48.6433 76.5611C48.5866 78.2897 48.5866 80.123 48.3595 81.9039C48.0757 83.4229 47.2243 84.7324 46.0891 85.9371ZM72.3691 22.4005C85.4807 30.6765 88.9431 49.3237 76.4559 61.5805C76.4559 61.6329 76.4559 61.6853 76.4559 61.6853C76.4559 67.3423 76.4559 72.9993 76.5126 78.6563C76.5126 80.2277 76.9667 81.7467 77.8749 83.161C79.1236 85.1514 80.9967 86.1466 83.4941 86.0943C88.2052 86.0419 91.5541 82.4277 90.9865 77.9754C78.6128 65.6662 81.9616 47.1761 95.13 38.7953C108.412 47.2285 111.59 65.9281 99.2167 78.0278C99.0465 80.2277 99.16 81.4848 99.6708 82.1134C115.62 71.7946 123.794 52.3093 117.21 33.4002C110.853 15.0149 91.5541 1.91998 69.077 3.33423C47.9054 4.69611 30.253 19.0482 26.1095 38.3239C22.1363 57.1283 31.9558 73.8898 45.1242 82.1134C45.7485 80.8039 45.4647 79.3897 45.5215 78.0802C32.9207 65.7185 36.4966 46.9666 49.6082 38.7953C49.7218 38.8477 49.7785 38.9001 49.892 38.9525C58.6331 45.2904 62.4361 53.5664 61.0738 63.7805C60.3359 69.1232 57.8385 73.7326 53.922 77.7135C53.7517 77.8706 53.6382 78.0802 53.6382 78.2373C53.4112 80.4896 54.0355 82.4801 55.9086 84.1038C59.4845 87.1419 66.0687 87.3514 67.7715 80.8039C68.0553 79.7039 68.1689 78.5516 68.2256 77.3992C68.2824 72.3184 68.2256 67.2376 68.2256 62.1567C68.2256 61.9472 68.2256 61.7901 68.2256 61.6329C55.7384 49.1665 59.3143 30.6241 72.3691 22.4005Z" fill="black"/>
@@ -363,7 +230,7 @@ export default defineComponent({
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
             maximum details about products and experiences Your SkinTwins had with this product.</p>
         </div>
-        <img src="@/assets/img/product/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" alt="">
       </div>
     </div>
     <div class="description-content">
@@ -389,20 +256,20 @@ export default defineComponent({
       </div>
       <div class="description-buttons">
         <button
-          v-for="desc in description2"
+          v-for="desc in description"
           :key="desc.title"
-          @click="activeDesc2 = desc.title"
+          @click="activeDesc = desc.title"
           class="description-button"
-          :class="{active: activeDesc2 === desc.title}"
+          :class="{active: activeDesc === desc.title}"
         >{{desc.title}}</button>
       </div>
       <div>
         <div
             class="description-text"
-            v-for="desc in description2"
+            v-for="desc in description"
             :key="desc.title">
           <Transition name="tab">
-            <div v-if="activeDesc2 === desc.title">
+            <div v-if="activeDesc === desc.title">
               <p class="text bold">{{desc.title}}</p>
               <p class="text">{{desc.text}}</p>
             </div>
@@ -434,7 +301,7 @@ export default defineComponent({
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
             maximum details about products and experiences Your SkinTwins had with this product.</p>
         </div>
-        <img src="@/assets/img/product/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" alt="">
       </div>
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">Sign up <span>→</span></router-link>
@@ -605,161 +472,6 @@ main {
   }
 }
 
-.products {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 1fr 1fr;
-  border-top: 1px solid $black;
-  border-left: 1px solid $black;
-
-  &-item {
-    border-bottom: 1px solid $black;
-    border-right: 1px solid $black;
-
-    &:first-child {
-      display: grid;
-      align-content: space-between;
-      padding: 20px;
-
-      h3 {
-        text-transform: uppercase;
-      }
-      @media (max-width: 768px) {
-        grid-column: 1 / 3;
-        gap: 20px;
-      }
-    }
-
-    &:last-child {
-      padding: 20px;
-
-      @media (max-width: 1000px) {
-        a {
-          max-width: 120px;
-        }
-      }
-      @media (max-width: 768px) {
-        background: $orange;
-        justify-content: left;
-        grid-column: 1 / 3;
-
-        a {
-          max-width: 90%;
-        }
-      }
-    }
-    @media (max-width: 768px) {
-      border: none;
-
-      .product-card {
-        border-top: 1px solid $black;
-        border-bottom: 1px solid $black;
-        border-right: 1px solid $black;
-      }
-    }
-  }
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto 1fr 1fr auto;
-    grid-row-gap: 20px;
-    border: none;
-  }
-}
-
-.description {
-  padding: 100px 60px;
-
-  h3 {
-    text-transform: uppercase;
-    padding-bottom: 50px;
-    max-width: 730px;
-
-    @media (max-width: 768px) {
-      padding: 0 20px;
-    }
-  }
-
-  &-content {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 2fr;
-    grid-gap: 30px;
-
-    @media (max-width: 768px) {
-      grid-template-columns: auto;
-      padding: 0 20px;
-      grid-gap: 20px;
-    }
-  }
-  &-switcher {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 20px;
-
-    button {
-      color: $grey;
-      transition: .3s;
-      text-align: left;
-
-      &.active {
-        color: $orange;
-      }
-    }
-  }
-  &-item {
-    display: flex;
-    align-items: center;
-    gap: $padding;
-
-    > div {
-      padding: 0 0 20px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: center;
-      gap: 20px;
-
-      @media (max-width: 768px) {
-        grid-template-columns: auto;
-        border-top: none;
-        padding: 20px 0;
-      }
-    }
-    .description-number {
-      font-size: 250px;
-      color: $orange;
-      font-weight: 400;
-
-      @media (max-width: 1200px) {
-        font-size: 121px;
-      }
-      @media (max-width: 1000px) {
-        font-size: 96px;
-      }
-    }
-    p {
-      padding-bottom: 20px;
-      max-width: 800px;
-
-      &.txt-highlight {
-        border-top: 1px solid $black;
-        padding-top: 20px;
-      }
-    }
-  }
-  .scan {
-    grid-column: 2;
-    max-width: 900px;
-    margin-left: auto;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  @media (max-width: 768px) {
-    padding: 60px 0;
-  }
-}
-
 .reviews {
   border-top: 1px solid $black;
   border-bottom: 1px solid $black;
@@ -768,44 +480,6 @@ main {
   height: 1000px;
 
   &-item {
-    &.reviews-text {
-      display: grid;
-      align-content: space-between;
-
-      .review {
-        @include pad();
-        border-top: 1px solid $black;
-        display: grid;
-        grid-template-columns: auto auto;
-        grid-gap: 20px;
-
-        .text:last-child {
-          grid-column: 1 / 3;
-        }
-        .rate {
-          justify-self: end;
-        }
-      }
-      .review-top {
-        @include pad();
-
-        .rates {
-          display: flex;
-          align-items: center;
-          justify-content: left;
-          gap: 20px;
-
-          h5 {
-            font-weight: 700;
-          }
-          span {
-            color: $grey;
-            font-weight: 700;
-            font-size: 14px;
-          }
-        }
-      }
-    }
     &.reviews-orange {
       background: $orange;
       display: grid;
@@ -840,7 +514,7 @@ main {
   }
 }
 
-.description2 {
+.description {
   padding: 100px 60px;
 
   .description-top {

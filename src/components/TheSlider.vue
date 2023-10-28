@@ -26,9 +26,6 @@ export default defineComponent({
     next () {
       this.currentSlide = this.currentSlide === this.sliders.length - 1 ? 0 : this.currentSlide + 1
     },
-    paginate (index: number) {
-      this.currentSlide = index
-    }
   }
 })
 </script>
