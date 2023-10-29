@@ -472,6 +472,42 @@ main {
   }
 }
 
+.products .products-item {
+  &:first-child {
+    display: grid;
+    align-content: space-between;
+    padding: 20px;
+
+    h3 {
+      text-transform: uppercase;
+    }
+    @media (max-width: 768px) {
+      border: none;
+      grid-column: 1 / 3;
+      gap: 20px;
+    }
+  }
+  &:last-child {
+    padding: 20px;
+
+    @media (max-width: 1000px) {
+      a {
+        max-width: 120px;
+      }
+    }
+    @media (max-width: 768px) {
+      border: none;
+      background: $orange;
+      justify-content: left;
+      grid-column: 1 / 3;
+
+      a {
+        max-width: 90%;
+      }
+    }
+  }
+}
+
 .reviews {
   border-top: 1px solid $black;
   border-bottom: 1px solid $black;
