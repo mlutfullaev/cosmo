@@ -30,7 +30,7 @@ export default defineComponent({
 
 <template>
   <div class="product-card" :class="bgImg ? 'bg-img' : ''" :style="bgImg ? {backgroundImage: `url('${require(`@/assets/img/${card.imgUrl}`)}')`}: {}">
-    <BaseRate :rates="card.rate"/>
+    <BaseRate :rates="card.rate" :text="true"/>
     <h4  class="txt-highlight">{{card.title}}</h4>
     <p class="txt">{{card.price}}</p>
     <img v-if="!bgImg" :src="require(`@/assets/img/${card.imgUrl}`)" alt="">

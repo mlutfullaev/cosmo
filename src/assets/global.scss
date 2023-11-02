@@ -323,6 +323,22 @@ a {
     font-size: 16px;
   }
 }
+.step {
+  font-size: 150px;
+  color: $orange;
+  font-weight: 400;
+  text-align: center;
+
+  @media (max-width: 1340px) {
+    font-size: 110px;
+  }
+  @media (max-width: 768px) {
+    font-size: 96px;
+  }
+}
+.note {
+  font-size: 14px;
+}
 .t-up {
   text-transform: uppercase;
 }
