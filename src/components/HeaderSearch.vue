@@ -13,7 +13,11 @@ export default defineComponent({
         this.searchActive = true
         return null
       } else {
-        (this.$refs.searchRef as HTMLInputElement).focus()
+        if (!this.searchModel) {
+          (this.$refs.searchRef as HTMLInputElement).focus()
+        } else {
+          this.$router.push(`/search-results/${this.searchModel}`)
+        }
       }
     }
   }
@@ -22,7 +26,7 @@ export default defineComponent({
 
 <template>
   <div class="d-center search" :class="{active: searchActive}">
-    <button class="btn-search" @click="onSearch">
+    <button class="btn-search" @keyup.enter="onSearch" @click="onSearch">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
         <path
           d="M9.53493 19.0699C4.27909 19.0699 0 14.7908 0 9.53493C0 4.27909 4.27909 0 9.53493 0C14.7908 0 19.0699 4.27909 19.0699 9.53493C19.0699 14.7908 14.7908 19.0699 9.53493 19.0699ZM9.53493 1.39536C5.04188 1.39536 1.39536 5.05119 1.39536 9.53493C1.39536 14.0187 5.04188 17.6745 9.53493 17.6745C14.028 17.6745 17.6745 14.0187 17.6745 9.53493C17.6745 5.05119 14.028 1.39536 9.53493 1.39536Z"/>

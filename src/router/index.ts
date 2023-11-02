@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     component: SingleRoutineView
   },
   {
-    path: '/search-results',
+    path: '/search-results/:search',
     name: 'search-results',
     component: SearchResultView
   },

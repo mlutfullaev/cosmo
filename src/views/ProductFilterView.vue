@@ -66,7 +66,7 @@ export default defineComponent({
           @click="activeTab = idx"
           :class="{active: activeTab === idx}"
           :key="filterTab.title">
-            <h3>{{filterTab.title}}</h3>
+            <h3>{{filterTab.title}} <span></span></h3>
             <p>{{filterTab.subtitle}}</p>
             <div class="content-tab active">
               <p class="txt-highlight">{{filterTab.contentTitle}}</p>

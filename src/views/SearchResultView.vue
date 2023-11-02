@@ -77,7 +77,7 @@ export default defineComponent({
 <template>
   <TheHeader />
   <div class="searchResult-top">
-    <h1 class="title">Search Results for Hand Cream</h1>
+    <h1 class="title">Search Results for <span class="bold">{{$route.params.search}}</span></h1>
     <p class="txt">Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products.</p>
   </div>
   <section class="products">
@@ -89,7 +89,7 @@ export default defineComponent({
     </div>
     <div class="products-item">
       <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
-      <router-link to="#" class="link bold">specify your search <span>→</span></router-link>
+      <router-link to="/product-filter" class="link bold">specify your search <span>→</span></router-link>
     </div>
   </section>
   <div class="tablet-link bg-orange tablet">
@@ -145,6 +145,9 @@ export default defineComponent({
     @media (max-width: 768px) {
       display: none;
     }
+  }
+  .link {
+    max-width: 300px;
   }
 }
 .tablet-link {

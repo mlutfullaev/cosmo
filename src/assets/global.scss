@@ -279,13 +279,38 @@ a {
       padding-bottom: 20px;
       text-transform: uppercase;
 
+      span {
+        width: 14px;
+        height: 2px;
+        border-radius: 3px;
+        display: none;
+        background: $black;
+
+        &::before {
+          content: '';
+          width: 14px;
+          height: 1.5px;
+          border-radius: 3px;
+          background: inherit;
+          display: block;
+          transition: .3s;
+          transform: rotate(90deg);
+        }
+      }
       @media (max-width: 1000px) {
         font-size: 16px;
       }
       @media (max-width: 480px) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         color: $black;
         font-size: 14px;
         font-weight: 400;
+
+        span {
+          display: block;
+        }
       }
     }
 
@@ -307,13 +332,20 @@ a {
         @media (max-width: 1000px) {
           font-size: 24px;
         }
+        span {
+          background: $orange;
+
+          &::before {
+            transform: rotate(0);
+          }
+        }
       }
       @media (max-width: 600px) {
         max-height: 600px;
       }
     }
     .content-tab {
-      display: none;
+      display: none !important;
 
       @media (max-width: 600px) {
         display: block;
