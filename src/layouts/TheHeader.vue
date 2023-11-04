@@ -10,7 +10,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <header>
+  <header class="d-sb">
       <router-link to="/" class="logo">cosmo.<span>wiki</span></router-link>
     <nav>
       <HeaderSearch />
@@ -33,7 +33,6 @@ header {
   z-index: 2;
   padding: 20px;
   border-bottom: 1px solid $black;
-  @include display-center(space-between);
 
   nav {
     display: flex;

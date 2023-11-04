@@ -41,7 +41,9 @@ export default defineComponent({
   justify-items: right;
   gap: 5px;
   &-icons {
-    @include display-center(right);
+    display: flex;
+    justify-content: right;
+    align-items: center;
     gap: 5px;
 
     @media (max-width: 1000px) {

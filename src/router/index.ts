@@ -2,11 +2,11 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainView from '@/views/MainView.vue'
 import Product from '@/views/SingleProduct/Product.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
-import SearchResultView from '@/views/SearchResultView.vue'
 import ProductFilterView from '@/views/ProductFilterView.vue'
 import RoutineFilterView from '@/views/RoutineFilterView.vue'
 import SingleRoutineView from '@/views/SingleRoutineView.vue'
 import RoutineResultView from '@/views/RoutineResultView.vue'
+import ProductResultView from '@/views/ProductResultView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,14 +20,14 @@ const routes: Array<RouteRecordRaw> = [
     component: Product
   },
   {
-    path: '/single-routine',
+    path: '/single-routine/:id',
     name: 'singe-routine',
     component: SingleRoutineView
   },
   {
     path: '/search-results/:search',
     name: 'search-results',
-    component: SearchResultView
+    component: ProductResultView
   },
   {
     path: '/product-filter',

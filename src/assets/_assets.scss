@@ -19,8 +19,3 @@ $padding: 60px;
     padding: 20px;
   }
 }
-@mixin display-center($jc: center, $ai: center) {
-  display: flex;
-  justify-content: $jc;
-  align-items: $ai;
-}

@@ -543,7 +543,7 @@ export default defineComponent({
       arcu dapibus volutpat id at felis.</p>
     <div class="icons">
       <div v-for="icon in icons" :key="icon">
-        <div class="icon" v-html="icon.svg">
+        <div class="icon d-center" v-html="icon.svg">
         </div>
         <p>{{icon.title}}</p>
       </div>
@@ -643,7 +643,6 @@ export default defineComponent({
     height: 80px;
     border-radius: 50%;
     border: 1px solid $black;
-    @include display-center();
 
     @media (max-width: 1200px) {
       width: 50px;

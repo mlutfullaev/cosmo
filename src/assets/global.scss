@@ -77,6 +77,11 @@ a {
   justify-content: center;
   align-items: center;
 }
+.d-sb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .bg-orange {
   background-color: $orange;
 }

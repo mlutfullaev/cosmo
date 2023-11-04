@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ProductCard from '@/components/ProductCard.vue'
+import TheFilter from '@/components/TheFilter.vue'
 
 export default defineComponent({
-  components: { ProductCard },
+  components: { TheFilter, ProductCard },
   data: () => ({
     products: [
       {
@@ -80,6 +81,7 @@ export default defineComponent({
     <h1 class="title">Search Results for <span class="bold">{{$route.params.search}}</span></h1>
     <p class="txt">Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products.</p>
   </div>
+  <TheFilter :products-length="products.length" :tags="true" />
   <section class="products">
     <div
       class="products-item"

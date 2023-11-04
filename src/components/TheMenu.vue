@@ -53,7 +53,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .btn-burger {
-  position: absolute;
+  position: fixed;
   top: 13px;
   right: 13px;
   width: 40px;
