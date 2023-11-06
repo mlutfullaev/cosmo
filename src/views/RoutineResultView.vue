@@ -144,31 +144,41 @@ export default defineComponent({
 </script>
 
 <template>
-  <TheHeader />
-  <div class="routineFilter">
+  <TheHeader/>
+  <div class="routineResult">
     <div class="bg-img"></div>
-    <div class="routineFilter-top">
+    <div class="routineResult-top">
       <h1 class="title">Search Results for:</h1>
-      <p class="txt-highlight">Oily skin person within 25-45 age range looking for hydration and cleansing acne products.</p>
-      <p class="txt">Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products.</p>
+      <p class="txt-highlight">Oily skin person within 25-45 age range looking for hydration and cleansing acne
+        products.</p>
+      <p class="txt">Search Results for Oily skin person within 25-45 age range looking for hydration and cleansing acne
+        products. Search Results for Oily skin person within 25-45 age range looking for hydration and cleansing acne
+        products. Search Results for Oily skin person within 25-45 age range looking for hydration and cleansing acne
+        products. Search Results for Oily skin person within 25-45 age range looking for hydration and cleansing acne
+        products.</p>
     </div>
-    <div class="routineFilter-inner">
+    <div class="routineResult-inner">
       <RoutineCard
         v-for="routine in routines"
         :routine="routine"
         :key="routine.title"
       />
-      <div class="routineFilter-item bg-orange">
+      <div class="routineResult-item bg-orange">
         <img src="@/assets/img/global/qr.png" class="min-tablet" alt="">
-        <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
+        <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We
+          recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
         <p class="txt-highlight min-tablet">To start AI search please scan QR code</p>
         <RouterLink to="/" class="tablet link bold">start AI search <span>→</span></RouterLink>
       </div>
     </div>
-    <div class="routineFilter-steps">
+    <div class="routineResult-steps">
       <div class="steps-text">
         <h1 class="title">Lorem ipsum dolor sit amet consectetur. Et lobortis pharetra</h1>
-        <p class="txt">Lorem ipsum dolor sit amet consectetur. Sit mi tristique pulvinar porttitor. At sem lacus euismod non nibh nisi arcu sociis. Enim venenatis fermentum aliquam dolor. Eu cras tellus congue in id dignissim tortor sed donec. Tellus malesuada tortor nunc neque at. Ut in enim est aliquam ut id. Diam convallis erat eget elit volutpat eros. Elit mi pharetra nunc blandit lacinia nulla. Tempus arcu faucibus arcu justo libero aliquam lobortis. Praesent vel enim aenean id vel quis.</p>
+        <p class="txt">Lorem ipsum dolor sit amet consectetur. Sit mi tristique pulvinar porttitor. At sem lacus euismod
+          non nibh nisi arcu sociis. Enim venenatis fermentum aliquam dolor. Eu cras tellus congue in id dignissim
+          tortor sed donec. Tellus malesuada tortor nunc neque at. Ut in enim est aliquam ut id. Diam convallis erat
+          eget elit volutpat eros. Elit mi pharetra nunc blandit lacinia nulla. Tempus arcu faucibus arcu justo libero
+          aliquam lobortis. Praesent vel enim aenean id vel quis.</p>
       </div>
       <div class="steps-inner">
         <div class="steps-item">
@@ -198,28 +208,30 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <div class="routineFilter-bottom">
+    <div class="routineResult-bottom">
       <div class="bg-img d-center">
         <h1 class="title">We know more than 100 people with same skin as yours</h1>
       </div>
       <div class="content d-center">
         <img src="@/assets/img/global/qr.png" class="min-tablet" alt="">
         <p class="title-secondary bold min-phone">scan qr code to know their experience</p>
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
+        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
+          maximum details about products and experiences Your SkinTwins had with this product.</p>
         <RouterLink class="link tablet bold" to="/">explore their experience <span>→</span></RouterLink>
       </div>
     </div>
   </div>
-  <TheFooter />
+  <TheFooter/>
 </template>
 
 <style lang="scss" scoped>
-.routineFilter {
+.routineResult {
   .bg-img {
     width: 100%;
     height: 400px;
     background-image: url(@/assets/img/routine/filterbg.jpeg);
   }
+
   &-top {
     padding: 60px;
     text-align: center;
@@ -232,10 +244,12 @@ export default defineComponent({
       max-width: 500px;
       margin: 0 auto;
     }
+
     @media screen and (max-width: 480px) {
       padding: 40px 20px;
     }
   }
+
   &-inner {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -243,13 +257,14 @@ export default defineComponent({
     grid-gap: 60px 20px;
     padding: 0 60px 60px;
 
-    .routineFilter-item {
+    .routineResult-item {
       height: 480px;
       padding: 60px;
 
       p.txt {
         padding: 10px 0;
       }
+
       @media screen and (max-width: 1440px) {
         height: 350px;
         padding: 20px
@@ -271,6 +286,7 @@ export default defineComponent({
         height: max-content;
       }
     }
+
     @media screen and (max-width: 1440px) {
       padding: 0 20px 40px;
     }
@@ -292,6 +308,7 @@ export default defineComponent({
       }
     }
   }
+
   &-steps {
     max-width: 1500px;
     margin: 0 auto;
@@ -306,6 +323,7 @@ export default defineComponent({
         grid-template-columns: 1fr;
       }
     }
+
     .steps-inner {
       display: grid;
       grid-template-columns: repeat(5, auto);
@@ -317,6 +335,7 @@ export default defineComponent({
         text-align: center;
         max-width: 210px;
       }
+
       @media screen and (max-width: 1340px) {
         gap: 20px;
       }
@@ -328,6 +347,7 @@ export default defineComponent({
         justify-items: center;
       }
     }
+
     @media screen and (min-width: 1850px) {
       max-width: 1800px;
     }
@@ -338,6 +358,7 @@ export default defineComponent({
       padding: 50px 30px;
     }
   }
+
   &-bottom {
     display: grid;
     height: 600px;
@@ -353,6 +374,7 @@ export default defineComponent({
         padding: 20px;
       }
     }
+
     .content {
       flex-direction: column;
       gap: 20px;
@@ -362,6 +384,7 @@ export default defineComponent({
         padding: 20px;
       }
     }
+
     @media screen and (max-width: 100px) {
       height: 500px;
     }

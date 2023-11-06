@@ -5,6 +5,7 @@ export default defineComponent({
   components: {},
   data: () => ({
     activeTab: 0,
+    alertActive: true,
     filters: [
       {
         title: 'Age targeted group',
@@ -48,15 +49,18 @@ export default defineComponent({
 
 <template>
   <div class="productFilter">
-    <TheHeader />
+    <TheHeader/>
     <div class="productFilter-top">
       <RouterLink to="/search-results">
         <svg xmlns="http://www.w3.org/2000/svg" width="62" height="24" viewBox="0 0 62 24" fill="none">
-          <path d="M0.939335 10.9393C0.35355 11.5251 0.35355 12.4749 0.939335 13.0607L10.4853 22.6066C11.0711 23.1924 12.0208 23.1924 12.6066 22.6066C13.1924 22.0208 13.1924 21.0711 12.6066 20.4853L4.12132 12L12.6066 3.51471C13.1924 2.92893 13.1924 1.97918 12.6066 1.39339C12.0208 0.807607 11.0711 0.807607 10.4853 1.39339L0.939335 10.9393ZM62 10.5L2 10.5L2 13.5L62 13.5L62 10.5Z" fill="black"/>
+          <path
+            d="M0.939335 10.9393C0.35355 11.5251 0.35355 12.4749 0.939335 13.0607L10.4853 22.6066C11.0711 23.1924 12.0208 23.1924 12.6066 22.6066C13.1924 22.0208 13.1924 21.0711 12.6066 20.4853L4.12132 12L12.6066 3.51471C13.1924 2.92893 13.1924 1.97918 12.6066 1.39339C12.0208 0.807607 11.0711 0.807607 10.4853 1.39339L0.939335 10.9393ZM62 10.5L2 10.5L2 13.5L62 13.5L62 10.5Z"
+            fill="black"/>
         </svg>
       </RouterLink>
       <h1 class="title">We can do in-depth selection as well</h1>
-      <p class="txt">Please select the targeted age group. If the product does not have age specification or warnings for age </p>
+      <p class="txt">Please select the targeted age group. If the product does not have age specification or warnings
+        for age </p>
     </div>
     <div class="productFilter-inner">
       <div class="filter-tabs">
@@ -66,21 +70,21 @@ export default defineComponent({
           @click="activeTab = idx"
           :class="{active: activeTab === idx}"
           :key="filterTab.title">
-            <h3>{{filterTab.title}} <span></span></h3>
-            <p>{{filterTab.subtitle}}</p>
-            <div class="content-tab active">
-              <p class="txt-highlight">{{filterTab.contentTitle}}</p>
-              <div class="filter-buttons">
-                <button
-                  v-for="variant in filterTab.variants"
-                  :class="{active: variant === filterTab.selectedVariant}"
-                  @click="filterTab.selectedVariant = variant"
-                  class="filter-button"
-                  :key="variant">
-                  {{variant}}
-                </button>
-              </div>
+          <h3>{{ filterTab.title }} <span></span></h3>
+          <p>{{ filterTab.subtitle }}</p>
+          <div class="content-tab active">
+            <p class="txt-highlight">{{ filterTab.contentTitle }}</p>
+            <div class="filter-buttons">
+              <button
+                v-for="variant in filterTab.variants"
+                :class="{active: variant === filterTab.selectedVariant}"
+                @click="filterTab.selectedVariant = variant"
+                class="filter-button"
+                :key="variant">
+                {{ variant }}
+              </button>
             </div>
+          </div>
         </div>
       </div>
       <div class="content">
@@ -89,7 +93,7 @@ export default defineComponent({
           v-for="(filterTab, idx) in filters"
           :class="{active: activeTab === idx}"
           :key="filterTab.title">
-          <p class="txt-highlight">{{filterTab.contentTitle}}</p>
+          <p class="txt-highlight">{{ filterTab.contentTitle }}</p>
           <div class="filter-buttons">
             <button
               v-for="variant in filterTab.variants"
@@ -97,7 +101,7 @@ export default defineComponent({
               @click="filterTab.selectedVariant = variant"
               class="filter-button"
               :key="variant">
-              {{variant}}
+              {{ variant }}
             </button>
           </div>
         </div>
@@ -106,12 +110,30 @@ export default defineComponent({
     <div class="productFilter-bottom">
       <RouterLink to="/" class="link bold">search <span>→</span></RouterLink>
     </div>
-    <TheFooter />
+    <TheFooter/>
+    <div class="alert" :class="{hidden: !alertActive}">
+      <button class="alert-close" @click="alertActive = false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"
+                stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11.7559 20.2451L20.2459 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20.2459 20.2451L11.7559 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <img src="@/assets/img/global/qr.png" alt="">
+      <div class="scan-content">
+        <p class="txt bold t-up">scan qr code to make most from product page</p>
+        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
+          maximum details about products and experiences Your SkinTwins had with this product.</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .productFilter {
+  position: relative;
+  overflow: hidden;
 
   &-top {
     padding: 60px;
@@ -130,10 +152,12 @@ export default defineComponent({
         display: none;
       }
     }
+
     p {
       max-width: 400px;
       margin: 0 auto;
     }
+
     @media (max-width: 768px) {
       padding: 30px;
     }
@@ -143,6 +167,7 @@ export default defineComponent({
       }
     }
   }
+
   &-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -158,13 +183,16 @@ export default defineComponent({
       &.active {
         display: block;
       }
+
       p {
         padding-bottom: 20px;
       }
+
       @media (max-width: 1000px) {
         padding: 40px 20px;
       }
     }
+
     .filter-buttons {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -181,9 +209,59 @@ export default defineComponent({
       }
     }
   }
+
   &-bottom {
     padding: 60px;
     text-align: center;
+  }
+
+  .alert {
+    position: absolute;
+    bottom: 20px;
+    padding: 60px;
+    border: 1px solid $black;
+    background: $white;
+    max-width: 500px;
+    display: flex;
+    align-items: start;
+    gap: 20px;
+    right: 20px;
+    transition: .3s;
+
+    &.hidden {
+      right: -100%;
+    }
+
+    &-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+
+      svg {
+        transition: .3s;
+        border-radius: 50%;
+
+        path {
+          transition: .3s;
+        }
+
+        &:hover {
+          background: $orange;
+
+          path {
+            stroke: $white;
+
+            &:first-child {
+              stroke: $orange;
+            }
+          }
+        }
+      }
+    }
+
+    img {
+      width: 20%;
+    }
   }
 }
 </style>

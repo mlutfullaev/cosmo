@@ -7,6 +7,7 @@ import RoutineFilterView from '@/views/RoutineFilterView.vue'
 import SingleRoutineView from '@/views/SingleRoutineView.vue'
 import RoutineResultView from '@/views/RoutineResultView.vue'
 import ProductResultView from '@/views/ProductResultView.vue'
+import RoutineIntroView from '@/views/RoutineIntroView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/routine-results',
     name: 'routine-results',
     component: RoutineResultView
+  },
+  {
+    path: '/routine-intro',
+    name: 'routine-intro',
+    component: RoutineIntroView
   },
   {
     path: '/registration',
