@@ -119,6 +119,10 @@ export default defineComponent({
     max-height: 445px;
     overflow-y: auto;
 
+    h2 {
+      padding-right: 35px;
+    }
+
     .input-search {
       margin: 20px 0;
     }
@@ -137,6 +141,15 @@ export default defineComponent({
         }
       }
     }
+  }
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    max-width: 420px;
+  }
+  @media (max-width: 480px) {
+    max-width: 100%;
+    width: 90%;
   }
 }
 </style>
