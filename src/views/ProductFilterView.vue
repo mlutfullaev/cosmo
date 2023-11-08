@@ -216,48 +216,12 @@ export default defineComponent({
   }
 
   .alert {
-    position: absolute;
     bottom: 20px;
-    padding: 60px;
-    border: 1px solid $black;
-    background: $white;
+    right: 20px;
     max-width: 500px;
     display: flex;
     align-items: start;
     gap: 20px;
-    right: 20px;
-    transition: .3s;
-
-    &.hidden {
-      right: -100%;
-    }
-
-    &-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-
-      svg {
-        transition: .3s;
-        border-radius: 50%;
-
-        path {
-          transition: .3s;
-        }
-
-        &:hover {
-          background: $orange;
-
-          path {
-            stroke: $white;
-
-            &:first-child {
-              stroke: $orange;
-            }
-          }
-        }
-      }
-    }
 
     img {
       width: 20%;

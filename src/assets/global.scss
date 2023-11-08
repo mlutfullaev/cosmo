@@ -4,17 +4,22 @@
 html {
   scroll-behavior: smooth;
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: PT Root UI, serif;
 }
+
 body {
   font-family: 'PT Root UI', serif;
 }
+
 #app {
   padding-top: 62px;
 }
+
 .logo {
   font-weight: 700;
   text-transform: uppercase;
@@ -23,25 +28,87 @@ body {
     font-weight: 400;
   }
 }
+
 .bg-img {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 button {
   cursor: pointer;
   border: none;
   background-color: transparent;
 }
+
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.input-search {
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid $black;
+  width: 100%;
+  padding: 5px 25px 5px 5px;
+  outline: none;
+
+  &:focus {
+    border-bottom-color: $orange;
+  }
 }
 
 // Div
 .menu-active {
   overflow: hidden;
 }
+
+.alert {
+  padding: 60px;
+  position: absolute;
+  border: 1px solid $black;
+  background: $white;
+  transition: .3s;
+  box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.25);
+
+
+  &.hidden {
+    right: -100%;
+  }
+
+  &-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    svg {
+      transition: .3s;
+      border-radius: 50%;
+
+      path {
+        transition: .3s;
+      }
+
+      &:hover {
+        background: $orange;
+
+        path {
+          stroke: $white;
+
+          &:first-child {
+            stroke: $orange;
+          }
+        }
+      }
+    }
+  }
+
+  img {
+    width: 20%;
+  }
+}
+
 .scan {
   display: grid;
   grid-template-columns: auto auto;
@@ -52,39 +119,48 @@ a {
   img {
     width: 100px;
   }
+
   p.bold {
     padding-bottom: 10px;
   }
+
   @media (max-width: 768px) {
     display: none;
   }
 }
+
 .tab {
   &-leave-to {
     display: none;
   }
-  &-enter-from  {
+
+  &-enter-from {
     transform: translateX(-50px);
     opacity: 0;
   }
+
   &-leave-active,
   &-enter-active {
     transition: .5s;
   }
 }
+
 .d-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .d-sb {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .bg-orange {
   background-color: $orange;
 }
+
 .tablet {
   display: none;
 
@@ -92,11 +168,13 @@ a {
     display: block;
   }
 }
+
 .min-tablet {
   @media (max-width: 768px) {
     display: none;
   }
 }
+
 .phone {
   display: none;
 
@@ -104,11 +182,13 @@ a {
     display: block;
   }
 }
+
 .min-phone {
   @media (max-width: 480px) {
     display: none;
   }
 }
+
 .pagination {
   padding-top: 10px;
   display: none;
@@ -127,10 +207,12 @@ a {
       background: $black;
     }
   }
+
   @media (max-width: 768px) {
     display: flex;
   }
 }
+
 .scrollToTop {
   position: fixed;
   bottom: 30px;
@@ -153,6 +235,7 @@ a {
     right: 30px;
   }
 }
+
 .product-author {
   width: max-content;
   display: grid;
@@ -163,17 +246,20 @@ a {
   img {
     width: 100%;
   }
+
   p {
     color: #fff;
     font-size: 20px;
     text-transform: uppercase;
   }
+
   button {
     border-radius: 20px;
     background: #BFD824;
     padding: 10px;
   }
 }
+
 .product-icons {
   display: flex;
   color: #fff;
@@ -185,11 +271,13 @@ a {
     justify-content: center;
     gap: 5px;
   }
+
   p {
     font-size: 14px;
     font-weight: 700;
   }
 }
+
 .promoted {
   display: none;
   position: absolute;
@@ -203,10 +291,12 @@ a {
   &.active {
     display: block;
   }
+
   @media (max-width: 1200px) {
     font-size: 12px;
   }
 }
+
 .recommended {
   display: none;
   position: absolute;
@@ -219,10 +309,12 @@ a {
   &.active {
     display: block;
   }
+
   @media (max-width: 1200px) {
     font-size: 12px;
   }
 }
+
 .products {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -244,6 +336,7 @@ a {
       border-right: 1px solid $black;
     }
   }
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr 1fr auto;
@@ -251,6 +344,7 @@ a {
     border: none;
   }
 }
+
 .filter {
   &-button {
     padding: 20px;
@@ -262,11 +356,13 @@ a {
       font-weight: 600;
       border-color: $orange;
     }
+
     @media (max-width: 1000px) {
       padding: 12px 20px;
       font-size: 16px;
     }
   }
+
   &-tab {
     padding: 20px 60px;
     overflow: hidden;
@@ -277,7 +373,6 @@ a {
 
     h3 {
       color: $grey-dark;
-      font-family: PT Root UI;
       font-size: 20px;
       font-style: normal;
       font-weight: 700;
@@ -302,6 +397,7 @@ a {
           transform: rotate(90deg);
         }
       }
+
       @media (max-width: 1000px) {
         font-size: 16px;
       }
@@ -337,6 +433,7 @@ a {
         @media (max-width: 1000px) {
           font-size: 24px;
         }
+
         span {
           background: $orange;
 
@@ -345,10 +442,12 @@ a {
           }
         }
       }
+
       @media (max-width: 600px) {
         max-height: 600px;
       }
     }
+
     .content-tab {
       display: none !important;
 
@@ -358,6 +457,7 @@ a {
         padding: 20px 0 !important;
       }
     }
+
     @media (max-width: 1200px) {
       padding: 20px;
     }
@@ -367,6 +467,25 @@ a {
   }
 }
 
+.btn {
+  font-weight: 700;
+  padding: 16px 60px;
+  text-transform: uppercase;
+  font-size: 36px;
+  transition: .3s;
+
+  &:hover {
+    color: $orange;
+  }
+
+  &.btn-orange {
+    background: $orange;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
 
 // Text
 .title {
@@ -383,6 +502,7 @@ a {
     font-size: 30px;
   }
 }
+
 .title-secondary {
   font-size: 36px;
   text-transform: uppercase;
@@ -394,6 +514,7 @@ a {
     font-size: 18px;
   }
 }
+
 .link {
   font-family: 'PT Root UI', serif;
   font-size: 36px;
@@ -405,11 +526,13 @@ a {
       right: -20px;
     }
   }
+
   span {
     transition: .3s;
     position: relative;
     right: 0;
   }
+
   &.tablet-orange {
     @media (max-width: 768px) {
       padding: 20px;
@@ -418,6 +541,7 @@ a {
       text-align: left;
     }
   }
+
   @media (max-width: 1541px) {
     font-size: 30px;
   }
@@ -428,6 +552,7 @@ a {
     font-size: 18px;
   }
 }
+
 .txt {
   font-size: 20px;
 
@@ -435,6 +560,7 @@ a {
     font-size: 16px;
   }
 }
+
 .txt-highlight {
   font-size: 20px;
   font-weight: 700;
@@ -444,6 +570,7 @@ a {
     font-size: 16px;
   }
 }
+
 .step {
   font-size: 150px;
   color: $orange;
@@ -457,12 +584,24 @@ a {
     font-size: 96px;
   }
 }
+
 .note {
   font-size: 14px;
 }
+
+.name {
+  text-transform: uppercase;
+  font-size: 20px;
+
+  span {
+    font-weight: 700;
+  }
+}
+
 .t-up {
   text-transform: uppercase;
 }
+
 .text {
   font-size: 24px;
 
@@ -470,6 +609,7 @@ a {
     font-size: 20px;
   }
 }
+
 .highlight {
   color: $black;
   font-family: 'PT Root UI', serif;
@@ -491,23 +631,11 @@ a {
     font-size: 150px;
   }
 }
+
 .orange {
   color: $orange;
 }
+
 .bold {
   font-weight: 700;
-}
-.text {
-  &-large {
-    color: $black;
-    font-family: 'PT Root UI', serif;
-    font-size: 250px;
-    font-style: normal;
-    font-weight: 700;
-    text-transform: uppercase;
-
-    @media (max-width: 1540px) {
-      font-size: 180px;
-    }
-  }
 }

@@ -35,7 +35,7 @@ export default defineComponent({
       </svg>
     </button>
     <div class="search-content">
-      <input type="text" v-model="searchModel" ref="searchRef">
+      <input class="input-search" type="text" v-model="searchModel" ref="searchRef">
       <button @click="searchActive = false; searchModel = ''" class="d-center">&times;</button>
     </div>
   </div>
@@ -51,6 +51,7 @@ export default defineComponent({
       fill: $orange;
     }
   }
+
   .search-content {
     position: relative;
     overflow: hidden;
@@ -58,18 +59,6 @@ export default defineComponent({
     margin-left: 10px;
     width: 0;
 
-    input {
-      border: none;
-      background-color: transparent;
-      border-bottom: 1px solid $black;
-      width: 100%;
-      padding: 5px 25px 5px 5px;
-      outline: none;
-
-      &:focus {
-        border-bottom-color: $orange;
-      }
-    }
     button {
       position: absolute;
       top: 50%;

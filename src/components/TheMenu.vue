@@ -36,7 +36,7 @@ export default defineComponent({
       </svg>
       <span></span>
       <svg class="circle">
-        <use xlink:href="#circle" />
+        <use xlink:href="#circle"/>
       </svg>
     </button>
     <div class="menu-inner" :class="{active: menuActive}">
@@ -44,7 +44,7 @@ export default defineComponent({
         <router-link to="/" class="link bold">SKIN PRODUCTS LIBRARY <span>→</span></router-link>
         <router-link to="/" class="link bold">BEUTY ROUTINES LIBRARY <span>→</span></router-link>
         <router-link to="/" class="link bold">PERSONAL AI ASSISTANT <span>→</span></router-link>
-        <router-link to="/" class="link bold">create profile <span>→</span></router-link>
+        <router-link to="/registration" class="link bold">create profile <span>→</span></router-link>
         <router-link to="/" class="link bold">how to use <span>→</span></router-link>
       </div>
     </div>
@@ -126,6 +126,7 @@ export default defineComponent({
     display: none;
   }
 }
+
 .menu-inner {
   right: -100%;
   top: 0;
@@ -141,6 +142,7 @@ export default defineComponent({
   &.active {
     right: 0;
   }
+
   .menu-content {
     display: grid;
     grid-template-columns: 1fr;
