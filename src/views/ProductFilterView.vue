@@ -1,47 +1,106 @@
 <script>
 import { defineComponent } from 'vue'
+import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
+import FilterCategoires from '@/components/FilterCategoires.vue'
+import FilterBrands from '@/components/FilterBrands.vue'
 
 export default defineComponent({
-  components: {},
+  components: {
+    FilterBrands,
+    FilterCategoires,
+    ProductFilterSelect
+  },
   data: () => ({
-    activeTab: 0,
     alertActive: true,
-    filters: [
+    activeLib: 0,
+    categorySelected: '',
+    brandSelected: '',
+    library: [
       {
-        title: 'Age targeted group',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        contentTitle: 'Please select Your age group to make relevant search',
-        variants: ['18 - 25', '25 - 35', '35 - 55', '0-6', '6 - 14', '14 - 18', '55 +'],
-        selectedVariant: '0-6',
+        title: 'categories',
+        categories: [
+          {
+            title: 'cleanser',
+            imgUrl: require('@/assets/img/product/library-1.png')
+          },
+          {
+            title: 'toners',
+            imgUrl: require('@/assets/img/product/library-2.png')
+          },
+          {
+            title: 'serums',
+            imgUrl: require('@/assets/img/product/library-3.png')
+          },
+          {
+            title: 'creams',
+            imgUrl: require('@/assets/img/product/library-4.png')
+          },
+          {
+            title: 'oils',
+            imgUrl: require('@/assets/img/product/library-5.png')
+          },
+          {
+            title: 'scrubs',
+            imgUrl: require('@/assets/img/product/library-6.png')
+          },
+          {
+            title: 'masks',
+            imgUrl: require('@/assets/img/product/library-7.png')
+          },
+        ]
       },
       {
-        title: 'Targeted Concerns',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        contentTitle: 'Please select Your age group to make relevant search',
-        variants: ['18 - 25', '25 - 35', '35 - 55', '0-6', '6 - 14', '14 - 18', '55 +'],
-        selectedVariant: '0-6',
+        title: 'benefits',
+        categories: [
+          {
+            title: 'anti-age',
+            imgUrl: require('@/assets/img/product/library-1.png')
+          },
+          {
+            title: 'anti-wrinkle',
+            imgUrl: require('@/assets/img/product/library-2.png')
+          },
+          {
+            title: 'hydration',
+            imgUrl: require('@/assets/img/product/library-3.png')
+          },
+          {
+            title: 'brightness',
+            imgUrl: require('@/assets/img/product/library-4.png')
+          },
+          {
+            title: 'uv-protection',
+            imgUrl: require('@/assets/img/product/library-5.png')
+          },
+          {
+            title: 'cleansing',
+            imgUrl: require('@/assets/img/product/library-6.png')
+          }]
       },
       {
-        title: 'Product Claims (Vegan, Natural, etc)',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        contentTitle: 'Please select Your age group to make relevant search',
-        variants: ['18 - 25', '25 - 35', '35 - 55', '0-6', '6 - 14', '14 - 18', '55 +'],
-        selectedVariant: '0-6',
-      },
-      {
-        title: 'Religious Certified Products',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        contentTitle: 'Please select Your age group to make relevant search',
-        variants: ['18 - 25', '25 - 35', '35 - 55', '0-6', '6 - 14', '14 - 18', '55 +'],
-        selectedVariant: '0-6',
-      },
-      {
-        title: 'Targeted Skin Types',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        contentTitle: 'Please select Your age group to make relevant search',
-        variants: ['18 - 25', '25 - 35', '35 - 55', '0-6', '6 - 14', '14 - 18', '55 +'],
-        selectedVariant: '0-6',
-      },
+        title: 'steps',
+        categories: [
+          {
+            title: 'remove makeup',
+            imgUrl: require('@/assets/img/product/library-1.png')
+          },
+          {
+            title: 'cleanse',
+            imgUrl: require('@/assets/img/product/library-2.png')
+          },
+          {
+            title: 'treat',
+            imgUrl: require('@/assets/img/product/library-3.png')
+          },
+          {
+            title: 'moisture',
+            imgUrl: require('@/assets/img/product/library-4.png')
+          },
+          {
+            title: 'protect',
+            imgUrl: require('@/assets/img/product/library-5.png')
+          }]
+      }
     ]
   })
 })
@@ -50,66 +109,43 @@ export default defineComponent({
 <template>
   <div class="productFilter">
     <TheHeader/>
-    <div class="productFilter-top">
-      <RouterLink to="/search-results">
+    <div class="productFilter-library bg-img">
+      <h3 class="title-secondary"><span>product</span> library</h3>
+      <p class="name">
+        Select what your skin needs or choose a step to find the product that is best suited to your skin
+      </p>
+      <div class="productFilter-library-tabs">
+        <button
+          class="txt-highlight"
+          v-for="(lib, idx) in library"
+          @click="activeLib = idx"
+          :class="{active: activeLib === idx}"
+          :key="lib.title">
+          {{ lib.title }}
+        </button>
+      </div>
+      <FilterCategoires
+        :categories="library[activeLib]"
+        @category-select="(category) => categorySelected = category"
+        :category-selected="categorySelected"/>
+    </div>
+    <FilterBrands
+      :brand-selected="brandSelected"
+      @brand-select="(brand) => brandSelected = brand"/>
+    <div class="productFilter-title">
+      <a @click="$router.go(-1)">
         <svg xmlns="http://www.w3.org/2000/svg" width="62" height="24" viewBox="0 0 62 24" fill="none">
           <path
             d="M0.939335 10.9393C0.35355 11.5251 0.35355 12.4749 0.939335 13.0607L10.4853 22.6066C11.0711 23.1924 12.0208 23.1924 12.6066 22.6066C13.1924 22.0208 13.1924 21.0711 12.6066 20.4853L4.12132 12L12.6066 3.51471C13.1924 2.92893 13.1924 1.97918 12.6066 1.39339C12.0208 0.807607 11.0711 0.807607 10.4853 1.39339L0.939335 10.9393ZM62 10.5L2 10.5L2 13.5L62 13.5L62 10.5Z"
             fill="black"/>
         </svg>
-      </RouterLink>
+      </a>
       <h1 class="title">We can do in-depth selection as well</h1>
       <p class="txt">Please select the targeted age group. If the product does not have age specification or warnings
         for age </p>
     </div>
-    <div class="productFilter-inner">
-      <div class="filter-tabs">
-        <div
-          v-for="(filterTab, idx) in filters"
-          class="filter-tab"
-          @click="activeTab = idx"
-          :class="{active: activeTab === idx}"
-          :key="filterTab.title">
-          <h3>{{ filterTab.title }} <span></span></h3>
-          <p>{{ filterTab.subtitle }}</p>
-          <div class="content-tab active">
-            <p class="txt-highlight">{{ filterTab.contentTitle }}</p>
-            <div class="filter-buttons">
-              <button
-                v-for="variant in filterTab.variants"
-                :class="{active: variant === filterTab.selectedVariant}"
-                @click="filterTab.selectedVariant = variant"
-                class="filter-button"
-                :key="variant">
-                {{ variant }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content">
-        <div
-          class="content-tab"
-          v-for="(filterTab, idx) in filters"
-          :class="{active: activeTab === idx}"
-          :key="filterTab.title">
-          <p class="txt-highlight">{{ filterTab.contentTitle }}</p>
-          <div class="filter-buttons">
-            <button
-              v-for="variant in filterTab.variants"
-              :class="{active: variant === filterTab.selectedVariant}"
-              @click="filterTab.selectedVariant = variant"
-              class="filter-button"
-              :key="variant">
-              {{ variant }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="productFilter-bottom">
-      <RouterLink to="/" class="link bold">search <span>→</span></RouterLink>
-    </div>
+    <ProductFilterSelect/>
+    <RouterLink to="/" class="link bold">search <span>→</span></RouterLink>
     <TheFooter/>
     <div class="alert" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
@@ -135,7 +171,41 @@ export default defineComponent({
   position: relative;
   overflow: hidden;
 
-  &-top {
+  &-library {
+    text-align: center;
+    background-image: url(@/assets/img/product/library-bg.jpg);
+    padding: 100px 0;
+
+    .title-secondary {
+      span {
+        font-weight: 700;
+      }
+    }
+
+    .name {
+      padding: 60px 0;
+    }
+
+    &-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-bottom: 1px solid $black;
+      max-width: 900px;
+      margin: 0 auto 50px;
+
+      button {
+        padding: 20px;
+        transition: .3s;
+
+        &:hover, &.active {
+          color: $orange;
+        }
+      }
+    }
+  }
+
+  &-title {
     padding: 60px;
     position: relative;
     display: grid;
@@ -168,49 +238,8 @@ export default defineComponent({
     }
   }
 
-  &-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-top: 1px solid $black;
-
-    .content-tab {
-      border-left: 1px solid $black;
-      border-bottom: 1px solid $black;
-      display: none;
-      padding: 40px;
-      height: 100%;
-
-      &.active {
-        display: block;
-      }
-
-      p {
-        padding-bottom: 20px;
-      }
-
-      @media (max-width: 1000px) {
-        padding: 40px 20px;
-      }
-    }
-
-    .filter-buttons {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 20px;
-      height: max-content;
-      align-items: center;
-    }
-
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-
-      .content {
-        display: none;
-      }
-    }
-  }
-
-  &-bottom {
+  > .link {
+    display: block;
     padding: 60px;
     text-align: center;
   }
@@ -222,6 +251,10 @@ export default defineComponent({
     display: flex;
     align-items: start;
     gap: 20px;
+
+    &.hidden {
+      right: -100%;
+    }
 
     img {
       width: 20%;
