@@ -164,6 +164,10 @@ main {
         grid-column: 1;
       }
     }
+
+    @media (max-width: 1000px) {
+      padding: 30px;
+    }
   }
 
   .logo {

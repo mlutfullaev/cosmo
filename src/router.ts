@@ -8,6 +8,7 @@ import SingleRoutineView from '@/views/SingleRoutineView.vue'
 import RoutineResultView from '@/views/RoutineResultView.vue'
 import ProductResultView from '@/views/ProductResultView.vue'
 import RoutineIntroView from '@/views/RoutineIntroView.vue'
+import ProductIntroView from '@/views/ProductIntroView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,11 +22,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Product
   },
   {
-    path: '/single-routine/:id',
-    name: 'singe-routine',
-    component: SingleRoutineView
-  },
-  {
     path: '/search-results/:search',
     name: 'search-results',
     component: ProductResultView
@@ -36,9 +32,19 @@ const routes: Array<RouteRecordRaw> = [
     component: ProductFilterView
   },
   {
+    path: '/product-intro',
+    name: 'product-intro',
+    component: ProductIntroView
+  },
+  {
     path: '/routine-filter',
     name: 'routine-filter',
     component: RoutineFilterView
+  },
+  {
+    path: '/single-routine/:id',
+    name: 'singe-routine',
+    component: SingleRoutineView
   },
   {
     path: '/routine-results',

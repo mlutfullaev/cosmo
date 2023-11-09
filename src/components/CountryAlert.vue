@@ -27,6 +27,11 @@ export default defineComponent({
       } else {
         this.cities = []
       }
+    },
+    changeCity (city: string) {
+      this.$emit('city', city)
+      localStorage.setItem('location', city)
+      this.$emit('alert', false)
     }
   },
   mounted () {
@@ -88,7 +93,7 @@ export default defineComponent({
           class="txt"
           v-for="city in cities.slice(0, 10)"
           :key="city"
-          @click="() => {$emit('city', city); $emit('alert', false)}">
+          @click="() => changeCity(city)">
           {{ city }}
         </button>
       </div>
