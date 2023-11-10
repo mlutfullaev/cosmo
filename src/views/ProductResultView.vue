@@ -172,7 +172,7 @@ export default defineComponent({
   }
 }
 
-.products .products-item {
+.product-list .products-item {
   &:nth-child(8) {
     display: grid;
     align-content: space-between;

@@ -5,6 +5,7 @@ import ProductCard from '@/components/ProductCard.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
+import axios from 'axios'
 
 export default defineComponent({
   name: 'product',
@@ -48,63 +49,9 @@ export default defineComponent({
         title: 'beauty routines'
       },
     ],
-    products: [
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 1
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 2
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 3
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 4
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 5
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 6
-      },
-    ],
-    description: [
+    product: {},
+    alternatives: [],
+    samples: [
       {
         title: 'SEPHORA',
         text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
@@ -122,8 +69,20 @@ export default defineComponent({
         text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
       },
     ],
-    activeDesc: 'LOOKFANTASTIC'
-  })
+    activeSample: 'LOOKFANTASTIC',
+    beauty: false,
+  }),
+  mounted () {
+    axios.get(`https://api-www.beautyid.app/goods/byid/${this.$route.params.id}`)
+      .then(res => {
+        console.log(res.data[0])
+        this.product = res.data[0]
+      })
+    axios.get('https://api-www.beautyid.app/goods/alternative/32573?order=ASC&page=1&take=10')
+      .then(res => {
+        this.alternatives = res.data.data
+      })
+  }
 })
 </script>
 
@@ -132,9 +91,9 @@ export default defineComponent({
   <main>
     <div class="main-inner d-center">
       <div>
-        <p>Natures Leaf</p>
-        <h4>Argan Foundation Pure Oil</h4>
-        <img src="@/assets/img/product/product.png" alt="product-img">
+        <p>{{ product.brand }}</p>
+        <h4>{{ product.name }}</h4>
+        <img :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" alt="product-img">
       </div>
     </div>
     <div class="main-links">
@@ -147,7 +106,7 @@ export default defineComponent({
       </div>
     </div>
   </main>
-  <AboutProduct/>
+  <AboutProduct v-if="Object.keys(product).length" :product="product"/>
   <section id="prices" class="prices">
     <div class="prices-text">
       <h1 class="prices-title">prices</h1>
@@ -174,7 +133,7 @@ export default defineComponent({
     </div>
     <router-link to="/registration" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
-  <section class="products">
+  <section v-if="beauty" class="product-list">
     <div class="products-item">
       <h3 class="title">check alternative products</h3>
       <p class="txt">These aternative products to L’Oreal Argan Pure Oil were selected based on the ingredients and
@@ -182,15 +141,14 @@ export default defineComponent({
     </div>
     <div
       class="products-item"
-      v-for="product in products"
-      :key="product.title">
-      <ProductCard :card="product"/>
+      v-for="product in alternatives"
+      :key="product.id">
+      <ProductCard :product="product"/>
     </div>
     <div class="d-center products-item">
       <router-link to="#" class="link bold">discover more <span>→</span></router-link>
     </div>
   </section>
-  <AiAssistance/>
   <section id="reviews" class="reviews">
     <BaseReviews/>
     <div class="reviews-item reviews-orange">
@@ -208,8 +166,9 @@ export default defineComponent({
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
-  <section id="free-samples" class="description">
-    <div class="description-top d-sb">
+  <AiAssistance/>
+  <section v-if="beauty" id="free-samples" class="samples">
+    <div class="samples-top d-sb">
       <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121"
            fill="none">
         <path
@@ -267,8 +226,8 @@ export default defineComponent({
         <img src="@/assets/img/global/qr.png" alt="">
       </div>
     </div>
-    <div class="description-content">
-      <div class="description-title d-sb">
+    <div class="samples-content">
+      <div class="samples-title d-sb">
         <h3 class="title">free samples</h3>
         <svg class="tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121"
              fill="none">
@@ -319,29 +278,40 @@ export default defineComponent({
             fill="black"/>
         </svg>
       </div>
-      <div class="description-buttons">
+      <div class="samples-buttons">
         <button
-          v-for="desc in description"
-          :key="desc.title"
-          @click="activeDesc = desc.title"
-          class="description-button"
-          :class="{active: activeDesc === desc.title}"
-        >{{ desc.title }}
+          v-for="sample in samples"
+          :key="sample.title"
+          @click="activeSample = sample.title"
+          class="samples-button"
+          :class="{active: activeSample === sample.title}"
+        >{{ sample.title }}
         </button>
       </div>
       <div>
         <div
-          class="description-text"
-          v-for="desc in description"
-          :key="desc.title">
+          class="samples-text"
+          v-for="sample in samples"
+          :key="sample.title">
           <Transition name="tab">
-            <div v-if="activeDesc === desc.title">
-              <p class="text bold">{{ desc.title }}</p>
-              <p class="text">{{ desc.text }}</p>
+            <div v-if="activeSample === sample.title">
+              <p class="text bold">{{ sample.title }}</p>
+              <p class="text">{{ sample.text }}</p>
             </div>
           </Transition>
         </div>
       </div>
+    </div>
+  </section>
+  <section v-else id="free-samples" class="samples-anonymous">
+    <div class="d-center">
+      <h2 class="title">Free samples of Argan Oil available in Moscow</h2>
+    </div>
+    <div class="d-center">
+      <img src="@/assets/img/global/qr.png" alt="">
+      <p class="txt bold t-up">Make most from Product Page</p>
+      <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
+        maximum details about products and experiences Your SkinTwins had with this product.</p>
     </div>
   </section>
   <RoutineGuide/>
@@ -367,7 +337,7 @@ main {
 
     & > div {
       display: grid;
-      padding: 20px 20px 0;
+      padding: 20px;
       grid-template-rows: auto auto 1fr;
       justify-content: center;
       background-color: $white;
@@ -519,7 +489,7 @@ main {
   }
 }
 
-.products .products-item {
+.product-list .products-item {
   &:first-child {
     display: grid;
     align-content: space-between;
@@ -602,10 +572,10 @@ main {
   }
 }
 
-.description {
+.samples {
   padding: 100px 60px;
 
-  .description-top {
+  .samples-top {
     .scan {
       max-width: 800px;
       padding-left: 0;
@@ -613,13 +583,13 @@ main {
     }
   }
 
-  .description-content {
+  .samples-content {
     padding: 20px 0;
     display: grid;
     gap: 0;
     grid-template-columns: 60% 40%;
 
-    .description-title, .description-buttons {
+    .samples-title, .samples-buttons {
 
       height: 100%;
       border-bottom: 1px solid $black;
@@ -629,7 +599,7 @@ main {
       }
     }
 
-    .description-title {
+    .samples-title {
       @media (max-width: 768px) {
         border-bottom: none;
 
@@ -640,11 +610,11 @@ main {
       }
     }
 
-    .description-buttons {
+    .samples-buttons {
       display: grid;
       grid-template-columns: 1fr;
 
-      .description-button {
+      .samples-button {
         text-transform: uppercase;
         font-weight: 400;
         font-size: 24px;
@@ -674,6 +644,40 @@ main {
 
   @media (max-width: 768px) {
     padding: 60px 20px;
+  }
+}
+
+.samples-anonymous {
+  border-top: 1px solid $black;
+  border-bottom: 1px solid $black;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 600px;
+  text-align: center;
+
+  > div {
+    padding: 40px;
+    flex-direction: column;
+    gap: 20px;
+
+    &:first-child {
+      border-right: 1px solid $black;
+
+      h2 {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 768px) {
+        border-right: none;
+        border-bottom: 1px solid $black;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
 }
 </style>

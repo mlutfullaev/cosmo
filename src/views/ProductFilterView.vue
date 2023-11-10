@@ -145,7 +145,7 @@ export default defineComponent({
         for age </p>
     </div>
     <ProductFilterSelect/>
-    <RouterLink to="/product-results/Hand Cream" class="link bold">search <span>→</span></RouterLink>
+    <button @click="$router.push('product-results/Hand Cream')" class="link bold">search <span>→</span></button>
     <TheFooter/>
     <div class="alert" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
@@ -266,6 +266,8 @@ export default defineComponent({
   > .link {
     display: block;
     padding: 60px;
+    width: max-content;
+    margin: 0 auto;
     text-align: center;
   }
 

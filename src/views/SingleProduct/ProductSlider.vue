@@ -38,21 +38,20 @@ export default defineComponent({
       :wrap-around="false"
       :autoplay="5000"
       v-model="currentSlide">
-      <Slide class="carousel-item" v-for="slide in sliders" :key="slide">
-        <img :src="require(`@/assets/img/${slide}`)" alt="">
+      <Slide class="carousel-item" v-for="slide in sliders" :key="slide.picture">
+        <img :src="`https://api-www.beautyid.app/images/getimage/${slide.picture}`" alt="">
       </Slide>
     </Carousel>
     <Carousel
       id="thumbnails"
       :items-to-show="3"
-      :wrap-around="true"
       v-model="currentSlide"
       ref="carousel"
     >
-      <Slide v-for="(slide, idx) in sliders" :key="slide">
+      <Slide v-for="(slide, idx) in sliders" :key="slide.picture">
         <div class="thumbnails-item" @click="currentSlide = idx">
           <img
-            :src="require(`@/assets/img/${slide}`)"
+            :src="`https://api-www.beautyid.app/images/getimage/${slide.picture}`"
             alt="">
         </div>
       </Slide>
@@ -60,7 +59,9 @@ export default defineComponent({
     <div class="navigation">
       <button @click="prev" class="prev">
         <svg xmlns="http://www.w3.org/2000/svg" width="102" height="23" viewBox="0 0 102 23" fill="none">
-          <path d="M0.939339 10.2427C0.353554 10.8285 0.353554 11.7782 0.939339 12.364L10.4853 21.9099C11.0711 22.4957 12.0208 22.4957 12.6066 21.9099C13.1924 21.3242 13.1924 20.3744 12.6066 19.7886L4.12132 11.3033L12.6066 2.81806C13.1924 2.23227 13.1924 1.28252 12.6066 0.696735C12.0208 0.110948 11.0711 0.110948 10.4853 0.696735L0.939339 10.2427ZM102 9.80334L2 9.80334L2 12.8033L102 12.8033L102 9.80334Z" fill="black"/>
+          <path
+            d="M0.939339 10.2427C0.353554 10.8285 0.353554 11.7782 0.939339 12.364L10.4853 21.9099C11.0711 22.4957 12.0208 22.4957 12.6066 21.9099C13.1924 21.3242 13.1924 20.3744 12.6066 19.7886L4.12132 11.3033L12.6066 2.81806C13.1924 2.23227 13.1924 1.28252 12.6066 0.696735C12.0208 0.110948 11.0711 0.110948 10.4853 0.696735L0.939339 10.2427ZM102 9.80334L2 9.80334L2 12.8033L102 12.8033L102 9.80334Z"
+            fill="black"/>
         </svg>
       </button>
       <button @click="next" class="next">
@@ -85,6 +86,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .slider {
   position: relative;
+
   #carousel {
     .carousel-item img {
       width: 60%;
@@ -94,6 +96,7 @@ export default defineComponent({
       }
     }
   }
+
   #thumbnails {
     padding-top: 30px;
 
@@ -104,25 +107,31 @@ export default defineComponent({
     .carousel__slide--active .thumbnails-item {
       border: 1px solid $black;
     }
+
     @media (max-width: 900px) {
       display: none;
     }
   }
+
   .navigation {
     @media (max-width: 900px) {
       display: none;
     }
+
     button {
       position: absolute;
       top: 50%;
     }
+
     .next {
       right: 20px;
     }
+
     .prev {
       left: 20px;
     }
   }
+
   @media (max-width: 900px) {
     .pagination {
       display: flex;

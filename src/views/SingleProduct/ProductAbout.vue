@@ -5,17 +5,13 @@ import ProductSlider from '@/views/SingleProduct/ProductSlider.vue'
 
 export default defineComponent({
   name: 'aboutProduct',
+  props: ['product'],
   components: {
     Carousel,
     Slide,
     ProductSlider
   },
   data: () => ({
-    sliders: [
-      'product/product.png',
-      'product/product.png',
-      'product/product.png',
-    ],
     aboutActiveTab: 'about',
     icons: [
       {
@@ -459,28 +455,8 @@ export default defineComponent({
         title: 'Vegan',
       },
     ],
-
     currentIcon: 0,
-    aboutTabs: [
-      {
-        title: 'about',
-        html: `<h3 class="title" style="padding-bottom: 20px">Argan Foundation Pure Oil</h3>
-            <p class="txt" style="padding-bottom: 20px">Because we have many types of elements we created Live Editor for you so you can see live changes. link of elements we created Live tEditor for you so forat you can for you so you can. </p>
-            <p class="txt-highlight">benefits:</p>
-            <p class="txt-highlight">+ Improved Skin Hydration</p>
-            <p class="txt-highlight">+ Slows Down Aging</p>
-            <p class="txt-highlight">+ Better Skin Condition</p>
-            <p class="txt-highlight">+ Cumulative Results</p>`
-      },
-      {
-        title: 'ingredients',
-        html: '<p class="txt"><b>Full ingredients: </b>dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus nunc. Viverra massa tincidunt massa nibh vestibulum proin vitae enim lectus. Convallis dolor hac integer euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.</p>'
-      },
-      {
-        title: 'how to use',
-        html: '<p class="txt">Apply 2-3 pumps of Cleansing Oil to dry skin and massage, focusing on congested, imbalanced areas. Add warm water to fingertips and massage further until oil transforms into a milky lather. Rinse thoroughly or remove with a warm cloth. Follow with Toning Mist and Face Oil.</p>'
-      }
-    ]
+    aboutTabs: ['about', 'ingredients', 'how to use']
   })
 })
 </script>
@@ -535,8 +511,8 @@ export default defineComponent({
         fill="black"/>
     </svg>
     <p class="txt">Description description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet, leo
-      sit amet
-      consequat ornare, turpis dui finibus dui, in faucibus nulla eros ut justo. Proin vel quam sapien. Sed a laoreet
+      sit amet consequat ornare, turpis dui finibus dui, in faucibus nulla eros ut justo. Proin vel quam sapien. Sed a
+      laoreet
       purus, ut venenatis erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
       egestas. Donec gravida massa eu tortor blandit, sed tristique odio dapibus. Fusce libero velit, tincidunt eu
       libero a, tempus venenatis magna.<br><br>Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum
@@ -574,17 +550,52 @@ export default defineComponent({
     </div>
   </section>
   <section id="full-details" class="aboutProduct">
-    <ProductSlider :sliders="sliders"/>
+    <ProductSlider :sliders="JSON.parse(product.pictures)"/>
     <div class="aboutProduct-inner">
       <div class="min-tablet aboutProduct-tabs">
         <div class="buttons">
-          <button v-for="tab in aboutTabs" :class="{active: aboutActiveTab === tab.title}" :key="tab.title"
-                  @click="aboutActiveTab = tab.title">{{ tab.title }}
+          <button
+            v-for="tab in aboutTabs"
+            :class="{active: aboutActiveTab === tab}"
+            :key="tab"
+            @click="aboutActiveTab = tab"
+          >{{ tab }}
           </button>
         </div>
         <div class="aboutProduct-tabs-content">
-          <Transition name="tab" v-for="aboutTab in aboutTabs" :key="aboutTab.title">
-            <div class="aboutProduct-content" v-if="aboutActiveTab === aboutTab.title" v-html="aboutTab.html"></div>
+          <Transition name="tab">
+            <div class="aboutProduct-content" v-if="aboutActiveTab === 'about'">
+              <h3 class="title" style="padding-bottom: 20px">{{ product.name }}</h3>
+              <p class="txt" style="padding-bottom: 20px">{{ product.description }}</p>
+              <p class="txt-highlight">benefits:</p>
+              <p
+                class="txt-highlight"
+                v-for="benefit in product.benefits.split('``')"
+                :key="benefit"
+              >+ {{ benefit }}</p>
+            </div>
+          </Transition>
+          <Transition name="tab">
+            <div class="aboutProduct-content" v-if="aboutActiveTab === 'ingredients'">
+              <p class="txt bold">KEY INGREDIENTS</p>
+              <p
+                v-for="(ingredient, idx) in product.ingredients.split('``')"
+                class="txt bold"
+                :key="ingredient"
+              >{{ idx + 1 }}: {{ ingredient }}</p>
+              <br/>
+              <p class="txt">
+                <b>Full ingredients: </b>
+                dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus
+                nunc. Viverra massa tincidunt massa nibh vestibulum proin vitae enim lectus. Convallis dolor hac integer
+                euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.
+              </p>
+            </div>
+          </Transition>
+          <Transition name="tab">
+            <div class="aboutProduct-content" v-if="aboutActiveTab === 'how to use'">
+              <p class="txt">{{ product.manual }}</p>
+            </div>
           </Transition>
         </div>
         <div class="scan">
