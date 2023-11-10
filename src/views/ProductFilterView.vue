@@ -177,13 +177,24 @@ export default defineComponent({
     padding: 100px 0;
 
     .title-secondary {
+      padding: 0 20px;
+
       span {
         font-weight: 700;
       }
     }
 
     .name {
-      padding: 60px 0;
+      padding: 60px;
+      max-width: 700px;
+      margin: 0 auto;
+
+      @media (max-width: 1200px) {
+        padding: 30px 60px;
+      }
+      @media (max-width: 480px) {
+        padding: 20px;
+      }
     }
 
     &-tabs {
@@ -191,7 +202,7 @@ export default defineComponent({
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       border-bottom: 1px solid $black;
-      max-width: 900px;
+      max-width: 60%;
       margin: 0 auto 50px;
 
       button {
@@ -202,6 +213,20 @@ export default defineComponent({
           color: $orange;
         }
       }
+
+      @media (max-width: 1200px) {
+        max-width: 80%;
+      }
+      @media (max-width: 768px) {
+        max-width: 100%;
+      }
+      @media (max-width: 480px) {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      padding: 50px 0;
     }
   }
 

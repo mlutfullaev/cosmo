@@ -44,18 +44,21 @@ export default defineComponent({
   gap: 40px;
   padding: 20px 0;
   justify-content: center;
-  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
 
   button {
     display: grid;
     gap: 10px;
+    width: max-content;
 
     .image {
       border-radius: 50%;
       overflow: hidden;
-      height: 100px;
+      height: 120px;
       background-size: 95%;
-      width: 100px;
+      width: 120px;
       transition: .3s;
       border: 1px solid transparent;
     }
@@ -74,6 +77,11 @@ export default defineComponent({
         color: $black;
       }
     }
+  }
+
+  @media (max-width: 1120px) {
+    justify-content: left;
+    padding: 20px;
   }
 }
 </style>

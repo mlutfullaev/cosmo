@@ -70,10 +70,12 @@ export default defineComponent({
   &-alphabet {
     display: grid;
     grid-template-columns: repeat(36, 1fr);
-    min-height: 83px;
+    min-height: 50px;
     align-items: start;
-    gap: 5px;
-    padding: 20px 0;
+    gap: 20px;
+    overflow-x: auto;
+    width: 100%;
+    margin: 20px 0;
 
     button {
       font-size: 14px;
@@ -117,6 +119,16 @@ export default defineComponent({
           left: 0;
         }
       }
+    }
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    @media (max-width: 1000px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 768px) {
+      gap: 10px;
     }
   }
 }
