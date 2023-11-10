@@ -4,9 +4,12 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
     routerLink: {
-      type: String,
+      type: Object,
       required: false,
-      default: 'Discover more'
+      default: () => ({
+        value: 'Discover more',
+        link: '/routine-intro'
+      })
     },
     intro: {
       type: Boolean,
@@ -26,14 +29,16 @@ export default defineComponent({
       <img src="@/assets/img/product/routine-1-phone.png" class="phone routine-item-img" alt="routine-img">
       <div class="routine-item-discover">
         <p class="txt" v-if="!intro">Argan oil is used in 2818 Routines in COSMO.WIKI Routine Library</p>
-        <router-link to="#" class="link bold tablet-orange">{{routerLink}} <span>→</span></router-link>
+        <router-link :to="routerLink.link" class="link bold tablet-orange">{{ routerLink.value }} <span>→</span>
+        </router-link>
       </div>
       <div class="routine-item-share" v-if="!intro">
         <h3 class="title">Share Your Routines with Friends</h3>
-        <p class="txt">Make Routine. Share Signup to be the first to hear about exclusive deals,special offers and upcoming collections</p>
+        <p class="txt">Make Routine. Share Signup to be the first to hear about exclusive deals,special offers and
+          upcoming collections</p>
       </div>
       <div class="routine-item-signup d-center" v-if="!intro">
-        <router-link to="#" class="link bold tablet-orange">Sign up <span>→</span></router-link>
+        <router-link to="/registration" class="link bold tablet-orange">Sign up <span>→</span></router-link>
       </div>
       <div class="d-center routine-item-scan" v-if="!intro">
         <div class="scan-content">
@@ -69,6 +74,7 @@ export default defineComponent({
       font-size: 80px;
     }
   }
+
   &-inner {
     display: flex;
     flex-wrap: wrap;
@@ -78,9 +84,11 @@ export default defineComponent({
     a {
       font-weight: 700;
     }
+
     .scan {
       padding: 0;
     }
+
     > div {
       border-bottom: 1px solid $black;
       border-right: 1px solid $black;
@@ -91,6 +99,7 @@ export default defineComponent({
         padding-bottom: 20px;
       }
     }
+
     .routine-item-img {
       width: 70%;
 
@@ -101,6 +110,7 @@ export default defineComponent({
         width: 100%;
       }
     }
+
     .routine-item-discover {
       width: 30%;
       display: grid;
@@ -118,6 +128,7 @@ export default defineComponent({
         }
       }
     }
+
     .routine-item-share {
       width: 30%;
 
@@ -128,6 +139,7 @@ export default defineComponent({
         width: 100%;
       }
     }
+
     .routine-item-signup {
       width: 20%;
 
@@ -135,6 +147,7 @@ export default defineComponent({
         display: none;
       }
     }
+
     .routine-item-scan {
       gap: 20px;
       width: 50%;

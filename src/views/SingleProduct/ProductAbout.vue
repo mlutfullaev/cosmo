@@ -534,7 +534,8 @@ export default defineComponent({
         d="M86.9114 198.172C86.8173 197.998 86.8173 197.912 86.8173 197.825C86.8173 193.658 86.7232 189.492 87.0054 185.326C87.3817 180.031 90.9559 176.819 96.6936 176.298C97.7282 176.211 98.857 176.211 99.9857 176.125C99.9857 178.121 99.9857 179.944 99.9857 181.853C98.951 181.94 98.0104 181.853 97.0698 182.027C94.6243 182.287 93.3074 183.503 93.1193 185.76C92.9312 188.103 93.0253 190.447 93.0253 192.79C93.0253 194.526 93.0253 196.262 93.0253 198.085C90.9559 198.172 88.9807 198.172 86.9114 198.172Z"
         fill="black"/>
     </svg>
-    <p class="txt">Description description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet, leo sit amet
+    <p class="txt">Description description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet, leo
+      sit amet
       consequat ornare, turpis dui finibus dui, in faucibus nulla eros ut justo. Proin vel quam sapien. Sed a laoreet
       purus, ut venenatis erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
       egestas. Donec gravida massa eu tortor blandit, sed tristique odio dapibus. Fusce libero velit, tincidunt eu
@@ -545,7 +546,7 @@ export default defineComponent({
       <div v-for="icon in icons" :key="icon">
         <div class="icon d-center" v-html="icon.svg">
         </div>
-        <p>{{icon.title}}</p>
+        <p>{{ icon.title }}</p>
       </div>
     </div>
     <Carousel
@@ -559,7 +560,7 @@ export default defineComponent({
       <Slide class="carousel-item" v-for="icon in icons" :key="icon">
         <div>
           <div class="icon" v-html="icon.svg"></div>
-          <p>{{icon.title}}</p>
+          <p>{{ icon.title }}</p>
         </div>
       </Slide>
     </Carousel>
@@ -577,7 +578,9 @@ export default defineComponent({
     <div class="aboutProduct-inner">
       <div class="min-tablet aboutProduct-tabs">
         <div class="buttons">
-          <button v-for="tab in aboutTabs" :class="{active: aboutActiveTab === tab.title}" :key="tab.title" @click="aboutActiveTab = tab.title">{{tab.title}}</button>
+          <button v-for="tab in aboutTabs" :class="{active: aboutActiveTab === tab.title}" :key="tab.title"
+                  @click="aboutActiveTab = tab.title">{{ tab.title }}
+          </button>
         </div>
         <div class="aboutProduct-tabs-content">
           <Transition name="tab" v-for="aboutTab in aboutTabs" :key="aboutTab.title">
@@ -588,7 +591,8 @@ export default defineComponent({
           <img src="@/assets/img/global/qr.png" alt="">
           <div class="scan-content">
             <p class="txt-highlight">scan qr code to make most from product page</p>
-            <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
+            <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
+              maximum details about products and experiences Your SkinTwins had with this product.</p>
           </div>
         </div>
       </div>
@@ -599,7 +603,8 @@ export default defineComponent({
           class="aboutProduct-accordion"
           :key="aboutTab.title">
           <button :class="{active: aboutActiveTab ===  aboutTab.title}" @click="aboutActiveTab =  aboutTab.title">
-            {{ aboutTab.title }}</button>
+            {{ aboutTab.title }}
+          </button>
           <div class="aboutProduct-content" v-html="aboutTab.html"></div>
         </div>
       </div>
@@ -612,7 +617,7 @@ export default defineComponent({
 .about {
   padding: 60px 40px;
   text-align: center;
-  background-image: url('@/assets/img/product/claims-bg.png');
+  background-image: url('@/assets/img/product/claims-bg.jpg');
 
   p {
     text-align: left;
@@ -634,10 +639,12 @@ export default defineComponent({
       color: $black;
       text-align: center;
     }
+
     @media (max-width: 768px) {
       display: none;
     }
   }
+
   .icon {
     width: 80px;
     height: 80px;
@@ -664,6 +671,7 @@ export default defineComponent({
       padding: 20px;
     }
   }
+
   &-inner {
     height: 100%;
     border-left: 1px solid $black;
@@ -683,13 +691,16 @@ export default defineComponent({
         color: $orange;
         border-bottom: none;
       }
+
       &:not(:first-child) {
         border-left: 1px solid $black;
       }
+
       @media (max-width: 1200px) {
         padding: 20px;
       }
     }
+
     .aboutProduct-content {
       @include pad();
       overflow: hidden;
@@ -697,24 +708,30 @@ export default defineComponent({
       &-title {
         padding-bottom: 20px;
       }
+
       .txt:not(.bold) {
         padding-bottom: 20px;
       }
     }
+
     .aboutProduct-tabs {
       display: grid;
       grid-template-rows: 65px auto auto;
+
       .buttons {
         display: flex;
       }
+
       .scan {
         align-self: end;
         background: $orange;
       }
+
       @media (max-width: 768px) {
         display: none;
       }
     }
+
     .aboutProduct-accordion {
       .aboutProduct-content {
         height: 0;
@@ -722,6 +739,7 @@ export default defineComponent({
         transition: .3s;
         padding: 0;
       }
+
       &.active {
         .aboutProduct-content {
           padding: 20px;
@@ -729,6 +747,7 @@ export default defineComponent({
         }
       }
     }
+
     @media (max-width: 900px) {
       border-top: 1px solid $black;
       grid-template-rows: auto auto auto;
