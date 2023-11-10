@@ -89,7 +89,6 @@ export default defineComponent({
         </svg>
       </li>
     </ul>
-    <p class="txt-highlight">products ({{ productsLength }})</p>
     <div class="theFilter-inner" :class="{active: filterActive}">
       <div class="theFilter-item d-sb">
         <p class="txt-highlight theFilter-btn">

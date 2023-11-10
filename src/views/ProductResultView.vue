@@ -4,7 +4,10 @@ import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/components/TheFilter.vue'
 
 export default defineComponent({
-  components: { TheFilter, ProductCard },
+  components: {
+    TheFilter,
+    ProductCard
+  },
   data: () => ({
     products: [
       {
@@ -76,12 +79,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <TheHeader />
+  <TheHeader/>
   <div class="searchResult-top">
-    <h1 class="title">Search Results for <span class="bold">{{$route.params.search}}</span></h1>
-    <p class="txt">Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products.</p>
+    <h2 class="title">Search Results for <span class="bold">{{ $route.params.search }}</span></h2>
+    <h1 class="highlight orange">{{ products.length }}</h1>
+    <h3 class="title-secondary">hand creams in our library</h3>
+    <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
+    <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  <TheFilter :products-length="products.length" :tags="true" />
+  <TheFilter :products-length="products.length" :tags="true"/>
   <section class="products">
     <div
       class="products-item"
@@ -107,25 +113,57 @@ export default defineComponent({
         <img src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
           <p class="title-secondary bold">scan qr code to Make most from routine Page</p>
-          <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your SkinTwins and you to see their experiences with {ROUTINE NAME}.</p>
+          <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your
+            SkinTwins and you to see their experiences with {ROUTINE NAME}.</p>
         </div>
       </div>
       <div class="tablet-link bg-orange tablet">
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
+        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
+          maximum details about products and experiences Your SkinTwins had with this product.</p>
         <RouterLink class="link bold" to="#">try lux ai <span>→</span></RouterLink>
       </div>
     </div>
   </section>
-  <TheFooter />
+  <TheFooter/>
 </template>
 
 <style lang="scss" scoped>
 .searchResult-top {
   padding: 60px;
+  text-align: center;
+
+  .title {
+    font-weight: 400;
+
+    span {
+      font-weight: 700;
+    }
+  }
 
   h1 {
-    padding-bottom: 20px;
+    line-height: 200px;
+    padding-top: 20px;
+
+    @media (max-width: 1340px) {
+      line-height: 115px;
+    }
+    @media (max-width: 1000px) {
+      font-size: 100px;
+    }
+    @media (max-width: 768px) {
+      font-size: 200px;
+    }
+    @media (max-width: 480px) {
+      line-height: 100px;
+    }
   }
+
+  .txt {
+    padding: 40px 0 20px;
+    margin: 0 auto;
+    max-width: 450px;
+  }
+
   @media (max-width: 768px) {
     padding: 30px;
   }
@@ -133,6 +171,7 @@ export default defineComponent({
     padding: 20px;
   }
 }
+
 .products .products-item {
   &:nth-child(8) {
     display: grid;
@@ -143,15 +182,18 @@ export default defineComponent({
       display: none;
     }
   }
+
   &:nth-child(7) {
     @media (max-width: 768px) {
       display: none;
     }
   }
+
   .link {
     max-width: 300px;
   }
 }
+
 .tablet-link {
   padding: 20px;
   grid-column: 1 / 3;
@@ -161,6 +203,7 @@ export default defineComponent({
     padding-bottom: 20px;
   }
 }
+
 .searchResult-bottom {
   padding-top: 60px;
   display: grid;
@@ -172,6 +215,7 @@ export default defineComponent({
     color: $white;
     text-align: center;
   }
+
   @media (max-width: 768px) {
     grid-template-columns: auto;
     grid-template-rows: 300px auto;

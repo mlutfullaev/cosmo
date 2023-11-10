@@ -16,7 +16,7 @@ export default defineComponent({
         if (!this.searchModel) {
           (this.$refs.searchRef as HTMLInputElement).focus()
         } else {
-          this.$router.push(`/search-results/${this.searchModel}`)
+          this.$router.push(`/product-results/${this.searchModel}`)
         }
       }
     }

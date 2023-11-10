@@ -145,7 +145,7 @@ export default defineComponent({
         for age </p>
     </div>
     <ProductFilterSelect/>
-    <RouterLink to="/" class="link bold">search <span>→</span></RouterLink>
+    <RouterLink to="/product-results/Hand Cream" class="link bold">search <span>→</span></RouterLink>
     <TheFooter/>
     <div class="alert" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
