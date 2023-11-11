@@ -1,7 +1,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import FilterBrands from '@/components/FilterBrands.vue'
 
 export default defineComponent({
+  components: { FilterBrands },
   props: {
     productsLength: {
       type: Number,
@@ -12,23 +14,52 @@ export default defineComponent({
     popularTags: ['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'],
     popularTagsSelected: 'anti-age',
     filters: {
-      steps: '',
-      benefits: '',
-      occasion: '',
-      season: '',
-    },
-    steps: ['Remove makeup', 'Cleansing', 'Treat', 'Moisture', 'Protect'],
-    occasion: ['Morning (AM)', 'Evening ( PM)', 'Special'],
-    season: ['Summer', 'Winter', 'Spring - Summer', 'Aughtom - Winter', 'All Year Around'],
-    benefits: ['Anti-age', 'Anti-wrinkle', 'Hydration', 'brightness', 'UV-protection', 'Cleansing'],
+      productCategory: {
+        title: 'product category',
+        items: ['Cleanser', 'Toners', 'Serums', 'Creams', 'Oils', 'Scrubs', 'Masks', 'Body Care'],
+        selected: '',
+      },
+      steps: {
+        title: 'steps',
+        items: ['Remove makeup', 'Cleansing', 'Treat', 'Moisture', 'Protect'],
+        selected: ''
+      },
+      occasion: {
+        title: 'OCCASION OF USE',
+        items: ['Morning (AM)', 'Evening ( PM)', 'Special'],
+        selected: '',
+      },
+      season: {
+        title: 'SEASON OF USE',
+        items: ['Summer', 'Winter', 'Spring - Summer', 'Aughtom - Winter', 'All Year Around'],
+        selected: '',
+      },
+      benefits: {
+        title: 'benefits',
+        items: ['Anti-age', 'Anti-wrinkle', 'Hydration', 'brightness', 'UV-protection', 'Cleansing'],
+        selected: '',
+      },
+      ingredients: {
+        title: 'Ingredients',
+        items: ['AHA-acid', 'BHA-acid', 'PHA-acid', 'Ceramides', 'Hyaluronic Acid', 'Retinol', 'Vitamin C', 'Peptides', 'Niacinamide'],
+        selected: '',
+      },
+    } as { [key: string]: { title: string, items: string[], selected: string } },
     filterActive: false,
   }),
+  methods: {
+    clearAll () {
+      Object.keys(this.filters).forEach((key) => {
+        this.filters[key].selected = ''
+      })
+    }
+  },
   computed: {
     selected () {
-      const selected: string[] = []
+      const selected: { [key: string]: string } = {}
       Object.keys(this.filters).forEach((key: string) => {
-        if (this.filters[key as keyof object]) {
-          selected.push(this.filters[key as keyof object])
+        if (this.filters[key as keyof object].selected) {
+          selected[key] = this.filters[key as keyof object].selected
         }
       })
       return selected
@@ -86,64 +117,16 @@ export default defineComponent({
     </ul>
     <p v-if="productsLength" class="txt-highlight">products ({{ productsLength }})</p>
     <div class="theFilter-inner" :class="{active: filterActive}">
-      <div class="theFilter-item d-sb">
-        <p class="txt-highlight theFilter-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-            <path
-              d="M17.6429 0.519037L17.6429 12.3857L17.1667 12.3857C16.7878 12.3857 16.4244 12.5362 16.1565 12.8041C15.8886 13.072 15.7381 13.4354 15.7381 13.8143L15.7381 15.719C15.7381 16.0979 15.8886 16.4613 16.1565 16.7292C16.4244 16.9971 16.7878 17.1476 17.1667 17.1476L17.6429 17.1476L17.6429 19.3667C17.6429 19.493 17.693 19.6141 17.7823 19.7034C17.8716 19.7927 17.9928 19.8428 18.119 19.8428C18.2453 19.8428 18.3665 19.7927 18.4558 19.7034C18.5451 19.6141 18.5952 19.493 18.5952 19.3667L18.5952 17.1476L19.0714 17.1476C19.4503 17.1476 19.8137 16.9971 20.0816 16.7292C20.3495 16.4613 20.5 16.0979 20.5 15.719L20.5 13.8143C20.5 13.4354 20.3495 13.072 20.0816 12.8041C19.8137 12.5362 19.4503 12.3857 19.0714 12.3857L18.5952 12.3857L18.5952 0.519037C18.5952 0.392744 18.5451 0.271623 18.4558 0.18232C18.3665 0.0930166 18.2453 0.0428466 18.119 0.0428466C17.9928 0.0428466 17.8716 0.0930166 17.7823 0.18232C17.693 0.271623 17.6429 0.392743 17.6429 0.519037ZM19.0714 13.3381C19.1977 13.3381 19.3188 13.3883 19.4081 13.4776C19.4974 13.5669 19.5476 13.688 19.5476 13.8143L19.5476 15.719C19.5476 15.8453 19.4974 15.9665 19.4081 16.0558C19.3188 16.1451 19.1977 16.1952 19.0714 16.1952L17.1667 16.1952C17.0404 16.1952 16.9193 16.1451 16.8299 16.0558C16.7406 15.9665 16.6905 15.8453 16.6905 15.719L16.6905 13.8143C16.6905 13.688 16.7406 13.5669 16.8299 13.4776C16.9193 13.3883 17.0404 13.3381 17.1667 13.3381L19.0714 13.3381Z"
-              fill="black"/>
-            <path
-              d="M17.6429 0.519037L17.6429 12.3857L17.1667 12.3857C16.7878 12.3857 16.4244 12.5362 16.1565 12.8041C15.8886 13.072 15.7381 13.4354 15.7381 13.8143L15.7381 15.719C15.7381 16.0979 15.8886 16.4613 16.1565 16.7292C16.4244 16.9971 16.7878 17.1476 17.1667 17.1476L17.6429 17.1476L17.6429 19.3667C17.6429 19.493 17.693 19.6141 17.7823 19.7034C17.8716 19.7927 17.9928 19.8428 18.119 19.8428C18.2453 19.8428 18.3665 19.7927 18.4558 19.7034C18.5451 19.6141 18.5952 19.493 18.5952 19.3667L18.5952 17.1476L19.0714 17.1476C19.4503 17.1476 19.8137 16.9971 20.0816 16.7292C20.3495 16.4613 20.5 16.0979 20.5 15.719L20.5 13.8143C20.5 13.4354 20.3495 13.072 20.0816 12.8041C19.8137 12.5362 19.4503 12.3857 19.0714 12.3857L18.5952 12.3857L18.5952 0.519037C18.5952 0.392744 18.5451 0.271623 18.4558 0.18232C18.3665 0.0930166 18.2453 0.0428466 18.119 0.0428466C17.9928 0.0428466 17.8716 0.0930166 17.7823 0.18232C17.693 0.271623 17.6429 0.392743 17.6429 0.519037ZM19.0714 13.3381C19.1977 13.3381 19.3188 13.3883 19.4081 13.4776C19.4974 13.5669 19.5476 13.688 19.5476 13.8143L19.5476 15.719C19.5476 15.8453 19.4974 15.9665 19.4081 16.0558C19.3188 16.1451 19.1977 16.1952 19.0714 16.1952L17.1667 16.1952C17.0404 16.1952 16.9193 16.1451 16.8299 16.0558C16.7406 15.9665 16.6905 15.8453 16.6905 15.719L16.6905 13.8143C16.6905 13.688 16.7406 13.5669 16.8299 13.4776C16.9193 13.3883 17.0404 13.3381 17.1667 13.3381L19.0714 13.3381Z"
-              stroke="black"/>
-            <path
-              d="M3.35696 19.4333L3.35696 15.2428L3.83315 15.2428C4.21203 15.2428 4.57539 15.0923 4.8433 14.8244C5.11121 14.5565 5.26172 14.1932 5.26172 13.8143L5.26172 11.9095C5.26172 11.5306 5.11121 11.1673 4.8433 10.8994C4.57539 10.6315 4.21203 10.4809 3.83315 10.4809L3.35696 10.4809L3.35696 0.528559C3.35696 0.402265 3.30679 0.281144 3.21748 0.191841C3.12818 0.102538 3.00706 0.0523681 2.88077 0.0523681C2.75447 0.0523681 2.63335 0.102538 2.54405 0.191841C2.45475 0.281144 2.40458 0.402265 2.40458 0.528559L2.40458 10.4809L1.92838 10.4809C1.5495 10.4809 1.18614 10.6315 0.918233 10.8994C0.650324 11.1673 0.499813 11.5306 0.499813 11.9095L0.499813 13.8143C0.499813 14.1932 0.650324 14.5565 0.918233 14.8244C1.18614 15.0923 1.5495 15.2428 1.92838 15.2428L2.40458 15.2428L2.40457 19.4333C2.40457 19.5596 2.45474 19.6807 2.54405 19.77C2.63335 19.8593 2.75447 19.9095 2.88077 19.9095C3.00706 19.9095 3.12818 19.8593 3.21748 19.77C3.30679 19.6807 3.35696 19.5596 3.35696 19.4333ZM1.92838 14.2905C1.80209 14.2905 1.68097 14.2403 1.59167 14.151C1.50236 14.0617 1.45219 13.9406 1.45219 13.8143L1.45219 11.9095C1.45219 11.7832 1.50236 11.6621 1.59167 11.5728C1.68097 11.4835 1.80209 11.4333 1.92838 11.4333L3.83315 11.4333C3.95944 11.4333 4.08056 11.4835 4.16986 11.5728C4.25917 11.6621 4.30934 11.7832 4.30934 11.9095L4.30934 13.8143C4.30934 13.9406 4.25917 14.0617 4.16986 14.151C4.08056 14.2403 3.95944 14.2905 3.83315 14.2905L1.92838 14.2905Z"
-              fill="black"/>
-            <path
-              d="M3.35696 19.4333L3.35696 15.2428L3.83315 15.2428C4.21203 15.2428 4.57539 15.0923 4.8433 14.8244C5.11121 14.5565 5.26172 14.1932 5.26172 13.8143L5.26172 11.9095C5.26172 11.5306 5.11121 11.1673 4.8433 10.8994C4.57539 10.6315 4.21203 10.4809 3.83315 10.4809L3.35696 10.4809L3.35696 0.528559C3.35696 0.402265 3.30679 0.281144 3.21748 0.191841C3.12818 0.102538 3.00706 0.0523681 2.88077 0.0523681C2.75447 0.0523681 2.63335 0.102538 2.54405 0.191841C2.45475 0.281144 2.40458 0.402265 2.40458 0.528559L2.40458 10.4809L1.92838 10.4809C1.5495 10.4809 1.18614 10.6315 0.918233 10.8994C0.650324 11.1673 0.499813 11.5306 0.499813 11.9095L0.499813 13.8143C0.499813 14.1932 0.650324 14.5565 0.918233 14.8244C1.18614 15.0923 1.5495 15.2428 1.92838 15.2428L2.40458 15.2428L2.40457 19.4333C2.40457 19.5596 2.45474 19.6807 2.54405 19.77C2.63335 19.8593 2.75447 19.9095 2.88077 19.9095C3.00706 19.9095 3.12818 19.8593 3.21748 19.77C3.30679 19.6807 3.35696 19.5596 3.35696 19.4333ZM1.92838 14.2905C1.80209 14.2905 1.68097 14.2403 1.59167 14.151C1.50236 14.0617 1.45219 13.9406 1.45219 13.8143L1.45219 11.9095C1.45219 11.7832 1.50236 11.6621 1.59167 11.5728C1.68097 11.4835 1.80209 11.4333 1.92838 11.4333L3.83315 11.4333C3.95944 11.4333 4.08056 11.4835 4.16986 11.5728C4.25917 11.6621 4.30934 11.7832 4.30934 11.9095L4.30934 13.8143C4.30934 13.9406 4.25917 14.0617 4.16986 14.151C4.08056 14.2403 3.95944 14.2905 3.83315 14.2905L1.92838 14.2905Z"
-              stroke="black"/>
-            <path
-              d="M8.11895 6.19521L8.11895 8.09998C8.11895 8.47886 8.26946 8.84222 8.53737 9.11013C8.80528 9.37804 9.16864 9.52855 9.54753 9.52855L10.0237 9.52855L10.0237 19.4809C10.0237 19.6072 10.0739 19.7283 10.1632 19.8176C10.2525 19.9069 10.3736 19.9571 10.4999 19.9571C10.6262 19.9571 10.7473 19.9069 10.8366 19.8176C10.9259 19.7283 10.9761 19.6072 10.9761 19.4809L10.9761 9.52855L11.4523 9.52855C11.8312 9.52855 12.1945 9.37804 12.4624 9.11013C12.7303 8.84222 12.8809 8.47886 12.8809 8.09998L12.8809 6.19521C12.8809 5.81633 12.7303 5.45297 12.4624 5.18506C12.1945 4.91715 11.8312 4.76664 11.4523 4.76664L10.9761 4.76664L10.9761 0.576166C10.9761 0.449872 10.9259 0.328752 10.8366 0.239449C10.7473 0.150146 10.6262 0.0999755 10.4999 0.0999755C10.3736 0.0999755 10.2525 0.150145 10.1632 0.239449C10.0739 0.328752 10.0237 0.449872 10.0237 0.576166L10.0237 4.76664L9.54753 4.76664C9.16864 4.76664 8.80528 4.91715 8.53737 5.18506C8.26946 5.45297 8.11895 5.81633 8.11895 6.19521ZM11.4523 5.71902C11.5786 5.71902 11.6997 5.76919 11.789 5.8585C11.8783 5.9478 11.9285 6.06892 11.9285 6.19521L11.9285 8.09998C11.9285 8.22627 11.8783 8.34739 11.789 8.43669C11.6997 8.526 11.5786 8.57617 11.4523 8.57617L9.54753 8.57617C9.42123 8.57617 9.30011 8.526 9.21081 8.43669C9.1215 8.34739 9.07133 8.22627 9.07133 8.09998L9.07134 6.19521C9.07134 6.06892 9.1215 5.9478 9.21081 5.8585C9.30011 5.76919 9.42123 5.71902 9.54753 5.71902L11.4523 5.71902Z"
-              fill="black"/>
-            <path
-              d="M8.11895 6.19521L8.11895 8.09998C8.11895 8.47886 8.26946 8.84222 8.53737 9.11013C8.80528 9.37804 9.16864 9.52855 9.54753 9.52855L10.0237 9.52855L10.0237 19.4809C10.0237 19.6072 10.0739 19.7283 10.1632 19.8176C10.2525 19.9069 10.3736 19.9571 10.4999 19.9571C10.6262 19.9571 10.7473 19.9069 10.8366 19.8176C10.9259 19.7283 10.9761 19.6072 10.9761 19.4809L10.9761 9.52855L11.4523 9.52855C11.8312 9.52855 12.1945 9.37804 12.4624 9.11013C12.7303 8.84222 12.8809 8.47886 12.8809 8.09998L12.8809 6.19521C12.8809 5.81633 12.7303 5.45297 12.4624 5.18506C12.1945 4.91715 11.8312 4.76664 11.4523 4.76664L10.9761 4.76664L10.9761 0.576166C10.9761 0.449872 10.9259 0.328752 10.8366 0.239449C10.7473 0.150146 10.6262 0.0999755 10.4999 0.0999755C10.3736 0.0999755 10.2525 0.150145 10.1632 0.239449C10.0739 0.328752 10.0237 0.449872 10.0237 0.576166L10.0237 4.76664L9.54753 4.76664C9.16864 4.76664 8.80528 4.91715 8.53737 5.18506C8.26946 5.45297 8.11895 5.81633 8.11895 6.19521ZM11.4523 5.71902C11.5786 5.71902 11.6997 5.76919 11.789 5.8585C11.8783 5.9478 11.9285 6.06892 11.9285 6.19521L11.9285 8.09998C11.9285 8.22627 11.8783 8.34739 11.789 8.43669C11.6997 8.526 11.5786 8.57617 11.4523 8.57617L9.54753 8.57617C9.42123 8.57617 9.30011 8.526 9.21081 8.43669C9.1215 8.34739 9.07133 8.22627 9.07133 8.09998L9.07134 6.19521C9.07134 6.06892 9.1215 5.9478 9.21081 5.8585C9.30011 5.76919 9.42123 5.71902 9.54753 5.71902L11.4523 5.71902Z"
-              stroke="black"/>
-          </svg>
-          Filters
-        </p>
-        <button @click="filterActive = false">
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-            <path d="M12.877 0.699951H14.501V13.3H12.877V0.699951Z" fill="black"/>
-            <path
-              d="M0.964844 7L4.46484 3.5H6.38284L3.66684 6.216H10.8908V7.798H3.70884L6.41084 10.5H4.46484L0.964844 7Z"
-              fill="black"/>
-          </svg>
-        </button>
-      </div>
-      <div class="theFilter-item" v-if="selected.length">
-        <div class="d-sb">
-          <p class="txt t-up">Applied filters</p>
-          <button class="btn-clear d-center" @click="filters = {}">
-            Clear all
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-              <path d="M5.87695 10.1225L10.122 5.87756" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-              <path d="M10.122 10.1225L5.87695 5.87756" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        <ul class="theFilter-tags">
+      <div class="theFilter-top d-sb" v-if="Object.keys(selected).length">
+        <p class="name">Applied filters</p>
+        <ul class="theFilter-tags d-center">
           <li
-            v-for="(filter, key) in filters"
+            v-for="(filter, key) in selected"
             class="tags-tag d-center active"
-            :style="!filter ? {display: 'none'} : {}"
             :key="key">
             <button class="txt">{{ filter }}</button>
             <svg
-              @click="filters[key] = ''"
+              @click="filters[key].selected = ''"
               xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
@@ -155,116 +138,59 @@ export default defineComponent({
               <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
                     stroke-linejoin="round"/>
             </svg>
+          </li>
+          <li>
+            <button class="btn-clear d-center" @click="clearAll">
+              Clear all
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
+                  fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
+                <path d="M5.87695 10.1225L10.122 5.87756" stroke="black" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
+                <path d="M10.122 10.1225L5.87695 5.87756" stroke="black" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </button>
           </li>
         </ul>
       </div>
-      <div class="theFilter-item">
-        <p class="txt t-up">steps</p>
-        <ul
-          v-for="filter in steps"
-          class="theFilter-tags"
-          :key="filter">
-          <li
-            :class="{active: filter === filters.steps}"
-            class="tags-tag d-center">
-            <button class="txt" @click="filters.steps = filter">{{ filter }}</button>
-            <svg
-              v-if="filters.steps === filter"
-              @click="filters.steps = ''"
-              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-              <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-              <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-              <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-            </svg>
-          </li>
-        </ul>
+      <div class="theFilter-content">
+        <div
+          class="theFilter-item"
+          v-for="(filter, key) in filters"
+          :key="key">
+          <p class="name">{{ filter.title }}</p>
+          <ul class="theFilter-tags">
+            <li
+              v-for="filterItem in filter.items"
+              :key="filterItem"
+              :class="{active: filter.selected === filterItem}"
+              class="tags-tag d-center">
+              <button class="txt" @click="filter.selected = filterItem">{{ filterItem }}</button>
+              <svg
+                v-if="filter.selected === filterItem"
+                @click="filter.selected = ''"
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
+                  fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
+                <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
+                <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="theFilter-item">
-        <p class="txt t-up">OCCASION OF USE</p>
-        <ul
-          v-for="filter in occasion"
-          class="theFilter-tags"
-          :key="filter">
-          <li
-            :class="{active: filter === filters.occasion}"
-            class="tags-tag d-center">
-            <button class="txt" @click="filters.occasion = filter">{{ filter }}</button>
-            <svg
-              v-if="filters.occasion === filter"
-              @click="filters.occasion = ''"
-              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-              <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-              <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-              <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-            </svg>
-          </li>
-        </ul>
-      </div>
-      <div class="theFilter-item">
-        <p class="txt t-up">SEASON OF USE</p>
-        <ul
-          v-for="filter in season"
-          class="theFilter-tags"
-          :key="filter">
-          <li
-            :class="{active: filter === filters.season}"
-            class="tags-tag d-center">
-            <button class="txt" @click="filters.season = filter">{{ filter }}</button>
-            <svg
-              v-if="filters.season === filter"
-              @click="filters.season = ''"
-              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-              <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-              <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-              <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-            </svg>
-          </li>
-        </ul>
-      </div>
-      <div class="theFilter-item">
-        <p class="txt t-up">benefits</p>
-        <ul
-          v-for="filter in benefits"
-          class="theFilter-tags"
-          :key="filter">
-          <li
-            :class="{active: filter === filters.benefits}"
-            class="tags-tag d-center">
-            <button class="txt" @click="filters.benefits = filter">{{ filter }}</button>
-            <svg
-              v-if="filters.benefits === filter"
-              @click="filters.benefits = ''"
-              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-              <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-              <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-              <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-            </svg>
-          </li>
-        </ul>
+      <FilterBrands/>
+      <div class="theFilter-bottom d-center">
+        <button class="title-secondary" @click="filterActive = false">Apply</button>
       </div>
     </div>
   </div>
@@ -282,10 +208,12 @@ export default defineComponent({
 
     .tags-tag {
       gap: 8px;
-      padding: 10px;
+      padding-right: 10px;
 
       button {
+        padding: 10px;
         color: $grey-dark;
+        text-align: left;
         transition: .3s;
       }
 
@@ -322,36 +250,63 @@ export default defineComponent({
 
   &-inner {
     position: absolute;
-    top: 0;
-    left: -100%;
-    max-height: 800px;
+    top: 100%;
+    max-height: 0;
+    overflow: hidden;
+    left: 0;
+    right: 0;
     overflow-y: auto;
+    width: 100%;
     z-index: 1;
-    width: 500px;
     background: $white;
-    border-right: 1px solid $black;
     transition: .3s;
+    border-top: 1px solid $black;
 
     &.active {
-      left: 0;
+      max-height: 2000px;
+    }
+
+    .theFilter-content {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .theFilter-top {
+      border-bottom: 1px solid $black;
+      padding: 20px;
+
+      button {
+        gap: 10px;
+      }
     }
 
     .theFilter-item {
-      padding: 30px;
+      padding: 20px;
       border-bottom: 1px solid $black;
 
       .theFilter-tags {
         padding-top: 20px;
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
+        display: grid;
+        gap: 10px;
         align-items: center;
+
+        li {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          gap: 10px;
+        }
       }
 
       .btn-clear {
         font-size: 14px;
         gap: 5px;
       }
+    }
+
+    .theFilter-bottom {
+      padding: 60px;
+      border-top: 1px solid $black;
+      border-bottom: 1px solid $black;
     }
   }
 }
