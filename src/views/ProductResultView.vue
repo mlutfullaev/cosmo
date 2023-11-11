@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/components/TheFilter.vue'
+import axios from 'axios'
 
 export default defineComponent({
   components: {
@@ -9,72 +10,17 @@ export default defineComponent({
     ProductCard
   },
   data: () => ({
-    products: [
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 1
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 2
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 3
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 4
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 5
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 6
-      },
-      {
-        title: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 7
-      },
-    ],
-  })
+    products: [],
+    allItems: 0,
+  }),
+  mounted () {
+    axios.get(`https://api-www.beautyid.app/goods/byname/${this.$route.params.search}?order=ASC&page=1&take=11`)
+      .then(res => {
+        console.log(res.data)
+        this.products = res.data.data
+        this.allItems = res.data.meta.itemCount
+      })
+  }
 })
 </script>
 
@@ -82,19 +28,17 @@ export default defineComponent({
   <TheHeader/>
   <div class="searchResult-top">
     <h2 class="title">Search Results for <span class="bold">{{ $route.params.search }}</span></h2>
-    <h1 class="highlight orange">{{ products.length }}</h1>
+    <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">hand creams in our library</h3>
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
   <TheFilter :tags="true"/>
-  <section class="products">
-    <div
-      class="products-item"
+  <section class="product-list">
+    <ProductCard
       v-for="product in products"
-      :key="product.title">
-      <ProductCard :card="product"/>
-    </div>
+      :key="product.id"
+      :product="product"/>
     <div class="products-item">
       <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
       <router-link to="/product-filter" class="link bold">specify your search <span>→</span></router-link>
@@ -172,7 +116,7 @@ export default defineComponent({
   }
 }
 
-.product-list .products-item {
+.product-list > div {
   &:nth-child(8) {
     display: grid;
     align-content: space-between;

@@ -8,13 +8,14 @@ import RoutineGuide from '@/components/RoutineGuide.vue'
 import axios from 'axios'
 import RoutineCard from '@/components/RoutineCard.vue'
 import ThePagination from '@/components/ThePagination.vue'
+import TheFilter from '@/components/TheFilter.vue'
 
 export default defineComponent({
   name: 'product',
   components: {
     ThePagination,
     RoutineCard,
-    // TheFilter,
+    TheFilter,
     RoutineGuide,
     AiAssistance,
     BaseReviews,
@@ -468,7 +469,7 @@ export default defineComponent({
   </section>
   <section v-if="beauty" class="routines">
     <h2 class="title">Routines with Argan oil</h2>
-    <!--    <TheFilter :products-length="routines.length"/>-->
+    <TheFilter :products-length="routines.length"/>
     <div class="routine-list">
       <RoutineCard
         v-for="routine in routines"
