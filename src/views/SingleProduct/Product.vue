@@ -6,10 +6,15 @@ import BaseReviews from '@/components/BaseReviews.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
 import axios from 'axios'
+import RoutineCard from '@/components/RoutineCard.vue'
+import ThePagination from '@/components/ThePagination.vue'
 
 export default defineComponent({
   name: 'product',
   components: {
+    ThePagination,
+    RoutineCard,
+    // TheFilter,
     RoutineGuide,
     AiAssistance,
     BaseReviews,
@@ -70,7 +75,153 @@ export default defineComponent({
       },
     ],
     activeSample: 'LOOKFANTASTIC',
-    beauty: false,
+    beauty: true,
+    routines: [
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: false,
+        recommended: false,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 323,
+        saves: 332,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: false,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: false,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+      {
+        promoted: true,
+        recommended: true,
+        imgUrl: require('@/assets/img/routine/routine1.png'),
+        likes: 423,
+        saves: 232,
+        sends: 14,
+        title: 'Spring Nordinc Routine',
+        authorName: 'Author',
+        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+        rate: 3.5,
+      },
+    ]
   }),
   mounted () {
     axios.get(`https://api-www.beautyid.app/goods/byid/${this.$route.params.id}`)
@@ -106,7 +257,10 @@ export default defineComponent({
       </div>
     </div>
   </main>
-  <AboutProduct v-if="Object.keys(product).length" :product="product"/>
+  <AboutProduct
+    v-if="Object.keys(product).length"
+    :beauty="beauty"
+    :product="product"/>
   <section id="prices" class="prices">
     <div class="prices-text">
       <h1 class="prices-title">prices</h1>
@@ -139,12 +293,10 @@ export default defineComponent({
       <p class="txt">These aternative products to L’Oreal Argan Pure Oil were selected based on the ingredients and
         Brand statements about concerns and benefits.</p>
     </div>
-    <div
-      class="products-item"
+    <ProductCard
       v-for="product in alternatives"
-      :key="product.id">
-      <ProductCard :product="product"/>
-    </div>
+      :key="product.id"
+      :product="product"/>
     <div class="d-center products-item">
       <router-link to="#" class="link bold">discover more <span>→</span></router-link>
     </div>
@@ -314,7 +466,24 @@ export default defineComponent({
         maximum details about products and experiences Your SkinTwins had with this product.</p>
     </div>
   </section>
-  <RoutineGuide/>
+  <section v-if="beauty" class="routines">
+    <h2 class="title">Routines with Argan oil</h2>
+    <!--    <TheFilter :products-length="routines.length"/>-->
+    <div class="routine-list">
+      <RoutineCard
+        v-for="routine in routines"
+        :routine="routine"
+        :key="routine.title"
+      />
+    </div>
+    <ThePagination
+      :page-count="25"
+      :all="822"
+      :current-page="2"
+      :take="12"
+    />
+  </section>
+  <RoutineGuide v-else/>
   <button class="scrollToTop" v-scroll-to-top>
     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="25" viewBox="0 0 17 25" fill="none">
       <path d="M0 8.48657L8.43023 0L16.8605 8.48657V11.6337L9.62452 4.34936V25H7.23595V4.27864L0 11.5629V8.48657Z"
@@ -504,6 +673,11 @@ main {
       grid-column: 1 / 3;
       gap: 20px;
     }
+    @media (max-width: 500px) {
+      border: none;
+      grid-column: 1;
+      gap: 20px;
+    }
   }
 
   &:last-child {
@@ -523,6 +697,9 @@ main {
       a {
         max-width: 90%;
       }
+    }
+    @media (max-width: 500px) {
+      grid-column: 1
     }
   }
 }
@@ -678,6 +855,14 @@ main {
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+  }
+}
+
+.routines {
+  > h2 {
+    text-align: center;
+    padding: 60px;
+    border-top: 1px solid $black;
   }
 }
 </style>

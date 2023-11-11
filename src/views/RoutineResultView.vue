@@ -157,7 +157,7 @@ export default defineComponent({
         products. Search Results for Oily skin person within 25-45 age range looking for hydration and cleansing acne
         products.</p>
     </div>
-    <div class="routineResult-inner">
+    <div class="routine-list">
       <RoutineCard
         v-for="routine in routines"
         :routine="routine"
@@ -251,11 +251,11 @@ export default defineComponent({
   }
 
   &-inner {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid $black;
-    grid-gap: 60px 20px;
-    padding: 0 60px 60px;
+    //display: grid;
+    //grid-template-columns: repeat(4, 1fr);
+    //border-top: 1px solid $black;
+    //grid-gap: 60px 20px;
+    //padding: 0 60px 60px;
 
     .routineResult-item {
       height: 480px;

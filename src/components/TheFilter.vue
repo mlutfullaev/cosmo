@@ -3,14 +3,9 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    tags: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
     productsLength: {
       type: Number,
-      required: true,
+      required: false,
     }
   },
   data: () => ({
@@ -67,7 +62,7 @@ export default defineComponent({
       </svg>
       Filters <span v-if="selected.length">({{ selected.length }})</span>
     </button>
-    <ul class="theFilter-tags d-center" v-if="tags">
+    <ul class="theFilter-tags d-center">
       <li class="txt-highlight">Popular tags:</li>
       <li
         v-for="tag in popularTags"
@@ -89,6 +84,7 @@ export default defineComponent({
         </svg>
       </li>
     </ul>
+    <p v-if="productsLength" class="txt-highlight">products ({{ productsLength }})</p>
     <div class="theFilter-inner" :class="{active: filterActive}">
       <div class="theFilter-item d-sb">
         <p class="txt-highlight theFilter-btn">

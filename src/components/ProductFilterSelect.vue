@@ -1,11 +1,11 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import axios from 'axios'
 
 interface Variant {
   text: string,
   param: string,
-  id: string,
+  id: number,
 }
 
 export default defineComponent({
@@ -15,32 +15,32 @@ export default defineComponent({
       ages: {
         title: 'Age targeted group',
         subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as PropType<Variant[]>,
-        selectedVariant: {} as PropType<Variant>,
+        variants: [] as Variant[],
+        selectedVariant: {} as Variant,
       },
       concerns: {
         title: 'Targeted Concerns',
         subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as PropType<Variant[]>,
-        selectedVariant: {} as PropType<Variant>,
+        variants: [] as Variant[],
+        selectedVariant: {} as Variant,
       },
       goodbenefits: {
         title: 'Product Claims (Vegan, Natural, etc)',
         subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as PropType<Variant[]>,
-        selectedVariant: {} as PropType<Variant>,
+        variants: [] as Variant[],
+        selectedVariant: {} as Variant,
       },
       religiondiets: {
         title: 'Religious Certified Products',
         subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as PropType<Variant[]>,
-        selectedVariant: {} as PropType<Variant>,
+        variants: [] as Variant[],
+        selectedVariant: {} as Variant,
       },
       skintypes: {
         title: 'Targeted Skin Types',
         subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as PropType<Variant[]>,
-        selectedVariant: {} as PropType<Variant>,
+        variants: [] as Variant[],
+        selectedVariant: {} as Variant,
       },
     }
   }),

@@ -64,12 +64,6 @@ export default defineComponent({
   img {
     justify-self: center;
     align-self: center;
-    height: 200px;
-    //width: 100%;
-
-    @media (max-width: 1000px) {
-      //width: 80%;
-    }
   }
 
   button {
