@@ -1,109 +1,100 @@
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
-import FilterCategoires from '@/components/FilterCategoires.vue'
+import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
 
-export default defineComponent({
-  components: {
-    FilterBrands,
-    FilterCategoires,
-    ProductFilterSelect
-  },
-  data: () => ({
-    alertActive: true,
-    activeLib: 0,
-    categorySelected: '',
-    brandSelected: '',
-    library: [
+const alertActive = ref(true)
+const activeLib = ref(0)
+const categorySelected = ref('')
+const brandSelected = ref('')
+const library = ref([
+  {
+    title: 'categories',
+    categories: [
       {
-        title: 'categories',
-        categories: [
-          {
-            title: 'cleanser',
-            imgUrl: require('@/assets/img/product/library-1.png')
-          },
-          {
-            title: 'toners',
-            imgUrl: require('@/assets/img/product/library-2.png')
-          },
-          {
-            title: 'serums',
-            imgUrl: require('@/assets/img/product/library-3.png')
-          },
-          {
-            title: 'creams',
-            imgUrl: require('@/assets/img/product/library-4.png')
-          },
-          {
-            title: 'oils',
-            imgUrl: require('@/assets/img/product/library-5.png')
-          },
-          {
-            title: 'scrubs',
-            imgUrl: require('@/assets/img/product/library-6.png')
-          },
-          {
-            title: 'masks',
-            imgUrl: require('@/assets/img/product/library-7.png')
-          },
-        ]
+        title: 'cleanser',
+        imgUrl: require('@/assets/img/product/library-1.png')
       },
       {
-        title: 'benefits',
-        categories: [
-          {
-            title: 'anti-age',
-            imgUrl: require('@/assets/img/product/library-1.png')
-          },
-          {
-            title: 'anti-wrinkle',
-            imgUrl: require('@/assets/img/product/library-2.png')
-          },
-          {
-            title: 'hydration',
-            imgUrl: require('@/assets/img/product/library-3.png')
-          },
-          {
-            title: 'brightness',
-            imgUrl: require('@/assets/img/product/library-4.png')
-          },
-          {
-            title: 'uv-protection',
-            imgUrl: require('@/assets/img/product/library-5.png')
-          },
-          {
-            title: 'cleansing',
-            imgUrl: require('@/assets/img/product/library-6.png')
-          }]
+        title: 'toners',
+        imgUrl: require('@/assets/img/product/library-2.png')
       },
       {
-        title: 'steps',
-        categories: [
-          {
-            title: 'remove makeup',
-            imgUrl: require('@/assets/img/product/library-1.png')
-          },
-          {
-            title: 'cleanse',
-            imgUrl: require('@/assets/img/product/library-2.png')
-          },
-          {
-            title: 'treat',
-            imgUrl: require('@/assets/img/product/library-3.png')
-          },
-          {
-            title: 'moisture',
-            imgUrl: require('@/assets/img/product/library-4.png')
-          },
-          {
-            title: 'protect',
-            imgUrl: require('@/assets/img/product/library-5.png')
-          }]
-      }
+        title: 'serums',
+        imgUrl: require('@/assets/img/product/library-3.png')
+      },
+      {
+        title: 'creams',
+        imgUrl: require('@/assets/img/product/library-4.png')
+      },
+      {
+        title: 'oils',
+        imgUrl: require('@/assets/img/product/library-5.png')
+      },
+      {
+        title: 'scrubs',
+        imgUrl: require('@/assets/img/product/library-6.png')
+      },
+      {
+        title: 'masks',
+        imgUrl: require('@/assets/img/product/library-7.png')
+      },
     ]
-  })
-})
+  },
+  {
+    title: 'benefits',
+    categories: [
+      {
+        title: 'anti-age',
+        imgUrl: require('@/assets/img/product/library-1.png')
+      },
+      {
+        title: 'anti-wrinkle',
+        imgUrl: require('@/assets/img/product/library-2.png')
+      },
+      {
+        title: 'hydration',
+        imgUrl: require('@/assets/img/product/library-3.png')
+      },
+      {
+        title: 'brightness',
+        imgUrl: require('@/assets/img/product/library-4.png')
+      },
+      {
+        title: 'uv-protection',
+        imgUrl: require('@/assets/img/product/library-5.png')
+      },
+      {
+        title: 'cleansing',
+        imgUrl: require('@/assets/img/product/library-6.png')
+      }]
+  },
+  {
+    title: 'steps',
+    categories: [
+      {
+        title: 'remove makeup',
+        imgUrl: require('@/assets/img/product/library-1.png')
+      },
+      {
+        title: 'cleanse',
+        imgUrl: require('@/assets/img/product/library-2.png')
+      },
+      {
+        title: 'treat',
+        imgUrl: require('@/assets/img/product/library-3.png')
+      },
+      {
+        title: 'moisture',
+        imgUrl: require('@/assets/img/product/library-4.png')
+      },
+      {
+        title: 'protect',
+        imgUrl: require('@/assets/img/product/library-5.png')
+      }]
+  }
+])
 </script>
 
 <template>
@@ -124,7 +115,7 @@ export default defineComponent({
           {{ lib.title }}
         </button>
       </div>
-      <FilterCategoires
+      <FilterCategories
         :categories="library[activeLib]"
         @category-select="(category) => categorySelected = category"
         :category-selected="categorySelected"/>
@@ -145,7 +136,7 @@ export default defineComponent({
         for age </p>
     </div>
     <ProductFilterSelect/>
-    <button @click="$router.push('product-results/Hand Cream')" class="link bold">search <span>→</span></button>
+    <button @click="$router.push('/product-results/Hand Cream')" class="link bold">search <span>→</span></button>
     <TheFooter/>
     <div class="alert" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">

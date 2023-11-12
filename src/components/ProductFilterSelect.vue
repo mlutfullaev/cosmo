@@ -1,5 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import axios from 'axios'
 
 interface Variant {
@@ -8,95 +8,93 @@ interface Variant {
   id: number,
 }
 
-export default defineComponent({
-  data: () => ({
-    activeTab: 'ages',
-    filters: {
-      ages: {
-        title: 'Age targeted group',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as Variant[],
-        selectedVariant: {} as Variant,
-      },
-      concerns: {
-        title: 'Targeted Concerns',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as Variant[],
-        selectedVariant: {} as Variant,
-      },
-      goodbenefits: {
-        title: 'Product Claims (Vegan, Natural, etc)',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as Variant[],
-        selectedVariant: {} as Variant,
-      },
-      religiondiets: {
-        title: 'Religious Certified Products',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as Variant[],
-        selectedVariant: {} as Variant,
-      },
-      skintypes: {
-        title: 'Targeted Skin Types',
-        subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-        variants: [] as Variant[],
-        selectedVariant: {} as Variant,
-      },
-    }
-  }),
-  mounted () {
-    axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
-      .then(res => {
-        res.data.data.forEach((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => {
-          this.filters.ages.variants.push({
-            text: `${item.ageMin} - ${item.ageMax}`,
-            param: item.ageName,
-            id: item.id,
-          })
-        })
-      })
-    axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
-      .then(res => {
-        res.data.data.forEach((item: { id: number, concernName: string, }) => {
-          this.filters.concerns.variants.push({
-            text: item.concernName,
-            param: item.concernName,
-            id: item.id,
-          })
-        })
-      })
-    axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
-      .then(res => {
-        res.data.data.forEach((item: { id: number, goodBenefitName: string, }) => {
-          this.filters.goodbenefits.variants.push({
-            text: item.goodBenefitName,
-            param: item.goodBenefitName,
-            id: item.id,
-          })
-        })
-      })
-    axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
-      .then(res => {
-        res.data.data.forEach((item: { id: number, religionDietName: string, }) => {
-          this.filters.religiondiets.variants.push({
-            text: item.religionDietName,
-            param: item.religionDietName,
-            id: item.id,
-          })
-        })
-      })
-    axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
-      .then(res => {
-        res.data.data.forEach((item: { id: number, skinTypeName: string, }) => {
-          this.filters.skintypes.variants.push({
-            text: item.skinTypeName,
-            param: item.skinTypeName,
-            id: item.id,
-          })
-        })
-      })
-  }
+const activeTab = ref('ages')
+const filters = ref({
+  ages: {
+    title: 'Age targeted group',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [] as Variant[],
+    selectedVariant: {} as Variant,
+  },
+  concerns: {
+    title: 'Targeted Concerns',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [] as Variant[],
+    selectedVariant: {} as Variant,
+  },
+  goodbenefits: {
+    title: 'Product Claims (Vegan, Natural, etc)',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [] as Variant[],
+    selectedVariant: {} as Variant,
+  },
+  religiondiets: {
+    title: 'Religious Certified Products',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [] as Variant[],
+    selectedVariant: {} as Variant,
+  },
+  skintypes: {
+    title: 'Targeted Skin Types',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [] as Variant[],
+    selectedVariant: {} as Variant,
+  },
 })
+
+onMounted(() => {
+  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+    .then(res => {
+      res.data.data.forEach((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => {
+        filters.value.ages.variants.push({
+          text: `${item.ageMin} - ${item.ageMax}`,
+          param: item.ageName,
+          id: item.id,
+        })
+      })
+    })
+  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+    .then(res => {
+      res.data.data.forEach((item: { id: number, concernName: string, }) => {
+        filters.value.concerns.variants.push({
+          text: item.concernName,
+          param: item.concernName,
+          id: item.id,
+        })
+      })
+    })
+  axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
+    .then(res => {
+      res.data.data.forEach((item: { id: number, goodBenefitName: string, }) => {
+        filters.value.goodbenefits.variants.push({
+          text: item.goodBenefitName,
+          param: item.goodBenefitName,
+          id: item.id,
+        })
+      })
+    })
+  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
+    .then(res => {
+      res.data.data.forEach((item: { id: number, religionDietName: string, }) => {
+        filters.value.religiondiets.variants.push({
+          text: item.religionDietName,
+          param: item.religionDietName,
+          id: item.id,
+        })
+      })
+    })
+  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+    .then(res => {
+      res.data.data.forEach((item: { id: number, skinTypeName: string, }) => {
+        filters.value.skintypes.variants.push({
+          text: item.skinTypeName,
+          param: item.skinTypeName,
+          id: item.id,
+        })
+      })
+    })
+})
+
 </script>
 
 <template>

@@ -1,21 +1,11 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import HeaderSearch from '@/components/HeaderSearch.vue'
-import TheMenu from '@/components/TheMenu.vue'
+import TheMenu from '@/layouts/TheMenu.vue'
 import CountryAlert from '@/components/CountryAlert.vue'
 
-export default defineComponent({
-  name: 'TheHeader',
-  components: {
-    CountryAlert,
-    TheMenu,
-    HeaderSearch
-  },
-  data: () => ({
-    alertActive: false,
-    city: 'city'
-  }),
-})
+const alertActive = ref(false)
+const city = ref('city')
 </script>
 
 <template>

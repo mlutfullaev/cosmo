@@ -1,11 +1,7 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-export default defineComponent({
-  data: () => ({
-    position: 50
-  }),
-})
+const position = ref(50)
 </script>
 
 <template>
@@ -109,6 +105,7 @@ export default defineComponent({
       pointer-events: none;
     }
   }
+
   img {
     display: block;
     max-width: 100%;

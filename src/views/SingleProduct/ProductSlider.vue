@@ -1,33 +1,20 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineProps, ref } from 'vue'
 
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
-export default defineComponent({
-  props: {
-    sliders: {
-      type: Array,
-      required: true
-    }
-  },
-  name: 'TheSlider',
-  components: {
-    Carousel,
-    Slide,
-  },
-  data: () => ({
-    currentSlide: 0,
-  }),
-  methods: {
-    prev () {
-      this.currentSlide = this.currentSlide ? this.currentSlide - 1 : this.sliders.length - 1
-    },
-    next () {
-      this.currentSlide = this.currentSlide === this.sliders.length - 1 ? 0 : this.currentSlide + 1
-    },
-  }
-})
+const props = defineProps<{ sliders: { picture: string }[] }>()
+
+const currentSlide = ref(0)
+
+function prev () {
+  currentSlide.value = currentSlide.value ? currentSlide.value - 1 : props.sliders.length - 1
+}
+
+function next () {
+  currentSlide.value = currentSlide.value === props.sliders.length - 1 ? 0 : currentSlide.value + 1
+}
 </script>
 
 <template>

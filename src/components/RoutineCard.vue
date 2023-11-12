@@ -1,5 +1,5 @@
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+import { defineProps } from 'vue'
 import BaseRate from '@/components/BaseRate.vue'
 
 interface Routine {
@@ -15,15 +15,8 @@ interface Routine {
   rate: number,
 }
 
-export default defineComponent({
-  components: { BaseRate },
-  props: {
-    routine: {
-      required: true,
-      type: Object as PropType<Routine>,
-    }
-  }
-})
+defineProps<{routine: Routine}>()
+
 </script>
 
 <template>

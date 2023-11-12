@@ -1,27 +1,26 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-export default defineComponent({
-  name: 'HeaderSearch',
-  data: () => ({
-    searchActive: false,
-    searchModel: '',
-  }),
-  methods: {
-    onSearch () {
-      if (!this.searchActive) {
-        this.searchActive = true
-        return null
-      } else {
-        if (!this.searchModel) {
-          (this.$refs.searchRef as HTMLInputElement).focus()
-        } else {
-          this.$router.push(`/product-results/${this.searchModel}`)
-        }
+const router = useRouter()
+
+const searchActive = ref(false)
+const searchModel = ref('')
+const searchRef = ref(null)
+function onSearch () {
+  if (!searchActive.value) {
+    searchActive.value = true
+    return null
+  } else {
+    if (!searchModel.value) {
+      if (searchRef.value) {
+        (searchRef.value as HTMLInputElement).focus()
       }
+    } else {
+      router.push(`/product-results/${searchModel.value}`)
     }
   }
-})
+}
 </script>
 
 <template>

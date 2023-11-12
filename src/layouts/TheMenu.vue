@@ -1,24 +1,16 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-export default defineComponent({
-  name: 'TheMenu',
-  data: () => ({
-    menuActive: false,
-  }),
-  methods: {
-    burgerSubmit () {
-      this.menuActive = !this.menuActive
-    }
-  },
-  watch: {
-    menuActive (newMenuActive) {
-      if (newMenuActive) {
-        document.body.classList.add('menu-active')
-      } else {
-        document.body.classList.remove('menu-active')
-      }
-    }
+const menuActive = ref(false)
+
+function burgerSubmit () {
+  menuActive.value = !menuActive.value
+}
+watch(menuActive, (newMenuActive) => {
+  if (newMenuActive) {
+    document.body.classList.add('menu-active')
+  } else {
+    document.body.classList.remove('menu-active')
   }
 })
 </script>

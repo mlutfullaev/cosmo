@@ -1,246 +1,237 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import axios from 'axios'
 import AboutProduct from '@/views/SingleProduct/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
-import axios from 'axios'
 import RoutineCard from '@/components/RoutineCard.vue'
-import ThePagination from '@/components/ThePagination.vue'
-import TheFilter from '@/components/TheFilter.vue'
+import ThePagination from '@/layouts/ThePagination.vue'
+import TheFilter from '@/layouts/TheFilter.vue'
+import { Product } from '@/interfaces'
 
-export default defineComponent({
-  name: 'product',
-  components: {
-    ThePagination,
-    RoutineCard,
-    TheFilter,
-    RoutineGuide,
-    AiAssistance,
-    BaseReviews,
-    ProductCard,
-    AboutProduct
+const route = useRoute()
+
+const links = ref([
+  {
+    link: 'full-details',
+    description: 'Details this product in table and full details from brand.',
+    title: 'FULL DETAILS'
   },
-  data: () => ({
-    links: [
-      {
-        link: 'full-details',
-        description: 'Details this product in table and full details from brand.',
-        title: 'FULL DETAILS'
-      },
-      {
-        link: 'prices',
-        description: 'Details this product in table and full details from brand.',
-        title: 'prices NEAR YOU'
-      },
-      {
-        link: 'reviews',
-        description: 'Details this product in table and full details from brand.',
-        title: 'REVIEWS AND Experiences'
-      },
-      {
-        link: 'ai-assistance',
-        description: 'Details this product in table and full details from brand.',
-        title: 'AI assistance'
-      },
-      {
-        link: 'free-samples',
-        description: 'Details this product in table and full details from brand.',
-        title: 'PROMO Samples AVAILABLE'
-      },
-      {
-        link: 'routine',
-        description: 'Details this product in table and full details from brand.',
-        title: 'beauty routines'
-      },
-    ],
-    product: {},
-    alternatives: [],
-    samples: [
-      {
-        title: 'SEPHORA',
-        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
-      },
-      {
-        title: 'DOUGLAS',
-        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
-      },
-      {
-        title: 'BRUNI',
-        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
-      },
-      {
-        title: 'LOOKFANTASTIC',
-        text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
-      },
-    ],
-    activeSample: 'LOOKFANTASTIC',
-    beauty: true,
-    routines: [
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: false,
-        recommended: false,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 323,
-        saves: 332,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: false,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: false,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-      {
-        promoted: true,
-        recommended: true,
-        imgUrl: require('@/assets/img/routine/routine1.png'),
-        likes: 423,
-        saves: 232,
-        sends: 14,
-        title: 'Spring Nordinc Routine',
-        authorName: 'Author',
-        authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-        rate: 3.5,
-      },
-    ]
-  }),
-  mounted () {
-    axios.get(`https://api-www.beautyid.app/goods/byid/${this.$route.params.id}`)
-      .then(res => {
-        console.log(res.data[0])
-        this.product = res.data[0]
-      })
-    axios.get('https://api-www.beautyid.app/goods/alternative/32573?order=ASC&page=1&take=10')
-      .then(res => {
-        this.alternatives = res.data.data
-      })
-  }
+  {
+    link: 'prices',
+    description: 'Details this product in table and full details from brand.',
+    title: 'prices NEAR YOU'
+  },
+  {
+    link: 'reviews',
+    description: 'Details this product in table and full details from brand.',
+    title: 'REVIEWS AND Experiences'
+  },
+  {
+    link: 'ai-assistance',
+    description: 'Details this product in table and full details from brand.',
+    title: 'AI assistance'
+  },
+  {
+    link: 'free-samples',
+    description: 'Details this product in table and full details from brand.',
+    title: 'PROMO Samples AVAILABLE'
+  },
+  {
+    link: 'routine',
+    description: 'Details this product in table and full details from brand.',
+    title: 'beauty routines'
+  },
+])
+const samples = ref([
+  {
+    title: 'SEPHORA',
+    text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+  },
+  {
+    title: 'DOUGLAS',
+    text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+  },
+  {
+    title: 'BRUNI',
+    text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+  },
+  {
+    title: 'LOOKFANTASTIC',
+    text: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now. In the Store or at home. Anything You wanted to know about this product now.',
+  },
+])
+const activeSample = ref('LOOKFANTASTIC')
+const beauty = ref(true)
+const routines = ref([
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: false,
+    recommended: false,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 323,
+    saves: 332,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: false,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: false,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+  {
+    promoted: true,
+    recommended: true,
+    imgUrl: require('@/assets/img/routine/routine1.png'),
+    likes: 423,
+    saves: 232,
+    sends: 14,
+    title: 'Spring Nordinc Routine',
+    authorName: 'Author',
+    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
+    rate: 3.5,
+  },
+])
+
+const product = ref<null | Product>(null)
+const alternatives = ref([])
+onMounted(() => {
+  axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
+    .then(res => {
+      console.log(res.data[0])
+      product.value = res.data[0]
+
+      axios.get(`https://api-www.beautyid.app/goods/alternative/${product.value?.id}?order=ASC&page=1&take=10`)
+        .then(res => {
+          alternatives.value = res.data.data
+        })
+    })
 })
 </script>
 
 <template>
   <TheHeader/>
-  <main>
+  <main v-if="product">
     <div class="main-inner d-center">
       <div>
         <p>{{ product.brand }}</p>
@@ -259,7 +250,7 @@ export default defineComponent({
     </div>
   </main>
   <AboutProduct
-    v-if="Object.keys(product).length"
+    v-if="product && Object.keys(product).length"
     :beauty="beauty"
     :product="product"/>
   <section id="prices" class="prices">

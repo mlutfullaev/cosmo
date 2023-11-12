@@ -1,217 +1,205 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import { Carousel, Slide } from 'vue3-carousel'
 import BeforeAfter from '@/components/BeforeAfter.vue'
 
-export default defineComponent({
-  components: {
-    BeforeAfter,
-    Carousel,
-    Slide,
-    BaseReviews,
-    // ProductCard,
-    BaseRate,
-    AiAssistance
+const beauty = ref(true)
+const steps = ref([
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
   },
-  data: () => ({
-    beauty: true,
-    steps: [
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-      {
-        title: 'Cleansing',
-        text: 'Gently massage the cleanser onto '
-      },
-    ],
-    currentStep: 2,
-    routineItems: [
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: false,
-        rate: 4.5,
-        id: 1,
-      },
-      {
-        title: 'GlowBotanica Beauty Serum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: false,
-        recommended: true,
-        rate: 3.5,
-        id: 2,
-      },
-      {
-        title: 'LunaDew Moisturizing Night Cream',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 3,
-        id: 3,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 2.5,
-        id: 4,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: false,
-        recommended: true,
-        rate: 2,
-        id: 5,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 4,
-        id: 6,
-      },
-      {
-        title: 'GlowBotanica Beauty Serum',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 3.5,
-        id: 7,
-      },
-      {
-        title: 'LunaDew Moisturizing Night Cream',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 3,
-        id: 8,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 2.5,
-        id: 9,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 5,
-        id: 10,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 2.5,
-        id: 11,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'product/product.png',
-        promoted: true,
-        recommended: true,
-        rate: 5,
-        id: 12,
-      },
-    ],
-    activeRoutineItem: 0,
-    alternativeItems: [
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'routine/alternative-1.png',
-        promoted: true,
-        recommended: false,
-        rate: 4.5,
-        id: 1,
-      },
-      {
-        title: 'GlowBotanica Beauty Serum',
-        price: 'from $ 180',
-        imgUrl: 'routine/alternative-2.png',
-        promoted: false,
-        recommended: true,
-        rate: 3.5,
-        id: 2,
-      },
-      {
-        title: 'LunaDew Moisturizing Night Cream',
-        price: 'from $ 180',
-        imgUrl: 'routine/alternative-3.png',
-        promoted: true,
-        recommended: true,
-        rate: 3,
-        id: 3,
-      },
-      {
-        title: 'PureRadiance Cleansing Oil',
-        price: 'from $ 180',
-        imgUrl: 'routine/alternative-4.png',
-        promoted: true,
-        recommended: true,
-        rate: 2.5,
-        id: 4,
-      },
-    ]
-  }),
-  methods: {
-    prev () {
-      this.currentStep = this.currentStep < 3 ? this.steps.length - 1 : this.currentStep - 1
-    },
-    next () {
-      this.currentStep = this.currentStep < this.steps.length - 3 ? this.currentStep + 1 : 0
-    },
-  }
-})
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+  {
+    title: 'Cleansing',
+    text: 'Gently massage the cleanser onto '
+  },
+])
+const routineItems = ref([
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: false,
+    rate: 4.5,
+    id: 1,
+  },
+  {
+    title: 'GlowBotanica Beauty Serum',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: false,
+    recommended: true,
+    rate: 3.5,
+    id: 2,
+  },
+  {
+    title: 'LunaDew Moisturizing Night Cream',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 3,
+    id: 3,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 2.5,
+    id: 4,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: false,
+    recommended: true,
+    rate: 2,
+    id: 5,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 4,
+    id: 6,
+  },
+  {
+    title: 'GlowBotanica Beauty Serum',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 3.5,
+    id: 7,
+  },
+  {
+    title: 'LunaDew Moisturizing Night Cream',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 3,
+    id: 8,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 2.5,
+    id: 9,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 5,
+    id: 10,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 2.5,
+    id: 11,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'product/product.png',
+    promoted: true,
+    recommended: true,
+    rate: 5,
+    id: 12,
+  },
+])
+const activeRoutineItem = ref(0)
+const alternativeItems = ref([
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'routine/alternative-1.png',
+    promoted: true,
+    recommended: false,
+    rate: 4.5,
+    id: 1,
+  },
+  {
+    title: 'GlowBotanica Beauty Serum',
+    price: 'from $ 180',
+    imgUrl: 'routine/alternative-2.png',
+    promoted: false,
+    recommended: true,
+    rate: 3.5,
+    id: 2,
+  },
+  {
+    title: 'LunaDew Moisturizing Night Cream',
+    price: 'from $ 180',
+    imgUrl: 'routine/alternative-3.png',
+    promoted: true,
+    recommended: true,
+    rate: 3,
+    id: 3,
+  },
+  {
+    title: 'PureRadiance Cleansing Oil',
+    price: 'from $ 180',
+    imgUrl: 'routine/alternative-4.png',
+    promoted: true,
+    recommended: true,
+    rate: 2.5,
+    id: 4,
+  },
+])
+
+const currentStep = ref(2)
+
+function prev () {
+  currentStep.value = currentStep.value < 3 ? steps.value.length - 1 : currentStep.value - 1
+}
+
+function next () {
+  currentStep.value = currentStep.value < steps.value.length - 3 ? currentStep.value + 1 : 0
+}
 </script>
 
 <template>

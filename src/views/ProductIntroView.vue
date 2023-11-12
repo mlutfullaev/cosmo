@@ -1,30 +1,22 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import LuxAi from '@/components/LuxAi.vue'
 
-export default defineComponent({
-  components: {
-    LuxAi,
-    AiAssistance
-  },
-  data: () => ({
-    productPages: [
-      'Full Details assistant',
-      'Reviews and experiences',
-      'Ai assistance',
-      'Beauty routines',
-      'Pricing near You',
-      'Promo samples available'
-    ],
-    skinTwins: [
-      'CHECK REVIEWS BEFORE YOU BUY',
-      'SKINTWINS EXPERIENCES',
-      'RECEIVE BEAUTY DISCOVERIES',
-      'REMINDERS BASED ON EXPERIENCES'
-    ]
-  })
-})
+const productPages = ref([
+  'Full Details assistant',
+  'Reviews and experiences',
+  'Ai assistance',
+  'Beauty routines',
+  'Pricing near You',
+  'Promo samples available'
+])
+const skinTwins = ref([
+  'CHECK REVIEWS BEFORE YOU BUY',
+  'SKINTWINS EXPERIENCES',
+  'RECEIVE BEAUTY DISCOVERIES',
+  'REMINDERS BASED ON EXPERIENCES'
+])
 </script>
 
 <template>

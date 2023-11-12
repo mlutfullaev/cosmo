@@ -1,21 +1,19 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineProps, PropType } from 'vue'
 
-export default defineComponent({
-  props: {
-    routerLink: {
-      type: Object,
-      required: false,
-      default: () => ({
-        value: 'Discover more',
-        link: '/routine-intro'
-      })
-    },
-    intro: {
-      type: Boolean,
-      required: false,
-      default: false,
-    }
+defineProps({
+  routerLink: {
+    type: Object as PropType<{value: string, link: string}>,
+    default: () => ({
+      value: 'Discover more',
+      link: '/routine-intro'
+    }),
+    required: false
+  },
+  intro: {
+    type: Boolean,
+    required: false,
+    default: false,
   }
 })
 </script>

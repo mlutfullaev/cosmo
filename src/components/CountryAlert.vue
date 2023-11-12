@@ -1,67 +1,54 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 
-export default defineComponent({
-  props: {
-    alertActive: {
-      required: true,
-      type: Boolean,
-    },
-    city: {
-      required: true,
-      type: String,
-    },
-  },
-  emits: ['alert', 'city'],
-  data: () => ({
-    another: false,
-    cities: [] as string[],
-    allCities: [] as string[],
-    searchModel: '',
-  }),
-  methods: {
-    onSearch () {
-      if (this.searchModel.length) {
-        this.cities = this.allCities.filter(city => city.includes(this.searchModel))
-      } else {
-        this.cities = []
-      }
-    },
-    changeCity (city: string) {
-      this.$emit('city', city)
-      localStorage.setItem('location', city)
-      this.$emit('alert', false)
-    }
-  },
-  mounted () {
-    if (!localStorage.getItem('location')) {
-      axios.get(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.VUE_APP_GEOAPIFEY_API}`)
-        .then(res => {
-          localStorage.setItem('location', res.data.city.name)
-          this.$emit('city', res.data.city.name)
-        })
-    } else {
-      this.$emit('city', localStorage.getItem('location'))
-    }
-    axios.get('https://countriesnow.space/api/v0.1/countries')
-      .then((res) => {
-        res.data.data.forEach((data: { cities: string[] }) => {
-          data.cities.forEach((city: string) => {
-            this.allCities.push(city)
-          })
+const emit = defineEmits<{(event: 'alert', alert: boolean): void, (event: 'city', city: string): void }>()
+const props = defineProps<{ alertActive: boolean, city: string }>()
+
+const another = ref(false)
+watch(() => props.alertActive, () => {
+  if (!props.alertActive) {
+    another.value = false
+    searchModel.value = ''
+    cities.value = []
+  }
+})
+
+const cities = ref([] as string[])
+const allCities = ref([] as string[])
+const searchModel = ref('')
+function onSearch () {
+  if (searchModel.value.length) {
+    cities.value = allCities.value.filter(city => city.includes(searchModel.value))
+  } else {
+    cities.value = []
+  }
+}
+
+function changeCity (city: string) {
+  emit('city', city)
+  localStorage.setItem('location', city)
+  emit('alert', false)
+}
+
+onMounted(() => {
+  if (!localStorage.getItem('location')) {
+    axios.get(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.VUE_APP_GEOAPIFEY_API}`)
+      .then(res => {
+        localStorage.setItem('location', res.data.city.name)
+        emit('city', res.data.city.name)
+      })
+  } else {
+    emit('city', localStorage.getItem('location') || 'city')
+  }
+  axios.get('https://countriesnow.space/api/v0.1/countries')
+    .then((res) => {
+      res.data.data.forEach((data: { cities: string[] }) => {
+        data.cities.forEach((city: string) => {
+          allCities.value.push(city)
         })
       })
-  },
-  watch: {
-    alertActive () {
-      if (!this.alertActive) {
-        this.another = false
-        this.searchModel = ''
-        this.cities = []
-      }
-    }
-  }
+    })
 })
 </script>
 

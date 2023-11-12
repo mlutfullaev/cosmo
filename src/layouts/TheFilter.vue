@@ -1,70 +1,63 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-import FilterBrands from '@/components/FilterBrands.vue'
+<script setup lang="ts">
+import { computed, defineProps, PropType, ref } from 'vue'
 
-export default defineComponent({
-  components: { FilterBrands },
-  props: {
-    productsLength: {
-      type: Number,
-      required: false,
-    }
-  },
-  data: () => ({
-    popularTags: ['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'],
-    popularTagsSelected: 'anti-age',
-    filters: {
-      productCategory: {
-        title: 'product category',
-        items: ['Cleanser', 'Toners', 'Serums', 'Creams', 'Oils', 'Scrubs', 'Masks', 'Body Care'],
-        selected: '',
-      },
-      steps: {
-        title: 'steps',
-        items: ['Remove makeup', 'Cleansing', 'Treat', 'Moisture', 'Protect'],
-        selected: ''
-      },
-      occasion: {
-        title: 'OCCASION OF USE',
-        items: ['Morning (AM)', 'Evening ( PM)', 'Special'],
-        selected: '',
-      },
-      season: {
-        title: 'SEASON OF USE',
-        items: ['Summer', 'Winter', 'Spring - Summer', 'Aughtom - Winter', 'All Year Around'],
-        selected: '',
-      },
-      benefits: {
-        title: 'benefits',
-        items: ['Anti-age', 'Anti-wrinkle', 'Hydration', 'brightness', 'UV-protection', 'Cleansing'],
-        selected: '',
-      },
-      ingredients: {
-        title: 'Ingredients',
-        items: ['AHA-acid', 'BHA-acid', 'PHA-acid', 'Ceramides', 'Hyaluronic Acid', 'Retinol', 'Vitamin C', 'Peptides', 'Niacinamide'],
-        selected: '',
-      },
-    } as { [key: string]: { title: string, items: string[], selected: string } },
-    filterActive: false,
-  }),
-  methods: {
-    clearAll () {
-      Object.keys(this.filters).forEach((key) => {
-        this.filters[key].selected = ''
-      })
-    }
-  },
-  computed: {
-    selected () {
-      const selected: { [key: string]: string } = {}
-      Object.keys(this.filters).forEach((key: string) => {
-        if (this.filters[key as keyof object].selected) {
-          selected[key] = this.filters[key as keyof object].selected
-        }
-      })
-      return selected
-    }
+defineProps({
+  productsLength: {
+    type: Number as PropType<number>,
+    required: false,
   }
+})
+
+const popularTags = ref(['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'])
+const popularTagsSelected = ref('anti-age')
+const filters = ref<{[key: string]: {title: string, items: string[], selected: string}}>({
+  productCategory: {
+    title: 'product category',
+    items: ['Cleanser', 'Toners', 'Serums', 'Creams', 'Oils', 'Scrubs', 'Masks', 'Body Care'],
+    selected: '',
+  },
+  steps: {
+    title: 'steps',
+    items: ['Remove makeup', 'Cleansing', 'Treat', 'Moisture', 'Protect'],
+    selected: ''
+  },
+  occasion: {
+    title: 'OCCASION OF USE',
+    items: ['Morning (AM)', 'Evening ( PM)', 'Special'],
+    selected: '',
+  },
+  season: {
+    title: 'SEASON OF USE',
+    items: ['Summer', 'Winter', 'Spring - Summer', 'Aughtom - Winter', 'All Year Around'],
+    selected: '',
+  },
+  benefits: {
+    title: 'benefits',
+    items: ['Anti-age', 'Anti-wrinkle', 'Hydration', 'brightness', 'UV-protection', 'Cleansing'],
+    selected: '',
+  },
+  ingredients: {
+    title: 'Ingredients',
+    items: ['AHA-acid', 'BHA-acid', 'PHA-acid', 'Ceramides', 'Hyaluronic Acid', 'Retinol', 'Vitamin C', 'Peptides', 'Niacinamide'],
+    selected: '',
+  },
+})
+const filterActive = ref(false)
+
+function clearAll () {
+  Object.keys(filters.value).forEach((key) => {
+    filters.value[key].selected = ''
+  })
+}
+
+const selected = computed(() => {
+  const selected: { [key: string]: string } = {}
+  Object.keys(filters.value).forEach((key: string) => {
+    if (filters.value[key as keyof object].selected) {
+      selected[key] = filters.value[key as keyof object].selected
+    }
+  })
+  return selected
 })
 </script>
 

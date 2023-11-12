@@ -1,22 +1,19 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineProps, onMounted, ref } from 'vue'
 
-export default defineComponent({
-  props: {
-    currentPage: Number,
-    pageCount: Number,
-    take: Number,
-    all: Number
-  },
-  data: () => ({
-    pages: [] as number[],
-  }),
-  mounted () {
-    // if (this.currentPage === 1) {
-    //   this.pages = [1, 2, 3]
-    // } else if (this.currentPage === this.pageCount) {
-    // }
-  }
+defineProps<{
+  currentPage: number,
+  pageCount: number,
+  take: number,
+  all: number
+}>()
+
+const pages = ref<number[]>([])
+onMounted(() => {
+  // if (this.currentPage === 1) {
+  //   this.pages = [1, 2, 3]
+  // } else if (this.currentPage === this.pageCount) {
+  // }
 })
 </script>
 

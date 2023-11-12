@@ -1,10 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import BaseRate from '@/components/BaseRate.vue'
-
-export default defineComponent({
-  components: { BaseRate }
-})
 </script>
 
 <template>
@@ -19,12 +14,12 @@ export default defineComponent({
     <div class="review-bottom">
       <div class="review">
         <p class="txt bold t-up">Name</p>
-        <BaseRate :rates="3.5" />
+        <BaseRate :rates="3.5"/>
         <p class="txt">Lorem ipsum dolor sit amet consectetur. Neque magna pharetra consectetur non molestie. </p>
       </div>
       <div class="review">
         <p class="txt bold t-up">Name</p>
-        <BaseRate :rates="3.5" />
+        <BaseRate :rates="3.5"/>
         <p class="txt">Lorem ipsum dolor sit amet consectetur. Neque magna pharetra consectetur non molestie. </p>
       </div>
     </div>
@@ -47,6 +42,7 @@ export default defineComponent({
       grid-column: 1 / 3;
     }
   }
+
   .review-top {
     @include pad();
 
@@ -59,6 +55,7 @@ export default defineComponent({
       h5 {
         font-weight: 700;
       }
+
       .rates {
         grid-template-columns: auto auto;
       }

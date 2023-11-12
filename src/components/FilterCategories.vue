@@ -1,5 +1,5 @@
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+import { defineEmits, defineProps } from 'vue'
 
 interface Category {
   title: string,
@@ -8,20 +8,8 @@ interface Category {
     title: string
   }[]
 }
-
-export default defineComponent({
-  props: {
-    categories: {
-      type: [] as PropType<Category[]>,
-      required: true,
-    },
-    categorySelected: {
-      type: String,
-      required: true,
-    }
-  },
-  emits: ['categorySelect']
-})
+defineProps<{categories: Category, categorySelected: string}>()
+defineEmits<{(event: 'categorySelect', title: string): void}>()
 </script>
 
 <template>

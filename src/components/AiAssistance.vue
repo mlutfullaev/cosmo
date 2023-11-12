@@ -1,29 +1,25 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-export default defineComponent({
-  data: () => ({
-    descriptions: [
-      {
-        title: 'PRODUCT DETAILS',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-      {
-        title: 'AI ASSISTANCE IN YOUR SMARTPHONE',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-      {
-        title: 'SKINTWIN RELEVANT ARTICLES',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-      {
-        title: 'REMINDERS, NOTIFICATIONS and more',
-        description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
-      },
-    ],
-    activeDesc: 'AI ASSISTANCE IN YOUR SMARTPHONE',
-  })
-})
+const descriptions = ref([
+  {
+    title: 'PRODUCT DETAILS',
+    description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
+  },
+  {
+    title: 'AI ASSISTANCE IN YOUR SMARTPHONE',
+    description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
+  },
+  {
+    title: 'SKINTWIN RELEVANT ARTICLES',
+    description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
+  },
+  {
+    title: 'REMINDERS, NOTIFICATIONS and more',
+    description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
+  },
+])
+const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
 </script>
 
 <template>
@@ -96,6 +92,7 @@ export default defineComponent({
       grid-gap: 20px;
     }
   }
+
   &-switcher {
     display: flex;
     flex-direction: column;
@@ -112,6 +109,7 @@ export default defineComponent({
       }
     }
   }
+
   &-item {
     display: flex;
     align-items: center;
@@ -130,6 +128,7 @@ export default defineComponent({
         padding: 20px 0;
       }
     }
+
     .ai-assistance-number {
       font-size: 250px;
       color: $orange;
@@ -142,6 +141,7 @@ export default defineComponent({
         font-size: 96px;
       }
     }
+
     p {
       padding-bottom: 20px;
       max-width: 800px;
@@ -152,6 +152,7 @@ export default defineComponent({
       }
     }
   }
+
   .scan {
     grid-column: 2;
     max-width: 900px;

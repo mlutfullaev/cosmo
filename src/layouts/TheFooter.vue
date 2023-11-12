@@ -1,7 +1,4 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({})
+<script setup lang="ts">
 </script>
 
 <template>

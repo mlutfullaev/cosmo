@@ -1,10 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import LuxAi from '@/components/LuxAi.vue'
-
-export default defineComponent({
-  components: { LuxAi }
-})
 </script>
 
 <template>

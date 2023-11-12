@@ -1,37 +1,30 @@
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 
+defineProps<{ brandSelected: string }>()
+defineEmits<{(event: 'brand-select', brandName: string): void }>()
 type Brand = {
   id: number,
   brandName: string,
   brandDescription: string,
 }
 
-export default defineComponent({
-  props: {
-    brandSelected: String,
-  },
-  emits: ['brand-select'],
-  data: () => ({
-    activeAlpha: 'A',
-    filterResults: [] as PropType<Brand[]>,
-    alphabet: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  }),
-  mounted () {
-    axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${this.activeAlpha}?order=ASC&take=42`)
-      .then((res) => {
-        this.filterResults = res.data.data
-      })
-  },
-  watch: {
-    activeAlpha () {
-      axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${this.activeAlpha}?order=ASC&take=42`)
-        .then((res) => {
-          this.filterResults = res.data.data
-        })
-    }
-  }
+const activeAlpha = ref('A')
+const filterResults = ref([] as Brand[])
+const alphabet = ref(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
+watch(activeAlpha, () => {
+  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=42`)
+    .then((res) => {
+      filterResults.value = res.data.data
+    })
+})
+onMounted(() => {
+  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=42`)
+    .then((res) => {
+      filterResults.value = res.data.data
+    })
 })
 </script>
 

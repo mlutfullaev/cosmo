@@ -1,26 +1,20 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-import ProductCard from '@/components/ProductCard.vue'
-import TheFilter from '@/components/TheFilter.vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
+import ProductCard from '@/components/ProductCard.vue'
+import TheFilter from '@/layouts/TheFilter.vue'
 
-export default defineComponent({
-  components: {
-    TheFilter,
-    ProductCard
-  },
-  data: () => ({
-    products: [],
-    allItems: 0,
-  }),
-  mounted () {
-    axios.get(`https://api-www.beautyid.app/goods/byname/${this.$route.params.search}?order=ASC&page=1&take=11`)
-      .then(res => {
-        console.log(res.data)
-        this.products = res.data.data
-        this.allItems = res.data.meta.itemCount
-      })
-  }
+const route = useRoute()
+
+const products = ref([])
+const allItems = ref(0)
+onMounted(() => {
+  axios.get(`https://api-www.beautyid.app/goods/byname/${route.params.search}?order=ASC&page=1&take=11`)
+    .then(res => {
+      products.value = res.data.data
+      allItems.value = res.data.meta.itemCount
+    })
 })
 </script>
 

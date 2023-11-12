@@ -1,32 +1,17 @@
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script setup lang="ts">
+import { defineProps } from 'vue'
 import BaseRate from '@/components/BaseRate.vue'
+import { Product } from '@/interfaces'
 
-interface Card {
-  title: string,
-  price: string,
-  imgUrl: string,
-  rate: number,
-  promoted: boolean,
-  recommended: boolean,
-  id: number
-}
-
-export default defineComponent({
-  name: 'productCard',
-  components: { BaseRate },
-  props: {
-    product: {
-      required: true,
-      type: Object as PropType<Card>
-    },
-    bgImg: {
-      required: false,
-      type: Boolean,
-      default: false,
-    }
+defineProps<{
+  product: Product,
+  bgImg: {
+    required: false,
+    type: boolean,
+    default: false,
   }
-})
+}>()
+
 </script>
 
 <template>
