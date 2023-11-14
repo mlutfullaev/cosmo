@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
+import axios from 'axios'
+import store from '@/store'
 
 const alertActive = ref(true)
 const activeLib = ref(0)
@@ -40,7 +42,8 @@ const library = ref([
         title: 'masks',
         imgUrl: require('@/assets/img/product/library-7.png')
       },
-    ]
+    ],
+    selected: '',
   },
   {
     title: 'benefits',
@@ -68,7 +71,8 @@ const library = ref([
       {
         title: 'cleansing',
         imgUrl: require('@/assets/img/product/library-6.png')
-      }]
+      }],
+    selected: '',
   },
   {
     title: 'steps',
@@ -92,9 +96,29 @@ const library = ref([
       {
         title: 'protect',
         imgUrl: require('@/assets/img/product/library-5.png')
-      }]
+      }],
+    selected: '',
   }
 ])
+const filterSelect = ref({})
+
+const filterQuery = computed(() => {
+  const query: {[key: string]: string} = { ...filterSelect.value }
+  query.brand = brandSelected.value
+  library.value.forEach(lib => {
+    if (lib.selected) {
+      query[lib.title] = lib.selected
+    }
+  })
+  return query
+})
+
+onMounted(() => {
+  axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=10')
+    .then(res => {
+      console.log(res)
+    })
+})
 </script>
 
 <template>
@@ -117,8 +141,8 @@ const library = ref([
       </div>
       <FilterCategories
         :categories="library[activeLib]"
-        @category-select="(category) => categorySelected = category"
-        :category-selected="categorySelected"/>
+        @category-select="(category) => library[activeLib].selected = category"
+        :category-selected="library[activeLib].selected"/>
     </div>
     <FilterBrands
       :brand-selected="brandSelected"
@@ -135,10 +159,14 @@ const library = ref([
       <p class="txt">Please select the targeted age group. If the product does not have age specification or warnings
         for age </p>
     </div>
-    <ProductFilterSelect/>
-    <button @click="$router.push('/product-results/Hand Cream')" class="link bold">search <span>→</span></button>
+    <ProductFilterSelect @updateFilterSelect="(newFilter) => filterSelect = newFilter"/>
+    <router-link :to="{path: `product-results/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
+    <div class="scan tablet bg-orange">
+      <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
+      <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
+    </div>
     <TheFooter/>
-    <div class="alert" :class="{hidden: !alertActive}">
+    <div class="alert min-tablet" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"
@@ -208,7 +236,8 @@ const library = ref([
       @media (max-width: 1200px) {
         max-width: 80%;
       }
-      @media (max-width: 768px) {
+      @media (max-width: 1000px) {
+        margin: 20px;
         max-width: 100%;
       }
       @media (max-width: 480px) {
@@ -276,6 +305,9 @@ const library = ref([
 
     img {
       width: 20%;
+    }
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 }

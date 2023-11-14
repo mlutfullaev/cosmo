@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import store from '@/store'
 
 const router = useRouter()
 
@@ -17,6 +18,7 @@ function onSearch () {
         (searchRef.value as HTMLInputElement).focus()
       }
     } else {
+      store.commit('updatingProductSearch', searchModel.value)
       router.push(`/product-results/${searchModel.value}`)
     }
   }

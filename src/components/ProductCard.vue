@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, PropType } from 'vue'
 import BaseRate from '@/components/BaseRate.vue'
 import { Product } from '@/interfaces'
 
-defineProps<{
-  product: Product,
+defineProps({
+  product: Object as PropType<Product>,
   bgImg: {
     required: false,
-    type: boolean,
+    type: Boolean,
     default: false,
   }
-}>()
+})
 
 </script>
 

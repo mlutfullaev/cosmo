@@ -15,13 +15,13 @@ const filterResults = ref([] as Brand[])
 const alphabet = ref(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 
 watch(activeAlpha, () => {
-  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=42`)
+  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
     .then((res) => {
       filterResults.value = res.data.data
     })
 })
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=42`)
+  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
     .then((res) => {
       filterResults.value = res.data.data
     })
@@ -55,6 +55,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 .filterBrands {
   padding: 20px;
+  border-top: 1px solid $black;
+  border-bottom: 1px solid $black;
 
   p {
     text-align: center;
@@ -63,29 +65,34 @@ onMounted(() => {
   &-alphabet {
     display: grid;
     grid-template-columns: repeat(36, 1fr);
-    min-height: 50px;
     align-items: start;
-    gap: 20px;
     overflow-x: auto;
     width: 100%;
-    margin: 20px 0;
+    margin: 30px 0;
 
     button {
-      font-size: 14px;
+      padding: 0 3px;
+      font-size: 36px;
+      font-weight: 700;
       transition: .2s;
 
       &.active {
         color: $orange;
-        font-size: 36px;
-        font-weight: 700;
       }
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(18, 1fr);
+    }
+    @media (max-width: 480px) {
+      gap: 5px 0;
+      grid-template-columns: repeat(12, 1fr);
     }
   }
 
   &-content {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 15px 20px;
+    gap: 10px 25px;
 
     button {
       transition: .3s;
@@ -114,14 +121,14 @@ onMounted(() => {
       }
     }
 
-    @media (max-width: 1200px) {
-      grid-template-columns: repeat(5, 1fr);
-    }
     @media (max-width: 1000px) {
       grid-template-columns: repeat(4, 1fr);
     }
     @media (max-width: 768px) {
       gap: 10px;
+    }
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr 1fr;
     }
   }
 }

@@ -10,11 +10,20 @@ const route = useRoute()
 const products = ref([])
 const allItems = ref(0)
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/goods/byname/${route.params.search}?order=ASC&page=1&take=11`)
-    .then(res => {
-      products.value = res.data.data
-      allItems.value = res.data.meta.itemCount
-    })
+  if (route.params.search) {
+    axios.get(`https://api-www.beautyid.app/goods/byname/${route.params.search}?order=ASC&page=1&take=11`)
+      .then(res => {
+        products.value = res.data.data
+        allItems.value = res.data.meta.itemCount
+      })
+  } else {
+    axios.get('https://api-www.beautyid.app/goods/?order=ASC&page=1&take=11')
+      .then(res => {
+        products.value = res.data.data
+        allItems.value = res.data.meta.itemCount
+      })
+  }
+  console.log(route.query)
 })
 </script>
 

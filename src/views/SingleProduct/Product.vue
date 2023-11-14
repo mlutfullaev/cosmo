@@ -212,6 +212,7 @@ const routines = ref([
     rate: 3.5,
   },
 ])
+const pricesMore = ref(false)
 
 const product = ref<null | Product>(null)
 const alternatives = ref([])
@@ -263,21 +264,89 @@ onMounted(() => {
         <h3 class="title-secondary">lookfantastic</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <div class="prices-inner-item">
+      <div class="prices-inner-item d-sb">
         <h3 class="title-secondary">sephora</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <div class="prices-inner-item">
+      <div class="prices-inner-item d-sb">
         <h3 class="title-secondary">douglas</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <div class="prices-inner-item">
+      <div class="prices-inner-item d-sb">
         <h3 class="title-secondary">lookfantastic</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <router-link to="#" class="link">discover more <span>→</span></router-link>
+      <router-link v-if="!beauty" to="/registration" class="link bold">discover more <span>→</span></router-link>
+      <button v-else class="link bold" @click="pricesMore = true">discover more <span>→</span></button>
     </div>
-    <router-link to="/registration" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
+    <div
+      v-if="beauty"
+      class="prices-more"
+      :class="{active: pricesMore}">
+      <div class="prices-inner">
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">lookfantastic</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">sephora</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">douglas</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">lookfantastic</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+      </div>
+      <div class="prices-inner">
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">lookfantastic</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">sephora</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">douglas</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">lookfantastic</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+      </div>
+      <div class="prices-inner">
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">lookfantastic</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">sephora</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">douglas</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+        <div class="prices-inner-item d-sb">
+          <h3 class="title-secondary">lookfantastic</h3>
+          <p class="txt-highlight">32,00 euro</p>
+        </div>
+      </div>
+      <button class="alert-close" @click="pricesMore = false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"
+                stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11.7559 20.2451L20.2459 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20.2459 20.2451L11.7559 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <router-link v-if="beauty" to="/registration" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
   <section v-if="beauty" class="product-list">
     <div class="products-item">
@@ -577,11 +646,13 @@ main {
 }
 
 .prices {
+  position: relative;
   padding: 100px 60px;
   display: grid;
   grid-gap: 50px;
   grid-template-columns: 1fr 1fr;
   text-transform: uppercase;
+  overflow: hidden;
 
   &-title {
     font-size: 162px;
@@ -624,7 +695,6 @@ main {
     a {
       display: block;
       padding: 40px 0;
-      font-weight: 700;
 
       @media (max-width: 1000px) {
         padding: 20px 0;
@@ -633,9 +703,33 @@ main {
         display: none;
       }
     }
+    > button {
+      margin: 20px 0;
+    }
 
     @media (max-width: 768px) {
       padding: 0 20px;
+    }
+  }
+
+  &-more {
+    padding: 60px;
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    transition: .3s;
+    background: $white;
+    left: 100%;
+    width: 100%;
+
+    &.active {
+      left: 0;
+    }
+    @media (max-width: 768px) {
+      grid-column: 1;
     }
   }
 

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, defineProps, PropType, ref } from 'vue'
+import FilterBrands from '@/components/FilterBrands.vue'
+import VueSimpleRangeSlider from 'vue-simple-range-slider'
+import 'vue-simple-range-slider/css'
 
 defineProps({
   productsLength: {
@@ -43,6 +46,7 @@ const filters = ref<{[key: string]: {title: string, items: string[], selected: s
   },
 })
 const filterActive = ref(false)
+const brandSelected = ref('')
 
 function clearAll () {
   Object.keys(filters.value).forEach((key) => {
@@ -59,6 +63,8 @@ const selected = computed(() => {
   })
   return selected
 })
+
+const range = ref([20, 1000])
 </script>
 
 <template>
@@ -180,8 +186,25 @@ const selected = computed(() => {
             </li>
           </ul>
         </div>
+        <div class="theFilter-item">
+          <p class="name">price range</p>
+          <VueSimpleRangeSlider
+            :min="0"
+            :max="10000"
+            :exponential="true"
+            v-model="range"
+            bar-color="#D7D7D7"
+            active-bar-color="#FF8A00"
+          />
+          <div class="d-sb">
+            <p class="note">Min. Price: ${{range[0]}}</p>
+            <p class="note">Max. Price: ${{range[1]}}</p>
+          </div>
+        </div>
       </div>
-      <FilterBrands/>
+      <FilterBrands
+        :brand-selected="brandSelected"
+        @brand-select="(brand) => brandSelected = brand"/>
       <div class="theFilter-bottom d-center">
         <button class="title-secondary" @click="filterActive = false">Apply</button>
       </div>
@@ -261,7 +284,7 @@ const selected = computed(() => {
 
     .theFilter-content {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(7, 1fr);
     }
 
     .theFilter-top {
@@ -275,7 +298,6 @@ const selected = computed(() => {
 
     .theFilter-item {
       padding: 20px;
-      border-bottom: 1px solid $black;
 
       .theFilter-tags {
         padding-top: 20px;
@@ -298,7 +320,6 @@ const selected = computed(() => {
 
     .theFilter-bottom {
       padding: 60px;
-      border-top: 1px solid $black;
       border-bottom: 1px solid $black;
     }
   }

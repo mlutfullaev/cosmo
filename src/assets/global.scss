@@ -58,6 +58,9 @@ a {
     border-bottom-color: $orange;
   }
 }
+.simple-range-slider-popover, .simple-range-slider-popover-arrow {
+  display: none;
+}
 
 // Div
 .menu-active {
@@ -77,38 +80,37 @@ a {
     right: -100%;
   }
 
-  &-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-
-    svg {
-      transition: .3s;
-      border-radius: 50%;
-
-      path {
-        transition: .3s;
-      }
-
-      &:hover {
-        background: $orange;
-
-        path {
-          stroke: $white;
-
-          &:first-child {
-            stroke: $orange;
-          }
-        }
-      }
-    }
-  }
-
   @media (max-width: 1000px) {
     padding: 30px;
   }
   @media (max-width: 480px) {
     padding: 20px;
+  }
+}
+.alert-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  svg {
+    transition: .3s;
+    border-radius: 50%;
+
+    path {
+      transition: .3s;
+    }
+
+    &:hover {
+      background: $orange;
+
+      path {
+        stroke: $white;
+
+        &:first-child {
+          stroke: $orange;
+        }
+      }
+    }
   }
 }
 
@@ -158,6 +160,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .bg-orange {

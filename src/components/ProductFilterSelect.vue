@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { defineEmits, defineProps, onMounted, reactive, ref, watch } from 'vue'
 import axios from 'axios'
 
 interface Variant {
@@ -8,36 +8,38 @@ interface Variant {
   id: number,
 }
 
+const emit = defineEmits<{(event: 'updateFilterSelect', newFilter: {[key: string]: string}): void}>()
+
 const activeTab = ref('ages')
-const filters = ref({
+const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: Variant}}>({
   ages: {
     title: 'Age targeted group',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [] as Variant[],
+    variants: [],
     selectedVariant: {} as Variant,
   },
   concerns: {
     title: 'Targeted Concerns',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [] as Variant[],
+    variants: [],
     selectedVariant: {} as Variant,
   },
   goodbenefits: {
     title: 'Product Claims (Vegan, Natural, etc)',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [] as Variant[],
+    variants: [],
     selectedVariant: {} as Variant,
   },
   religiondiets: {
     title: 'Religious Certified Products',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [] as Variant[],
+    variants: [],
     selectedVariant: {} as Variant,
   },
   skintypes: {
     title: 'Targeted Skin Types',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [] as Variant[],
+    variants: [],
     selectedVariant: {} as Variant,
   },
 })
@@ -46,7 +48,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => {
-        filters.value.ages.variants.push({
+        filters.ages.variants.push({
           text: `${item.ageMin} - ${item.ageMax}`,
           param: item.ageName,
           id: item.id,
@@ -56,7 +58,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, concernName: string, }) => {
-        filters.value.concerns.variants.push({
+        filters.concerns.variants.push({
           text: item.concernName,
           param: item.concernName,
           id: item.id,
@@ -66,7 +68,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, goodBenefitName: string, }) => {
-        filters.value.goodbenefits.variants.push({
+        filters.goodbenefits.variants.push({
           text: item.goodBenefitName,
           param: item.goodBenefitName,
           id: item.id,
@@ -76,7 +78,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, religionDietName: string, }) => {
-        filters.value.religiondiets.variants.push({
+        filters.religiondiets.variants.push({
           text: item.religionDietName,
           param: item.religionDietName,
           id: item.id,
@@ -86,13 +88,22 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, skinTypeName: string, }) => {
-        filters.value.skintypes.variants.push({
+        filters.skintypes.variants.push({
           text: item.skinTypeName,
           param: item.skinTypeName,
           id: item.id,
         })
       })
     })
+})
+watch(filters, () => {
+  const filterSelects: {[key: string]: string} = {}
+  Object.keys(filters).forEach(filter => {
+    if (filters[filter].selectedVariant.param) {
+      filterSelects[filter] = filters[filter].selectedVariant.param
+    }
+  })
+  emit('updateFilterSelect', filterSelects)
 })
 
 </script>
@@ -171,7 +182,6 @@ onMounted(() => {
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 20px;
         height: 100%;
-        padding-bottom: 40px;
         align-content: start;
 
         button {
@@ -191,10 +201,16 @@ onMounted(() => {
             font-size: 16px;
           }
         }
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr 1fr;
+        }
       }
 
       @media (max-width: 1000px) {
         padding: 40px 20px;
+      }
+      @media (max-width: 768px) {
+        padding: 20px;
       }
     }
   }
@@ -303,6 +319,15 @@ onMounted(() => {
       }
       @media (max-width: 1000px) {
         max-height: 60px;
+      }
+      @media (max-width: 716px) and (min-width: 600px) {
+        &:nth-child(3) {
+          max-height: 80px;
+
+          &.active {
+            max-height: 300px;
+          }
+        }
       }
     }
   }
