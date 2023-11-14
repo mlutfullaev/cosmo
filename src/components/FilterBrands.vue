@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
+import { defineEmits, onMounted, ref, watch } from 'vue'
+import { StringObject } from '@/interfaces'
 import axios from 'axios'
-
-defineProps<{ brandSelected: string }>()
-defineEmits<{(event: 'brand-select', brandName: string): void }>()
 type Brand = {
   id: number,
   brandName: string,
   brandDescription: string,
 }
+
+const emit = defineEmits<{(event: 'updateFilterQuery', brandName: StringObject): void }>()
 
 const activeAlpha = ref('A')
 const filterResults = ref([] as Brand[])
@@ -20,6 +20,12 @@ watch(activeAlpha, () => {
       filterResults.value = res.data.data
     })
 })
+
+const selectedBrand = ref('')
+watch(selectedBrand, () => {
+  emit('updateFilterQuery', { brand: selectedBrand.value })
+})
+
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
     .then((res) => {
@@ -43,8 +49,8 @@ onMounted(() => {
     <div class="filterBrands-content">
       <button
         v-for="item in filterResults"
-        :class="{active: brandSelected === item.brandName}"
-        @click="$emit('brand-select', item.brandName)"
+        :class="{active: selectedBrand === item.brandName}"
+        @click="() => selectedBrand = item.brandName"
         :key="item.id">
         {{ item.brandName }}
       </button>
@@ -54,7 +60,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .filterBrands {
-  padding: 20px;
+  padding: 40px 20px;
   border-top: 1px solid $black;
   border-bottom: 1px solid $black;
 

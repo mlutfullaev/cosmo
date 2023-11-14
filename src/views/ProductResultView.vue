@@ -2,12 +2,13 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
+import { Product } from '@/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 
 const route = useRoute()
 
-const products = ref([])
+const products = ref<Product[]>([])
 const allItems = ref(0)
 onMounted(() => {
   if (route.params.search) {
@@ -29,6 +30,7 @@ onMounted(() => {
 
 <template>
   <TheHeader/>
+
   <div class="searchResult-top">
     <h2 class="title">Search Results for <span class="bold">{{ $route.params.search }}</span></h2>
     <h1 class="highlight orange">{{ allItems }}</h1>
@@ -36,7 +38,9 @@ onMounted(() => {
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
+
   <TheFilter :tags="true"/>
+
   <section class="product-list">
     <ProductCard
       v-for="product in products"
@@ -47,10 +51,12 @@ onMounted(() => {
       <router-link to="/product-filter" class="link bold">specify your search <span>→</span></router-link>
     </div>
   </section>
+
   <div class="tablet-link bg-orange tablet">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
     <RouterLink class="link bold" to="#">discover more <span>→</span></RouterLink>
   </div>
+
   <section class="searchResult-bottom">
     <div class="searchResult-bottom-img bg-img d-center">
       <h1 class="title">We know more than 100 people with same skin as yours</h1>
@@ -71,6 +77,7 @@ onMounted(() => {
       </div>
     </div>
   </section>
+  
   <TheFooter/>
 </template>
 

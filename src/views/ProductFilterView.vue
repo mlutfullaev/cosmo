@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import axios from 'axios'
+import store from '@/store'
+import { StringObject } from '@/interfaces'
 import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
-import axios from 'axios'
-import store from '@/store'
 
 const alertActive = ref(true)
 const activeLib = ref(0)
-const categorySelected = ref('')
-const brandSelected = ref('')
 const library = ref([
   {
     title: 'categories',
@@ -100,18 +99,7 @@ const library = ref([
     selected: '',
   }
 ])
-const filterSelect = ref({})
-
-const filterQuery = computed(() => {
-  const query: {[key: string]: string} = { ...filterSelect.value }
-  query.brand = brandSelected.value
-  library.value.forEach(lib => {
-    if (lib.selected) {
-      query[lib.title] = lib.selected
-    }
-  })
-  return query
-})
+const filterQuery = ref<StringObject>({})
 
 onMounted(() => {
   axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=10')
@@ -119,11 +107,15 @@ onMounted(() => {
       console.log(res)
     })
 })
+const updateFilterQuery = (newItems: StringObject) => {
+  filterQuery.value = { ...filterQuery.value, ...newItems }
+}
 </script>
 
 <template>
   <div class="productFilter">
     <TheHeader/>
+
     <div class="productFilter-library bg-img">
       <h3 class="title-secondary"><span>product</span> library</h3>
       <p class="name">
@@ -141,12 +133,15 @@ onMounted(() => {
       </div>
       <FilterCategories
         :categories="library[activeLib]"
-        @category-select="(category) => library[activeLib].selected = category"
+        @category-select="(category) => {
+          library[activeLib].selected = category;
+          filterQuery[library[activeLib].title] = category
+        }"
         :category-selected="library[activeLib].selected"/>
     </div>
-    <FilterBrands
-      :brand-selected="brandSelected"
-      @brand-select="(brand) => brandSelected = brand"/>
+
+    <FilterBrands @updateFilterQuery="updateFilterQuery"/>
+
     <div class="productFilter-title">
       <a @click="$router.go(-1)">
         <svg xmlns="http://www.w3.org/2000/svg" width="62" height="24" viewBox="0 0 62 24" fill="none">
@@ -159,13 +154,17 @@ onMounted(() => {
       <p class="txt">Please select the targeted age group. If the product does not have age specification or warnings
         for age </p>
     </div>
-    <ProductFilterSelect @updateFilterSelect="(newFilter) => filterSelect = newFilter"/>
-    <router-link :to="{path: `product-results/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
+
+    <ProductFilterSelect @updateFilterQuery="updateFilterQuery"/>
+
+    <router-link :to="{path: `/product-results/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
       <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
     </div>
+
     <TheFooter/>
+
     <div class="alert min-tablet" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">

@@ -8,3 +8,8 @@ export interface Product {
   ingredients: string;
   benefits: string;
 }
+
+
+export type StringObject = {
+  [key: string]: string;
+}

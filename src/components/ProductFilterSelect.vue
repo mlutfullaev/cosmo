@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, onMounted, reactive, ref, watch } from 'vue'
 import axios from 'axios'
+import { StringObject } from '@/interfaces'
 
 interface Variant {
   text: string,
@@ -8,39 +9,39 @@ interface Variant {
   id: number,
 }
 
-const emit = defineEmits<{(event: 'updateFilterSelect', newFilter: {[key: string]: string}): void}>()
+const emit = defineEmits<{(event: 'updateFilterQuery', newFilter: StringObject): void}>()
 
-const activeTab = ref('ages')
-const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: Variant}}>({
+const activeTab = ref<number | string>('ages')
+const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: string}}>({
   ages: {
     title: 'Age targeted group',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
-    selectedVariant: {} as Variant,
+    selectedVariant: '',
   },
   concerns: {
     title: 'Targeted Concerns',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
-    selectedVariant: {} as Variant,
+    selectedVariant: '',
   },
   goodbenefits: {
     title: 'Product Claims (Vegan, Natural, etc)',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
-    selectedVariant: {} as Variant,
+    selectedVariant: '',
   },
   religiondiets: {
     title: 'Religious Certified Products',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
-    selectedVariant: {} as Variant,
+    selectedVariant: '',
   },
   skintypes: {
     title: 'Targeted Skin Types',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
-    selectedVariant: {} as Variant,
+    selectedVariant: '',
   },
 })
 
@@ -96,20 +97,12 @@ onMounted(() => {
       })
     })
 })
-watch(filters, () => {
-  const filterSelects: {[key: string]: string} = {}
-  Object.keys(filters).forEach(filter => {
-    if (filters[filter].selectedVariant.param) {
-      filterSelects[filter] = filters[filter].selectedVariant.param
-    }
-  })
-  emit('updateFilterSelect', filterSelects)
-})
 
 </script>
 
 <template>
   <div class="productFilter-select">
+
     <div class="productFilter-tabs">
       <div
         v-for="(filterTab, idx) in filters"
@@ -134,6 +127,7 @@ watch(filters, () => {
         </div>
       </div>
     </div>
+
     <div class="productFilter-inner">
       <div
         class="productFilter-item"
@@ -144,14 +138,18 @@ watch(filters, () => {
         <div class="productFilter-buttons">
           <button
             v-for="variant in filterTab.variants"
-            :class="{active: variant === filterTab.selectedVariant}"
-            @click="filterTab.selectedVariant = variant"
-            :key="variant">
+            :class="{active: variant.param === filterTab.selectedVariant}"
+            @click="() => {
+              filterTab.selectedVariant = variant.param;
+              emit('updateFilterQuery', {[idx]: variant.param})
+            }"
+            :key="variant.id">
             {{ variant.text }}
           </button>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 

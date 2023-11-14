@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, defineProps, PropType, ref } from 'vue'
-import FilterBrands from '@/components/FilterBrands.vue'
+import { StringObject } from '@/interfaces'
 import VueSimpleRangeSlider from 'vue-simple-range-slider'
 import 'vue-simple-range-slider/css'
+import FilterBrands from '@/components/FilterBrands.vue'
 
 defineProps({
   productsLength: {
@@ -55,7 +56,7 @@ function clearAll () {
 }
 
 const selected = computed(() => {
-  const selected: { [key: string]: string } = {}
+  const selected: StringObject = {}
   Object.keys(filters.value).forEach((key: string) => {
     if (filters.value[key as keyof object].selected) {
       selected[key] = filters.value[key as keyof object].selected
