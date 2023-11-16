@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
-import { StringObject } from '@/interfaces'
+import store from '@/store'
 
 interface Variant {
   text: string,
@@ -9,11 +9,9 @@ interface Variant {
   id: number,
 }
 
-const emit = defineEmits<{(event: 'updateFilterQuery', newFilter: StringObject): void}>()
-
-const activeTab = ref<number | string>('ages')
-const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: string}}>({
-  ages: {
+const activeTab = ref<number | string>('age')
+const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: string | number}}>({
+  age: {
     title: 'Age targeted group',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
@@ -25,19 +23,19 @@ const filters = reactive<{[key: string]: {title: string, subtitle: string, varia
     variants: [],
     selectedVariant: '',
   },
-  goodbenefits: {
+  benefits: {
     title: 'Product Claims (Vegan, Natural, etc)',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
     selectedVariant: '',
   },
-  religiondiets: {
+  religionDiets: {
     title: 'Religious Certified Products',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
     selectedVariant: '',
   },
-  skintypes: {
+  skinTypes: {
     title: 'Targeted Skin Types',
     subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
     variants: [],
@@ -49,7 +47,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => {
-        filters.ages.variants.push({
+        filters.age.variants.push({
           text: `${item.ageMin} - ${item.ageMax}`,
           param: item.ageName,
           id: item.id,
@@ -69,7 +67,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, goodBenefitName: string, }) => {
-        filters.goodbenefits.variants.push({
+        filters.benefits.variants.push({
           text: item.goodBenefitName,
           param: item.goodBenefitName,
           id: item.id,
@@ -79,7 +77,7 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, religionDietName: string, }) => {
-        filters.religiondiets.variants.push({
+        filters.religionDiets.variants.push({
           text: item.religionDietName,
           param: item.religionDietName,
           id: item.id,
@@ -89,13 +87,19 @@ onMounted(() => {
   axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
     .then(res => {
       res.data.data.forEach((item: { id: number, skinTypeName: string, }) => {
-        filters.skintypes.variants.push({
+        filters.skinTypes.variants.push({
           text: item.skinTypeName,
           param: item.skinTypeName,
           id: item.id,
         })
       })
     })
+
+  Object.keys(store.state.filterQuery).forEach(key => {
+    if (filters[key]) {
+      filters[key].selectedVariant = store.state.filterQuery[key]
+    }
+  })
 })
 
 </script>
@@ -141,7 +145,7 @@ onMounted(() => {
             :class="{active: variant.param === filterTab.selectedVariant}"
             @click="() => {
               filterTab.selectedVariant = variant.param;
-              emit('updateFilterQuery', {[idx]: variant.param})
+              store.commit('updateFilterQuery', {[idx]: variant.param})
             }"
             :key="variant.id">
             {{ variant.text }}
@@ -162,7 +166,6 @@ onMounted(() => {
   .productFilter-inner {
     .productFilter-item {
       border-left: 1px solid $black;
-      border-bottom: 1px solid $black;
       display: none;
       padding: 40px;
       height: 100%;
@@ -183,7 +186,7 @@ onMounted(() => {
         align-content: start;
 
         button {
-          padding: 5px 20px;
+          padding: 10px 20px;
           height: 100%;
           border: 1px solid #000;
           font-size: 20px;
@@ -300,6 +303,9 @@ onMounted(() => {
         @media (max-width: 600px) {
           max-height: 600px;
         }
+      }
+      &:last-child {
+        border-bottom: none;
       }
 
       .content-tab {

@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import { defineEmits, onMounted, ref, watch } from 'vue'
-import { StringObject } from '@/interfaces'
+import { PropType, defineProps, onMounted, ref, watch } from 'vue'
 import axios from 'axios'
+import store from '@/store'
 type Brand = {
   id: number,
   brandName: string,
   brandDescription: string,
 }
 
-const emit = defineEmits<{(event: 'updateFilterQuery', brandName: StringObject): void }>()
-
+defineProps(
+  {
+    buttonType: {
+      required: false,
+      default: 'link',
+      type: String as PropType<'link' | 'button'>,
+    }
+  }
+)
 const activeAlpha = ref('A')
 const filterResults = ref([] as Brand[])
 const alphabet = ref(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
@@ -23,7 +30,7 @@ watch(activeAlpha, () => {
 
 const selectedBrand = ref('')
 watch(selectedBrand, () => {
-  emit('updateFilterQuery', { brand: selectedBrand.value })
+  store.commit('updateFilterQuery', { brand: selectedBrand.value })
 })
 
 onMounted(() => {
@@ -38,22 +45,43 @@ onMounted(() => {
   <div class="filterBrands">
     <p class="txt-highlight">brands</p>
     <div class="filterBrands-alphabet">
-      <button
-        v-for="alpha in alphabet"
-        :class="{active: activeAlpha === alpha}"
-        @click="activeAlpha = alpha"
+      <button v-for="alpha in alphabet" :class="{ active: activeAlpha === alpha }" @click="activeAlpha = alpha"
         :key="alpha">
         {{ alpha }}
       </button>
     </div>
-    <div class="filterBrands-content">
-      <button
-        v-for="item in filterResults"
-        :class="{active: selectedBrand === item.brandName}"
-        @click="() => selectedBrand = item.brandName"
-        :key="item.id">
+    <div v-if="buttonType === 'link'" class="filterBrands-content">
+      <RouterLink
+       v-for="item in filterResults"
+       :to="`/product-results/brand/${item.brandName}`"
+       :class="{ active: selectedBrand === item.brandName }"
+        @click="() => selectedBrand = item.brandName" :key="item.id">
         {{ item.brandName }}
-      </button>
+      </RouterLink>
+    </div>
+    <div v-else class="filterBrands-content">
+      <div
+        v-for="item in filterResults"
+        class="btn-tag d-center"
+        :class="{ active: selectedBrand === item.brandName }"
+        :key="item.id">
+        <button class="note" @click="() => selectedBrand = item.brandName">
+          {{ item.brandName }}
+        </button>
+        <svg
+          @click="selectedBrand = ''"
+          xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path
+            d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
+            fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
+          <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
+          <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
   </div>
 </template>
@@ -86,9 +114,11 @@ onMounted(() => {
         color: $orange;
       }
     }
+
     @media (max-width: 768px) {
       grid-template-columns: repeat(18, 1fr);
     }
+
     @media (max-width: 480px) {
       gap: 5px 0;
       grid-template-columns: repeat(12, 1fr);
@@ -100,7 +130,7 @@ onMounted(() => {
     grid-template-columns: repeat(6, 1fr);
     gap: 10px 25px;
 
-    button {
+    a {
       transition: .3s;
       align-self: start;
       text-decoration: underline;
@@ -116,7 +146,8 @@ onMounted(() => {
         left: -7px;
       }
 
-      &:hover, &.active {
+      &:hover,
+      &.active {
         color: $orange;
         text-decoration-color: $orange;
 
@@ -126,13 +157,17 @@ onMounted(() => {
         }
       }
     }
-
+    .btn-tag {
+      align-self: center;
+    }
     @media (max-width: 1000px) {
       grid-template-columns: repeat(4, 1fr);
     }
+
     @media (max-width: 768px) {
       gap: 10px;
     }
+
     @media (max-width: 480px) {
       grid-template-columns: 1fr 1fr;
     }

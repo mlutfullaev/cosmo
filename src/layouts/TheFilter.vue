@@ -2,8 +2,11 @@
 import { computed, defineProps, PropType, ref } from 'vue'
 import { StringObject } from '@/interfaces'
 import VueSimpleRangeSlider from 'vue-simple-range-slider'
-import 'vue-simple-range-slider/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation } from 'swiper/modules'
 import FilterBrands from '@/components/FilterBrands.vue'
+import 'swiper/css'
+import 'vue-simple-range-slider/css'
 
 defineProps({
   productsLength: {
@@ -47,7 +50,6 @@ const filters = ref<{[key: string]: {title: string, items: string[], selected: s
   },
 })
 const filterActive = ref(false)
-const brandSelected = ref('')
 
 function clearAll () {
   Object.keys(filters.value).forEach((key) => {
@@ -65,12 +67,14 @@ const selected = computed(() => {
   return selected
 })
 
-const range = ref([20, 1000])
+const range = ref<[number, number]>([20, 1000])
+const modules = ref([Navigation])
 </script>
 
 <template>
-  <div class="theFilter d-sb">
-    <button @click="filterActive = true" class="txt-highlight theFilter-btn">
+  <div class="theFilter">
+
+    <button @click="filterActive = !filterActive" class="txt-highlight theFilter-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
         <path
           d="M17.6429 0.519037L17.6429 12.3857L17.1667 12.3857C16.7878 12.3857 16.4244 12.5362 16.1565 12.8041C15.8886 13.072 15.7381 13.4354 15.7381 13.8143L15.7381 15.719C15.7381 16.0979 15.8886 16.4613 16.1565 16.7292C16.4244 16.9971 16.7878 17.1476 17.1667 17.1476L17.6429 17.1476L17.6429 19.3667C17.6429 19.493 17.693 19.6141 17.7823 19.7034C17.8716 19.7927 17.9928 19.8428 18.119 19.8428C18.2453 19.8428 18.3665 19.7927 18.4558 19.7034C18.5451 19.6141 18.5952 19.493 18.5952 19.3667L18.5952 17.1476L19.0714 17.1476C19.4503 17.1476 19.8137 16.9971 20.0816 16.7292C20.3495 16.4613 20.5 16.0979 20.5 15.719L20.5 13.8143C20.5 13.4354 20.3495 13.072 20.0816 12.8041C19.8137 12.5362 19.4503 12.3857 19.0714 12.3857L18.5952 12.3857L18.5952 0.519037C18.5952 0.392744 18.5451 0.271623 18.4558 0.18232C18.3665 0.0930166 18.2453 0.0428466 18.119 0.0428466C17.9928 0.0428466 17.8716 0.0930166 17.7823 0.18232C17.693 0.271623 17.6429 0.392743 17.6429 0.519037ZM19.0714 13.3381C19.1977 13.3381 19.3188 13.3883 19.4081 13.4776C19.4974 13.5669 19.5476 13.688 19.5476 13.8143L19.5476 15.719C19.5476 15.8453 19.4974 15.9665 19.4081 16.0558C19.3188 16.1451 19.1977 16.1952 19.0714 16.1952L17.1667 16.1952C17.0404 16.1952 16.9193 16.1451 16.8299 16.0558C16.7406 15.9665 16.6905 15.8453 16.6905 15.719L16.6905 13.8143C16.6905 13.688 16.7406 13.5669 16.8299 13.4776C16.9193 13.3883 17.0404 13.3381 17.1667 13.3381L19.0714 13.3381Z"
@@ -93,16 +97,22 @@ const range = ref([20, 1000])
       </svg>
       Filters <span v-if="selected.length">({{ selected.length }})</span>
     </button>
-    <ul class="theFilter-tags d-center">
-      <li class="txt-highlight">Popular tags:</li>
-      <li
+
+    <p class="txt-highlight">Popular tags:</p>
+    <swiper
+      :navigation="{
+        nextEl: '.swiper-next',
+        prevEl: '.swiper-prev',
+      }"
+      :modules="modules"
+      slides-per-view="auto">
+      <swiper-slide
         v-for="tag in popularTags"
-        class="tags-tag d-center"
+        class="flicking-panel btn-tag"
         :class="{active: tag === popularTagsSelected}"
         :key="tag">
         <button class="txt" @click="popularTagsSelected = tag"> {{ tag }}</button>
         <svg
-          v-if="popularTagsSelected === tag"
           @click="popularTagsSelected = ''"
           xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path
@@ -113,30 +123,38 @@ const range = ref([20, 1000])
           <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
           <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </li>
-    </ul>
+      </swiper-slide>
+    </swiper>
+    <button class="swiper-next">
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 10 8" fill="none">
+        <path d="M9.96289 4L6.46289 7.5L4.54489 7.5L7.26089 4.784L0.03689 4.784V3.202L7.21889 3.202L4.51689 0.5L6.46289 0.5L9.96289 4Z" fill="black"/>
+      </svg>
+    </button>
+    <button class="swiper-prev">
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 10 8" fill="none">
+        <path d="M0.03711 4L3.53711 0.499999L5.45511 0.499999L2.73911 3.216L9.96311 3.216L9.96311 4.798L2.78111 4.798L5.48311 7.5L3.53711 7.5L0.03711 4Z" fill="black"/>
+      </svg>
+    </button>
+
     <p v-if="productsLength" class="txt-highlight">products ({{ productsLength }})</p>
+
     <div class="theFilter-inner" :class="{active: filterActive}">
       <div class="theFilter-top d-sb" v-if="Object.keys(selected).length">
         <p class="name">Applied filters</p>
         <ul class="theFilter-tags d-center">
           <li
             v-for="(filter, key) in selected"
-            class="tags-tag d-center active"
+            class="btn-tag active"
             :key="key">
             <button class="txt">{{ filter }}</button>
             <svg
               @click="filters[key].selected = ''"
               xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z" fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-              <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+              <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-              <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+              <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li>
@@ -157,6 +175,7 @@ const range = ref([20, 1000])
           </li>
         </ul>
       </div>
+
       <div class="theFilter-content">
         <div
           class="theFilter-item"
@@ -168,7 +187,7 @@ const range = ref([20, 1000])
               v-for="filterItem in filter.items"
               :key="filterItem"
               :class="{active: filter.selected === filterItem}"
-              class="tags-tag d-center">
+              class="btn-tag">
               <button class="txt" @click="filter.selected = filterItem">{{ filterItem }}</button>
               <svg
                 v-if="filter.selected === filterItem"
@@ -203,9 +222,9 @@ const range = ref([20, 1000])
           </div>
         </div>
       </div>
-      <FilterBrands
-        :brand-selected="brandSelected"
-        @brand-select="(brand) => brandSelected = brand"/>
+
+      <FilterBrands button-type="button" />
+
       <div class="theFilter-bottom d-center">
         <button class="title-secondary" @click="filterActive = false">Apply</button>
       </div>
@@ -218,47 +237,40 @@ const range = ref([20, 1000])
   position: relative;
   border-top: 1px solid $black;
   padding: 20px 60px;
+  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
 
+  .swiper {
+    width: 100%;
+
+    .swiper-wrapper {
+      align-items: center;
+    }
+    .swiper-slide {
+      width: max-content;
+    }
+  }
+  .swiper-next:disabled {
+    display: none;
+  }
+  .swiper-prev {
+    display: none;
+  }
+  .swiper-next:disabled ~ .swiper-prev:not(:disabled) {
+    display: block;
+  }
   &-tags {
     list-style-type: none;
     gap: 28px;
-
-    .tags-tag {
-      gap: 8px;
-      padding-right: 10px;
-
-      button {
-        padding: 10px;
-        color: $grey-dark;
-        text-align: left;
-        transition: .3s;
-      }
-
-      &.active {
-        background: $orange;
-
-        button {
-          color: $black;
-          cursor: auto;
-        }
-
-        svg {
-          cursor: pointer;
-        }
-      }
-
-      &:hover {
-        button {
-          color: $black;
-        }
-      }
-    }
   }
 
   &-btn {
     display: flex;
     gap: 5px;
     align-items: center;
+    justify-self: start;
 
     span {
       color: $orange;
@@ -304,7 +316,7 @@ const range = ref([20, 1000])
         padding-top: 20px;
         display: grid;
         gap: 10px;
-        align-items: center;
+        justify-content: start;
 
         li {
           display: grid;
@@ -312,7 +324,6 @@ const range = ref([20, 1000])
           gap: 10px;
         }
       }
-
       .btn-clear {
         font-size: 14px;
         gap: 5px;
@@ -323,6 +334,10 @@ const range = ref([20, 1000])
       padding: 60px;
       border-bottom: 1px solid $black;
     }
+  }
+
+  @media (max-width: 900px) {
+    padding: 20px;
   }
 }
 </style>

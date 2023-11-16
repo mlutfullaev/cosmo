@@ -49,6 +49,11 @@ defineEmits<{(event: 'categorySelect', title: string): void}>()
       width: 120px;
       transition: .3s;
       border: 1px solid transparent;
+
+      @media (max-width: 768px) {
+        width: 80px;
+        height: 80px;
+      }
     }
 
     .note {

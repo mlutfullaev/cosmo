@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
+import { ref } from 'vue'
 import store from '@/store'
-import { StringObject } from '@/interfaces'
 import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
@@ -99,17 +97,6 @@ const library = ref([
     selected: '',
   }
 ])
-const filterQuery = ref<StringObject>({})
-
-onMounted(() => {
-  axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=10')
-    .then(res => {
-      console.log(res)
-    })
-})
-const updateFilterQuery = (newItems: StringObject) => {
-  filterQuery.value = { ...filterQuery.value, ...newItems }
-}
 </script>
 
 <template>
@@ -135,12 +122,12 @@ const updateFilterQuery = (newItems: StringObject) => {
         :categories="library[activeLib]"
         @category-select="(category) => {
           library[activeLib].selected = category;
-          filterQuery[library[activeLib].title] = category
+          store.commit('updateFilterQuery', {[library[activeLib].title]: category})
         }"
         :category-selected="library[activeLib].selected"/>
     </div>
 
-    <FilterBrands @updateFilterQuery="updateFilterQuery"/>
+    <FilterBrands />
 
     <div class="productFilter-title">
       <a @click="$router.go(-1)">
@@ -155,9 +142,9 @@ const updateFilterQuery = (newItems: StringObject) => {
         for age </p>
     </div>
 
-    <ProductFilterSelect @updateFilterQuery="updateFilterQuery"/>
+    <ProductFilterSelect />
 
-    <router-link :to="{path: `/product-results/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
+    <router-link :to="`/product-results/filtered/${store.state.productSearch}`" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
       <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
@@ -285,9 +272,9 @@ const updateFilterQuery = (newItems: StringObject) => {
   > .link {
     display: block;
     padding: 60px;
-    width: max-content;
-    margin: 0 auto;
+    width: 100%;
     text-align: center;
+    border-top: 1px solid $black
   }
 
   .alert {

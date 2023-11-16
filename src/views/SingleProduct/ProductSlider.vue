@@ -62,7 +62,7 @@ function next () {
     <div class="pagination">
       <button
         v-for="(slide, idx) in sliders"
-        :key="slide"
+        :key="slide.picture"
         @click="currentSlide = idx"
         :class="{active: currentSlide === idx}"
       ></button>
