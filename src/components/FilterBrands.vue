@@ -45,7 +45,7 @@ onMounted(() => {
   <div class="filterBrands">
     <p class="txt-highlight">brands</p>
     <div class="filterBrands-alphabet">
-      <button v-for="alpha in alphabet" :class="{ active: activeAlpha === alpha }" @click="activeAlpha = alpha"
+      <button v-for="alpha in alphabet" :class="{ active: activeAlpha === alpha, filterBtn: buttonType === 'button' }" @click="activeAlpha = alpha"
         :key="alpha">
         {{ alpha }}
       </button>
@@ -113,6 +113,18 @@ onMounted(() => {
       &.active {
         color: $orange;
       }
+      &.filterBtn {
+        @media (max-width: 480px) {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+      @media (max-width: 1000px) {
+        font-size: 24px;
+      }
+      @media (max-width: 480px) {
+        font-size: 18px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -159,6 +171,10 @@ onMounted(() => {
     }
     .btn-tag {
       align-self: center;
+      
+      @media (max-width: 480px) {
+        grid-column: 1 / 3;
+      }
     }
     @media (max-width: 1000px) {
       grid-template-columns: repeat(4, 1fr);
@@ -170,10 +186,6 @@ onMounted(() => {
 
     @media (max-width: 480px) {
       grid-template-columns: 1fr 1fr;
-
-      button {
-        grid-column: 1 / 3;
-      }
     }
   }
 }

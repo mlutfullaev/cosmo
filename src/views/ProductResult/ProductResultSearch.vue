@@ -28,7 +28,7 @@ onMounted(() => {
 <template>
   <TheHeader/>
 
-  <div class="searchResult-top">
+  <div class="productResult-top">
     <h2 class="title">Search Results for <span class="bold">{{ $route.params.param }}</span></h2>
     <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">hand creams in our library</h3>
@@ -59,7 +59,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.searchResult-top {
+.productResult-top {
   padding: 60px;
   text-align: center;
 
@@ -96,7 +96,7 @@ onMounted(() => {
     padding: 30px;
   }
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: 80px 20px 20px;
   }
 }
 .product-list > div {

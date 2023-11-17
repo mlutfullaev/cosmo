@@ -115,7 +115,7 @@ watch(store.state.filterQuery, () => {
     padding: 30px;
   }
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: 80px 20px 20px;
   }
 }
 .product-list > div {

@@ -126,6 +126,9 @@ onMounted(() => {
   @media (max-width: 768px) {
     grid-template-columns: 100%;
   }
+  @media (max-width: 480px) {
+    padding-top: 80px;
+  }
 }
 .text-block {
   border-top: 1px solid $black;
