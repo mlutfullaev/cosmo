@@ -177,6 +177,7 @@ onMounted(() => {
   }
   .swiper {
     width: 100%;
+    max-width: 650px;
 
     .swiper-wrapper {
       align-items: center;

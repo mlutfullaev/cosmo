@@ -76,10 +76,14 @@ function next () {
 
   #carousel {
     .carousel-item img {
-      width: 60%;
-
-      @media (max-width: 1200px) {
-        width: 80%;
+      max-width: 80%;
+      max-height: 686px;
+        
+      @media (max-width: 1440px) {
+        max-height: 400px;
+      }
+      @media (max-width: 480px) {
+        max-height: 300px;
       }
     }
   }
@@ -88,7 +92,8 @@ function next () {
     padding-top: 30px;
 
     .thumbnails-item img {
-      width: 100px;
+      max-height: 100px;
+      max-width: 100px;
     }
 
     .carousel__slide--active .thumbnails-item {

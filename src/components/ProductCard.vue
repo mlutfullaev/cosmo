@@ -21,7 +21,7 @@ defineProps({
     class="product-card"
     :class="bgImg ? 'bg-img' : ''"
     :style="bgImg ? {backgroundImage: `url('https://api-www.beautyid.app/images/getimage/${product.mainPicture}')`}: {}">
-    <BaseRate v-if="product.goodRating" :rates="product.goodRating"/>
+    <BaseRate :rates="product.goodRating"/>
     <h4 class="txt-highlight">{{ product.name }}</h4>
     <p class="txt">from 150$</p>
     <img v-if="!bgImg" :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" alt="">

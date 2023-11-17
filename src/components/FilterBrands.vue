@@ -170,6 +170,10 @@ onMounted(() => {
 
     @media (max-width: 480px) {
       grid-template-columns: 1fr 1fr;
+
+      button {
+        grid-column: 1 / 3;
+      }
     }
   }
 }

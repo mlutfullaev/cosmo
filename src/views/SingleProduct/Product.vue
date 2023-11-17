@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import AboutProduct from '@/views/SingleProduct/ProductAbout.vue'
@@ -12,6 +12,7 @@ import ThePagination from '@/layouts/ThePagination.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { Product } from '@/interfaces'
 import ReligionDiets from '@/components/ReligionDiets.vue'
+import { computed } from '@vue/reactivity'
 
 const route = useRoute()
 
@@ -220,12 +221,18 @@ const alternatives = ref<Product[]>([])
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
     .then(res => {
-      console.log(res.data[0])
       product.value = res.data[0]
     })
   axios.get(`https://api-www.beautyid.app/goods/alternative/${route.params.id}?order=ASC&page=1&take=10`)
     .then(res => {
       alternatives.value = res.data.data
+    })
+})
+
+watch(route, () => {
+  axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
+    .then(res => {
+      product.value = res.data[0]
     })
 })
 </script>
@@ -612,10 +619,10 @@ main {
     text-align: center;
     padding: 60px;
 
-    &>div {
+    > div {
       display: grid;
       padding: 20px;
-      grid-template-rows: auto auto 1fr;
+      grid-template-rows: repeat(3, auto);
       justify-content: center;
       background-color: $white;
       width: 100%;
@@ -624,10 +631,14 @@ main {
       img {
         align-self: center;
         justify-self: center;
-        width: 70%;
-
-        @media (max-width: 1640px) {
-          width: 90%;
+        max-width: 80%;
+        max-height: 686px;
+        
+        @media (max-width: 1440px) {
+          max-height: 400px;
+        }
+        @media (max-width: 480px) {
+          max-height: 300px;
         }
       }
 
@@ -733,7 +744,7 @@ main {
 
   &-inner {
     &-item {
-      padding: 40px 0;
+      padding: 40px 10px;
       border-bottom: 1px solid $black;
 
       @media (max-width: 1000px) {
@@ -994,7 +1005,7 @@ main {
     }
     &:hover {
       background-color: $orange;
-      max-width: 350px;
+      max-width: 550px;
       
       svg path, svg rect, svg circle {
         color: $white;
