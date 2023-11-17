@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
-import { Carousel, Slide } from 'vue3-carousel'
 import RoutineCard from '@/components/RoutineCard.vue'
+import 'swiper/css'
 
 const routines = ref([
   {
@@ -91,6 +92,23 @@ const routines = ref([
     rate: 3.5,
   },
 ])
+
+const swiperConfig = {
+  spaceBetween: 20,
+  autoplay: { delay: 5000 },
+  slidesPerView: 5,
+  breakpoints: {
+    1340: {
+      slidesPerView: 5,
+    },
+    480: {
+      slidesPerView: 4,
+    },
+    0: {
+      slidesPerView: 3,
+    }
+  },
+}
 </script>
 
 <template>
@@ -110,19 +128,12 @@ const routines = ref([
         <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
           maximum details about products and experiences Your SkinTwins had with this product. Check details, receive
           Answers, collect samples and Discover Alternative Productsdirectly from Product Interactive Label. </p>
-        <RouterLink to="/" class="link bold">Start Your Beauty Discovery <span>→</span></RouterLink>
+        <RouterLink to="/routine-filter" class="link bold">Start Your Beauty Discovery <span>→</span></RouterLink>
       </div>
       <div class="categories-content">
         <p class="txt t-up">categories</p>
-        <Carousel
-          id="carousel"
-          :items-to-show="5"
-          :items-to-scroll="3"
-          :wrap-around="true"
-          snapAlign="start"
-          :breakpoints="{1550: {itemsToShow: 5}, 1000: {itemsToShow: 4}, 300: {itemsToShow: 3}}"
-          :autoplay="5000">
-          <Slide class="carousel-item">
+        <swiper v-bind="swiperConfig">
+          <swiper-slide>
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
                 <g clip-path="url(#clip0_856_25066)">
@@ -165,8 +176,8 @@ const routines = ref([
               </svg>
               <span class="note bold t-up">morning Routine </span>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
                 <path
@@ -178,8 +189,8 @@ const routines = ref([
               </svg>
               <span class="note bold t-up">night Routine </span>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
                 <path
@@ -191,8 +202,8 @@ const routines = ref([
               </svg>
               <span class="note bold t-up">spring</span>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
                 <path
@@ -204,8 +215,8 @@ const routines = ref([
               </svg>
               <span class="note bold t-up">long flight</span>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
                 <path
@@ -217,18 +228,11 @@ const routines = ref([
               </svg>
               <span class="note bold t-up">winter</span>
             </button>
-          </Slide>
-        </Carousel>
+          </swiper-slide>
+        </swiper>
         <p class="txt t-up">number of steps</p>
-        <Carousel
-          id="carousel"
-          :items-to-show="5"
-          :items-to-scroll="3"
-          :wrap-around="true"
-          snapAlign="start"
-          :breakpoints="{1550: {itemsToShow: 5}, 1000: {itemsToShow: 4}, 300: {itemsToShow: 3}}"
-          :autoplay="5000">
-          <Slide class="carousel-item">
+        <swiper v-bind="swiperConfig">
+          <swiper-slide>
             <button>
               <svg width="119" height="120" viewBox="0 0 119 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="58.5" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -237,8 +241,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="121" height="120" viewBox="0 0 121 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60.5" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -247,8 +251,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -257,8 +261,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -267,8 +271,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -277,8 +281,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -287,8 +291,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -297,8 +301,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="121" height="120" viewBox="0 0 121 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60.5" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -307,8 +311,8 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-          <Slide class="carousel-item">
+          </swiper-slide>
+          <swiper-slide>
             <button>
               <svg width="119" height="120" viewBox="0 0 119 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="60.5" cy="60" r="59" fill="white" stroke="#FF8A00" stroke-width="2"/>
@@ -317,123 +321,133 @@ const routines = ref([
                   fill="#FF8A00"/>
               </svg>
             </button>
-          </Slide>
-        </Carousel>
+          </swiper-slide>
+        </swiper>
         <p class="txt t-up">skin types</p>
-        <div class="categories-items">
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-              <g clip-path="url(#clip0_856_25141)">
-                <path
-                  d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
-                  stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M59.9961 59.5605V117.714" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M79.6401 59.5605V114.078" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M40.3525 59.5605V114.078" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M99.2842 59.5605V102.085" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M20.7085 59.5605V102.085" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_856_25141">
-                  <rect width="120" height="120" fill="white"/>
-                </clipPath>
-              </defs>
-            </svg>
-            <span class="note bold t-up">dry</span>
-          </button>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-              <g clip-path="url(#clip0_856_25152)">
-                <path
-                  d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
-                  stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path
-                  d="M22.9086 84.491C25.7215 84.491 28.0017 82.2107 28.0017 79.3979C28.0017 76.585 25.7215 74.3047 22.9086 74.3047C20.0957 74.3047 17.8154 76.585 17.8154 79.3979C17.8154 82.2107 20.0957 84.491 22.9086 84.491Z"
-                  fill="#FF8A00"/>
-                <path
-                  d="M97.7699 83.241C100.583 83.241 102.863 80.9607 102.863 78.1479C102.863 75.335 100.583 73.0547 97.7699 73.0547C94.957 73.0547 92.6768 75.335 92.6768 78.1479C92.6768 80.9607 94.957 83.241 97.7699 83.241Z"
-                  fill="#FF8A00"/>
-                <path
-                  d="M59.8676 84.2762C62.6804 84.2762 64.9607 81.9959 64.9607 79.183C64.9607 76.3701 62.6804 74.0898 59.8676 74.0898C57.0547 74.0898 54.7744 76.3701 54.7744 79.183C54.7744 81.9959 57.0547 84.2762 59.8676 84.2762Z"
-                  fill="#FF8A00"/>
-                <path
-                  d="M79.5619 100.835C82.3748 100.835 84.6551 98.5545 84.6551 95.7416C84.6551 92.9287 82.3748 90.6484 79.5619 90.6484C76.749 90.6484 74.4688 92.9287 74.4688 95.7416C74.4688 98.5545 76.749 100.835 79.5619 100.835Z"
-                  fill="#FF8A00"/>
-                <path
-                  d="M42.1522 100.52C44.9651 100.52 47.2454 98.24 47.2454 95.4271C47.2454 92.6143 44.9651 90.334 42.1522 90.334C39.3394 90.334 37.0591 92.6143 37.0591 95.4271C37.0591 98.24 39.3394 100.52 42.1522 100.52Z"
-                  fill="#FF8A00"/>
-                <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_856_25152">
-                  <rect width="120" height="120" fill="white"/>
-                </clipPath>
-              </defs>
-            </svg>
-            <span class="note bold t-up">oily</span>
-          </button>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-              <g clip-path="url(#clip0_856_25163)">
-                <path
-                  d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
-                  stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_856_25163">
-                  <rect width="120" height="120" fill="white"/>
-                </clipPath>
-              </defs>
-            </svg>
-            <span class="note bold t-up">normal</span>
-          </button>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-              <g clip-path="url(#clip0_856_25169)">
-                <path
-                  d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
-                  stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_856_25169">
-                  <rect width="120" height="120" fill="white"/>
-                </clipPath>
-              </defs>
-            </svg>
-            <span class="note bold t-up">sensitive</span>
-          </button>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-              <g clip-path="url(#clip0_856_25175)">
-                <path
-                  d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
-                  stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-                <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_856_25175">
-                  <rect width="120" height="120" fill="white"/>
-                </clipPath>
-              </defs>
-            </svg>
-            <span class="note bold t-up">combination</span>
-          </button>
-        </div>
+        <swiper v-bind="swiperConfig">
+          <swiper-slide>
+            <button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <g clip-path="url(#clip0_856_25141)">
+                  <path
+                    d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
+                    stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M59.9961 59.5605V117.714" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M79.6401 59.5605V114.078" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M40.3525 59.5605V114.078" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M99.2842 59.5605V102.085" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M20.7085 59.5605V102.085" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_856_25141">
+                    <rect width="120" height="120" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="note bold t-up">dry</span>
+            </button>
+          </swiper-slide>
+          <swiper-slide>
+            <button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <g clip-path="url(#clip0_856_25152)">
+                  <path
+                    d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
+                    stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path
+                    d="M22.9086 84.491C25.7215 84.491 28.0017 82.2107 28.0017 79.3979C28.0017 76.585 25.7215 74.3047 22.9086 74.3047C20.0957 74.3047 17.8154 76.585 17.8154 79.3979C17.8154 82.2107 20.0957 84.491 22.9086 84.491Z"
+                    fill="#FF8A00"/>
+                  <path
+                    d="M97.7699 83.241C100.583 83.241 102.863 80.9607 102.863 78.1479C102.863 75.335 100.583 73.0547 97.7699 73.0547C94.957 73.0547 92.6768 75.335 92.6768 78.1479C92.6768 80.9607 94.957 83.241 97.7699 83.241Z"
+                    fill="#FF8A00"/>
+                  <path
+                    d="M59.8676 84.2762C62.6804 84.2762 64.9607 81.9959 64.9607 79.183C64.9607 76.3701 62.6804 74.0898 59.8676 74.0898C57.0547 74.0898 54.7744 76.3701 54.7744 79.183C54.7744 81.9959 57.0547 84.2762 59.8676 84.2762Z"
+                    fill="#FF8A00"/>
+                  <path
+                    d="M79.5619 100.835C82.3748 100.835 84.6551 98.5545 84.6551 95.7416C84.6551 92.9287 82.3748 90.6484 79.5619 90.6484C76.749 90.6484 74.4688 92.9287 74.4688 95.7416C74.4688 98.5545 76.749 100.835 79.5619 100.835Z"
+                    fill="#FF8A00"/>
+                  <path
+                    d="M42.1522 100.52C44.9651 100.52 47.2454 98.24 47.2454 95.4271C47.2454 92.6143 44.9651 90.334 42.1522 90.334C39.3394 90.334 37.0591 92.6143 37.0591 95.4271C37.0591 98.24 39.3394 100.52 42.1522 100.52Z"
+                    fill="#FF8A00"/>
+                  <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_856_25152">
+                    <rect width="120" height="120" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="note bold t-up">oily</span>
+            </button>
+          </swiper-slide>
+          <swiper-slide>
+            <button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <g clip-path="url(#clip0_856_25163)">
+                  <path
+                    d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
+                    stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_856_25163">
+                    <rect width="120" height="120" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="note bold t-up">normal</span>
+            </button>
+          </swiper-slide>
+          <swiper-slide>
+            <button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <g clip-path="url(#clip0_856_25169)">
+                  <path
+                    d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
+                    stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_856_25169">
+                    <rect width="120" height="120" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="note bold t-up">sensitive</span>
+            </button>
+          </swiper-slide>
+          <swiper-slide>
+            <button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <g clip-path="url(#clip0_856_25175)">
+                  <path
+                    d="M59.9963 118.243C92.1649 118.243 118.243 92.1649 118.243 59.9963C118.243 27.8278 92.1649 1.75 59.9963 1.75C27.8278 1.75 1.75 27.8278 1.75 59.9963C1.75 92.1649 27.8278 118.243 59.9963 118.243Z"
+                    stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                  <path d="M1.75 59.9961H118.243" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_856_25175">
+                    <rect width="120" height="120" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="note bold t-up">combination</span>
+            </button>
+          </swiper-slide>
+        </swiper>
       </div>
     </section>
-    <RoutineGuide router-link="Start Your Beauty Discovery" :intro="true"/>
+    <RoutineGuide :router-link="{value: 'Start Your Beauty Discovery', link: '/routine-filter'}" :intro="true"/>
     <section class="routines">
       <h1 class="title">Random pick of Routines from Our Library</h1>
-      <div class="routines-inner">
+      <div class="routine-list">
         <RoutineCard
           v-for="routine in routines"
           :routine="routine"
           :key="routine.title"
         />
-        <div class="routines-item bg-orange d-center">
+        <div class="routine-item bg-orange d-center">
           <RouterLink to="/" class="link bold">See more Routines Designed for You <span>→</span></RouterLink>
         </div>
       </div>
@@ -452,10 +466,109 @@ const routines = ref([
     display: grid;
     grid-template-rows: auto auto 1fr;
     justify-items: center;
+    text-align: center;
     padding: 60px;
 
+    h1 {
+      padding-bottom: 16px;
+    }
     svg {
       align-self: end;
+      
+      @media (max-width: 1000px) {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 1000px) {
+      height: 600px;
+    }
+    @media (max-width: 768px) {
+      height: 450px;
+    }
+    @media (max-width: 480px) {
+      height: auto;
+      padding: 60px 20px;
+      color: #fff;
+    }
+  }
+
+  .categories {
+    border-top: 1px solid $black;
+    border-bottom: 1px solid $black;
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+    & > div {
+      padding: 60px;
+
+      @media (max-width: 1440px) {
+        padding: 30px;
+      }
+    }
+
+    &-texts {
+      border-right: 1px solid $black;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      grid-gap: 20px;
+
+      a {
+        align-self: end;
+        
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
+
+    &-content {
+      text-align: center;
+
+      .swiper {
+        padding: 20px 0 40px;
+        display: grid;
+        justify-items: center;
+        gap: 60px;
+        grid-template-columns: 1fr;
+
+        .swiper-wrapper {
+          width: max-content;
+          margin: 0 auto;
+        }
+
+        button {
+          display: grid;
+          justify-items: center;
+          gap: 20px;
+
+          svg {
+            height: auto;
+            width: 100%;
+          }
+
+          &.not-svg {
+            border-radius: 50%;
+            border: 1px solid $orange;
+            padding: 20px;
+
+            .step {
+              font-size: 80px;
+            }
+          }
+        }
+      }
+
+      .carousel {
+        padding: 20px 5px;
+      }
+
+      .swiper-slide {
+        width: max-content;
+      }
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
     }
   }
 
@@ -475,7 +588,7 @@ const routines = ref([
       grid-template-columns: repeat(4, 1fr);
       gap: 30px;
 
-      .routineCard .rates-icons {
+      .routine-card .rates-icons {
         display: none;
       }
 
@@ -506,69 +619,6 @@ const routines = ref([
   .routine .routine-item-discover {
     align-content: center;
     border-right: none;
-  }
-
-  .categories {
-    border-top: 1px solid $black;
-    border-bottom: 1px solid $black;
-    display: grid;
-    grid-template-columns: 50% 50%;
-
-    & > div {
-      padding: 60px;
-    }
-
-    &-texts {
-      border-right: 1px solid $black;
-      display: grid;
-      grid-template-rows: auto auto 1fr;
-      grid-gap: 20px;
-
-      a {
-        align-self: end;
-      }
-    }
-
-    &-content {
-      text-align: center;
-
-      .categories-items {
-        padding: 20px 0 40px;
-        display: grid;
-        justify-items: center;
-        gap: 60px;
-        grid-template-columns: repeat(5, 1fr);
-
-        button {
-          display: grid;
-          justify-items: center;
-          gap: 20px;
-
-          svg {
-            width: 100%;
-            height: auto;
-          }
-
-          &.not-svg {
-            border-radius: 50%;
-            border: 1px solid $orange;
-            padding: 20px;
-
-            .step {
-              font-size: 80px;
-            }
-          }
-        }
-      }
-
-      .carousel {
-        padding: 20px 5px;
-      }
-
-      .carousel-item svg {
-        width: 80%;
-      }
-    }
   }
 }
 </style>

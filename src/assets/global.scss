@@ -412,7 +412,14 @@ a {
   grid-gap: 60px 20px;
   padding: 60px;
 
-  .routine-img {
+  .routine-item {
+    padding: 60px;
+
+    @media screen and (max-width: 1440px) {
+      padding: 20px
+    }
+  }
+  .routine-img, .routine-item {
     height: 480px;
 
     @media screen and (max-width: 1600px) {
