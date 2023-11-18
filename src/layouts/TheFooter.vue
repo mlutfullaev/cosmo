@@ -3,6 +3,12 @@
 
 <template>
   <footer>
+    <button class="scrollToTop" v-scroll-to-top>
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="25" viewBox="0 0 17 25" fill="none">
+        <path d="M0 8.48657L8.43023 0L16.8605 8.48657V11.6337L9.62452 4.34936V25H7.23595V4.27864L0 11.5629V8.48657Z"
+          fill="white" />
+      </svg>
+    </button>
     <div class="footer">
       <div class="footer-item">
         <router-link to="/" class="logo">cosmo<span>.wiki</span></router-link>

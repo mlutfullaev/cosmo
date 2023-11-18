@@ -69,7 +69,7 @@ onMounted(() => {
           <FilterBrands button-type="link" />
         </div>
       </div>
-      <router-link to="/registration">AI PERSONAL AI ASSISTANT ↓</router-link>
+      <router-link to="/registration">CREATE PROFILE</router-link>
     </nav>
     <CountryAlert
       :city="city"

@@ -7,6 +7,7 @@ import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import store from '@/store'
+import { toNumber } from '@vue/shared'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,21 +15,23 @@ const products = ref<Product[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
+  console.log(route)
+  
   axios.get('https://api-www.beautyid.app/goods/filtered', {
-    params: store.state.filterQuery
+    params: route.query
   })
     .then(res => {
       if (!res.data.data.length) {
-        router.push(`/product-results/not-found/${route.params.param}`)
+        router.push(`/product-results/not-found/${route.params.param || ''}`)
         return
       }
       products.value = res.data.data
       allItems.value = res.data.meta.itemCount
     })
 })
-watch(store.state.filterQuery, () => {
+watch(route, () => {
   axios.get('https://api-www.beautyid.app/goods/filtered', {
-    params: store.state.filterQuery
+    params: route.query
   })
     .then(res => {
       if (!res.data.data.length) {
@@ -50,7 +53,7 @@ watch(store.state.filterQuery, () => {
     <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">Products</h3>
   </div>
-  <TheFilter :tags="true"/>
+  <TheFilter :products-length="allItems" :tags="true"/>
 
   <section v-if="products.length" class="product-list">
     <ProductCard
@@ -59,13 +62,13 @@ watch(store.state.filterQuery, () => {
       :product="product"
     />
     <div class="product-item center tablet" v-if="allItems > 11">
-      <button class="link bold" @click="store.commit('updateFilterQuery', {page: +store.state.filterQuery.page + 1})">discover more <span>→</span></button>
+      <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
     </div>
   </section>
 
   <div class="tablet-link bg-orange tablet" v-if="allItems > 11">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
-    <button class="link bold" @click="store.commit('updateFilterQuery', {page: +store.state.filterQuery.page + 1})">discover more <span>→</span></button>
+    <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
   </div>
 
   <SearchResultBottom />

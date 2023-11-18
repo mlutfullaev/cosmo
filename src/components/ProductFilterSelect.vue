@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, defineEmits } from 'vue'
+import { StringObject } from '@/interfaces'
 import axios from 'axios'
 import store from '@/store'
 
@@ -8,7 +9,7 @@ interface Variant {
   param: string,
   id: number,
 }
-
+defineEmits<{(event: 'updateFilterQuery', query: StringObject): void}>()
 const activeTab = ref<number | string>('age')
 const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: string | number}}>({
   age: {
@@ -95,11 +96,11 @@ onMounted(() => {
       })
     })
 
-  Object.keys(store.state.filterQuery).forEach(key => {
-    if (filters[key]) {
-      filters[key].selectedVariant = store.state.filterQuery[key]
-    }
-  })
+  // Object.keys(store.state.filterQuery).forEach(key => {
+  //   if (filters[key]) {
+  //     filters[key].selectedVariant = store.state.filterQuery[key]
+  //   }
+  // })
 })
 
 </script>
@@ -145,7 +146,7 @@ onMounted(() => {
             :class="{active: variant.param === filterTab.selectedVariant}"
             @click="() => {
               filterTab.selectedVariant = variant.param;
-              store.commit('updateFilterQuery', {[idx]: variant.param})
+              $emit('updateFilterQuery', {[idx]: variant.param})
             }"
             :key="variant.id">
             {{ variant.text }}

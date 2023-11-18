@@ -249,7 +249,7 @@ watch(route, () => {
     </div>
     <div class="main-links">
       <div v-for="link in links" :key="link.link" class="main-links-item">
-        <a :href="`#${link.link}`" class="link">{{ link.title }}</a>
+        <RouterLink :to="`#${link.link}`" class="link">{{ link.title }}</RouterLink>
         <p class="txt">{{ link.description }}</p>
       </div>
     </div>
@@ -515,7 +515,7 @@ watch(route, () => {
         maximum details about products and experiences Your SkinTwins had with this product.</p>
     </div>
   </section>
-  <section v-if="beauty" class="routines">
+  <section id="routine" v-if="beauty" class="routines">
     <h2 class="title">Routines with Argan oil</h2>
     <TheFilter :products-length="routines.length" />
     <div class="routine-list">
@@ -524,12 +524,6 @@ watch(route, () => {
     <ThePagination :page-count="25" :all="822" :current-page="2" :take="12" />
   </section>
   <RoutineGuide v-else />
-  <button class="scrollToTop" v-scroll-to-top>
-    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="25" viewBox="0 0 17 25" fill="none">
-      <path d="M0 8.48657L8.43023 0L16.8605 8.48657V11.6337L9.62452 4.34936V25H7.23595V4.27864L0 11.5629V8.48657Z"
-        fill="white" />
-    </svg>
-  </button>
   <div class="sidebar">
     <div class="sidebar-item">
       <a href="#full-details" class="txt-highlight">FULL DETAILS OF THIS PRODUCT</a>
@@ -552,7 +546,7 @@ watch(route, () => {
       </div>
     </div>
     <div class="sidebar-item">
-      <a href="#reviews" class="txt-highlight">REVIEWS AND EXPERIENCES</a>
+      <RouterLink to="#reviews" class="txt-highlight">REVIEWS AND EXPERIENCES</RouterLink>
       <div class="sidebar-content d-center">
         <svg width="18" height="30" viewBox="0 0 18 30" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.38042 8.87324H6.28183V30H1.38042V8.87324ZM3.83112 6.33803C2.92971 6.33803 2.16915 6.04225 1.54943 5.4507C0.957884 4.83099 0.662109 4.07042 0.662109 3.16901C0.662109 2.26761 0.957884 1.52113 1.54943 0.929578C2.16915 0.309859 2.92971 0 3.83112 0C4.73253 0 5.47901 0.309859 6.07056 0.929578C6.69028 1.52113 7.00014 2.26761 7.00014 3.16901C7.00014 4.07042 6.69028 4.83099 6.07056 5.4507C5.47901 6.04225 4.73253 6.33803 3.83112 6.33803Z" fill="currentColor"/>
@@ -561,7 +555,7 @@ watch(route, () => {
       </div>
     </div>
     <div class="sidebar-item">
-      <a href="#ai-assistance" class="txt-highlight">AI ASSISTANCE</a>
+      <RouterLink to="#ai-assistance" class="txt-highlight">AI ASSISTANCE</RouterLink>
       <div class="sidebar-content d-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
           <circle cx="15" cy="15" r="14" stroke="currentColor" stroke-width="2"/>
@@ -571,7 +565,7 @@ watch(route, () => {
       </div>
     </div>
     <div class="sidebar-item">
-      <a href="#free-samples" class="txt-highlight">PROMO SAMPLES AVAILABLE</a>
+      <RouterLink to="#free-samples" class="txt-highlight">PROMO SAMPLES AVAILABLE</RouterLink>
       <div class="sidebar-content d-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 30 31" fill="none">
           <rect x="1.78613" y="7.50488" width="26.4276" height="22.4952" rx="4" stroke="currentColor" stroke-width="2"/>
@@ -583,7 +577,7 @@ watch(route, () => {
       </div>
     </div>
     <div class="sidebar-item">
-      <a href="#routine" class="txt-highlight">BEAUTY ROUTINES</a>
+      <RouterLink to="#routine" class="txt-highlight">BEAUTY ROUTINES</RouterLink>
       <div class="sidebar-content d-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
           <g clip-path="url(#clip0_1160_8845)">

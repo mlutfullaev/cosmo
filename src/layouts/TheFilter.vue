@@ -8,12 +8,7 @@ import FilterBrands from '@/components/FilterBrands.vue'
 import 'swiper/css'
 import 'vue-simple-range-slider/css'
 
-defineProps({
-  productsLength: {
-    type: Number as PropType<number>,
-    required: false,
-  }
-})
+defineProps<{ productsLength: number }>()
 
 const popularTags = ref(['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'])
 const popularTagsSelected = ref('anti-age')
@@ -96,6 +91,7 @@ const modules = ref([Navigation])
       </svg>
       Filters <span v-if="selected.length">({{ selected.length }})</span>
     </button>
+    <p class="txt-highlight">products ({{ productsLength }})</p>
   </div>
   <div class="theFilter">
     <button @click="filterActive = !filterActive" class="txt-highlight theFilter-btn min-phone">
@@ -160,7 +156,7 @@ const modules = ref([Navigation])
       </svg>
     </button>
 
-    <p v-if="productsLength" class="txt-highlight">products ({{ productsLength }})</p>
+    <p class="txt-highlight products-length min-phone">products ({{ productsLength }})</p>
 
     <div class="theFilter-inner" :class="{active: filterActive}">
       <div class="theFilter-top d-sb" v-if="Object.keys(selected).length">
@@ -263,7 +259,7 @@ const modules = ref([Navigation])
   padding: 20px 60px;
   gap: 20px;
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
+  grid-template-columns: 1fr auto auto auto auto;
   align-items: center;
 
   .swiper {
@@ -274,6 +270,9 @@ const modules = ref([Navigation])
     }
     .swiper-slide {
       width: max-content;
+    }
+    @media (max-width: 768px) {
+      grid-column: 1 / 3;
     }
     @media (max-width: 480px) {
       grid-column: 1;
@@ -391,8 +390,16 @@ const modules = ref([Navigation])
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1200px) {
     padding: 20px;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: auto auto auto;
+
+    .products-length {
+      grid-column: 3;
+      grid-row: 1;
+    }
   }
   @media (max-width: 480px) {
     grid-template-columns: auto auto;

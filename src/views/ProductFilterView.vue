@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
+import { StringObject } from '@/interfaces'
 import store from '@/store'
 import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import FilterCategories from '@/components/FilterCategories.vue'
@@ -97,6 +98,14 @@ const library = ref([
     selected: '',
   }
 ])
+
+const filterQuery = ref<{[key: string]: string | number}>({
+  page: 1,
+  take: 11,
+})
+const updateFilterQuery = (query: {[key: string]: string | number}) => {
+  filterQuery.value = { ...filterQuery.value, ...query }
+}
 </script>
 
 <template>
@@ -122,7 +131,7 @@ const library = ref([
         :categories="library[activeLib]"
         @category-select="(category) => {
           library[activeLib].selected = category;
-          store.commit('updateFilterQuery', {[library[activeLib].title]: category})
+          updateFilterQuery({[library[activeLib].title]: category})
         }"
         :category-selected="library[activeLib].selected"/>
     </div>
@@ -142,9 +151,9 @@ const library = ref([
         for age </p>
     </div>
 
-    <ProductFilterSelect />
+    <ProductFilterSelect @updateFilterQuery="updateFilterQuery" />
 
-    <router-link :to="`/product-results/filtered/${store.state.productSearch}`" class="link bold">search <span>→</span></router-link>
+    <router-link :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
       <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
