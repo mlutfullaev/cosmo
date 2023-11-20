@@ -77,7 +77,7 @@ onMounted(() => {
       @alert="(value: boolean) => alertActive = value"
       @city="(value: string) => city = value"/>
   </header>
-  <TheMenu/>
+  <TheMenu :productLibrary="productLibrary"/>
 </template>
 
 <style lang="scss" scoped>

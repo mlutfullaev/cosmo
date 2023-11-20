@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, defineProps } from 'vue'
+
+defineProps<{productLibrary: {[key: string]: {title: string, items: {id: number, param: string, text: string}[]}}}>()
 
 const menuActive = ref(false)
 
@@ -13,6 +15,8 @@ watch(menuActive, (newMenuActive) => {
     document.body.classList.remove('menu-active')
   }
 })
+
+const subMenu = ref('')
 </script>
 
 <template>
@@ -33,8 +37,40 @@ watch(menuActive, (newMenuActive) => {
     </button>
     <div class="menu-inner" :class="{active: menuActive}">
       <div class="menu-content">
-        <router-link to="/" class="link bold">SKIN PRODUCTS LIBRARY <span>→</span></router-link>
-        <router-link to="/" class="link bold">BEUTY ROUTINES LIBRARY <span>→</span></router-link>
+        <div class="menu-item" :class="{active: subMenu === 'product'}">
+          <button @click="subMenu = subMenu === 'product' ? '' : 'product'" class="link bold">SKIN PRODUCTS LIBRARY <span>↓</span></button>
+          <div class="sub-menu">
+            <div
+              v-for="(lib, key) of productLibrary"
+              :key="key"
+              class="sub-menu-item">
+              <p class="txt-highlight">{{lib.title}}</p>
+              <RouterLink
+                class="note"
+                v-for="item in lib.items"
+                :to="`/product-results/menu/${item.param}`"
+                :key="item.id"
+              >{{ item.text }}</RouterLink>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item" :class="{active: subMenu === 'routine'}">
+          <button @click="subMenu = subMenu === 'routine' ? '' : 'routine'" class="link bold">BEUTY ROUTINES LIBRARY <span>↓</span></button>
+          <div class="sub-menu">
+            <div
+              v-for="(lib, key) of productLibrary"
+              :key="key"
+              class="sub-menu-item">
+              <p class="txt-highlight">{{lib.title}}</p>
+              <RouterLink
+                class="note"
+                v-for="item in lib.items"
+                :to="`/product-results/menu/${item.param}`"
+                :key="item.id"
+              >{{ item.text }}</RouterLink>
+            </div>
+          </div>
+        </div>
         <router-link to="/" class="link bold">PERSONAL AI ASSISTANT <span>→</span></router-link>
         <router-link to="/registration" class="link bold">create profile <span>→</span></router-link>
         <router-link to="/" class="link bold">how to use <span>→</span></router-link>
@@ -138,26 +174,57 @@ watch(menuActive, (newMenuActive) => {
   .menu-content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 80px;
+    gap: 40px;
     text-align: right;
     height: 100%;
     background: $white;
     padding: 140px 60px 100px;
     width: max-content;
     align-content: start;
+    overflow-y: auto;
 
+    .menu-item {
+
+      .sub-menu {
+        max-height: 0;
+        transition: .3s;
+        overflow: hidden;
+        padding: 0;
+
+        &-item {
+          display: grid;
+          grid-template-columns: auto;
+          gap: 8px;
+          justify-content: end;
+          padding: 10px 0;
+        }
+      }
+      button {
+        transition: .3s;
+        &:hover span {
+          right: 0;
+        }
+        @media (max-width: 340px) {
+          max-width: 200px;
+          justify-self: right;
+        }
+      }
+      &.active {
+        button {
+          color: $orange;
+        }
+        .sub-menu {
+          padding: 10px 0;
+          max-height: 100%;
+        }
+      }
+    }
     @media (max-width: 400px) {
       padding: 80px 40px 40px;
       gap: 40px;
       width: 100%;
     }
 
-    a {
-      @media (max-width: 340px) {
-        max-width: 200px;
-        justify-self: right;
-      }
-    }
   }
 }
 </style>
