@@ -4,15 +4,15 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 import AboutProduct from '@/views/SingleProduct/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
-import BaseReviews from '@/components/BaseReviews.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
-import { Product } from '@/interfaces'
+import { Product, Review } from '@/interfaces'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 import { computed } from '@vue/reactivity'
+import BaseRate from '@/components/BaseRate.vue'
 
 const route = useRoute()
 
@@ -218,6 +218,8 @@ const pricesMore = ref(false)
 
 const product = ref<null | Product>(null)
 const alternatives = ref<Product[]>([])
+const reviews = ref<Review[]>([])
+
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
     .then(res => {
@@ -226,6 +228,10 @@ onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/alternative/${route.params.id}?order=ASC&page=1&take=10`)
     .then(res => {
       alternatives.value = res.data.data
+    })
+  axios.get(`https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=${beauty.value ? 10 : 2}`)
+    .then(res => {
+      reviews.value = res.data.data
     })
 })
 
@@ -359,9 +365,27 @@ watch(route, () => {
       <router-link to="#" class="link bold">discover more <span>→</span></router-link>
     </div>
   </section>
-  <section id="reviews" class="reviews">
-    <BaseReviews />
-    <div class="reviews-item reviews-orange">
+  <section id="reviews" class="reviews" :class="{beauty: beauty}">
+    <div class="reviews-item base-reviews">
+      <div class="base-reviews__top bg-img">
+        <h3 class="title">Reviews</h3>
+        <div class="rating">
+          <h5 class="title">4.7/5</h5>
+          <BaseRate :rates="4.5" :text="true"/>
+        </div>
+      </div>
+      <div class="base-reviews__content">
+        <div
+          v-for="review in reviews"
+          :key="review.id"
+          class="base-reviews__content__review">
+          <p class="txt bold t-up">{{ review.reviewUser }}</p>
+          <BaseRate :rates="review.reviewRating"/>
+          <p class="txt">{{ review.reviewText }}</p>
+        </div>
+      </div>
+    </div>
+    <div v-if="!beauty" class="reviews-item reviews-orange">
       <div class="scan">
         <img src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
@@ -371,12 +395,12 @@ watch(route, () => {
         </div>
       </div>
     </div>
-    <div class="reviews-item reviews-picture bg-img">
+    <div v-if="!beauty" class="reviews-item reviews-picture bg-img">
       <h3 class="title">Check your SkinTwins experiences with Argan Oil</h3>
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
-  <AiAssistance />
+  <AiAssistance v-if="!beauty" />
   <section v-if="beauty" id="free-samples" class="samples">
     <div class="samples-top d-sb">
       <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121"
@@ -809,6 +833,42 @@ main {
   grid-template-columns: repeat(3, 1fr);
   height: 1000px;
 
+  .base-reviews {
+    display: grid;
+    align-content: space-between;
+
+    &__top {
+      @include pad();
+
+      .rating {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        gap: 20px;
+
+        h5 {
+          font-weight: 700;
+        }
+
+        .rates {
+          grid-template-columns: auto auto;
+        }
+      }
+    }
+    &__content {
+      &__review {
+      @include pad();
+      border-top: 1px solid $black;
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-gap: 20px;
+
+      .text:last-child {
+        grid-column: 1 / 3;
+      }
+    }
+    }
+  }
   &-item {
     &.reviews-orange {
       background: $orange;
@@ -836,6 +896,37 @@ main {
 
       @media (max-width: 768px) {
         display: none;
+      }
+    }
+  }
+
+  &.beauty {
+    grid-template-columns: 1fr;
+    height: auto;
+
+    .base-reviews {
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 1fr;
+
+      &__top {
+        border-right: 1px solid $black;
+        background: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('@/assets/img/global/girls-smiling.png');
+        color: #fff;
+      }
+      &__content {
+        overflow-y: auto;
+        max-height: 1000px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        @media (max-width: 1000px) {
+          max-height: 700px;
+        }
+      }
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: 500px auto;
       }
     }
   }

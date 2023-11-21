@@ -43,7 +43,7 @@ function next () {
         </div>
       </Slide>
     </Carousel>
-    <div class="navigation">
+    <div class="navigation" v-if="sliders.length > 1">
       <button @click="prev" class="prev">
         <svg xmlns="http://www.w3.org/2000/svg" width="102" height="23" viewBox="0 0 102 23" fill="none">
           <path

@@ -25,8 +25,8 @@ const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
 <template>
   <section id="ai-assistance" class="ai-assistance">
     <h3 class="title">Get most Support with Your Personal AI Beauty Assistant</h3>
-    <div class="ai-assistance-content">
-      <div class="ai-assistance-switcher">
+    <div class="ai-assistance__content">
+      <div class="ai-assistance__content__switcher">
         <button
           v-for="(desc, idx) in descriptions"
           :key="desc.title"
@@ -36,7 +36,7 @@ const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
         >0{{ idx + 1 }} {{ desc.title }}
         </button>
       </div>
-      <div class="ai-assistance-inner">
+      <div class="ai-assistance__content__inner">
         <div
           class="ai-assistance-item"
           v-for="(desc, idx) in descriptions"
@@ -80,33 +80,32 @@ const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
     }
   }
 
-  &-content {
+  &__content {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 2fr;
     grid-gap: 30px;
 
+    &__switcher {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 20px;
+
+      button {
+        color: $grey;
+        transition: .3s;
+        text-align: left;
+
+        &.active {
+          color: $orange;
+        }
+      }
+    }
     @media (max-width: 768px) {
       grid-template-columns: auto;
       padding: 0 20px;
       grid-gap: 20px;
-    }
-  }
-
-  &-switcher {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 20px;
-
-    button {
-      color: $grey;
-      transition: .3s;
-      text-align: left;
-
-      &.active {
-        color: $orange;
-      }
     }
   }
 

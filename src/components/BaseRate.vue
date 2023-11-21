@@ -17,8 +17,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="rates">
-    <div class="rates-icons">
+  <div class="base-rates">
+    <div class="base-rates__icons">
       <svg
         v-for="rate in 5"
         :key="rate"
@@ -36,11 +36,12 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
-.rates {
+.base-rates {
   display: grid;
   justify-items: right;
   gap: 5px;
-  &-icons {
+  
+  &__icons {
     display: flex;
     justify-content: right;
     align-items: center;

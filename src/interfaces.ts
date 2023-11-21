@@ -15,3 +15,11 @@ export interface Product {
 export type StringObject = {
   [key: string]: string;
 }
+
+
+export interface Review {
+  id: number;
+  reviewUser: string;
+  reviewText: string;
+  reviewRating: number;
+}
