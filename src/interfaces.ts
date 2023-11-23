@@ -11,11 +11,36 @@ export interface Product {
   goodRating: number;
 }
 
+export interface Routine {
+  genderName: "string",
+  skinTypeName: "string",
+  sensitivityName: "string",
+  routineName: "string",
+  routineDescription: "string",
+  idRoutineAuthor: 0,
+  authorImage: "string",
+  authorName: "string",
+  authorRank: "string",
+  routineAge: "string",
+  routineAgeAvoid: "string",
+  raceName: "string",
+  seasonName: "string",
+  routineUseRcommendations: "string",
+  routineMelanin: "string",
+  routineAllergy: "string",
+  routineSkinDisorders: "string",
+  routineLifeStates: "string",
+  routineTargetedConcerns: "string",
+  routineBenefits: "string",
+  routineWarnings: "string",
+  forSearch: "string",
+  uploadTag: "string",
+  id: number,
+}
 
 export type StringObject = {
   [key: string]: string;
 }
-
 
 export interface Review {
   id: number;

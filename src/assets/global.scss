@@ -1,10 +1,6 @@
 @import './fonts';
 
 // Base
-html {
-  // scroll-behavior: smooth;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -207,9 +203,9 @@ a {
 
 .pagination {
   padding-top: 10px;
-  display: none;
   justify-content: center;
   align-items: center;
+  display: flex;
   gap: 10px;
 
   button {
@@ -222,10 +218,6 @@ a {
     &.active {
       background: $black;
     }
-  }
-
-  @media (max-width: 768px) {
-    display: flex;
   }
 }
 
@@ -405,21 +397,21 @@ a {
   }
 }
 
-.routine-list {
+.routines__list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid $black;
   grid-gap: 60px 20px;
-  padding: 60px;
+  padding: 0 60px;
 
   .routine-item {
     padding: 60px;
 
     @media screen and (max-width: 1440px) {
-      padding: 20px
+      padding: 0 20px
     }
   }
-  .routine-img, .routine-item {
+  .routine-card__img, .routine-item {
     height: 480px;
 
     @media screen and (max-width: 1600px) {
@@ -589,6 +581,9 @@ a {
 .txt {
   font-size: 20px;
 
+  &.grey {
+    color: $grey-dark;
+  }
   @media (max-width: 1540px) {
     font-size: 16px;
   }
@@ -599,6 +594,9 @@ a {
   font-weight: 700;
   text-transform: uppercase;
 
+  span {
+    font-weight: 400;
+  }
   @media (max-width: 1540px) {
     font-size: 16px;
   }

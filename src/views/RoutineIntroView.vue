@@ -1,97 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import axios from 'axios'
+import { Routine } from '@/interfaces'
 import RoutineGuide from '@/components/RoutineGuide.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import 'swiper/css'
 
-const routines = ref([
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: false,
-    recommended: false,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 323,
-    saves: 332,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: false,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-])
+const alternatives = ref<Routine[]>([])
+onMounted(() => {
+  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=11')
+    .then(res => {
+      alternatives.value = res.data.data
+    })
+})
 
 const swiperConfig = {
   spaceBetween: 20,
@@ -441,11 +364,11 @@ const swiperConfig = {
     <RoutineGuide :router-link="{value: 'Start Your Beauty Discovery', link: '/routine-filter'}" :intro="true"/>
     <section class="routines">
       <h1 class="title">Random pick of Routines from Our Library</h1>
-      <div class="routine-list">
+      <div class="routines__list">
         <RoutineCard
-          v-for="routine in routines"
+          v-for="routine in alternatives"
           :routine="routine"
-          :key="routine.title"
+          :key="routine.id"
         />
         <div class="routine-item bg-orange d-center">
           <RouterLink to="/" class="link bold">See more Routines Designed for You <span>→</span></RouterLink>

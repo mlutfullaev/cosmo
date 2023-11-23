@@ -104,7 +104,7 @@ const routines = ref([
         products. Search Results for Oily skin person within 25-45 age range looking for hydration and cleansing acne
         products.</p>
     </div>
-    <div class="routine-list">
+    <div class="routines__list">
       <RoutineCard
         v-for="routine in routines"
         :routine="routine"

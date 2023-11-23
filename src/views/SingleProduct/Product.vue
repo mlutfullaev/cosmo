@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { Product, Review } from '@/interfaces'
 import axios from 'axios'
 import AboutProduct from '@/views/SingleProduct/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
@@ -9,10 +10,9 @@ import RoutineGuide from '@/components/RoutineGuide.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
-import { Product, Review } from '@/interfaces'
 import ReligionDiets from '@/components/ReligionDiets.vue'
-import { computed } from '@vue/reactivity'
 import BaseRate from '@/components/BaseRate.vue'
+import BaseReviews from '@/components/BaseReviews.vue'
 
 const route = useRoute()
 
@@ -48,6 +48,8 @@ const links = ref([
     title: 'beauty routines'
   },
 ])
+const beauty = ref(false)
+const pricesMore = ref(false)
 const samples = ref([
   {
     title: 'SEPHORA',
@@ -67,7 +69,6 @@ const samples = ref([
   },
 ])
 const activeSample = ref('LOOKFANTASTIC')
-const beauty = ref(true)
 const routines = ref([
   {
     promoted: true,
@@ -214,7 +215,6 @@ const routines = ref([
     rate: 3.5,
   },
 ])
-const pricesMore = ref(false)
 
 const product = ref<null | Product>(null)
 const alternatives = ref<Product[]>([])
@@ -245,6 +245,7 @@ watch(route, () => {
 
 <template>
   <TheHeader />
+
   <main v-if="product">
     <div class="main-inner d-center">
       <div>
@@ -260,8 +261,10 @@ watch(route, () => {
       </div>
     </div>
   </main>
+
   <ReligionDiets :bg="beauty ? 'claims-bg-beauty.png' : 'claims-bg.jpg'" />
   <AboutProduct v-if="product" :product="product"/>
+
   <section id="prices" class="prices">
     <div class="prices-text">
       <h1 class="prices-title">prices</h1>
@@ -354,6 +357,7 @@ watch(route, () => {
     <router-link v-if="beauty" to="/registration" class="tablet link bold tablet-orange">discover more
       <span>→</span></router-link>
   </section>
+
   <section v-if="beauty" class="product-list">
     <div class="product-item">
       <h3 class="title t-up">check alternative products</h3>
@@ -365,27 +369,19 @@ watch(route, () => {
       <router-link to="#" class="link bold">discover more <span>→</span></router-link>
     </div>
   </section>
-  <section id="reviews" class="reviews" :class="{beauty: beauty}">
-    <div class="reviews-item base-reviews">
-      <div class="base-reviews__top bg-img">
+
+  <section id="reviews" class="reviews" v-if="!beauty">
+    <div class="reviews__text">
+      <div class="reviews__text__top bg-img">
         <h3 class="title">Reviews</h3>
         <div class="rating">
           <h5 class="title">4.7/5</h5>
           <BaseRate :rates="4.5" :text="true"/>
         </div>
       </div>
-      <div class="base-reviews__content">
-        <div
-          v-for="review in reviews"
-          :key="review.id"
-          class="base-reviews__content__review">
-          <p class="txt bold t-up">{{ review.reviewUser }}</p>
-          <BaseRate :rates="review.reviewRating"/>
-          <p class="txt">{{ review.reviewText }}</p>
-        </div>
-      </div>
+      <BaseReviews :reviews="reviews" :text="false"/>
     </div>
-    <div v-if="!beauty" class="reviews-item reviews-orange">
+    <div class="reviews__orange">
       <div class="scan">
         <img src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
@@ -395,12 +391,26 @@ watch(route, () => {
         </div>
       </div>
     </div>
-    <div v-if="!beauty" class="reviews-item reviews-picture bg-img">
+    <div class="reviews__picture bg-img">
       <h3 class="title">Check your SkinTwins experiences with Argan Oil</h3>
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
+
+  <section id="reviews" class="reviews reviews--beauty" v-else>
+    <div class="reviews--beauty__left bg-img">
+      <h3 class="title">Reviews</h3>
+      <div class="rating">
+        <h5 class="title">4.7/5</h5>
+        <BaseRate :rates="4.5" :text="true"/>
+      </div>
+    </div>
+    <BaseReviews :reviews="reviews" :text="true" />
+    <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
+  </section>
+
   <AiAssistance v-if="!beauty" />
+
   <section v-if="beauty" id="free-samples" class="samples">
     <div class="samples-top d-sb">
       <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121"
@@ -528,6 +538,7 @@ watch(route, () => {
       </div>
     </div>
   </section>
+
   <section v-else id="free-samples" class="samples-anonymous">
     <div class="d-center">
       <h2 class="title">Free samples of Argan Oil available in Moscow</h2>
@@ -539,15 +550,18 @@ watch(route, () => {
         maximum details about products and experiences Your SkinTwins had with this product.</p>
     </div>
   </section>
+
   <section id="routine" v-if="beauty" class="routines">
     <h2 class="title">Routines with Argan oil</h2>
     <TheFilter :products-length="routines.length" />
-    <div class="routine-list">
+    <div class="routines__list">
       <RoutineCard v-for="routine in routines" :routine="routine" :key="routine.title" />
     </div>
     <ThePagination :page-count="25" :all="822" :current-page="2" :take="12" />
   </section>
+
   <RoutineGuide v-else />
+
   <div class="sidebar">
     <div class="sidebar-item">
       <a href="#full-details" class="txt-highlight">FULL DETAILS OF THIS PRODUCT</a>
@@ -623,7 +637,9 @@ watch(route, () => {
       </div>
     </div>
   </div>
+
   <TheFooter />
+
 </template>
 
 <style lang="scss" scoped>
@@ -827,13 +843,12 @@ main {
 }
 
 .reviews {
-  border-top: 1px solid $black;
   border-bottom: 1px solid $black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   height: 1000px;
 
-  .base-reviews {
+  &__text {
     display: grid;
     align-content: space-between;
 
@@ -869,65 +884,32 @@ main {
     }
     }
   }
-  &-item {
-    &.reviews-orange {
-      background: $orange;
-      display: grid;
-      @include pad();
+  &__orange {
+    background: $orange;
+    display: grid;
+    @include pad();
 
-      .scan {
-        align-self: center;
-        padding: 0;
+    .scan {
+      align-self: center;
+      padding: 0;
 
-        &-content {
-          grid-column: 1 / 3;
-        }
-      }
-
-      @media (max-width: 768px) {
-        display: none;
+      &-content {
+        grid-column: 1 / 3;
       }
     }
 
-    &.reviews-picture {
-      @include pad();
-      background-image: url("@/assets/img/product/reviews-img.png");
-      color: $white;
-
-      @media (max-width: 768px) {
-        display: none;
-      }
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
-  &.beauty {
-    grid-template-columns: 1fr;
-    height: auto;
+  &__picture {
+    @include pad();
+    background-image: url("@/assets/img/product/reviews-img.png");
+    color: $white;
 
-    .base-reviews {
-      grid-template-columns: 50% 50%;
-      grid-template-rows: 1fr;
-
-      &__top {
-        border-right: 1px solid $black;
-        background: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('@/assets/img/global/girls-smiling.png');
-        color: #fff;
-      }
-      &__content {
-        overflow-y: auto;
-        max-height: 1000px;
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
-        @media (max-width: 1000px) {
-          max-height: 700px;
-        }
-      }
-      @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-        grid-template-rows: 500px auto;
-      }
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
@@ -935,6 +917,22 @@ main {
     grid-template-columns: auto;
     height: auto;
     border: none;
+  }
+}
+.reviews--beauty {
+  height: auto;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 1fr;
+
+  &__left {
+    @include pad();
+    border-right: 1px solid $black;
+    background: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('@/assets/img/global/girls-smiling.png');
+    color: #fff;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 500px auto;
   }
 }
 

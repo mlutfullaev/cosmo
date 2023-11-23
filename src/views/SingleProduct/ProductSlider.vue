@@ -123,6 +123,9 @@ function next () {
       left: 20px;
     }
   }
+  .pagination {
+    display: none;
+  }
 
   @media (max-width: 900px) {
     .pagination {

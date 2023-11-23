@@ -194,6 +194,13 @@ onMounted(() => {
       }
     }
   }
+  .pagination {
+    display: none;
+    
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
 
   .icon {
     width: 80px;

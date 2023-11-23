@@ -1,566 +1,278 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import axios from 'axios'
+import { useRoute } from 'vue-router'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper/modules'
+import { Review, Routine } from '@/interfaces'
 import AiAssistance from '@/components/AiAssistance.vue'
 import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
-import { Carousel, Slide } from 'vue3-carousel'
 import BeforeAfter from '@/components/BeforeAfter.vue'
+import 'swiper/css'
+import { computed } from '@vue/reactivity'
+import RoutineCard from '@/components/RoutineCard.vue'
+
+interface Step {
+  stepOrder: number,
+  stepName: string,
+  stepDescription: string,
+  stepManual: string,
+  id: number,
+}
 
 const beauty = ref(true)
-const steps = ref([
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-  {
-    title: 'Cleansing',
-    text: 'Gently massage the cleanser onto '
-  },
-])
-const routineItems = ref([
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: false,
-    rate: 4.5,
-    id: 1,
-  },
-  {
-    title: 'GlowBotanica Beauty Serum',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: false,
-    recommended: true,
-    rate: 3.5,
-    id: 2,
-  },
-  {
-    title: 'LunaDew Moisturizing Night Cream',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 3,
-    id: 3,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 2.5,
-    id: 4,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: false,
-    recommended: true,
-    rate: 2,
-    id: 5,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 4,
-    id: 6,
-  },
-  {
-    title: 'GlowBotanica Beauty Serum',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 3.5,
-    id: 7,
-  },
-  {
-    title: 'LunaDew Moisturizing Night Cream',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 3,
-    id: 8,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 2.5,
-    id: 9,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 5,
-    id: 10,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 2.5,
-    id: 11,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'product/product.png',
-    promoted: true,
-    recommended: true,
-    rate: 5,
-    id: 12,
-  },
-])
-const activeRoutineItem = ref(0)
-const alternativeItems = ref([
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'routine/alternative-1.png',
-    promoted: true,
-    recommended: false,
-    rate: 4.5,
-    id: 1,
-  },
-  {
-    title: 'GlowBotanica Beauty Serum',
-    price: 'from $ 180',
-    imgUrl: 'routine/alternative-2.png',
-    promoted: false,
-    recommended: true,
-    rate: 3.5,
-    id: 2,
-  },
-  {
-    title: 'LunaDew Moisturizing Night Cream',
-    price: 'from $ 180',
-    imgUrl: 'routine/alternative-3.png',
-    promoted: true,
-    recommended: true,
-    rate: 3,
-    id: 3,
-  },
-  {
-    title: 'PureRadiance Cleansing Oil',
-    price: 'from $ 180',
-    imgUrl: 'routine/alternative-4.png',
-    promoted: true,
-    recommended: true,
-    rate: 2.5,
-    id: 4,
-  },
-])
+const route = useRoute()
 
-const currentStep = ref(2)
+const steps = ref<Step[]>([])
+const routine = ref<Routine | null>(null)
+const reviews = ref<Review[]>([])
+const alternatives = ref<Routine[]>([])
+onMounted(() => {
+  axios.get(`https://api-www.beautyid.app/routines/byid/${route.params.id}`)
+    .then(res => {
+      routine.value = res.data.routine
+      steps.value = res.data.steps
+    })
+  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=11')
+    .then(res => {
+      alternatives.value = res.data.data
+    })
+  axios.get('https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=10')
+    .then(res => {
+      reviews.value = res.data.data
+    })
+})
 
-function prev () {
-  currentStep.value = currentStep.value < 3 ? steps.value.length - 1 : currentStep.value - 1
-}
+watch(route, () => {
+  axios.get(`https://api-www.beautyid.app/routines/byid/${route.params.id}`)
+    .then(res => {
+      routine.value = res.data.routine
+      steps.value = res.data.steps
+    })
+})
 
-function next () {
-  currentStep.value = currentStep.value < steps.value.length - 3 ? currentStep.value + 1 : 0
-}
+const stepSwiper = ref(0)
 </script>
 
 <template>
   <TheHeader/>
-  <main class="main">
-    <div class="main-image bg-img">
-      <div class="product-author">
-        <img src="@/assets/img/global/author.png" alt="author">
-        <p>author</p>
-        <button>YOUR SKINTWIN</button>
+
+  <main v-if="routine" class="main">
+    <div class="main__image bg-img"></div>
+    <div class="main__inner">
+      <div class="main__inner__content">
+        <div class="d-center">
+          <div class="item">
+            <svg width="80" height="89" viewBox="0 0 80 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="49" r="39.5" stroke="black"/>
+              <path d="M56.0078 68.3504C52.4745 68.3504 49.7078 67.3671 47.7078 65.4004C45.7411 63.4337 44.6745 60.7171 44.5078 57.2504H48.1078C48.2745 59.7504 49.0245 61.6837 50.3578 63.0504C51.6911 64.3837 53.5745 65.0504 56.0078 65.0504C58.6078 65.0504 60.5745 64.4337 61.9078 63.2004C63.2411 61.9337 63.9078 60.2837 63.9078 58.2504C63.9078 56.2837 63.2578 54.6837 61.9578 53.4504C60.6578 52.2171 58.8245 51.6004 56.4578 51.6004H51.7578V48.4004H56.4578C58.5578 48.4004 60.1911 47.8337 61.3578 46.7004C62.5578 45.5337 63.1578 44.0337 63.1578 42.2004C63.1578 40.3004 62.5411 38.7837 61.3078 37.6504C60.1078 36.5171 58.3411 35.9504 56.0078 35.9504C53.9078 35.9504 52.2411 36.5671 51.0078 37.8004C49.8078 39.0004 49.0911 40.6504 48.8578 42.7504H45.2578C45.3245 41.2171 45.6245 39.8337 46.1578 38.6004C46.6911 37.3671 47.4078 36.3171 48.3078 35.4504C49.2411 34.5504 50.3578 33.8671 51.6578 33.4004C52.9578 32.9004 54.4078 32.6504 56.0078 32.6504C57.7078 32.6504 59.2245 32.8837 60.5578 33.3504C61.8911 33.8171 63.0078 34.4671 63.9078 35.3004C64.8411 36.1337 65.5411 37.1504 66.0078 38.3504C66.5078 39.5171 66.7578 40.8004 66.7578 42.2004C66.7578 43.9004 66.3411 45.4337 65.5078 46.8004C64.7078 48.1337 63.5411 49.1837 62.0078 49.9504C63.8078 50.7171 65.1745 51.8171 66.1078 53.2504C67.0411 54.6837 67.5078 56.3504 67.5078 58.2504C67.5078 59.7504 67.2411 61.1171 66.7078 62.3504C66.2078 63.5837 65.4745 64.6504 64.5078 65.5504C63.5411 66.4171 62.3411 67.1004 60.9078 67.6004C59.4745 68.1004 57.8411 68.3504 56.0078 68.3504Z" fill="black"/>
+              <path d="M26.4883 68.3504C24.7216 68.3504 23.1216 68.0671 21.6883 67.5004C20.2883 66.9004 19.0883 65.9504 18.0883 64.6504C17.0883 63.3504 16.3216 61.6837 15.7883 59.6504C15.2549 57.5837 14.9883 55.0671 14.9883 52.1004V48.9004C14.9883 45.9671 15.2549 43.4837 15.7883 41.4504C16.3549 39.3837 17.1383 37.7004 18.1383 36.4004C19.1383 35.1004 20.3383 34.1504 21.7383 33.5504C23.1716 32.9504 24.7549 32.6504 26.4883 32.6504C28.2216 32.6504 29.7883 32.9504 31.1883 33.5504C32.6216 34.1171 33.8383 35.0504 34.8383 36.3504C35.8383 37.6504 36.6049 39.3337 37.1383 41.4004C37.705 43.4671 37.9883 45.9671 37.9883 48.9004V52.1004C37.9883 55.0337 37.705 57.5337 37.1383 59.6004C36.6049 61.6337 35.8383 63.3004 34.8383 64.6004C33.8383 65.9004 32.6216 66.8504 31.1883 67.4504C29.7883 68.0504 28.2216 68.3504 26.4883 68.3504ZM26.4883 65.0504C27.6883 65.0504 28.7716 64.8504 29.7383 64.4504C30.7383 64.0171 31.5716 63.3004 32.2383 62.3004C32.9383 61.3004 33.4716 59.9671 33.8383 58.3004C34.2049 56.6337 34.3883 54.5671 34.3883 52.1004V48.9004C34.3883 46.4337 34.2049 44.3837 33.8383 42.7504C33.4716 41.0837 32.9383 39.7504 32.2383 38.7504C31.5383 37.7504 30.7049 37.0337 29.7383 36.6004C28.7716 36.1671 27.6883 35.9504 26.4883 35.9504C25.2883 35.9504 24.1883 36.1671 23.1883 36.6004C22.2216 37.0004 21.3883 37.7004 20.6883 38.7004C20.0216 39.7004 19.5049 41.0337 19.1383 42.7004C18.7716 44.3671 18.5883 46.4337 18.5883 48.9004V52.1004C18.5883 54.5671 18.7716 56.6337 19.1383 58.3004C19.5049 59.9337 20.0383 61.2504 20.7383 62.2504C21.4383 63.2504 22.2716 63.9671 23.2383 64.4004C24.2049 64.8337 25.2883 65.0504 26.4883 65.0504Z" fill="black"/>
+            </svg>
+            <p class="note t-up bold">STEP</p>
+          </div>
+          <div class="item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="82" height="91" viewBox="0 0 82 91" fill="none">
+              <path d="M40.997 10C18.9057 10 1 27.9057 1 49.997C1 72.0883 18.9117 90 41.003 90C63.0944 90 81.0061 72.0883 81.0061 49.997C81.0061 44.7755 79.9945 39.7903 78.1712 35.2109" stroke="black" stroke-miterlimit="10" stroke-linecap="round"/>
+              <path d="M22.8918 14.1672C38.126 -9.54345 59.1214 6.00604 59.1214 6.00604M22.8867 14.0401C22.8867 14.0401 43.2058 29.4065 58.6078 5.045" stroke="black" stroke-miterlimit="10"/>
+              <path d="M17.6416 43.9469L14.25 46.2554V44.491L17.6416 42.1621H19.223V57.9913H17.6416V43.952V43.9469Z" fill="black"/>
+              <path d="M28.2018 58.1495C27.4035 58.1495 26.6814 58.0173 26.0407 57.7529C25.4001 57.4885 24.856 57.0613 24.4034 56.4766C23.9509 55.8867 23.6051 55.1291 23.361 54.2036C23.117 53.2782 23 52.1443 23 50.8019V49.3527C23 48.0256 23.122 46.8967 23.3712 45.9713C23.6204 45.0458 23.9712 44.2882 24.4238 43.6983C24.8763 43.1085 25.4204 42.6814 26.0611 42.4068C26.7018 42.1373 27.4137 42 28.1967 42C28.9798 42 29.6917 42.1322 30.3324 42.3966C30.9731 42.661 31.5171 43.0882 31.9697 43.6729C32.4222 44.2628 32.7731 45.0204 33.0222 45.956C33.2714 46.8916 33.3934 48.0205 33.3934 49.3476V50.7968C33.3934 52.1239 33.2714 53.2528 33.0222 54.1782C32.7731 55.1037 32.4222 55.8613 31.9697 56.4512C31.5171 57.041 30.9731 57.4681 30.3324 57.7427C29.6917 58.0122 28.9798 58.1495 28.1967 58.1495H28.2018ZM28.2018 56.6596C28.7459 56.6596 29.2391 56.5681 29.6815 56.3749C30.1239 56.1867 30.5052 55.8664 30.8103 55.4138C31.1205 54.9613 31.3544 54.3613 31.5222 53.6036C31.69 52.8511 31.7714 51.9155 31.7714 50.8019V49.3527C31.7714 48.2391 31.69 47.3086 31.5222 46.5611C31.3544 45.8136 31.1154 45.2136 30.8002 44.7662C30.4849 44.3187 30.1086 43.9882 29.6713 43.795C29.234 43.6017 28.7459 43.5 28.2018 43.5C27.6577 43.5 27.1645 43.5916 26.7221 43.7848C26.2797 43.978 25.8984 44.2933 25.5933 44.7458C25.2882 45.1984 25.0492 45.7984 24.8814 46.556C24.7136 47.3086 24.6322 48.2442 24.6322 49.3578V50.807C24.6322 51.9205 24.7136 52.8511 24.8814 53.5985C25.0492 54.346 25.2882 54.946 25.6034 55.3935C25.9187 55.841 26.295 56.1715 26.7323 56.3647C27.1696 56.563 27.6577 56.6596 28.2018 56.6596Z" fill="black"/>
+              <path d="M41.8151 58.1495C41.0168 58.1495 40.2947 58.0173 39.654 57.7529C39.0133 57.4885 38.4693 57.0613 38.0167 56.4766C37.5641 55.8867 37.2184 55.1291 36.9743 54.2036C36.7353 53.2782 36.6133 52.1443 36.6133 50.8019V49.3527C36.6133 48.0256 36.7353 46.8967 36.9845 45.9713C37.2336 45.0458 37.5845 44.2882 38.037 43.6983C38.4896 43.1085 39.0337 42.6814 39.6744 42.4068C40.3151 42.1373 41.0269 42 41.81 42C42.5931 42 43.3049 42.1322 43.9456 42.3966C44.5863 42.661 45.1304 43.0882 45.583 43.6729C46.0355 44.2628 46.3864 45.0204 46.6355 45.956C46.8847 46.8916 47.0067 48.0205 47.0067 49.3476V50.7968C47.0067 52.1239 46.8847 53.2528 46.6355 54.1782C46.3864 55.1037 46.0355 55.8613 45.583 56.4512C45.1304 57.041 44.5863 57.4681 43.9456 57.7427C43.3049 58.0122 42.5931 58.1495 41.81 58.1495H41.8151ZM41.8151 56.6596C42.3592 56.6596 42.8524 56.5681 43.2948 56.3749C43.7372 56.1867 44.1185 55.8664 44.4236 55.4138C44.7338 54.9613 44.9677 54.3613 45.1355 53.6036C45.3033 52.8511 45.3847 51.9155 45.3847 50.8019V49.3527C45.3847 48.2391 45.3033 47.3086 45.1355 46.5611C44.9677 45.8136 44.7287 45.2136 44.4134 44.7662C44.0982 44.3187 43.7219 43.9882 43.2846 43.795C42.8473 43.6017 42.3592 43.5 41.8151 43.5C41.271 43.5 40.7778 43.5916 40.3354 43.7848C39.893 43.978 39.5116 44.2933 39.2066 44.7458C38.8964 45.1984 38.6625 45.7984 38.4947 46.556C38.3269 47.3086 38.2455 48.2442 38.2455 49.3578V50.807C38.2455 51.9205 38.3269 52.8511 38.4947 53.5985C38.6625 54.346 38.9015 54.946 39.2167 55.3935C39.532 55.841 39.9083 56.1715 40.3456 56.3647C40.7829 56.563 41.271 56.6596 41.8151 56.6596Z" fill="black"/>
+              <path d="M53.2806 50.2332C52.7517 50.2332 52.2687 50.1416 51.8212 49.9637C51.3738 49.7806 50.9975 49.5314 50.6771 49.2162C50.3619 48.9009 50.1127 48.5145 49.9297 48.0619C49.7466 47.6094 49.6602 47.1111 49.6602 46.5721V45.667C49.6602 45.1229 49.7517 44.6246 49.9297 44.1771C50.1127 43.7245 50.3619 43.3381 50.6771 43.0228C50.9924 42.7076 51.3738 42.4584 51.8212 42.2754C52.2636 42.0923 52.7517 42.0059 53.2806 42.0059C53.8094 42.0059 54.2925 42.0974 54.7399 42.2754C55.1823 42.4584 55.5637 42.7076 55.884 43.0228C56.1993 43.3381 56.4484 43.7245 56.6315 44.1771C56.8145 44.6296 56.901 45.128 56.901 45.667V46.5721C56.901 47.1161 56.8095 47.6145 56.6315 48.0619C56.4484 48.5145 56.1993 48.9009 55.884 49.2162C55.5688 49.5314 55.1874 49.7806 54.7399 49.9637C54.2925 50.1467 53.8094 50.2332 53.2806 50.2332ZM53.2806 48.9213C53.9162 48.9213 54.4348 48.7077 54.8416 48.2857C55.2484 47.8636 55.4518 47.289 55.4518 46.567V45.6619C55.4518 44.9398 55.2484 44.3652 54.8416 43.9432C54.4348 43.5211 53.9162 43.3076 53.2806 43.3076C52.645 43.3076 52.1263 43.5211 51.7195 43.9432C51.3127 44.3652 51.1093 44.9398 51.1093 45.6619V46.567C51.1093 47.289 51.3127 47.8636 51.7195 48.2857C52.1263 48.7077 52.645 48.9213 53.2806 48.9213ZM62.4587 42.1584H64.1316L54.9535 57.9876H53.2806L62.4587 42.1584ZM64.1316 58.1452C63.6028 58.1452 63.1198 58.0537 62.6723 57.8757C62.2248 57.6926 61.8486 57.4435 61.5282 57.1282C61.2129 56.813 60.9638 56.4265 60.7807 55.974C60.5977 55.5214 60.5112 55.0231 60.5112 54.4841V53.579C60.5112 53.0349 60.6028 52.5366 60.7807 52.0891C60.9638 51.6366 61.2129 51.2501 61.5282 50.9349C61.8435 50.6196 62.2248 50.3704 62.6723 50.1874C63.1147 50.0043 63.6028 49.9179 64.1316 49.9179C64.6605 49.9179 65.1435 50.0094 65.591 50.1874C66.0385 50.3654 66.4147 50.6196 66.7351 50.9349C67.0504 51.2501 67.2995 51.6366 67.4826 52.0891C67.6656 52.5417 67.7521 53.04 67.7521 53.579V54.4841C67.7521 55.0282 67.6605 55.5265 67.4826 55.974C67.2995 56.4265 67.0504 56.813 66.7351 57.1282C66.4198 57.4435 66.0385 57.6926 65.591 57.8757C65.1435 58.0587 64.6605 58.1452 64.1316 58.1452ZM64.1316 56.8333C64.7673 56.8333 65.2859 56.6197 65.6927 56.1977C66.0995 55.7756 66.3029 55.2011 66.3029 54.479V53.5739C66.3029 52.8519 66.0995 52.2773 65.6927 51.8552C65.2859 51.4332 64.7673 51.2196 64.1316 51.2196C63.496 51.2196 62.9774 51.4332 62.5706 51.8552C62.1638 52.2773 61.9604 52.8519 61.9604 53.5739V54.479C61.9604 55.2011 62.1638 55.7756 62.5706 56.1977C62.9774 56.6197 63.496 56.8333 64.1316 56.8333Z" fill="black"/>
+            </svg>
+            <p class="note t-up bold">natural</p>
+          </div>
+        </div>
+        <h2 class="title">Spring Revitalising Routine</h2>
+        <p class="txt">Personalized Beauty Routine for Individuals for scandic people with oily problematic skin. Unlock the Secrets of Scandic Beauty: Embrace a Natural, Effortless, and Radiant Routine.</p>
+        <h3 class="title-secondary">ROUTINE BUDGET: <span class="bold">130 euro</span></h3>
+        <p class="txt grey">We estimate Budget of this Routine  based on average pricing i your area.</p>
       </div>
-      <BaseRate :rates="4.5" :text="true"/>
-      <div class="product-icons">
-        <div class="product-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
-            <path
-              d="M13.9326 21.8989C13.5505 22.0337 12.9213 22.0337 12.5393 21.8989C9.28089 20.7865 2 16.1461 2 8.28089C2 4.80898 4.79775 2 8.24718 2C10.2921 2 12.1011 2.98876 13.2359 4.51685C14.3708 2.98876 16.191 2 18.2247 2C21.6741 2 24.4719 4.80898 24.4719 8.28089C24.4719 16.1461 17.191 20.7865 13.9326 21.8989Z"
-              stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <p>623 beauties</p>
+      <div class="main__inner__info">
+        <div class="main__inner__info__left">
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <g clip-path="url(#clip0_891_62064)">
+                <path d="M14.9983 29.44C22.9732 29.44 29.4381 22.9751 29.4381 15.0003C29.4381 7.02544 22.9732 0.560547 14.9983 0.560547C7.02349 0.560547 0.558594 7.02544 0.558594 15.0003C0.558594 22.9751 7.02349 29.44 14.9983 29.44Z" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                <path d="M14.8524 7.42531C14.4453 7.42531 14.1073 7.28337 13.8327 7.00138C13.5582 6.71938 13.4219 6.36828 13.4219 5.94996C13.4219 5.53163 13.5582 5.18054 13.8327 4.89854C14.1073 4.61654 14.4471 4.47461 14.8524 4.47461C15.2577 4.47461 15.5975 4.61654 15.8721 4.89854C16.1466 5.18054 16.2829 5.53163 16.2829 5.94996C16.2829 6.36828 16.1466 6.71938 15.8721 7.00138C15.5975 7.28337 15.2577 7.42531 14.8524 7.42531ZM13.8477 10.1893H15.8571V25.8896H13.8477V10.1874V10.1893Z" fill="#FF8A00"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_891_62064">
+                  <rect width="30" height="30" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+          <h2 class="orange"><span>beauty</span><br/>meter</h2>
+          <p class="txt-highlight">VERIFIED RESULTS by 15 users</p>
         </div>
-        <div class="product-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 22 24" fill="none">
-            <path
-              d="M19.8412 5.85849V19.9526C19.8412 21.7516 18.5509 22.5084 16.9752 21.6399L12.0993 18.9229C11.5783 18.6375 10.7346 18.6375 10.2135 18.9229L5.33764 21.6399C3.76198 22.5084 2.47168 21.7516 2.47168 19.9526V5.85849C2.47168 3.73694 4.20862 2 6.33017 2H15.9827C18.1042 2 19.8412 3.73694 19.8412 5.85849Z"
-              stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <p>143 added</p>
-        </div>
-      </div>
-      <p class="recommended" :class="{active: false}">recommended</p>
-      <p class="promoted" :class="{active: true}">promoted</p>
-    </div>
-    <div class="main-content">
-      <h2 class="title">Spring Revitalising Routine</h2>
-      <p class="txt">Personalized Beauty Routine for Individuals for scandic people with oily problematic skin</p>
-      <div class="main-icons">
-        <div class="main-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="53" viewBox="0 0 52 53" fill="none">
-            <g clip-path="url(#clip0_605_3390)">
-              <path
-                d="M25.9938 11.8589C34.1019 11.8501 40.7755 18.6527 40.7521 26.9C40.7288 35.1587 34.1068 41.896 26.0061 41.9036C17.8968 41.9111 11.2257 35.1123 11.2491 26.8624C11.2724 18.6025 17.8919 11.8677 25.9938 11.8589Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M30.5969 44.2852C29.0443 47.0657 27.5459 49.7509 25.9995 52.5213C24.4519 49.7496 22.951 47.0632 21.3984 44.2827C24.4949 45.1092 27.5016 45.108 30.5969 44.2852Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M43.0752 31.5505C43.8914 28.4239 43.9 25.3938 43.0789 22.2446C45.8029 23.8148 48.4322 25.3311 51.1464 26.8963C48.4384 28.4577 45.8053 29.9765 43.0752 31.5505Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M0.854492 26.8825C3.57112 25.3135 6.19923 23.796 8.91094 22.2296C8.10579 25.3537 8.0935 28.3988 8.91832 31.5379C6.20415 29.9702 3.57726 28.4552 0.855721 26.8825H0.854492Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M30.5404 9.48101C27.4832 8.65703 24.522 8.65327 21.46 9.48101C22.9891 6.7043 24.4704 4.01789 25.9996 1.24243C27.525 4.00911 29.0038 6.69176 30.5404 9.47976V9.48101Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M10.686 35.8961C12.3184 38.7042 14.4389 40.8337 17.1776 42.5055C14.1685 43.3308 11.2773 44.1247 8.29883 44.9424C9.09783 41.9123 9.87594 38.9663 10.686 35.8961Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M41.3124 35.8961C42.1225 38.9575 42.8994 41.8985 43.7033 44.9399C40.7359 44.1272 37.8324 43.3308 34.8232 42.5068C37.5558 40.835 39.6849 38.7105 41.3124 35.8961Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M43.7123 8.85645C42.9047 11.8903 42.1217 14.83 41.3129 17.8688C39.6915 15.1172 37.5969 12.9588 34.8643 11.3033C37.8611 10.4743 40.74 9.67917 43.7123 8.85645Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M10.6885 17.8738C9.8784 14.8162 9.10029 11.8815 8.29883 8.85516C11.2453 9.66786 14.1205 10.4605 17.1113 11.2857C14.4192 12.94 12.3025 15.057 10.6885 17.8751V17.8738Z"
-                stroke="black" stroke-miterlimit="10"/>
-            </g>
-            <defs>
-              <clipPath id="clip0_605_3390">
-                <rect width="51" height="52" fill="white" transform="translate(0.5 0.880005)"/>
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-        <div class="main-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="53" viewBox="0 0 52 53" fill="none">
-            <g clip-path="url(#clip0_605_3390)">
-              <path
-                d="M25.9938 11.8589C34.1019 11.8501 40.7755 18.6527 40.7521 26.9C40.7288 35.1587 34.1068 41.896 26.0061 41.9036C17.8968 41.9111 11.2257 35.1123 11.2491 26.8624C11.2724 18.6025 17.8919 11.8677 25.9938 11.8589Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M30.5969 44.2852C29.0443 47.0657 27.5459 49.7509 25.9995 52.5213C24.4519 49.7496 22.951 47.0632 21.3984 44.2827C24.4949 45.1092 27.5016 45.108 30.5969 44.2852Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M43.0752 31.5505C43.8914 28.4239 43.9 25.3938 43.0789 22.2446C45.8029 23.8148 48.4322 25.3311 51.1464 26.8963C48.4384 28.4577 45.8053 29.9765 43.0752 31.5505Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M0.854492 26.8825C3.57112 25.3135 6.19923 23.796 8.91094 22.2296C8.10579 25.3537 8.0935 28.3988 8.91832 31.5379C6.20415 29.9702 3.57726 28.4552 0.855721 26.8825H0.854492Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M30.5404 9.48101C27.4832 8.65703 24.522 8.65327 21.46 9.48101C22.9891 6.7043 24.4704 4.01789 25.9996 1.24243C27.525 4.00911 29.0038 6.69176 30.5404 9.47976V9.48101Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M10.686 35.8961C12.3184 38.7042 14.4389 40.8337 17.1776 42.5055C14.1685 43.3308 11.2773 44.1247 8.29883 44.9424C9.09783 41.9123 9.87594 38.9663 10.686 35.8961Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M41.3124 35.8961C42.1225 38.9575 42.8994 41.8985 43.7033 44.9399C40.7359 44.1272 37.8324 43.3308 34.8232 42.5068C37.5558 40.835 39.6849 38.7105 41.3124 35.8961Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M43.7123 8.85645C42.9047 11.8903 42.1217 14.83 41.3129 17.8688C39.6915 15.1172 37.5969 12.9588 34.8643 11.3033C37.8611 10.4743 40.74 9.67917 43.7123 8.85645Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M10.6885 17.8738C9.8784 14.8162 9.10029 11.8815 8.29883 8.85516C11.2453 9.66786 14.1205 10.4605 17.1113 11.2857C14.4192 12.94 12.3025 15.057 10.6885 17.8751V17.8738Z"
-                stroke="black" stroke-miterlimit="10"/>
-            </g>
-            <defs>
-              <clipPath id="clip0_605_3390">
-                <rect width="51" height="52" fill="white" transform="translate(0.5 0.880005)"/>
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-        <div class="main-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="53" viewBox="0 0 52 53" fill="none">
-            <g clip-path="url(#clip0_605_3390)">
-              <path
-                d="M25.9938 11.8589C34.1019 11.8501 40.7755 18.6527 40.7521 26.9C40.7288 35.1587 34.1068 41.896 26.0061 41.9036C17.8968 41.9111 11.2257 35.1123 11.2491 26.8624C11.2724 18.6025 17.8919 11.8677 25.9938 11.8589Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M30.5969 44.2852C29.0443 47.0657 27.5459 49.7509 25.9995 52.5213C24.4519 49.7496 22.951 47.0632 21.3984 44.2827C24.4949 45.1092 27.5016 45.108 30.5969 44.2852Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M43.0752 31.5505C43.8914 28.4239 43.9 25.3938 43.0789 22.2446C45.8029 23.8148 48.4322 25.3311 51.1464 26.8963C48.4384 28.4577 45.8053 29.9765 43.0752 31.5505Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M0.854492 26.8825C3.57112 25.3135 6.19923 23.796 8.91094 22.2296C8.10579 25.3537 8.0935 28.3988 8.91832 31.5379C6.20415 29.9702 3.57726 28.4552 0.855721 26.8825H0.854492Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M30.5404 9.48101C27.4832 8.65703 24.522 8.65327 21.46 9.48101C22.9891 6.7043 24.4704 4.01789 25.9996 1.24243C27.525 4.00911 29.0038 6.69176 30.5404 9.47976V9.48101Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M10.686 35.8961C12.3184 38.7042 14.4389 40.8337 17.1776 42.5055C14.1685 43.3308 11.2773 44.1247 8.29883 44.9424C9.09783 41.9123 9.87594 38.9663 10.686 35.8961Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M41.3124 35.8961C42.1225 38.9575 42.8994 41.8985 43.7033 44.9399C40.7359 44.1272 37.8324 43.3308 34.8232 42.5068C37.5558 40.835 39.6849 38.7105 41.3124 35.8961Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M43.7123 8.85645C42.9047 11.8903 42.1217 14.83 41.3129 17.8688C39.6915 15.1172 37.5969 12.9588 34.8643 11.3033C37.8611 10.4743 40.74 9.67917 43.7123 8.85645Z"
-                stroke="black" stroke-miterlimit="10"/>
-              <path
-                d="M10.6885 17.8738C9.8784 14.8162 9.10029 11.8815 8.29883 8.85516C11.2453 9.66786 14.1205 10.4605 17.1113 11.2857C14.4192 12.94 12.3025 15.057 10.6885 17.8751V17.8738Z"
-                stroke="black" stroke-miterlimit="10"/>
-            </g>
-            <defs>
-              <clipPath id="clip0_605_3390">
-                <rect width="51" height="52" fill="white" transform="translate(0.5 0.880005)"/>
-              </clipPath>
-            </defs>
-          </svg>
+        <div class="main__inner__info__right">
+          <div class="d-sb">
+            <p class="txt-highlight">WRINCKLES <span>less</span></p>
+            <h3 class="title-secondary">15%</h3>
+          </div>
+          <div class="d-sb">
+            <p class="txt-highlight">PIGMENTATION <span>less</span></p>
+            <h3 class="title-secondary">34%</h3>
+          </div>
+          <div class="d-sb">
+            <p class="txt-highlight">ACNE <span>less</span></p>
+            <h3 class="title-secondary">34%</h3>
+          </div>
+          <div class="d-sb">
+            <p class="txt-highlight">ROSACEA <span>less</span></p>
+            <h3 class="title-secondary">34%</h3>
+          </div>
+          <div class="d-sb">
+            <p class="txt-highlight">PIGMENTATION  <span>less</span></p>
+            <h3 class="title-secondary">34%</h3>
+          </div>
         </div>
       </div>
-      <p class="txt">Estimate budget in your area:</p>
-      <p class="txt bold">130 EURO</p>
-      <div class="main-verified">
-        <div class="main-verified-item bg-orange">
-          <svg xmlns="http://www.w3.org/2000/svg" width="66" height="66" viewBox="0 0 66 66" fill="none">
-            <path
-              d="M58.6957 33.0003L53.0105 26.48L53.8135 17.8397L45.3659 15.9125L40.9655 8.46066L32.9997 11.8975L25.0661 8.46066L20.6335 15.9125L12.2181 17.8397L13.0211 26.48L7.30371 33.0003L12.989 39.5207L12.186 48.161L20.6335 50.0882L25.034 57.54L32.9997 54.0711L40.9333 57.5079L45.3338 50.0561L53.7813 48.1289L52.9783 39.4886L58.6957 33.0003ZM28.4708 42.8612L21.6614 36.0517L23.9419 33.7712L28.4708 38.3001L42.0897 24.6813L44.3702 26.9618L28.4708 42.8612Z"
-              fill="white"/>
+      <div class="main__inner__bottom">
+        <div class="main__inner__bottom__item">
+          <!-- <img src="" alt="author-portrait"> -->
+          <p class="txt-highlight">{{ routine.authorName }}</p>
+        </div>
+        <div class="main__inner__bottom__item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
+            <path d="M19.8989 31.8483C19.3258 32.0506 18.382 32.0506 17.809 31.8483C12.9213 30.1798 2 23.2191 2 11.4213C2 6.21348 6.19662 2 11.3708 2C14.4382 2 17.1517 3.48314 18.8539 5.77528C20.5562 3.48314 23.2865 2 26.337 2C31.5112 2 35.7078 6.21348 35.7078 11.4213C35.7078 23.2191 24.7865 30.1798 19.8989 31.8483Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <h3>LUX</h3>
-          <h4>Verified</h4>
+          <p class="txt-highlight">623 beauties</p>
         </div>
-        <div class="main-verified-item">
-          <h2 class="title-secondary">15%</h2>
-          <p>less wrinkles AFTER 3 MONTHS</p>
+        <div class="main__inner__bottom__item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 30 34" fill="none">
+            <path d="M27.7612 7.78774V28.9289C27.7612 31.6274 25.8258 32.7626 23.4623 31.4599L16.1485 27.3843C15.3669 26.9563 14.1014 26.9563 13.3197 27.3843L6.00598 31.4599C3.64249 32.7626 1.70703 31.6274 1.70703 28.9289V7.78774C1.70703 4.6054 4.31243 2 7.49477 2H21.9735C25.1558 2 27.7612 4.6054 27.7612 7.78774Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="txt-highlight">143</p>
         </div>
-        <div class="main-verified-item">
-          <h2 class="title-secondary">34%</h2>
-          <p>Enhances skin radiance</p>
+        <div class="main__inner__bottom__item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <path d="M8.99346 7.40876L23.3303 2.62982C29.7641 0.485205 33.2597 3.99764 31.132 10.4315L26.353 24.7683C23.1446 34.4106 17.8759 34.4106 14.6674 24.7683L13.2489 20.5128L8.99346 19.0943C-0.648861 15.8858 -0.648861 10.6341 8.99346 7.40876Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.5703 19.7869L19.6158 13.7246" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="txt-highlight">share</p>
         </div>
+        <BaseRate :rates="3.5" :text="true"/>
       </div>
     </div>
   </main>
-  <section v-if="!beauty" class="steps">
-    <div class="steps-inner">
-      <div
-        class="steps-inner-item"
-        v-for="(step, index) in steps.slice(0, 4)"
-        :key="step.title">
-        <div class="step-content">
-          <h2>{{ step.title }}</h2>
-          <p>{{ step.text }}</p>
-        </div>
-        <h1 class="step">0{{ index + 1 }}</h1>
-      </div>
-      <div class="steps-inner-item">
-        <div class="step-content qr">
-          <img src="@/assets/img/global/qr.png" alt="qr-code">
-          <p class="txt-highlight">scan qr code to get the full description of this routine</p>
-        </div>
-        <h1>05</h1>
-      </div>
-    </div>
-    <div class="steps-bg"></div>
-    <div class="steps-alert">
-      <p class="txt-highlight">Share this Routine with Friends</p>
-      <p class="txt">Make Routine. Share Signup to be the first to hear about exclusive deals,special offers and
-        upcoming collections</p>
-    </div>
-  </section>
-  <section v-else class="steps">
-    <Carousel
-      id="carousel"
-      :items-to-show="5"
-      :wrap-around="false"
-      v-model="currentStep">
-      <Slide class="steps-inner-item" v-for="(step, idx) in steps" :key="step.title">
-        <div class="step-content">
-          <h2>{{ step.title }}</h2>
-          <p>{{ step.text }}</p>
-        </div>
-        <h1 class="step">0{{ idx + 1 }}</h1>
-      </Slide>
-    </Carousel>
-    <div class="navigation">
-      <button @click="prev" class="prev">
+
+  <section class="steps">
+    <h2 class="title">Routine's steps</h2>
+    <h3 class="steps__title orange">{{ stepSwiper + 1 }} step/{{ steps.length }}</h3>
+    <div class="steps__inner">
+      <button class="steps__inner__prev">
         <svg xmlns="http://www.w3.org/2000/svg" width="102" height="23" viewBox="0 0 102 23" fill="none">
-          <path
-            d="M0.939339 10.2427C0.353554 10.8285 0.353554 11.7782 0.939339 12.364L10.4853 21.9099C11.0711 22.4957 12.0208 22.4957 12.6066 21.9099C13.1924 21.3242 13.1924 20.3744 12.6066 19.7886L4.12132 11.3033L12.6066 2.81806C13.1924 2.23227 13.1924 1.28252 12.6066 0.696735C12.0208 0.110948 11.0711 0.110948 10.4853 0.696735L0.939339 10.2427ZM102 9.80334L2 9.80334L2 12.8033L102 12.8033L102 9.80334Z"
-            fill="black"/>
+          <path d="M0.939339 10.4393C0.353554 11.0251 0.353554 11.9749 0.939339 12.5607L10.4853 22.1066C11.0711 22.6924 12.0208 22.6924 12.6066 22.1066C13.1924 21.5208 13.1924 20.5711 12.6066 19.9853L4.12132 11.5L12.6066 3.01471C13.1924 2.42892 13.1924 1.47918 12.6066 0.89339C12.0208 0.307604 11.0711 0.307604 10.4853 0.89339L0.939339 10.4393ZM102 10L2 9.99999L2 13L102 13L102 10Z" fill="black"/>
         </svg>
       </button>
-      <button @click="next" class="next">
+      <swiper
+        @active-index-change="swiper => stepSwiper = swiper.activeIndex"
+        :modules="[Pagination, Navigation]"
+        ref="mySwiper"
+        :navigation="{
+          nextEl: '.steps__inner__next',
+          prevEl: '.steps__inner__prev',
+        }"
+        :pagination="{
+          el: '.steps__pagination',
+          clickable: true,
+          bulletActiveClass: 'active',
+          renderBullet: (index, className) => `<button class='${className}'></button>`
+        }"
+        :slides-per-view="1">
+        <swiper-slide
+          v-for="step in steps"
+          :key="step.id"
+        >
+          <div class="swiper__block">
+            <div class="swiper__block__left">
+              <img src="@/assets/img/product/product.png" alt="step-image">
+              <p class="name">Natures Leaf</p>
+              <h3 class="title-secondary">{{ step.stepName }}</h3>
+            </div>
+            <div class="swiper__block__right">
+              <p class="txt-highlight">what does it do</p>
+              <p class="txt">{{ step.stepDescription }}</p>
+              <p class="txt-highlight">How to use</p>
+              <p class="txt">{{ step.stepManual }}</p>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper>
+      <button class="steps__inner__next">
         <svg xmlns="http://www.w3.org/2000/svg" width="102" height="23" viewBox="0 0 102 23" fill="none">
-          <path
-            d="M101.061 12.364C101.646 11.7782 101.646 10.8285 101.061 10.2427L91.5147 0.696743C90.9289 0.110956 89.9792 0.110956 89.3934 0.696743C88.8076 1.28253 88.8076 2.23228 89.3934 2.81806L97.8787 11.3033L89.3934 19.7886C88.8076 20.3744 88.8076 21.3242 89.3934 21.9099C89.9792 22.4957 90.9289 22.4957 91.5147 21.9099L101.061 12.364ZM0 12.8033H100V9.80334H0V12.8033Z"
-            fill="black"/>
+          <path d="M101.061 12.5607C101.646 11.9749 101.646 11.0251 101.061 10.4393L91.5147 0.893398C90.9289 0.307611 89.9792 0.307611 89.3934 0.893398C88.8076 1.47919 88.8076 2.42893 89.3934 3.01472L97.8787 11.5L89.3934 19.9853C88.8076 20.5711 88.8076 21.5208 89.3934 22.1066C89.9792 22.6924 90.9289 22.6924 91.5147 22.1066L101.061 12.5607ZM0 13H100V10H0V13Z" fill="black"/>
         </svg>
       </button>
     </div>
-    <div class="steps-alert">
-      <p class="note">add to your library</p>
-      <div class="d-center">
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-            <path
-              d="M56.6667 31H3.33333C1.51111 31 0 30.32 0 29.5C0 28.68 1.51111 28 3.33333 28H56.6667C58.4889 28 60 28.68 60 29.5C60 30.32 58.4889 31 56.6667 31Z"
-              fill="black"/>
-            <path
-              d="M30.5 60C29.68 60 29 58.4889 29 56.6667V3.33333C29 1.51111 29.68 0 30.5 0C31.32 0 32 1.51111 32 3.33333V56.6667C32 58.4889 31.32 60 30.5 60Z"
-              fill="black"/>
-          </svg>
-        </button>
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <path
-              d="M16.4635 12.8175L45.1372 3.25964C58.0049 -1.02959 64.996 5.99529 60.7405 18.863L51.1826 47.5365C44.7657 66.8212 34.2283 66.8212 27.8114 47.5365L24.9744 39.0256L16.4635 36.1886C-2.82116 29.7717 -2.82116 19.2683 16.4635 12.8175Z"
-              stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M25.6172 37.5739L37.7081 25.4493" stroke="black" stroke-width="3" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <div class="pagination steps__pagination"></div>
   </section>
-  <section class="items">
-    <div class="items-content">
-      <h2 class="title">Beauty Products Used in This Routine</h2>
-      <div
-        class="items-content-element"
-        :class="{active: activeRoutineItem === idx}"
-        v-for="(item, idx) in routineItems"
-        :key="item.id">
-        <button
-          class="txt-highlight"
-          @click="activeRoutineItem = idx"
-        >0{{ idx + 1 }} {{ item.title }}
-        </button>
-        <router-link :to="`/single-product/${item.id}`" class="link bold">FIND ALTERNATIVE <span>→</span></router-link>
-      </div>
-    </div>
-    <div class="items-product">
-      <!--      <ProductCard :product="routineItems[activeRoutineItem]" />-->
-      <!--      <div v-else>-->
-      <!--        -->
-      <!--      </div>-->
-    </div>
-  </section>
-  <section class="reviews">
-    <div v-if="!beauty" class="reviews-item d-center bg-orange">
-      <div class="scan">
-        <img src="@/assets/img/global/qr.png" alt="">
-        <div class="scan-content">
-          <p class="title-secondary bold">scan qr code to Make most from routine Page</p>
-          <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your
-            SkinTwins and you to see their experiences with {ROUTINE NAME}.</p>
-        </div>
-      </div>
-    </div>
-    <div v-else class="reviews-img bg-img"></div>
-    <BaseReviews/>
-  </section>
-  <div v-if="beauty" class="progress">
-    <div class="progress-text">
-      <h1 class="title">Check Your Progress</h1>
-      <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your SkinTwins .
-        Use their experiences to make smart beauty decisions.</p>
-    </div>
-    <BeforeAfter/>
+
+  <div class="scan bg-orange">
+    <h2 class="title-secondary">to check the match of this routine to your skin create profile</h2>
+    <img src="@/assets/img/global/qr.png" alt="qr-code">
   </div>
-  <section class="alternative">
-    <h2 class="title">Alternative Routines based on targets and applications</h2>
-    <div class="alternative-inner">
-      <div class="alternative-inner-item bg-img"
-           :style="{backgroundImage: `url('${require(`@/assets/img/${alternativeItems[0].imgUrl}`)}`}">
-        <div class="product-author">
-          <img src="@/assets/img/global/author.png" alt="author">
-          <p>author</p>
-          <button>YOUR SKINTWIN</button>
+
+  <section v-if="beauty" class="reviews">
+    <div class="reviews__content bg-img">
+      <div class="reviews__content__top">
+        <h3 class="title">All Reviews about this Routine</h3>
+        <div class="rating">
+          <h5 class="title">4.7/5</h5>
+          <BaseRate :rates="4.5" :text="true"/>
         </div>
-        <BaseRate :rates="alternativeItems[0].rate" :text="true"/>
-        <div class="product-content">
-          <p class="txt bold">Spring Nordinc Routine</p>
-          <p class="txt">Estimated Budget from $ 180</p>
-        </div>
-        <div class="product-icons">
-          <div class="product-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
-              <path
-                d="M13.9326 21.8989C13.5505 22.0337 12.9213 22.0337 12.5393 21.8989C9.28089 20.7865 2 16.1461 2 8.28089C2 4.80898 4.79775 2 8.24718 2C10.2921 2 12.1011 2.98876 13.2359 4.51685C14.3708 2.98876 16.191 2 18.2247 2C21.6741 2 24.4719 4.80898 24.4719 8.28089C24.4719 16.1461 17.191 20.7865 13.9326 21.8989Z"
-                stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p>623 beauties</p>
-          </div>
-          <div class="product-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 22 24" fill="none">
-              <path
-                d="M19.8412 5.85849V19.9526C19.8412 21.7516 18.5509 22.5084 16.9752 21.6399L12.0993 18.9229C11.5783 18.6375 10.7346 18.6375 10.2135 18.9229L5.33764 21.6399C3.76198 22.5084 2.47168 21.7516 2.47168 19.9526V5.85849C2.47168 3.73694 4.20862 2 6.33017 2H15.9827C18.1042 2 19.8412 3.73694 19.8412 5.85849Z"
-                stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <p>143 added</p>
-          </div>
-        </div>
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="34" viewBox="0 0 36 34" fill="none">
-            <path d="M33.8351 22.2065L24.4531 31.6073" stroke="#fff" stroke-width="3" stroke-miterlimit="10"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 22.2065H33.8352" stroke="#fff" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-            <path d="M2 11.0082L11.382 1.60742" stroke="#fff" stroke-width="3" stroke-miterlimit="10"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M33.8352 11.0083H2" stroke="#fff" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <p class="recommended" :class="{active: alternativeItems[0].recommended}">recommended</p>
-        <p class="promoted" :class="{active: alternativeItems[0].promoted}">promoted</p>
       </div>
-      <ProductCard
-        v-for="alternativeItem in alternativeItems.slice(1)"
-        :card="alternativeItem"
-        :key="alternativeItem.id"
-        :bg-img="true"/>
-      <div class="alternative-inner-item d-center">
-        <RouterLink to="/" class="link bold">See more Routines <span>→</span></RouterLink>
+    </div>
+    <BaseReviews :text="true" :reviews="reviews" />
+  </section>
+  <section v-else class="reviews">
+    <div class="reviews__content">
+      <div class="reviews__content__top">
+        <h3 class="title">All Reviews about this Routine</h3>
+        <div class="rating">
+          <h5 class="title">4.7/5</h5>
+          <BaseRate :rates="4.5" :text="true"/>
+        </div>
+      </div>
+      <div class="reviews__content__bottom">
+        <img src="@/assets/img/global/qr.png" alt="qr-code">
+        <h3 class="title-secondary">SCAN QR CODE TO SEE YOUR SKINTWINS EXPERIENCES WITH THIS ROUTINE</h3>
+        <p class="txt">SkinTwins are the People with the same Skin Type, Age Group, Ethnicity origin, concerns, Skin conditions and Allergies. In other words Your Skin Twins.</p>
+      </div>
+    </div>
+    <BaseReviews :text="true" :reviews="reviews" />
+  </section>
+
+  <div v-if="beauty" class="progress">
+    <BeforeAfter/>
+    <div class="progress__text">
+      <div class="progress__text__top">
+        <h1 class="title">Check Your Progress</h1>
+        <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your SkinTwins .
+          Use their experiences to make smart beauty decisions.</p>
+      </div>
+      <RouterLink to="/registration" class="link bold">Start Your Beauty Discovery <span>→</span></RouterLink>
+    </div>
+  </div>
+
+  <section class="routines">
+    <h1 class="title">Alternative Routines based on targets and applications</h1>
+    <div class="routines__list">
+      <RoutineCard
+        v-for="routine in alternatives"
+        :routine="routine"
+        :key="routine.id"
+      />
+      <div class="routine-item bg-orange d-center">
+        <RouterLink to="/" class="link bold">See more Routines Designed for You <span>→</span></RouterLink>
       </div>
     </div>
   </section>
+  
   <AiAssistance v-if="!beauty"/>
+
   <TheFooter/>
 </template>
 
@@ -568,213 +280,130 @@ function next () {
 .main {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 62px);
+  border-bottom: 1px solid $black;
 
-  &-image {
+  &__image {
     background-image: url("@/assets/img/routine/main-img.png");
-    position: relative;
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: space-between;
-    align-content: space-between;
-    padding: 30px;
   }
 
-  &-content {
-    display: grid;
-    align-content: center;
-    justify-content: center;
-    gap: 20px;
-    text-align: center;
-
-    .main-icons {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .main-verified {
-      width: max-content;
-      margin: 0 auto;
-      justify-content: center;
-      align-items: center;
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(3, auto);
-      border: 1px solid $black;
-
-      &-item {
-        width: 100%;
-        padding: 20px;
-
-        .title-secondary {
-          padding-bottom: 10px;
-          border-bottom: 1px solid $black
-        }
-
-        h3 {
-          color: #fff;
-          font-size: 32px;
-          font-weight: 700;
-          text-transform: uppercase;
-        }
-
-        h4 {
-          color: #fff;
-          font-size: 14px;
-          font-weight: 700;
-          text-transform: uppercase;
-        }
-
-        p {
-          padding-top: 10px;
-          text-transform: uppercase;
-          font-size: 14px;
-          max-width: 120px;
-          font-weight: 700;
-          line-height: 20px;
-        }
+  &__inner {
+    &__content {
+      padding: 60px 60px 120px;
+      .d-center {
+        justify-content: left;
+        padding-bottom: 40px;
+        text-align: center;
+      }
+      h3 {
+        padding-top: 40px;
+      }
+      p {
+        padding-top: 10px;
+        max-width: 600px;
       }
     }
+    &__info {
+      padding: 20px 40px;
+      border-top: 1px solid $black;
+      border-bottom: 1px solid $black;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+
+      &__left {
+        h2 {
+          font-size: 77px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 60px;
+          text-transform: uppercase;
+          padding-bottom: 15px;
+
+          span {
+            font-size: 65px;
+          }
+        }
+      }
+      &__right {
+        display: grid;
+        gap: 5px;
+      }
+    }
+    &__bottom {
+      padding: 20px 40px;
+      display: grid;
+      justify-content: left;
+      align-content: center;
+      grid-template-columns: auto auto auto auto 1fr;
+      gap: 20px;
+
+      &__item {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.scan {
+  justify-content: center;
+
+  h2 {
+    max-width: 500px;
   }
 }
 
 .steps {
-  position: relative;
-  display: grid;
-  padding: 60px;
-  align-content: center;
-  justify-content: center;
-
-  &-inner {
+  padding: 60px 0;
+  text-align: center;
+  &__title {
+        font-size: 52px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 40px 0;
+      }
+  &__inner {
     display: grid;
+    justify-content: center;
     align-items: center;
-    text-align: center;
-    grid-template-columns: repeat(5, 200px);
-    gap: 40px;
-  }
+    grid-template-columns: auto 700px auto;
+    gap: 20px;
 
-  #carousel {
-    max-width: calc(100% - 120px);
-    margin: 100px auto;
-    position: relative;
-  }
+    .swiper {
+      width: 100%;
 
-  .navigation button {
-    position: absolute;
-    top: 50%;
+      &__block {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 1fr;
+        border: 1px solid $black;
 
-    &.prev {
-      left: 20px;
-    }
+        &__left {
+          padding: 20px;
+          border-right: 1px solid $black;
 
-    &.next {
-      right: 20px;
-    }
-  }
+          img {
+            max-width: 90%;
+            max-height: 300px;
+            margin: 0 auto;
+          }
+        }
+        &__right {
+          text-align: left;
+          padding: 20px;
 
-  .steps-inner-item {
-    display: grid;
-    gap: 10px;
-    grid-template-rows: 1fr auto 1fr;
-
-    &:nth-child(even) {
-      h1 {
-        grid-row: 2
-      }
-
-      .step-content {
-        grid-row: 3;
-      }
-    }
-
-    .step-content.qr {
-      position: relative;
-      z-index: 1;
-    }
-  }
-
-  &-alert {
-    max-width: 500px;
-    text-align: right;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 20px;
-
-    p:first-child {
-      padding-bottom: 10px;
-    }
-
-    .note {
-      font-size: 14px;
-      text-transform: uppercase;
-      text-align: left;
-    }
-
-    .d-center {
-      gap: 20px;
-      padding: 10px;
-    }
-  }
-
-  &-bg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 50%;
-    backdrop-filter: blur(5px);
-    content: '';
-    height: 100%;
-  }
-}
-
-.items {
-  display: grid;
-  border-top: 1px solid $black;
-  grid-template-columns: 1fr 1fr;
-
-  &-content {
-    padding: 40px;
-
-    &-element {
-      display: grid;
-      justify-content: left;
-      justify-items: left;
-      padding: 20px 0;
-      overflow: hidden;
-      height: 20px;
-      transition: .3s;
-
-      .txt-highlight {
-        color: $grey-dark;
-        transition: .3s;
-        padding-bottom: 10px;
-      }
-
-      &:first-child {
-        padding-top: 50px;
-      }
-
-      &.active {
-        height: max-content;
-        padding: 50px 0;
-
-        button {
-          color: $orange;
+          .txt {
+            padding-bottom: 20px;
+          }
         }
       }
     }
   }
-
-  &-product {
-    padding: 60px;
-    background: $orange;
-
-    .product-card {
-      background: $white;
+  .pagination {
+    padding: 40px 0;
+    button.active {
+      background: $orange;
     }
   }
 }
@@ -782,72 +411,32 @@ function next () {
 .reviews {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 700px;
+  border-bottom: 1px solid $black;
 
-  &-item {
-    padding: 60px;
-
-    .scan {
-      grid-template-columns: auto;
-    }
-  }
-
-  .base-reviews {
-    gap: 50px;
-  }
-
-  &-img {
-    background-image: url('@/assets/img/global/girls-smiling.png');
-  }
-}
-
-.alternative {
-  padding-top: 120px;
-
-  .title {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
-  &-inner {
-    padding-top: 20px;
+  &__content {
+    @include pad();
+    border-top: 1px solid $black;
+    border-right: 1px solid $black;
+    min-height: 700px;
     display: grid;
-    grid-template-rows: 300px 300px;
-    grid-template-columns: repeat(4, 1fr);
+    align-content: space-between;
 
-    &-item {
-      display: grid;
-      padding: 30px;
-      grid-template-rows: auto 1fr auto;
-      grid-template-columns: auto auto;
+    &.bg-img {
+      background: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('@/assets/img/global/girls-smiling.png');
+      color: #fff;
+    }
+    .rating {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      gap: 20px;
 
-      p {
-        color: #fff;
+      h5 {
+        font-weight: 700;
       }
 
-      .product-content {
-        grid-column: 1 / 3;
-        display: grid;
-        align-content: end;
-        padding: 20px 0;
-      }
-
-      button {
-        justify-self: end;
-      }
-
-      &:first-child {
-        grid-column: 1 / 3;
-        grid-row: 1 / 3;
-      }
-
-      &:last-child {
-        display: flex;
-
-        a {
-          width: max-content;
-          max-width: 150px;
-        }
+      .rates {
+        grid-template-columns: auto auto;
       }
     }
   }
@@ -857,15 +446,29 @@ function next () {
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  &-text {
+  &__text {
     display: grid;
-    align-content: end;
-    padding: 30px;
-    border-bottom: 1px solid $black;
+    align-content: space-between;
 
     h1 {
       padding-bottom: 20px;
     }
+    &__top {
+      padding: 30px;
+    }
+    .link {
+      @include pad();
+      border-top: 1px solid $black;
+      border-bottom: 1px solid $black;
+    }
+  }
+}
+
+.routines {
+  padding: 60px 0;
+  .title {
+    border-bottom: 1px solid $black;
+    text-align: center;
   }
 }
 </style>
