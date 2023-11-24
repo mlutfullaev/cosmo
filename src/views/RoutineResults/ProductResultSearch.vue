@@ -2,15 +2,25 @@
 import { onMounted, ref } from 'vue'
 import { Product } from '@/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
+import TheFilter from '@/layouts/TheFilter.vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 
-const alternatives = ref<Product[]>([])
+const route = useRoute()
+const router = useRouter()
+const products = ref<Product[]>([])
+const allItems = ref(0)
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/goods/alternative/22346?order=ASC&page=1&take=10')
+  axios.get(`https://api-www.beautyid.app/goods/byname/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
-      alternatives.value = res.data.data
+      if (!res.data.data.length) {
+        router.push(`/product-results/not-found/${route.params.param}`)
+        return
+      }
+      products.value = res.data.data
+      allItems.value = res.data.meta.itemCount
     })
 })
 </script>
@@ -19,22 +29,29 @@ onMounted(() => {
   <TheHeader/>
 
   <div class="productResult-top">
-    <h2 class="title">There are no result for your search <span class="bold">{{ $route.params.param ? `“${$route.params.param}”` : '' }}</span></h2>
+    <h2 class="title">Search Results for <span class="bold">{{ $route.params.param }}</span></h2>
+    <h1 class="highlight orange">{{ allItems }}</h1>
+    <h3 class="title-secondary">hand creams in our library</h3>
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  
-  <section class="product-list">
-    <div class="product-item">
-      <h3 class="title t-up">check alternative products</h3>
-      <p class="txt">These aternative products to L’Oreal Argan Pure Oil were selected based on the ingredients and
-        Brand statements about concerns and benefits.</p>
-    </div>
-    <ProductCard v-for="product in alternatives" :key="product.id" :product="product" />
-    <div class="d-center product-item center">
-        <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
+  <TheFilter where="product" :products-length="allItems"/>
+
+  <section v-if="products.length" class="product-list">
+    <ProductCard
+      v-for="product in products"
+      :key="product.id"
+      :product="product"/>
+    <div class="product-item tablet">
+      <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
+      <router-link to="/product-filter" class="link bold">specify your search <span>→</span></router-link>
     </div>
   </section>
+
+  <div class="tablet-link bg-orange tablet">
+    <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
+    <RouterLink class="link bold" to="#">discover more <span>→</span></RouterLink>
+  </div>
 
   <SearchResultBottom />
   
@@ -79,7 +96,7 @@ onMounted(() => {
     padding: 30px;
   }
   @media (max-width: 480px) {
-    padding: 20px;
+    padding: 80px 20px 20px;
   }
 }
 .product-list > div {

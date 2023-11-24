@@ -5,7 +5,7 @@ import RegistrationView from '@/views/RegistrationView.vue'
 import ProductFilterView from '@/views/ProductFilterView.vue'
 import RoutineFilterView from '@/views/RoutineFilterView.vue'
 import SingleRoutineView from '@/views/SingleRoutineView.vue'
-import RoutineResultView from '@/views/RoutineResultView.vue'
+import RoutineResultNotFound from '@/views/RoutineResults/RoutineResultNotFound.vue'
 import ProductResultSearch from '@/views/ProductResult/ProductResultSearch.vue'
 import ProductResultFiltered from '@/views/ProductResult/ProductResultFiltered.vue'
 import ProductResultBrand from '@/views/ProductResult/ProductResultBrand.vue'
@@ -70,10 +70,20 @@ const routes: Array<RouteRecordRaw> = [
     name: 'singe-routine',
     component: SingleRoutineView
   },
+  // {
+  //   path: '/routine-results',
+  //   name: 'routine-results',
+  //   component: RoutineResultView
+  // },
+  // {
+  //   path: '/routine-results',
+  //   name: 'routine-results',
+  //   component: RoutineResultView
+  // },
   {
-    path: '/routine-results',
+    path: '/routine-results/not-found/:param?',
     name: 'routine-results',
-    component: RoutineResultView
+    component: RoutineResultNotFound
   },
   {
     path: '/routine-intro',
