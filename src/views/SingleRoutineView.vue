@@ -4,14 +4,13 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination } from 'swiper/modules'
-import { Review, Routine } from '@/interfaces'
+import { Product, Review, Routine } from '@/interfaces'
 import AiAssistance from '@/components/AiAssistance.vue'
 import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import BeforeAfter from '@/components/BeforeAfter.vue'
-import 'swiper/css'
-import { computed } from '@vue/reactivity'
 import RoutineCard from '@/components/RoutineCard.vue'
+import 'swiper/css'
 
 interface Step {
   stepOrder: number,
@@ -19,6 +18,7 @@ interface Step {
   stepDescription: string,
   stepManual: string,
   id: number,
+  idStepGood: number,
 }
 
 const beauty = ref(true)
@@ -26,6 +26,7 @@ const mainLabel = ref(false)
 const route = useRoute()
 
 const steps = ref<Step[]>([])
+const stepProduct = ref<Product | null>(null)
 const routine = ref<Routine | null>(null)
 const reviews = ref<Review[]>([])
 const alternatives = ref<{routine: Routine}[]>([])
@@ -34,8 +35,14 @@ onMounted(() => {
     .then(res => {
       routine.value = res.data.routine
       steps.value = res.data.steps
+      if (steps.value.length) {
+        axios.get(`https://api-www.beautyid.app/goods/byid/${steps.value[0].idStepGood}`)
+          .then(res => {
+            stepProduct.value = res.data[0]
+          })
+      }
     })
-  axios.get('https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=10')
+  axios.get(`https://api-www.beautyid.app/reviewsroutines/byroutineid/${route.params.id}?order=ASC&page=1&take=10`)
     .then(res => {
       reviews.value = res.data.data
     })
@@ -179,7 +186,7 @@ const stepSwiper = ref(0)
     </div>
   </main>
 
-  <section class="steps">
+  <section class="steps" v-if="steps.length">
     <h2 class="title">Routine's steps</h2>
     <h3 class="steps__title orange">{{ stepSwiper + 1 }} step/{{ steps.length }}</h3>
     <div class="steps__inner">
@@ -208,15 +215,15 @@ const stepSwiper = ref(0)
           :key="step.id"
         >
           <div class="swiper__block">
-            <div class="swiper__block__left">
-              <img src="@/assets/img/product/product.png" alt="step-image">
-              <p class="name">Natures Leaf</p>
-              <h3 class="title-secondary">{{ step.stepName }}</h3>
+            <div class="swiper__block__left" v-if="stepProduct">
+              <img :src="`https://api-www.beautyid.app/images/getimage/${stepProduct.mainPicture}`" alt="step-image">
+              <p class="name">{{ stepProduct.brand }}</p>
+              <h3 class="title-secondary">{{ stepProduct.name }}</h3>
             </div>
             <div class="swiper__block__right">
-              <p class="txt-highlight">what does it do</p>
+              <p class="txt-highlight" v-if="step.stepDescription">what does it do</p>
               <p class="txt">{{ step.stepDescription }}</p>
-              <p class="txt-highlight">How to use</p>
+              <p class="txt-highlight" v-if="step.stepManual">How to use</p>
               <p class="txt">{{ step.stepManual }}</p>
             </div>
           </div>
