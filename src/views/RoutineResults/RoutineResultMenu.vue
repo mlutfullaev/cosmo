@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { Product } from '@/interfaces'
-import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
-import ReligionDiets from '@/components/ReligionDiets.vue'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
+import RoutinesSteps from '@/components/RoutinesSteps.vue'
 
 const route = useRoute()
 const router = useRouter()
-const products = ref<Product[]>([])
+const routines = ref<Product[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
@@ -21,7 +19,7 @@ onMounted(() => {
         router.push(`/product-results/not-found/${route.params.param}`)
         return
       }
-      products.value = res.data.data
+      routines.value = res.data.data
       allItems.value = res.data.meta.itemCount
     })
 })
@@ -34,7 +32,7 @@ onMounted(() => {
     <div class="bg-orange">
       <h2 class="title">Search Results for <span class="bold">{{ $route.params.param }}</span></h2>
       <h1 class="highlight">{{ allItems }}</h1>
-      <h3 class="title-secondary">{{ $route.params.param }}'s products in our library</h3>
+      <h3 class="title-secondary">{{ $route.params.param }}'s routines in our library</h3>
     </div>
     <div class="productResult-scan">
       <div class="d-center">
@@ -52,16 +50,20 @@ onMounted(() => {
   
   <TheFilter :items-length="allItems" where="product"/>
 
-  <section class="product-list" v-if="products.length">
-    <ProductCard
-      v-for="product in products"
-      :key="product.id"
-      :product="product"/>
-    <div class="product-item">
-      <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
-      <router-link to="/product-filter" class="link bold">specify your search <span>→</span></router-link>
+  <div class="routines__list">
+    <RoutineCard
+      v-for="routine in routines"
+      :routine="routine"
+      :key="routine.id"
+    />
+    <div class="routine-item bg-orange">
+      <img src="@/assets/img/global/qr.png" alt="qr-code">
+      <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
+      <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
     </div>
-  </section>
+  </div>
+
+  <RoutinesSteps />
 
   <SearchResultBottom />
   
