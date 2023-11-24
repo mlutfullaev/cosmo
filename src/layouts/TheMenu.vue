@@ -47,6 +47,7 @@ const subMenu = ref('')
               <p class="txt-highlight">{{lib.title}}</p>
               <RouterLink
                 class="note"
+                @click="menuActive = false"
                 v-for="item in lib.items"
                 :to="`/product-results/menu/${item.param}`"
                 :key="item.id"
@@ -63,17 +64,18 @@ const subMenu = ref('')
               class="sub-menu-item">
               <p class="txt-highlight">{{lib.title}}</p>
               <RouterLink
+                @click="menuActive = false"
                 class="note"
                 v-for="item in lib.items"
-                :to="`/product-results/menu/${item.param}`"
+                :to="`/routines-results/menu/${item.param}`"
                 :key="item.id"
               >{{ item.text }}</RouterLink>
             </div>
           </div>
         </div>
-        <router-link to="/" class="link bold">PERSONAL AI ASSISTANT <span>→</span></router-link>
-        <router-link to="/registration" class="link bold">create profile <span>→</span></router-link>
-        <router-link to="/" class="link bold">how to use <span>→</span></router-link>
+        <router-link @click="menuActive = false" to="/" class="link bold">PERSONAL AI ASSISTANT <span>→</span></router-link>
+        <router-link @click="menuActive = false" to="/registration" class="link bold">create profile <span>→</span></router-link>
+        <router-link @click="menuActive = false" to="/" class="link bold">how to use <span>→</span></router-link>
       </div>
     </div>
   </div>
