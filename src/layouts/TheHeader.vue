@@ -48,7 +48,26 @@ onMounted(() => {
     </div>
     <nav>
       <HeaderSearch />
-      <router-link to="/routine-intro">SKIN ROUTINES LIBRARY ↓</router-link>
+      <div class="nav-item">
+        <router-link to="/routine-intro">SKIN ROUTINES LIBRARY ↓</router-link>
+        <div class="sub-menu">
+          <div class="sub-menu-content">
+            <div
+              v-for="(lib, key) of productLibrary"
+              :key="key"
+              class="sub-menu-item">
+              <p class="txt-highlight">{{lib.title}}</p>
+              <RouterLink
+                class="note"
+                v-for="item in lib.items"
+                :to="`/routine-results/menu/${item.param}`"
+                :key="item.id"
+              >{{ item.text }}</RouterLink>
+            </div>
+          </div>
+          <FilterBrands where="routine" button-type="link" />
+        </div>
+      </div>
       <div class="nav-item">
         <router-link to="/product-intro">SKIN PRODUCT LIBRARY ↓</router-link>
         <div class="sub-menu">
@@ -66,7 +85,7 @@ onMounted(() => {
               >{{ item.text }}</RouterLink>
             </div>
           </div>
-          <FilterBrands button-type="link" />
+          <FilterBrands where="product" button-type="link" />
         </div>
       </div>
       <router-link to="/registration">CREATE PROFILE</router-link>

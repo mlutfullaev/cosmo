@@ -4,7 +4,6 @@ import { StringObject } from '@/interfaces'
 import store from '@/store'
 import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import FilterCategories from '@/components/FilterCategories.vue'
-import FilterBrands from '@/components/FilterBrands.vue'
 
 const alertActive = ref(true)
 const activeLib = ref(0)

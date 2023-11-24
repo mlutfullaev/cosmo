@@ -8,7 +8,7 @@ import FilterBrands from '@/components/FilterBrands.vue'
 import 'swiper/css'
 import 'vue-simple-range-slider/css'
 
-defineProps<{ productsLength: number }>()
+defineProps<{ productsLength: number, where: string }>()
 
 const popularTags = ref(['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'])
 const popularTagsSelected = ref('anti-age')
@@ -243,7 +243,7 @@ const modules = ref([Navigation])
         </div>
       </div>
 
-      <FilterBrands button-type="button" />
+      <FilterBrands :where="where" button-type="button" />
 
       <div class="theFilter-bottom d-center">
         <button class="title-secondary" @click="filterActive = false">Apply</button>

@@ -14,6 +14,10 @@ defineProps(
       required: false,
       default: 'link',
       type: String as PropType<'link' | 'button'>,
+    },
+    where: {
+      required: true,
+      type: String,
     }
   }
 )
@@ -53,7 +57,7 @@ onMounted(() => {
     <div v-if="buttonType === 'link'" class="filterBrands-content">
       <RouterLink
        v-for="item in filterResults"
-       :to="`/product-results/brand/${item.brandName}`"
+       :to="`/${where}-results/brand/${item.brandName}`"
        :class="{ active: selectedBrand === item.brandName }"
         @click="() => selectedBrand = item.brandName" :key="item.id">
         {{ item.brandName }}

@@ -553,7 +553,7 @@ watch(route, () => {
 
   <section id="routine" v-if="beauty" class="routines">
     <h2 class="title">Routines with Argan oil</h2>
-    <TheFilter :products-length="routines.length" />
+    <TheFilter where="product" :products-length="routines.length" />
     <div class="routines__list">
       <RoutineCard v-for="routine in routines" :routine="routine" :key="routine.title" />
     </div>

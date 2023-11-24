@@ -136,7 +136,7 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
         :category-selected="library[activeLib].selected"/>
     </div>
 
-    <FilterBrands />
+    <FilterBrands where="product" />
 
     <div class="productFilter-title">
       <a @click="$router.go(-1)">
