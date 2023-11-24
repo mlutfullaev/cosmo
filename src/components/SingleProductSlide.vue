@@ -83,22 +83,26 @@ const next = () => {
             <h3 class="title" style="padding-bottom: 20px">{{ product.name }}</h3>
             <p class="txt" style="padding-bottom: 20px">{{ product.description }}</p>
             <p class="txt-highlight">benefits:</p>
-            <!-- <p
+            <div v-if="product.benefits">
+              <p
                 class="txt-highlight"
                 v-for="benefit in product.benefits.split('``')"
                 :key="benefit"
-              >+ {{ benefit }}</p> -->
+                >+ {{ benefit }}</p>
+            </div>
           </div>
         </Transition>
         <Transition name="tab">
           <div class="full-details__inner__tab" v-if="aboutActiveTab === 'ingredients'">
             <p class="txt bold">KEY INGREDIENTS</p>
-            <!-- <p
+            <div v-if="product.ingredients">
+              <p
                 v-for="(ingredient, idx) in product.ingredients.split('``')"
                 class="txt bold"
                 :key="ingredient"
-              >{{ idx + 1 }}: {{ ingredient }}</p> -->
-            <br />
+              >{{ idx + 1 }}: {{ ingredient }}</p>
+              <br />
+            </div>
             <p class="txt">
               <b>Full ingredients: </b>
               dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus
@@ -128,25 +132,27 @@ const next = () => {
           <h3 class="title" style="padding-bottom: 20px">{{ product.name }}</h3>
           <p class="txt" style="padding-bottom: 20px">{{ product.description }}</p>
           <p class="txt-highlight">benefits:</p>
-          <!-- <p
-            v-if="product.benefits.includes('``')"
-            class="txt-highlight"
-            v-for="benefit in product.benefits.split('``')"
+          <div v-if="product.benefits">
+            <p
+              class="txt-highlight"
+              v-for="benefit in product.benefits.split('``')"
               :key="benefit"
-            >+ {{ benefit }}</p>
-            <p v-else class="txt-highlight">{{ product.benefits }}</p> -->
+              >+ {{ benefit }}</p>
+          </div>
         </div>
       </div>
       <div :class="{ active: aboutActiveTab === 'ingredients' }" class="full-details__accordion">
         <button :class="{ active: aboutActiveTab === 'ingredients' }" @click="aboutActiveTab = 'ingredients'">ingredients</button>
         <div class="full-details__inner__tab">
           <p class="txt bold">KEY INGREDIENTS</p>
-          <!-- <p
+          <div v-if="product.ingredients">
+            <p
               v-for="(ingredient, idx) in product.ingredients.split('``')"
               class="txt bold"
               :key="ingredient"
-            >{{ idx + 1 }}: {{ ingredient }}</p> -->
-          <br />
+            >{{ idx + 1 }}: {{ ingredient }}</p>
+            <br />
+          </div>
           <p class="txt">
             <b>Full ingredients: </b>
             dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus
@@ -197,7 +203,6 @@ const next = () => {
       padding: 20px;
     }
   }
-
   &__slider {
     position: relative;
     padding: 50px 20px;
@@ -281,6 +286,9 @@ const next = () => {
     &__tab {
       padding: 60px;
 
+      .txt.bold {
+        padding-bottom: 10px;
+      }
       @media (max-width: 1200px) {
         padding: 40px;
       }
