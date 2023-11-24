@@ -8,9 +8,9 @@ import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import 'swiper/css'
 
-const alternatives = ref<Routine[]>([])
+const alternatives = ref<{routine: Routine}[]>([])
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=11')
+  axios.get('https://api-www.beautyid.app/routines/randomnumber/7?order=ASC&page=1&take=7')
     .then(res => {
       alternatives.value = res.data.data
     })
@@ -367,10 +367,10 @@ const swiperConfig = {
       <div class="routines__list">
         <RoutineCard
           v-for="routine in alternatives"
-          :routine="routine"
-          :key="routine.id"
+          :routine="routine.routine"
+          :key="routine.routine.id"
         />
-        <div class="routine-item bg-orange d-center">
+        <div class="routine-item bg-orange center">
           <RouterLink to="/" class="link bold">See more Routines Designed for You <span>→</span></RouterLink>
         </div>
       </div>

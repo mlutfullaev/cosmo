@@ -28,20 +28,20 @@ const route = useRoute()
 const steps = ref<Step[]>([])
 const routine = ref<Routine | null>(null)
 const reviews = ref<Review[]>([])
-const alternatives = ref<Routine[]>([])
+const alternatives = ref<{routine: Routine}[]>([])
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/routines/byid/${route.params.id}`)
     .then(res => {
       routine.value = res.data.routine
       steps.value = res.data.steps
     })
-  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=11')
-    .then(res => {
-      alternatives.value = res.data.data
-    })
   axios.get('https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=10')
     .then(res => {
       reviews.value = res.data.data
+    })
+  axios.get('https://api-www.beautyid.app/routines/randomnumber/11?order=ASC&page=1&take=11')
+    .then(res => {
+      alternatives.value = res.data.data
     })
 })
 
@@ -283,10 +283,10 @@ const stepSwiper = ref(0)
     <div class="routines__list">
       <RoutineCard
         v-for="routine in alternatives"
-        :routine="routine"
-        :key="routine.id"
+        :routine="routine.routine"
+        :key="routine.routine.id"
       />
-      <div class="routine-item bg-orange d-center">
+      <div class="routine-item bg-orange center">
         <RouterLink to="/" class="link bold">See more Routines Designed for You <span>→</span></RouterLink>
       </div>
     </div>

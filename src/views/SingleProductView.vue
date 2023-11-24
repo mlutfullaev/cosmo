@@ -3,7 +3,6 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Product, Review, Routine } from '@/interfaces'
 import axios from 'axios'
-import AboutProduct from '@/views/SingleProduct/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
@@ -70,152 +69,7 @@ const samples = ref([
   },
 ])
 const activeSample = ref('LOOKFANTASTIC')
-const routines = ref([
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: false,
-    recommended: false,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 323,
-    saves: 332,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: false,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: false,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-  {
-    promoted: true,
-    recommended: true,
-    imgUrl: require('@/assets/img/routine/routine1.png'),
-    likes: 423,
-    saves: 232,
-    sends: 14,
-    title: 'Spring Nordinc Routine',
-    authorName: 'Author',
-    authorPhoto: require('@/assets/img/routine/authorIcon.svg'),
-    rate: 3.5,
-  },
-])
+const routines = ref<{routine: Routine}[]>([])
 
 const product = ref<null | Product>(null)
 const alternatives = ref<Product[]>([])
@@ -234,6 +88,12 @@ onMounted(() => {
     .then(res => {
       reviews.value = res.data.data
     })
+  if (beauty.value) {
+    axios.get('https://api-www.beautyid.app/routines/randomnumber/12?order=ASC&page=1&take=12')
+      .then(res => {
+        routines.value = res.data.data
+      })
+  }
 })
 
 watch(route, () => {
@@ -567,7 +427,7 @@ watch(route, () => {
     <h2 class="title">Routines with Argan oil</h2>
     <TheFilter where="product" :items-length="routines.length" />
     <div class="routines__list">
-      <RoutineCard v-for="routine in routines" :routine="routine" :key="routine.title" />
+      <RoutineCard v-for="routine in routines" :routine="routine.routine" :key="routine.routine.id" />
     </div>
     <ThePagination :page-count="25" :all="822" :current-page="2" :take="12" />
   </section>

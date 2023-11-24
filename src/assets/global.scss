@@ -411,7 +411,11 @@ a {
     display: grid;
     align-content: space-between;
     padding: 60px;
-
+    
+    &.center {
+      align-content: center;
+      justify-content: center;
+    }
     @media screen and (max-width: 1440px) {
       padding: 20px;
       
