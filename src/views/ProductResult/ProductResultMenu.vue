@@ -50,7 +50,7 @@ onMounted(() => {
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
   
-  <TheFilter :products-length="allItems" where="product"/>
+  <TheFilter :items-length="allItems" where="product"/>
 
   <section class="product-list" v-if="products.length">
     <ProductCard

@@ -8,7 +8,7 @@ import FilterBrands from '@/components/FilterBrands.vue'
 import 'swiper/css'
 import 'vue-simple-range-slider/css'
 
-defineProps<{ productsLength: number, where: string }>()
+defineProps<{ itemsLength: number, where: string }>()
 
 const popularTags = ref(['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'])
 const popularTagsSelected = ref('anti-age')
@@ -91,7 +91,7 @@ const modules = ref([Navigation])
       </svg>
       Filters <span v-if="selected.length">({{ selected.length }})</span>
     </button>
-    <p class="txt-highlight">products ({{ productsLength }})</p>
+    <p class="txt-highlight">{{ where }} ({{ itemsLength }})</p>
   </div>
   <div class="theFilter">
     <button @click="filterActive = !filterActive" class="txt-highlight theFilter-btn min-phone">
@@ -156,7 +156,7 @@ const modules = ref([Navigation])
       </svg>
     </button>
 
-    <p class="txt-highlight products-length min-phone">products ({{ productsLength }})</p>
+    <p class="txt-highlight items-length min-phone">{{ where }}s ({{ itemsLength }})</p>
 
     <div class="theFilter-inner" :class="{active: filterActive}">
       <div class="theFilter-top d-sb" v-if="Object.keys(selected).length">
@@ -396,7 +396,7 @@ const modules = ref([Navigation])
   @media (max-width: 768px) {
     grid-template-columns: auto auto auto;
 
-    .products-length {
+    .items-length {
       grid-column: 3;
       grid-row: 1;
     }

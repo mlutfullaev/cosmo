@@ -35,7 +35,7 @@ onMounted(() => {
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  <TheFilter where="product" :products-length="allItems"/>
+  <TheFilter where="product" :items-length="allItems"/>
 
   <section v-if="products.length" class="product-list">
     <ProductCard

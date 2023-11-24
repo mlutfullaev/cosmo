@@ -408,10 +408,16 @@ a {
   padding: 0 60px;
 
   .routine-item {
+    display: grid;
+    align-content: space-between;
     padding: 60px;
 
     @media screen and (max-width: 1440px) {
-      padding: 0 20px
+      padding: 20px;
+      
+      img {
+        height: 80px;
+      }
     }
   }
   .routine-card__img, .routine-item {

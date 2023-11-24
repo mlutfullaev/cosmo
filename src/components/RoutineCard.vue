@@ -21,7 +21,7 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
 <template>
   <div class="routine-card">
     <div class="routine-card__img bg-img" :style="{backgroundImage: `url('${require('@/assets/img/routine/routine1.png')}')`}">
-      <!-- <base-rate :rates="routine.rate"/> -->
+      <base-rate :rates="3.5"/>
       <div class="activities">
         <button class="activity d-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">

@@ -1,23 +1,22 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { Product } from '@/interfaces'
-import ProductCard from '@/components/ProductCard.vue'
+import { Routine } from '@/interfaces'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import store from '@/store'
 import { toNumber } from '@vue/shared'
+import RoutineCard from '@/components/RoutineCard.vue'
+import RoutinesSteps from '@/components/RoutinesSteps.vue'
 
 const route = useRoute()
 const router = useRouter()
-const products = ref<Product[]>([])
+const routines = ref<Routine[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  console.log(route)
-  
-  axios.get('https://api-www.beautyid.app/goods/filtered', {
+  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=7', {
     params: route.query
   })
     .then(res => {
@@ -25,20 +24,21 @@ onMounted(() => {
         router.push(`/product-results/not-found/${route.params.param || ''}`)
         return
       }
-      products.value = res.data.data
+      routines.value = res.data.data
       allItems.value = res.data.meta.itemCount
     })
 })
 watch(route, () => {
-  axios.get('https://api-www.beautyid.app/goods/filtered', {
+  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=7', {
     params: route.query
   })
     .then(res => {
       if (!res.data.data.length) {
-        router.push('/product-results/not-found/')
-        return
+        // router.push('/routine-results/not-found/')
+        // return
       }
-      products.value = res.data.data
+      console.log(res.data)
+      routines.value = res.data.data
       allItems.value = res.data.meta.itemCount
     })
 })
@@ -51,25 +51,32 @@ watch(route, () => {
     <h2 class="title">Search Results for <span class="bold">{{ $route.params.param }}</span></h2>
     <h2 class="title bold">Oily skin person within 25-45 age range looking for hydration and cleansing acne products</h2>
     <h1 class="highlight orange">{{ allItems }}</h1>
-    <h3 class="title-secondary">Products</h3>
+    <h3 class="title-secondary">Routines</h3>
   </div>
-  <TheFilter where="product" :products-length="allItems"/>
+  <TheFilter where="routine" :items-length="allItems"/>
 
-  <section v-if="products.length" class="product-list">
-    <ProductCard
-      v-for="product in products"
-      :key="product.id"
-      :product="product"
+  <div class="routines__list">
+    <RoutineCard
+      v-for="routine in routines"
+      :routine="routine"
+      :key="routine.id"
     />
-    <div class="product-item center tablet" v-if="allItems > 11">
-      <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
+    <div class="routine-item bg-orange">
+      <img src="@/assets/img/global/qr.png" alt="qr-code">
+      <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
+      <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
     </div>
-  </section>
+  </div>
+  <div class="text-block">
+    <RouterLink to="/" class="link bold">browse more <span>→</span></RouterLink>
+  </div>
 
   <div class="tablet-link bg-orange tablet" v-if="allItems > 11">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
     <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
   </div>
+
+  <RoutinesSteps />
 
   <SearchResultBottom />
   
@@ -151,5 +158,10 @@ watch(route, () => {
   p {
     padding-bottom: 20px;
   }
+}
+
+.text-block {
+  border-top: 1px solid $black;
+  border-bottom: 1px solid $black;
 }
 </style>

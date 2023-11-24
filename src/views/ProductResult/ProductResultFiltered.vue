@@ -53,7 +53,7 @@ watch(route, () => {
     <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">Products</h3>
   </div>
-  <TheFilter where="product" :products-length="allItems"/>
+  <TheFilter where="product" :items-length="allItems"/>
 
   <section v-if="products.length" class="product-list">
     <ProductCard
