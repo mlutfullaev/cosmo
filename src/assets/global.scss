@@ -218,6 +218,9 @@ a {
     &.active {
       background: $black;
     }
+    &.bg-orange {
+      background-color: $orange;
+    }
   }
 }
 

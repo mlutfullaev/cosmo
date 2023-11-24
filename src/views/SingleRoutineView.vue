@@ -22,6 +22,7 @@ interface Step {
 }
 
 const beauty = ref(true)
+const mainLabel = ref(false)
 const route = useRoute()
 
 const steps = ref<Step[]>([])
@@ -90,7 +91,7 @@ const stepSwiper = ref(0)
       </div>
       <div class="main__inner__info">
         <div class="main__inner__info__left">
-          <button>
+          <button @click="mainLabel = true">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
               <g clip-path="url(#clip0_891_62064)">
                 <path d="M14.9983 29.44C22.9732 29.44 29.4381 22.9751 29.4381 15.0003C29.4381 7.02544 22.9732 0.560547 14.9983 0.560547C7.02349 0.560547 0.558594 7.02544 0.558594 15.0003C0.558594 22.9751 7.02349 29.44 14.9983 29.44Z" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
@@ -128,6 +129,22 @@ const stepSwiper = ref(0)
             <h3 class="title-secondary">34%</h3>
           </div>
         </div>
+        <div class="main__inner__info__label" :class="{active: mainLabel}">
+          <div class="main__inner__info__left">
+            <h2 class="orange"><span>beauty</span><br/>meter</h2>
+            <p class="txt-highlight">VERIFIED RESULTS by 15 users</p>
+          </div>
+          <div class="main__inner__info__right">
+            <p class="txt">Personalized Beauty Routine for Individuals for scandic people with oily problematic skin. Unlock the Secrets of Scandic Beauty: Embrace a Natural, Effortless, and Radiant Routine.</p>
+          </div>
+          <button class="alert-close" @click="mainLabel = false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.7559 20.2451L20.2459 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20.2459 20.2451L11.7559 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="main__inner__bottom">
         <div class="main__inner__bottom__item">
@@ -155,6 +172,10 @@ const stepSwiper = ref(0)
         </div>
         <BaseRate :rates="3.5" :text="true"/>
       </div>
+      <div class="main__inner__scan">
+        <img src="@/assets/img/global/qr.png" alt="qr-code">
+        <p class="note">scan qr code to get the full description of this routine</p>
+      </div>
     </div>
   </main>
 
@@ -178,7 +199,7 @@ const stepSwiper = ref(0)
         :pagination="{
           el: '.steps__pagination',
           clickable: true,
-          bulletActiveClass: 'active',
+          bulletActiveClass: 'bg-orange',
           renderBullet: (index, className) => `<button class='${className}'></button>`
         }"
         :slides-per-view="1">
@@ -272,6 +293,34 @@ const stepSwiper = ref(0)
   </section>
   
   <AiAssistance v-if="!beauty"/>
+  
+  <div class="sidebar">
+    <div class="sidebar-item">
+      <a href="#full-details" class="txt-highlight">like this routine</a>
+      <div class="sidebar-content d-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
+          <path d="M19.9 31.8483C19.3269 32.0506 18.3831 32.0506 17.81 31.8483C12.922 30.1798 2 23.2191 2 11.4213C2 6.21348 6.19689 2 11.3714 2C14.439 2 17.1526 3.48314 18.855 5.77528C20.5574 3.48314 23.2879 2 26.3386 2C31.5131 2 35.71 6.21348 35.71 11.4213C35.71 23.2191 24.788 30.1798 19.9 31.8483Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="sidebar-item">
+      <a href="#full-details" class="txt-highlight">add to your library TO START USING  THIS ROUTINE</a>
+      <div class="sidebar-content d-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <path d="M26.8265 31.2436L18.06 24.288C16.8707 23.3446 15.1313 23.3922 14.0007 24.3997L7.01491 31.2518C5.05811 32.998 1.85547 31.4691 1.85547 28.9181V4.91711C1.85547 3.30753 3.22741 2 4.92113 2H28.7898C30.4814 2 31.8555 3.30546 31.8555 4.91711V29.003C31.8555 31.4753 28.8246 32.8262 26.8287 31.2436H26.8265Z" stroke="currentColor" stroke-width="3" stroke-miterlimit="10"/>
+        </svg>
+      </div>
+    </div>
+    <div class="sidebar-item">
+      <a href="#full-details" class="txt-highlight">share this routine</a>
+      <div class="sidebar-content d-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none">
+          <path d="M20.8555 1H31.8555M31.8555 1V12M31.8555 1L15.8555 17" stroke="currentColor" stroke-width="2"/>
+          <path d="M13.8555 5H3.85547C2.7509 5 1.85547 5.89543 1.85547 7V29C1.85547 30.1046 2.7509 31 3.85547 31H25.8555C26.96 31 27.8555 30.1046 27.8555 29V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
 
   <TheFooter/>
 </template>
@@ -287,6 +336,8 @@ const stepSwiper = ref(0)
   }
 
   &__inner {
+    position: relative;
+
     &__content {
       padding: 60px 60px 120px;
       .d-center {
@@ -296,37 +347,80 @@ const stepSwiper = ref(0)
       }
       h3 {
         padding-top: 40px;
+        @media (max-width: 1200px) {
+          padding-top: 20px;
+        }
       }
       p {
         padding-top: 10px;
         max-width: 600px;
       }
+      @media (max-width: 1200px) {
+        padding: 20px 20px 40px;
+        
+        .title {
+          padding-right: 100px;
+        }
+      }
     }
     &__info {
+      position: relative;
       padding: 20px 40px;
       border-top: 1px solid $black;
       border-bottom: 1px solid $black;
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
+      gap: 10px;
 
       &__left {
         h2 {
           font-size: 77px;
-          font-style: normal;
           font-weight: 700;
-          line-height: 60px;
           text-transform: uppercase;
           padding-bottom: 15px;
 
           span {
             font-size: 65px;
           }
+          @media (max-width: 1000px) {
+            font-size: 55px;
+            line-height: 40px;
+
+            span {
+              font-size: 45px;
+            }
+          }
         }
       }
       &__right {
         display: grid;
+        justify-items: center;
         gap: 5px;
+      }
+      &__label {
+        position: absolute;
+        padding: 20px 40px;
+        border-top: 1px solid $black;
+        border-bottom: 1px solid $black;
+        background-color: $white;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 10px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: translateX(100%);
+        transition: .3s;
+
+        &.active {
+          transform: translateX(0);
+        }
+      }
+      @media (max-width: 1200px) {
+        padding: 20px;
       }
     }
     &__bottom {
@@ -341,6 +435,28 @@ const stepSwiper = ref(0)
         display: flex;
         gap: 5px;
         align-items: center;
+        
+        @media (max-width: 1200px) {
+          p:not(:first-child) {
+            display: none;
+          }
+        }
+      }
+      @media (max-width: 1200px) {
+        padding: 20px;
+      }
+    }
+    &__scan {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: grid;
+      justify-items: center;
+      grid-gap: 10px;
+
+      .note {
+        max-width: 100px;
+        text-align: center;
       }
     }
   }
@@ -357,12 +473,13 @@ const stepSwiper = ref(0)
 .steps {
   padding: 60px 0;
   text-align: center;
+
   &__title {
-        font-size: 52px;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 40px 0;
-      }
+    font-size: 52px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 40px 0;
+  }
   &__inner {
     display: grid;
     justify-content: center;
@@ -382,6 +499,8 @@ const stepSwiper = ref(0)
         &__left {
           padding: 20px;
           border-right: 1px solid $black;
+          display: grid;
+          align-content: center;
 
           img {
             max-width: 90%;
@@ -399,12 +518,18 @@ const stepSwiper = ref(0)
         }
       }
     }
+    @media (max-width: 1200px) {
+      grid-template-columns: auto 600px auto;
+    }
+    @media (max-width: 1000px) {
+      grid-template-columns: auto 400px auto;
+    }
   }
   .pagination {
     padding: 40px 0;
-    button.active {
-      background: $orange;
-    }
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 }
 
@@ -469,6 +594,54 @@ const stepSwiper = ref(0)
   .title {
     border-bottom: 1px solid $black;
     text-align: center;
+    padding: 30px 0;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 50%;
+  display: grid;
+  transform: translateY(-50%);
+  right: 0;
+
+  &-item {
+    display: grid;
+    gap: 10px;
+    align-items: center;
+    justify-content: right;
+    justify-self: right;
+    grid-template-columns: auto auto;
+    max-width: 60px;
+    overflow: hidden;
+    transition: .3s;
+    background-color: #fff;
+
+    a {
+      padding-left: 15px;
+      width: max-content;
+      color: #fff;
+    }
+    .sidebar-content {
+      width: 60px;
+      height: 55px;
+    }
+    svg path, svg rect, svg circle {
+      transition: .3s;
+      color: $orange;
+    }
+    &:hover {
+      background-color: $orange;
+      max-width: 550px;
+      
+      svg path, svg rect, svg circle {
+        color: $white;
+      }
+    }
+  }
+
+  @media (max-width: 480) {
+    display: none;
   }
 }
 </style>

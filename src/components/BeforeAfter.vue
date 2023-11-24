@@ -50,7 +50,7 @@ const position = ref(50)
     --position: 50%;
 
     .image-container {
-      max-height: 500px;
+      max-height: 7200px;
     }
 
     .slider-image {
