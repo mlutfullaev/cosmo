@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { Product, Review } from '@/interfaces'
+import { Product, Review, Routine } from '@/interfaces'
 import axios from 'axios'
 import AboutProduct from '@/views/SingleProduct/ProductAbout.vue'
 import ProductCard from '@/components/ProductCard.vue'
@@ -13,6 +13,7 @@ import TheFilter from '@/layouts/TheFilter.vue'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
+import SingleProductSlide from '@/components/SingleProductSlide.vue'
 
 const route = useRoute()
 
@@ -40,7 +41,7 @@ const links = ref([
   {
     link: 'free-samples',
     description: 'Details this product in table and full details from brand.',
-    title: 'PROMO Samples AVAILABLE'
+    title: 'PROMO Samples AVAILABLE',
   },
   {
     link: 'routine',
@@ -48,7 +49,7 @@ const links = ref([
     title: 'beauty routines'
   },
 ])
-const beauty = ref(false)
+const beauty = ref(true)
 const pricesMore = ref(false)
 const samples = ref([
   {
@@ -263,27 +264,43 @@ watch(route, () => {
   </main>
 
   <ReligionDiets :bg="beauty ? 'claims-bg-beauty.png' : 'claims-bg.jpg'" />
-  <AboutProduct v-if="product" :product="product"/>
+  <SingleProductSlide v-if="product" :product="product"/>
 
   <section id="prices" class="prices">
-    <div class="prices-text">
+    <div class="prices__text">
       <h1 class="prices-title">prices</h1>
-      <h3 class="title">FOR ARGAN OIL NEAR YOU</h3>
+      <div>
+        <h3 class="title">FOR ARGAN OIL NEAR YOU </h3>
+        <div class="hint">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 30 31" fill="none">
+            <g clip-path="url(#clip0_891_61889)">
+                <path d="M14.9998 29.5475C22.9746 29.5475 29.4395 23.0826 29.4395 15.1077C29.4395 7.13286 22.9746 0.667969 14.9998 0.667969C7.02495 0.667969 0.560059 7.13286 0.560059 15.1077C0.560059 23.0826 7.02495 29.5475 14.9998 29.5475Z" stroke="#FF8A00" stroke-width="2" stroke-miterlimit="10"/>
+                <path d="M14.8544 7.53273C14.4472 7.53273 14.1092 7.3908 13.8347 7.1088C13.5602 6.8268 13.4238 6.47571 13.4238 6.05738C13.4238 5.63905 13.5602 5.28796 13.8347 5.00596C14.1092 4.72396 14.4491 4.58203 14.8544 4.58203C15.2596 4.58203 15.5995 4.72396 15.874 5.00596C16.1486 5.28796 16.2849 5.63905 16.2849 6.05738C16.2849 6.47571 16.1486 6.8268 15.874 7.1088C15.5995 7.3908 15.2596 7.53273 14.8544 7.53273ZM13.8496 10.2967H15.8591V25.997H13.8496V10.2948V10.2967Z" fill="#FF8A00"/>
+            </g>
+            <defs>
+                <clipPath id="clip0_891_61889">
+                <rect width="30" height="30" fill="white" transform="translate(0 0.107422)"/>
+                </clipPath>
+            </defs>
+          </svg>
+          <p class="txt">Personalized Beauty Routine for Individuals for scandic people with oily problematic skin. Unlock the Secrets of Scandic Beauty: Embrace a Natural, Effortless, and Radiant Routine.</p>
+        </div>
+      </div>
     </div>
-    <div class="prices-inner">
-      <div class="prices-inner-item d-sb">
+    <div class="prices__inner">
+      <div class="prices__inner-item d-sb">
         <h3 class="title-secondary">lookfantastic</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <div class="prices-inner-item d-sb">
+      <div class="prices__inner-item d-sb">
         <h3 class="title-secondary">sephora</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <div class="prices-inner-item d-sb">
+      <div class="prices__inner-item d-sb">
         <h3 class="title-secondary">douglas</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <div class="prices-inner-item d-sb">
+      <div class="prices__inner-item d-sb">
         <h3 class="title-secondary">lookfantastic</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
@@ -291,56 +308,56 @@ watch(route, () => {
       <button v-else class="link bold" @click="pricesMore = true">discover more <span>→</span></button>
     </div>
     <div v-if="beauty" class="prices-more" :class="{ active: pricesMore }">
-      <div class="prices-inner">
-        <div class="prices-inner-item d-sb">
+      <div class="prices__inner">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">sephora</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">douglas</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
       </div>
-      <div class="prices-inner">
-        <div class="prices-inner-item d-sb">
+      <div class="prices__inner">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">sephora</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">douglas</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
       </div>
-      <div class="prices-inner">
-        <div class="prices-inner-item d-sb">
+      <div class="prices__inner">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">sephora</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">douglas</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-        <div class="prices-inner-item d-sb">
+        <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
@@ -412,15 +429,10 @@ watch(route, () => {
   <AiAssistance v-if="!beauty" />
 
   <section v-if="beauty" id="free-samples" class="samples">
-    <div class="samples-top d-sb">
-      <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121"
-        fill="none">
-        <path
-          d="M46.0891 85.9371C28.2096 75.8278 18.2198 55.5045 24.0661 34.9192C29.8557 14.5959 50.1758 0.348587 72.7664 0.610485C96.3787 0.872384 116.018 16.0625 121.069 36.4382C126.178 57.233 115.337 76.6135 98.5924 85.9371C95.7544 83.2134 96.2084 79.8087 96.322 76.3516C102.566 70.9565 105.006 64.1995 103.758 56.3949C102.849 50.8427 99.9546 46.2856 95.2435 42.7762C84.4591 49.8998 82.4725 66.9756 94.0516 76.5088C93.8813 78.4992 94.2218 80.5944 93.3704 82.5848C91.3838 87.2466 85.1402 89.9704 80.1453 88.399C77.5911 87.5609 75.8883 85.8847 74.8098 83.6324C73.9016 81.7467 73.5043 79.7563 73.5043 77.7135C73.4476 71.847 73.5043 65.9281 73.5043 60.0615C79.6344 54.6664 82.1319 48.0666 81.0534 40.3667C80.0885 33.5574 75.945 28.7908 72.4259 26.3813C61.7549 33.4526 59.6548 50.5284 71.2339 60.0615C71.2339 60.1139 71.2907 60.1663 71.2907 60.1663C71.2907 66.2947 71.2907 72.4755 71.2339 78.604C71.2339 80.5944 70.6663 82.4801 69.6446 84.261C67.658 87.8228 63.7983 89.5513 59.5413 88.6609C55.1708 87.7704 52.0489 85.4133 51.0272 81.2753C50.6299 79.7563 50.8002 78.0802 50.6867 76.5088C57.1574 70.9041 59.5413 64.0948 58.2358 56.1854C57.3276 50.7379 54.4329 46.2856 49.7785 42.7762C39.0508 49.7951 36.9507 66.9233 48.6433 76.5611C48.5866 78.2897 48.5866 80.123 48.3595 81.9039C48.0757 83.4229 47.2243 84.7324 46.0891 85.9371ZM72.3691 22.4005C85.4807 30.6765 88.9431 49.3237 76.4559 61.5805C76.4559 61.6329 76.4559 61.6853 76.4559 61.6853C76.4559 67.3423 76.4559 72.9993 76.5126 78.6563C76.5126 80.2277 76.9667 81.7467 77.8749 83.161C79.1236 85.1514 80.9967 86.1466 83.4941 86.0943C88.2052 86.0419 91.5541 82.4277 90.9865 77.9754C78.6128 65.6662 81.9616 47.1761 95.13 38.7953C108.412 47.2285 111.59 65.9281 99.2167 78.0278C99.0465 80.2277 99.16 81.4848 99.6708 82.1134C115.62 71.7946 123.794 52.3093 117.21 33.4002C110.853 15.0149 91.5541 1.91998 69.077 3.33423C47.9054 4.69611 30.253 19.0482 26.1095 38.3239C22.1363 57.1283 31.9558 73.8898 45.1242 82.1134C45.7485 80.8039 45.4647 79.3897 45.5215 78.0802C32.9207 65.7185 36.4966 46.9666 49.6082 38.7953C49.7218 38.8477 49.7785 38.9001 49.892 38.9525C58.6331 45.2904 62.4361 53.5664 61.0738 63.7805C60.3359 69.1232 57.8385 73.7326 53.922 77.7135C53.7517 77.8706 53.6382 78.0802 53.6382 78.2373C53.4112 80.4896 54.0355 82.4801 55.9086 84.1038C59.4845 87.1419 66.0687 87.3514 67.7715 80.8039C68.0553 79.7039 68.1689 78.5516 68.2256 77.3992C68.2824 72.3184 68.2256 67.2376 68.2256 62.1567C68.2256 61.9472 68.2256 61.7901 68.2256 61.6329C55.7384 49.1665 59.3143 30.6241 72.3691 22.4005Z"
-          fill="black" />
-        <path
-          d="M11.4656 103.17C12.8278 103.17 14.0198 103.17 15.2118 103.17C15.2118 108.827 15.2118 114.484 15.2118 120.193C13.9063 120.193 12.6008 120.193 11.2385 120.193C8.79785 116.422 6.35715 112.598 3.8597 108.775C3.80294 108.775 3.80294 108.775 3.74618 108.827C3.74618 112.598 3.74618 116.37 3.74618 120.193C2.49745 120.193 1.24873 120.193 0 120.193C0 119.931 0 119.722 0 119.512C0 114.798 0 110.032 0 105.317C0 103.851 0.737884 103.17 2.32717 103.17C2.83801 103.17 3.34886 103.17 3.97322 103.17C6.41391 106.994 8.85461 110.765 11.3521 114.589C11.4088 114.589 11.4088 114.589 11.4656 114.589C11.4656 110.765 11.4656 106.994 11.4656 103.17Z"
-          fill="black" />
+    <div class="samples__top d-sb">
+      <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121" fill="none">
+        <path d="M46.0891 85.9371C28.2096 75.8278 18.2198 55.5045 24.0661 34.9192C29.8557 14.5959 50.1758 0.348587 72.7664 0.610485C96.3787 0.872384 116.018 16.0625 121.069 36.4382C126.178 57.233 115.337 76.6135 98.5924 85.9371C95.7544 83.2134 96.2084 79.8087 96.322 76.3516C102.566 70.9565 105.006 64.1995 103.758 56.3949C102.849 50.8427 99.9546 46.2856 95.2435 42.7762C84.4591 49.8998 82.4725 66.9756 94.0516 76.5088C93.8813 78.4992 94.2218 80.5944 93.3704 82.5848C91.3838 87.2466 85.1402 89.9704 80.1453 88.399C77.5911 87.5609 75.8883 85.8847 74.8098 83.6324C73.9016 81.7467 73.5043 79.7563 73.5043 77.7135C73.4476 71.847 73.5043 65.9281 73.5043 60.0615C79.6344 54.6664 82.1319 48.0666 81.0534 40.3667C80.0885 33.5574 75.945 28.7908 72.4259 26.3813C61.7549 33.4526 59.6548 50.5284 71.2339 60.0615C71.2339 60.1139 71.2907 60.1663 71.2907 60.1663C71.2907 66.2947 71.2907 72.4755 71.2339 78.604C71.2339 80.5944 70.6663 82.4801 69.6446 84.261C67.658 87.8228 63.7983 89.5513 59.5413 88.6609C55.1708 87.7704 52.0489 85.4133 51.0272 81.2753C50.6299 79.7563 50.8002 78.0802 50.6867 76.5088C57.1574 70.9041 59.5413 64.0948 58.2358 56.1854C57.3276 50.7379 54.4329 46.2856 49.7785 42.7762C39.0508 49.7951 36.9507 66.9233 48.6433 76.5611C48.5866 78.2897 48.5866 80.123 48.3595 81.9039C48.0757 83.4229 47.2243 84.7324 46.0891 85.9371ZM72.3691 22.4005C85.4807 30.6765 88.9431 49.3237 76.4559 61.5805C76.4559 61.6329 76.4559 61.6853 76.4559 61.6853C76.4559 67.3423 76.4559 72.9993 76.5126 78.6563C76.5126 80.2277 76.9667 81.7467 77.8749 83.161C79.1236 85.1514 80.9967 86.1466 83.4941 86.0943C88.2052 86.0419 91.5541 82.4277 90.9865 77.9754C78.6128 65.6662 81.9616 47.1761 95.13 38.7953C108.412 47.2285 111.59 65.9281 99.2167 78.0278C99.0465 80.2277 99.16 81.4848 99.6708 82.1134C115.62 71.7946 123.794 52.3093 117.21 33.4002C110.853 15.0149 91.5541 1.91998 69.077 3.33423C47.9054 4.69611 30.253 19.0482 26.1095 38.3239C22.1363 57.1283 31.9558 73.8898 45.1242 82.1134C45.7485 80.8039 45.4647 79.3897 45.5215 78.0802C32.9207 65.7185 36.4966 46.9666 49.6082 38.7953C49.7218 38.8477 49.7785 38.9001 49.892 38.9525C58.6331 45.2904 62.4361 53.5664 61.0738 63.7805C60.3359 69.1232 57.8385 73.7326 53.922 77.7135C53.7517 77.8706 53.6382 78.0802 53.6382 78.2373C53.4112 80.4896 54.0355 82.4801 55.9086 84.1038C59.4845 87.1419 66.0687 87.3514 67.7715 80.8039C68.0553 79.7039 68.1689 78.5516 68.2256 77.3992C68.2824 72.3184 68.2256 67.2376 68.2256 62.1567C68.2256 61.9472 68.2256 61.7901 68.2256 61.6329C55.7384 49.1665 59.3143 30.6241 72.3691 22.4005Z" fill="black" />
+        <path d="M11.4656 103.17C12.8278 103.17 14.0198 103.17 15.2118 103.17C15.2118 108.827 15.2118 114.484 15.2118 120.193C13.9063 120.193 12.6008 120.193 11.2385 120.193C8.79785 116.422 6.35715 112.598 3.8597 108.775C3.80294 108.775 3.80294 108.775 3.74618 108.827C3.74618 112.598 3.74618 116.37 3.74618 120.193C2.49745 120.193 1.24873 120.193 0 120.193C0 119.931 0 119.722 0 119.512C0 114.798 0 110.032 0 105.317C0 103.851 0.737884 103.17 2.32717 103.17C2.83801 103.17 3.34886 103.17 3.97322 103.17C6.41391 106.994 8.85461 110.765 11.3521 114.589C11.4088 114.589 11.4088 114.589 11.4656 114.589C11.4656 110.765 11.4656 106.994 11.4656 103.17Z" fill="black" />
         <path
           d="M123.681 114.537C120.616 114.537 117.551 114.537 114.542 114.537C114.145 116.422 115.961 117.941 117.948 117.47C118.402 117.365 118.856 117.208 119.14 116.946C119.878 116.213 120.729 116.108 121.751 116.16C122.262 116.213 122.829 116.16 123.454 116.16C123.056 117.627 122.432 118.884 121.07 119.617C118.629 120.875 116.132 120.927 113.634 119.722C112.045 118.936 111.25 117.575 110.853 116.003C110.455 114.379 110.455 112.703 110.853 111.079C111.477 108.461 113.407 106.941 116.415 106.732C117.153 106.68 117.891 106.732 118.629 106.837C120.956 107.151 122.489 108.356 123.17 110.451C123.681 111.76 123.794 113.122 123.681 114.537ZM119.764 112.075C119.707 110.451 118.742 109.456 117.153 109.508C115.621 109.508 114.542 110.608 114.542 112.075C116.245 112.075 117.948 112.075 119.764 112.075Z"
           fill="black" />
@@ -470,8 +482,8 @@ watch(route, () => {
         <img src="@/assets/img/global/qr.png" alt="">
       </div>
     </div>
-    <div class="samples-content">
-      <div class="samples-title d-sb">
+    <div class="samples__content">
+      <div class="samples__content__title d-sb">
         <h3 class="title">free samples</h3>
         <svg class="tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121" fill="none">
           <path
@@ -521,13 +533,13 @@ watch(route, () => {
             fill="black" />
         </svg>
       </div>
-      <div class="samples-buttons">
-        <button v-for="sample in samples" :key="sample.title" @click="activeSample = sample.title" class="samples-button"
+      <div class="samples__content__buttons">
+        <button v-for="sample in samples" :key="sample.title" @click="activeSample = sample.title"
           :class="{ active: activeSample === sample.title }">{{ sample.title }}
         </button>
       </div>
       <div>
-        <div class="samples-text" v-for="sample in samples" :key="sample.title">
+        <div class="samples__content__text" v-for="sample in samples" :key="sample.title">
           <Transition name="tab">
             <div v-if="activeSample === sample.title">
               <p class="text bold">{{ sample.title }}</p>
@@ -759,7 +771,7 @@ main {
     }
   }
 
-  &-text {
+  &__text {
     color: $orange;
 
     h1 {
@@ -770,13 +782,17 @@ main {
     h3 {
       font-weight: 700;
     }
+    > div {
+        gap: 5px;
+        display: flex;
+    }
 
     @media (max-width: 768px) {
       padding: 0 20px;
     }
   }
 
-  &-inner {
+  &__inner {
     &-item {
       padding: 40px 10px;
       border-bottom: 1px solid $black;
@@ -799,7 +815,7 @@ main {
       }
     }
 
-    >button {
+    > button {
       margin: 20px 0;
     }
 
@@ -939,7 +955,7 @@ main {
 .samples {
   padding: 100px 60px;
 
-  .samples-top {
+  &__top {
     .scan {
       max-width: 800px;
       padding-left: 0;
@@ -947,14 +963,14 @@ main {
     }
   }
 
-  .samples-content {
+  &__content {
     padding: 20px 0;
     display: grid;
     gap: 0;
     grid-template-columns: 60% 40%;
 
-    .samples-title,
-    .samples-buttons {
+    &__title,
+    &__buttons {
 
       height: 100%;
       border-bottom: 1px solid $black;
@@ -964,7 +980,7 @@ main {
       }
     }
 
-    .samples-title {
+    &__title {
       @media (max-width: 768px) {
         border-bottom: none;
 
@@ -975,11 +991,11 @@ main {
       }
     }
 
-    .samples-buttons {
+    &__buttons {
       display: grid;
       grid-template-columns: 1fr;
 
-      .samples-button {
+      button {
         text-transform: uppercase;
         font-weight: 400;
         font-size: 24px;
@@ -1047,7 +1063,7 @@ main {
 }
 
 .routines {
-  >h2 {
+  > h2 {
     text-align: center;
     padding: 60px;
     border-top: 1px solid $black;

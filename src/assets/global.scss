@@ -520,6 +520,26 @@ a {
     }
   }
 }
+.hint {
+  display: flex;
+  p {
+    transition: .3s;
+    background-color: $white;
+    padding: 5px;
+    visibility: hidden;
+    width: 100%;
+    max-width: 550px;
+    opacity: 0;
+    color: #000;
+    position: absolute;
+  }
+  &:hover {
+    p {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
 
 // Text
 .title {

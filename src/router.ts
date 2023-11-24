@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainView from '@/views/MainView.vue'
-import Product from '@/views/SingleProduct/Product.vue'
+import SingleProductView from '@/views/SingleProductView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
 import ProductFilterView from '@/views/ProductFilterView.vue'
 import RoutineFilterView from '@/views/RoutineFilterView.vue'
@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/single-product/:id',
     name: 'single-product',
-    component: Product
+    component: SingleProductView
   },
   {
     path: '/product-results/search/:param',
