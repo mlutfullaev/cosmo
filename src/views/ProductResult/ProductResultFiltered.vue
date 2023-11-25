@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { Product } from '@/interfaces'
+import store from '@/store'
+import axios from 'axios'
+import { useRoute, useRouter } from 'vue-router'
+import { Product, StringObject } from '@/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
-import store from '@/store'
-import { toNumber } from '@vue/shared'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,8 +14,6 @@ const products = ref<Product[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  console.log(route)
-  
   axios.get('https://api-www.beautyid.app/goods/filtered', {
     params: route.query
   })
@@ -42,6 +39,10 @@ watch(route, () => {
       allItems.value = res.data.meta.itemCount
     })
 })
+
+const filter = (filters: StringObject) => {
+  console.log(filters)
+}
 </script>
 
 <template>
@@ -53,7 +54,11 @@ watch(route, () => {
     <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">Products</h3>
   </div>
-  <TheFilter where="product" :items-length="allItems"/>
+  <TheFilter
+    :items-length="allItems"
+    where="product"
+    @filter="filter"
+    :filters="store.state.productFilters"/>
 
   <section v-if="products.length" class="product-list">
     <ProductCard
@@ -62,17 +67,17 @@ watch(route, () => {
       :product="product"
     />
     <div class="product-item center tablet" v-if="allItems > 11">
-      <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
+      <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: Number(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
     </div>
   </section>
 
   <div class="tablet-link bg-orange tablet" v-if="allItems > 11">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
-    <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
+    <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: Number(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
   </div>
 
   <SearchResultBottom />
-  
+
   <TheFooter/>
 </template>
 

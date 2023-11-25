@@ -1,69 +1,29 @@
 <script setup lang="ts">
-import { computed, defineProps, PropType, ref } from 'vue'
-import { StringObject } from '@/interfaces'
+import { defineEmits, defineProps, reactive, ref, watch } from 'vue'
 import VueSimpleRangeSlider from 'vue-simple-range-slider'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
 import FilterBrands from '@/components/FilterBrands.vue'
 import 'swiper/css'
 import 'vue-simple-range-slider/css'
+import { StringObject } from '@/interfaces'
 
-defineProps<{ itemsLength: number, where: string }>()
+defineProps<{
+  itemsLength: number,
+  filters: {[key: string]: {title: string, items: string[]}},
+  where: string,
+}>()
+const emit = defineEmits<{(event: 'filter', filters: StringObject): void}>()
 
 const popularTags = ref(['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'])
-const popularTagsSelected = ref('anti-age')
-const filters = ref<{[key: string]: {title: string, items: string[], selected: string}}>({
-  productCategory: {
-    title: 'product category',
-    items: ['Cleanser', 'Toners', 'Serums', 'Creams', 'Oils', 'Scrubs', 'Masks', 'Body Care'],
-    selected: '',
-  },
-  steps: {
-    title: 'steps',
-    items: ['Remove makeup', 'Cleansing', 'Treat', 'Moisture', 'Protect'],
-    selected: ''
-  },
-  occasion: {
-    title: 'OCCASION OF USE',
-    items: ['Morning (AM)', 'Evening ( PM)', 'Special'],
-    selected: '',
-  },
-  season: {
-    title: 'SEASON OF USE',
-    items: ['Summer', 'Winter', 'Spring - Summer', 'Aughtom - Winter', 'All Year Around'],
-    selected: '',
-  },
-  benefits: {
-    title: 'benefits',
-    items: ['Anti-age', 'Anti-wrinkle', 'Hydration', 'brightness', 'UV-protection', 'Cleansing'],
-    selected: '',
-  },
-  ingredients: {
-    title: 'Ingredients',
-    items: ['AHA-acid', 'BHA-acid', 'PHA-acid', 'Ceramides', 'Hyaluronic Acid', 'Retinol', 'Vitamin C', 'Peptides', 'Niacinamide'],
-    selected: '',
-  },
-})
+const selected = reactive<StringObject>({})
 const filterActive = ref(false)
 
-function clearAll () {
-  Object.keys(filters.value).forEach((key) => {
-    filters.value[key].selected = ''
-  })
-}
-
-const selected = computed(() => {
-  const selected: StringObject = {}
-  Object.keys(filters.value).forEach((key: string) => {
-    if (filters.value[key as keyof object].selected) {
-      selected[key] = filters.value[key as keyof object].selected
-    }
-  })
-  return selected
+watch(selected, () => {
+  emit('filter', selected)
 })
 
 const range = ref<[number, number]>([20, 1000])
-const modules = ref([Navigation])
 </script>
 
 <template>
@@ -91,8 +51,9 @@ const modules = ref([Navigation])
       </svg>
       Filters <span v-if="selected.length">({{ selected.length }})</span>
     </button>
-    <p class="txt-highlight">{{ where }} ({{ itemsLength }})</p>
+    <p class="txt-highlight">{{ where }}s ({{ itemsLength }})</p>
   </div>
+
   <div class="theFilter">
     <button @click="filterActive = !filterActive" class="txt-highlight theFilter-btn min-phone">
       <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
@@ -119,25 +80,24 @@ const modules = ref([Navigation])
     </button>
 
     <p class="txt-highlight">Popular tags:</p>
+
     <swiper
-      :navigation="{
+      :navigation="({
         nextEl: '.swiper-next',
         prevEl: '.swiper-prev',
-      }"
-      :modules="modules"
+      } as any)"
+      :modules="[Navigation]"
       slides-per-view="auto">
       <swiper-slide
         v-for="tag in popularTags"
         class="btn-tag"
-        :class="{active: tag === popularTagsSelected}"
+        :class="{active: tag === selected.popularTag}"
         :key="tag">
-        <button class="txt" @click="popularTagsSelected = tag"> {{ tag }}</button>
+        <button class="txt" @click="selected.popularTag = tag"> {{ tag }}</button>
         <svg
-          @click="popularTagsSelected = ''"
+          @click="selected.popularTag = ''"
           xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-            fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z" fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
           <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
@@ -168,7 +128,7 @@ const modules = ref([Navigation])
             :key="key">
             <button class="txt">{{ filter }}</button>
             <svg
-              @click="filters[key].selected = ''"
+              @click="selected[filter] = ''"
               xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z" fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
@@ -178,7 +138,7 @@ const modules = ref([Navigation])
             </svg>
           </li>
           <li>
-            <button class="btn-clear d-center" @click="clearAll">
+            <button class="btn-clear d-center" @click="selected = {}">
               Clear all
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
@@ -206,22 +166,18 @@ const modules = ref([Navigation])
             <li
               v-for="filterItem in filter.items"
               :key="filterItem"
-              :class="{active: filter.selected === filterItem}"
+              :class="{active: selected[key] === filterItem}"
               class="btn-tag">
-              <button class="txt" @click="filter.selected = filterItem">{{ filterItem }}</button>
+              <button class="txt" @click="selected[key] = filterItem">{{ filterItem }}</button>
               <svg
-                v-if="filter.selected === filterItem"
-                @click="filter.selected = ''"
+                v-if="selected[key] === filterItem"
+                @click="selected[key] = ''"
                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z"
-                  fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z" fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
-                <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                      stroke-linejoin="round"/>
+                <path d="M5.87695 10.1225L10.122 5.87756" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M10.122 10.1225L5.87695 5.87756L10.122 10.1225Z" fill="white"/>
-                <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round"
-                      stroke-linejoin="round"/>
+                <path d="M10.122 10.1225L5.87695 5.87756" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </li>
           </ul>
@@ -243,7 +199,10 @@ const modules = ref([Navigation])
         </div>
       </div>
 
-      <FilterBrands :where="where" button-type="button" />
+      <FilterBrands
+        @change-brand="brand => {selected.brand = brand}"
+        :where="where"
+        button-type="button" />
 
       <div class="theFilter-bottom d-center">
         <button class="title-secondary" @click="filterActive = false">Apply</button>
@@ -376,7 +335,7 @@ const modules = ref([Navigation])
     .theFilter-bottom {
       padding: 60px;
       border-bottom: 1px solid $black;
-      
+
       @media (max-width: 480px) {
         border-top: 1px solid $black;
         grid-row: 4;
@@ -421,7 +380,7 @@ const modules = ref([Navigation])
   background-color: #fff;
   border-bottom: 1px solid $black;
   border-top: 1px solid $black;
-  
+
   @media (max-width: 480px) {
     display: flex;
     padding: 20px;

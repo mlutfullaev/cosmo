@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product } from '@/interfaces'
+import { Product, StringObject } from '@/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import ProductFilterSelect from '@/components/FilterSelect.vue.js'
-import ReligionDiets from '@/components/ReligionDiets.vue'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
+import store from '@/store'
 
 const route = useRoute()
 const router = useRouter()
 const products = ref<Product[]>([])
 const allItems = ref(0)
+
+const filter = (filters: StringObject) => {
+  console.log(filters)
+}
 
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
@@ -49,8 +52,12 @@ onMounted(() => {
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  
-  <TheFilter :items-length="allItems" where="product"/>
+
+  <TheFilter
+    :items-length="allItems"
+    where="product"
+    @filter="filter"
+    :filters="store.state.productFilters"/>
 
   <section class="product-list" v-if="products.length">
     <ProductCard
@@ -64,7 +71,7 @@ onMounted(() => {
   </section>
 
   <SearchResultBottom />
-  
+
   <TheFooter/>
 </template>
 
@@ -79,7 +86,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+
     .title {
       font-weight: 400;
 
@@ -114,7 +121,7 @@ onMounted(() => {
   .productResult-scan {
     padding: 60px;
     text-align: left;
-    
+
     @media (max-width: 1000px) {
       padding: 40px;
     }
@@ -122,7 +129,7 @@ onMounted(() => {
       padding: 20px;
     }
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 100%;
   }

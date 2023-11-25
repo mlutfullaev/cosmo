@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product } from '@/interfaces'
+import { Product, StringObject } from '@/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
+import store from '@/store'
 
 const route = useRoute()
 const router = useRouter()
@@ -23,6 +24,10 @@ onMounted(() => {
       allItems.value = res.data.meta.itemCount
     })
 })
+
+const filter = (filters: StringObject) => {
+  console.log(filters)
+}
 </script>
 
 <template>
@@ -35,7 +40,12 @@ onMounted(() => {
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  <TheFilter where="product" :items-length="allItems"/>
+  
+  <TheFilter
+    :items-length="allItems"
+    where="product"
+    @filter="filter"
+    :filters="store.state.productFilters"/>
 
   <section v-if="products.length" class="product-list">
     <ProductCard
@@ -48,13 +58,13 @@ onMounted(() => {
     </div>
   </section>
 
-  <div class="tablet-link bg-orange tablet">
+  <div v-if="products.length" class="tablet-link bg-orange tablet">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
     <RouterLink class="link bold" to="#">discover more <span>→</span></RouterLink>
   </div>
 
   <SearchResultBottom />
-  
+
   <TheFooter/>
 </template>
 

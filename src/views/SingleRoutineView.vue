@@ -199,16 +199,16 @@ const stepSwiper = ref(0)
         @active-index-change="swiper => stepSwiper = swiper.activeIndex"
         :modules="[Pagination, Navigation]"
         ref="mySwiper"
-        :navigation="{
+        :navigation="({
           nextEl: '.steps__inner__next',
           prevEl: '.steps__inner__prev',
-        }"
-        :pagination="{
+        } as any)"
+        :pagination="({
           el: '.steps__pagination',
           clickable: true,
           bulletActiveClass: 'bg-orange',
           renderBullet: (index, className) => `<button class='${className}'></button>`
-        }"
+        } as any)"
         :slides-per-view="1">
         <swiper-slide
           v-for="step in steps"
@@ -298,9 +298,9 @@ const stepSwiper = ref(0)
       </div>
     </div>
   </section>
-  
+
   <AiAssistance v-if="!beauty"/>
-  
+
   <div class="sidebar">
     <div class="sidebar-item">
       <a href="#full-details" class="txt-highlight">like this routine</a>
@@ -364,7 +364,7 @@ const stepSwiper = ref(0)
       }
       @media (max-width: 1200px) {
         padding: 20px 20px 40px;
-        
+
         .title {
           padding-right: 100px;
         }
@@ -442,7 +442,7 @@ const stepSwiper = ref(0)
         display: flex;
         gap: 5px;
         align-items: center;
-        
+
         @media (max-width: 1200px) {
           p:not(:first-child) {
             display: none;
@@ -640,7 +640,7 @@ const stepSwiper = ref(0)
     &:hover {
       background-color: $orange;
       max-width: 550px;
-      
+
       svg path, svg rect, svg circle {
         color: $white;
       }
