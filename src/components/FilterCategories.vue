@@ -40,6 +40,8 @@ defineEmits<{(event: 'categorySelect', title: string): void}>()
     display: grid;
     gap: 10px;
     width: max-content;
+    max-width: 100px;
+    text-align: center;
 
     .image {
       border-radius: 50%;

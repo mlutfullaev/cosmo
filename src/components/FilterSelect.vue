@@ -1,107 +1,10 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, defineEmits } from 'vue'
-import { StringObject } from '@/interfaces'
-import axios from 'axios'
-import store from '@/store'
+import { defineProps, ref, defineEmits } from 'vue'
+import { Filter } from '@/interfaces'
 
-interface Variant {
-  text: string,
-  param: string,
-  id: number,
-}
-defineEmits<{(event: 'updateFilterQuery', query: StringObject): void}>()
-const activeTab = ref<number | string>('age')
-const filters = reactive<{[key: string]: {title: string, subtitle: string, variants: Variant[], selectedVariant: string | number}}>({
-  age: {
-    title: 'Age targeted group',
-    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [],
-    selectedVariant: '',
-  },
-  concerns: {
-    title: 'Targeted Concerns',
-    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [],
-    selectedVariant: '',
-  },
-  benefits: {
-    title: 'Product Claims (Vegan, Natural, etc)',
-    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [],
-    selectedVariant: '',
-  },
-  religionDiets: {
-    title: 'Religious Certified Products',
-    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [],
-    selectedVariant: '',
-  },
-  skinTypes: {
-    title: 'Targeted Skin Types',
-    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
-    variants: [],
-    selectedVariant: '',
-  },
-})
-
-onMounted(() => {
-  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
-    .then(res => {
-      res.data.data.forEach((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => {
-        filters.age.variants.push({
-          text: `${item.ageMin} - ${item.ageMax}`,
-          param: item.ageName,
-          id: item.id,
-        })
-      })
-    })
-  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
-    .then(res => {
-      res.data.data.forEach((item: { id: number, concernName: string, }) => {
-        filters.concerns.variants.push({
-          text: item.concernName,
-          param: item.concernName,
-          id: item.id,
-        })
-      })
-    })
-  axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
-    .then(res => {
-      res.data.data.forEach((item: { id: number, goodBenefitName: string, }) => {
-        filters.benefits.variants.push({
-          text: item.goodBenefitName,
-          param: item.goodBenefitName,
-          id: item.id,
-        })
-      })
-    })
-  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
-    .then(res => {
-      res.data.data.forEach((item: { id: number, religionDietName: string, }) => {
-        filters.religionDiets.variants.push({
-          text: item.religionDietName,
-          param: item.religionDietName,
-          id: item.id,
-        })
-      })
-    })
-  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
-    .then(res => {
-      res.data.data.forEach((item: { id: number, skinTypeName: string, }) => {
-        filters.skinTypes.variants.push({
-          text: item.skinTypeName,
-          param: item.skinTypeName,
-          id: item.id,
-        })
-      })
-    })
-
-  // Object.keys(store.state.filterQuery).forEach(key => {
-  //   if (filters[key]) {
-  //     filters[key].selectedVariant = store.state.filterQuery[key]
-  //   }
-  // })
-})
+const props = defineProps<{filters: Filter, routine?: boolean}>()
+defineEmits<{(event: 'updateFilter', key: string, value: string): void}>()
+const activeTab = ref<number | string>(Object.keys(props.filters)[0])
 
 </script>
 
@@ -123,7 +26,7 @@ onMounted(() => {
             <button
               v-for="variant in filterTab.variants"
               :class="{active: variant.param === filterTab.selectedVariant}"
-              @click="filterTab.selectedVariant = variant.param"
+              @click="() => $emit('updateFilter', idx, variant.param)"
               class="filter-button"
               :key="variant.id">
               {{ variant.text }}
@@ -144,14 +47,25 @@ onMounted(() => {
           <button
             v-for="variant in filterTab.variants"
             :class="{active: variant.param === filterTab.selectedVariant}"
-            @click="() => {
-              filterTab.selectedVariant = variant.param;
-              $emit('updateFilterQuery', {[idx]: variant.param})
-            }"
+            @click="() => $emit('updateFilter', idx, variant.param)"
             :key="variant.id">
             {{ variant.text }}
           </button>
         </div>
+      </div>
+      <div class="productFilter-text" v-if="routine">
+        <p class="txt">IF you are not sure about your skin type, take a look at your mid-afternoon reflection. If you’re oilier all over, you have an oily skin type. If skin’s starting to feel parched, you're dry. Somewhere in the middle? Call it balanced.</p>
+        <div>
+          <p class="txt-highlight">Combination</p>
+          <p class="txt">You’ll be dry in some areas and oily in others (usually around the nose, chin and forehead), with some  blackheads, slightly shiny skin and more visible pores.</p>
+          <p class="txt-highlight">oily</p>
+          <p class="txt">Produces lots of natural oils, which might mean you’re prone to more visible pores, a shiny complexion, blackheads and spots.</p>
+          <p class="txt-highlight">dry</p>
+          <p class="txt">Your skin might crack, peel or become itchy quite easily, especially when it’s cold out. You’ll tend to have more visible lines, red patches and a rougher complexion.</p>
+          <p class="txt-highlight">normal</p>
+          <p class="txt">Well-balanced, no severe sensitivity, barely visible pores and a radiant complexion. Not too dry and not too oily.</p>
+        </div>
+        <p class="txt">Really not sure? Just pick <span class="txt-highlight">Combination</span> as this is what the majority of people are.</p>
       </div>
     </div>
 
@@ -165,11 +79,10 @@ onMounted(() => {
   border-top: 1px solid $black;
 
   .productFilter-inner {
+    border-left: 1px solid $black;
     .productFilter-item {
-      border-left: 1px solid $black;
       display: none;
       padding: 40px;
-      height: 100%;
 
       &.active {
         display: block;
@@ -213,6 +126,17 @@ onMounted(() => {
       }
       @media (max-width: 768px) {
         padding: 20px;
+      }
+    }
+    .productFilter-text {
+      padding: 20px;
+      border-top: 1px solid $black;
+
+      > div {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 10px;
+        padding: 10px 0;
       }
     }
   }

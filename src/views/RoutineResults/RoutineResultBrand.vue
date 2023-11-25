@@ -5,7 +5,7 @@ import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
+import ProductFilterSelect from '@/components/FilterSelect.vue.js'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 
 const route = useRoute()

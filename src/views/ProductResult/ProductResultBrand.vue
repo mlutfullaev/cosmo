@@ -1,18 +1,49 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { Product } from '@/interfaces'
+import { onMounted, reactive, ref } from 'vue'
+import { Filter, Product } from '@/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
-import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import ReligionDiets from '@/components/ReligionDiets.vue'
+import FilterSelect from '@/components/FilterSelect.vue'
 
 const route = useRoute()
 const router = useRouter()
 const products = ref<Product[]>([])
 const allItems = ref(0)
 
+const filters = reactive<Filter>({
+  age: {
+    title: 'Age targeted group',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  concerns: {
+    title: 'Targeted Concerns',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  benefits: {
+    title: 'Product Claims (Vegan, Natural, etc)',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  religionDiets: {
+    title: 'Religious Certified Products',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  skinTypes: {
+    title: 'Targeted Skin Types',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+})
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
@@ -22,6 +53,46 @@ onMounted(() => {
       }
       products.value = res.data.data
       allItems.value = res.data.meta.itemCount
+    })
+  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.age.variants = res.data.data.map((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => ({
+        text: `${item.ageMin} - ${item.ageMax}`,
+        param: item.ageName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.concerns.variants = res.data.data.map((item: { id: number, concernName: string, }) => ({
+        text: item.concernName,
+        param: item.concernName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.benefits.variants = res.data.data.map((item: { id: number, goodBenefitName: string, }) => ({
+        text: item.goodBenefitName,
+        param: item.goodBenefitName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.religionDiets.variants = res.data.data.map((item: { id: number, religionDietName: string, }) => ({
+        text: item.religionDietName,
+        param: item.religionDietName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.skinTypes.variants = res.data.data.map((item: { id: number, skinTypeName: string, }) => ({
+        text: item.skinTypeName,
+        param: item.skinTypeName,
+        id: item.id,
+      }))
     })
 })
 </script>
@@ -38,7 +109,7 @@ onMounted(() => {
     <ReligionDiets description="Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat /" />
   </div>
 
-  <ProductFilterSelect />
+  <FilterSelect :filters="filters" />
 
   <div class="text-block">
     <h2 class="title bold">Oily skin person within 25-45 age range looking for hydration and cleansing acne products</h2>

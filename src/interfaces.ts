@@ -48,3 +48,18 @@ export interface Review {
   reviewText: string;
   reviewRating: number;
 }
+
+export interface Variant {
+  text: string,
+  param: string,
+  id: number,
+}
+
+export interface Filter {
+  [key: string]: {
+    title: string,
+    subtitle: string,
+    variants: Variant[],
+    selectedVariant: string | number
+  }
+}

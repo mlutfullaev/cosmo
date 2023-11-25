@@ -1,102 +1,46 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { StringObject } from '@/interfaces'
+import { onMounted, reactive, ref } from 'vue'
 import store from '@/store'
-import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
+import { Filter } from '@/interfaces'
 import FilterCategories from '@/components/FilterCategories.vue'
+import FilterSelect from '@/components/FilterSelect.vue'
+import axios from 'axios'
 
 const alertActive = ref(true)
-const activeLib = ref(0)
-const library = ref([
-  {
-    title: 'categories',
-    categories: [
-      {
-        title: 'cleanser',
-        imgUrl: require('@/assets/img/product/library-1.png')
-      },
-      {
-        title: 'toners',
-        imgUrl: require('@/assets/img/product/library-2.png')
-      },
-      {
-        title: 'serums',
-        imgUrl: require('@/assets/img/product/library-3.png')
-      },
-      {
-        title: 'creams',
-        imgUrl: require('@/assets/img/product/library-4.png')
-      },
-      {
-        title: 'oils',
-        imgUrl: require('@/assets/img/product/library-5.png')
-      },
-      {
-        title: 'scrubs',
-        imgUrl: require('@/assets/img/product/library-6.png')
-      },
-      {
-        title: 'masks',
-        imgUrl: require('@/assets/img/product/library-7.png')
-      },
-    ],
-    selected: '',
-  },
-  {
-    title: 'benefits',
-    categories: [
-      {
-        title: 'anti-age',
-        imgUrl: require('@/assets/img/product/library-1.png')
-      },
-      {
-        title: 'anti-wrinkle',
-        imgUrl: require('@/assets/img/product/library-2.png')
-      },
-      {
-        title: 'hydration',
-        imgUrl: require('@/assets/img/product/library-3.png')
-      },
-      {
-        title: 'brightness',
-        imgUrl: require('@/assets/img/product/library-4.png')
-      },
-      {
-        title: 'uv-protection',
-        imgUrl: require('@/assets/img/product/library-5.png')
-      },
-      {
-        title: 'cleansing',
-        imgUrl: require('@/assets/img/product/library-6.png')
-      }],
-    selected: '',
-  },
-  {
-    title: 'steps',
-    categories: [
-      {
-        title: 'remove makeup',
-        imgUrl: require('@/assets/img/product/library-1.png')
-      },
-      {
-        title: 'cleanse',
-        imgUrl: require('@/assets/img/product/library-2.png')
-      },
-      {
-        title: 'treat',
-        imgUrl: require('@/assets/img/product/library-3.png')
-      },
-      {
-        title: 'moisture',
-        imgUrl: require('@/assets/img/product/library-4.png')
-      },
-      {
-        title: 'protect',
-        imgUrl: require('@/assets/img/product/library-5.png')
-      }],
-    selected: '',
-  }
-])
+const library = ref({
+  title: 'categories',
+  categories: [
+    {
+      title: 'cleanser',
+      imgUrl: require('@/assets/img/product/library-1.png')
+    },
+    {
+      title: 'toners',
+      imgUrl: require('@/assets/img/product/library-2.png')
+    },
+    {
+      title: 'serums',
+      imgUrl: require('@/assets/img/product/library-3.png')
+    },
+    {
+      title: 'creams',
+      imgUrl: require('@/assets/img/product/library-4.png')
+    },
+    {
+      title: 'oils',
+      imgUrl: require('@/assets/img/product/library-5.png')
+    },
+    {
+      title: 'scrubs',
+      imgUrl: require('@/assets/img/product/library-6.png')
+    },
+    {
+      title: 'masks',
+      imgUrl: require('@/assets/img/product/library-7.png')
+    },
+  ],
+  selected: '',
+})
 
 const filterQuery = ref<{[key: string]: string | number}>({
   page: 1,
@@ -105,6 +49,106 @@ const filterQuery = ref<{[key: string]: string | number}>({
 const updateFilterQuery = (query: {[key: string]: string | number}) => {
   filterQuery.value = { ...filterQuery.value, ...query }
 }
+
+const filters = reactive<Filter>({
+  skinType: {
+    title: 'skin type',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+  concerns: {
+    title: 'Targeted Concerns',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+  yourSkin: {
+    title: 'Your Skin Melanin level (tone of your skin)',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+  rotineType: {
+    title: 'Type of Routine  ( when this routine will be used)',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+  age: {
+    title: 'Targeted age  ',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+  sensitivity: {
+    title: 'Skin Sensitivity Level',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+  stepsNumber: {
+    title: 'Number of the steps in the Routine ',
+    subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
+    variants: [],
+    selectedVariant: '',
+  },
+})
+
+onMounted(() => {
+  axios.get('https://api-www.beautyid.app/skinbenefits?order=ASC&page=1&take=10')
+    .then(res => {
+      library.value.categories = res.data.data.map((c: {benefitName: string, id: number}) => ({ title: c.benefitName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
+    })
+  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.skinType.variants = res.data.data.map((item: any) => ({
+        text: item.skinTypeName,
+        param: item.skinTypeNameForSearch,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.concerns.variants = res.data.data.map((item: any) => ({
+        text: item.concernName,
+        param: item.concernName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/skintones?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.yourSkin.variants = res.data.data.map((item: any) => ({
+        text: item.skintoneName,
+        param: item.skintoneName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/routinetimelimitations?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.rotineType.variants = res.data.data.map((item: any) => ({
+        text: item.timeLimitationName,
+        param: item.timeLimitationName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.age.variants = res.data.data.map((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => ({
+        text: `${item.ageMin} - ${item.ageMax}`,
+        param: item.ageName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/skinsensitivity?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.sensitivity.variants = res.data.data.map((item: any) => ({
+        text: item.sensitivityName,
+        param: item.sensitivityName,
+        id: item.id,
+      }))
+    })
+})
 </script>
 
 <template>
@@ -114,15 +158,17 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
     <div class="productFilter-library bg-img">
       <h3 class="title-secondary">Most Searched Routines shortcuts</h3>
       <FilterCategories
-        :categories="library[activeLib]"
+        :categories="library"
         @category-select="(category) => {
-          library[activeLib].selected = category;
-          updateFilterQuery({[library[activeLib].title]: category})
+          library.selected = category;
+          updateFilterQuery({[library.title]: category})
         }"
-        :category-selected="library[activeLib].selected"/>
+        :category-selected="library.selected"/>
     </div>
 
     <div class="productFilter-title">
+      <h1 class="title">Routine selection Assistant</h1>
+      <p class="txt">For best results  we recommend to identify your criteria's in most of the fileds.</p>
       <a @click="$router.go(-1)">
         <svg xmlns="http://www.w3.org/2000/svg" width="62" height="24" viewBox="0 0 62 24" fill="none">
           <path
@@ -130,19 +176,15 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
             fill="black"/>
         </svg>
       </a>
-      <h1 class="title">Routine selection Assistant</h1>
-      <p class="txt">For best results  we recommend to identify your criteria's in most of the fileds.</p>
     </div>
 
-    <ProductFilterSelect @updateFilterQuery="updateFilterQuery" />
+    <FilterSelect :routine="true" @updateFilter="(key, value) => {filters[key].selectedVariant = value; updateFilterQuery({[key]: value})}" :filters="filters" />
 
     <router-link :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
       <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
     </div>
-
-    <TheFooter/>
 
     <div class="alert min-tablet" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
@@ -160,6 +202,8 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
           maximum details about products and experiences Your SkinTwins had with this product.</p>
       </div>
     </div>
+
+    <TheFooter/>
   </div>
 </template>
 
@@ -170,8 +214,7 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
 
   &-library {
     text-align: center;
-    background-image: url(@/assets/img/product/library-bg.jpg);
-    padding: 100px 0;
+    padding: 100px 0 0;
 
     .title-secondary {
       padding: 0 20px;
@@ -195,6 +238,7 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
     text-align: center;
 
     a {
+      cursor: pointer;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -202,11 +246,6 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
       @media (max-width: 1200px) {
         display: none;
       }
-    }
-
-    p {
-      max-width: 400px;
-      margin: 0 auto;
     }
 
     @media (max-width: 768px) {

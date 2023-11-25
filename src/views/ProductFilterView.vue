@@ -1,102 +1,25 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { StringObject } from '@/interfaces'
+import { onMounted, reactive, ref } from 'vue'
+import { Filter } from '@/interfaces'
+import axios from 'axios'
 import store from '@/store'
-import ProductFilterSelect from '@/components/ProductFilterSelect.vue'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
+import FilterSelect from '@/components/FilterSelect.vue'
 
 const alertActive = ref(true)
 const activeLib = ref(0)
 const library = ref([
   {
     title: 'categories',
-    categories: [
-      {
-        title: 'cleanser',
-        imgUrl: require('@/assets/img/product/library-1.png')
-      },
-      {
-        title: 'toners',
-        imgUrl: require('@/assets/img/product/library-2.png')
-      },
-      {
-        title: 'serums',
-        imgUrl: require('@/assets/img/product/library-3.png')
-      },
-      {
-        title: 'creams',
-        imgUrl: require('@/assets/img/product/library-4.png')
-      },
-      {
-        title: 'oils',
-        imgUrl: require('@/assets/img/product/library-5.png')
-      },
-      {
-        title: 'scrubs',
-        imgUrl: require('@/assets/img/product/library-6.png')
-      },
-      {
-        title: 'masks',
-        imgUrl: require('@/assets/img/product/library-7.png')
-      },
-    ],
+    categories: [],
     selected: '',
   },
   {
     title: 'benefits',
-    categories: [
-      {
-        title: 'anti-age',
-        imgUrl: require('@/assets/img/product/library-1.png')
-      },
-      {
-        title: 'anti-wrinkle',
-        imgUrl: require('@/assets/img/product/library-2.png')
-      },
-      {
-        title: 'hydration',
-        imgUrl: require('@/assets/img/product/library-3.png')
-      },
-      {
-        title: 'brightness',
-        imgUrl: require('@/assets/img/product/library-4.png')
-      },
-      {
-        title: 'uv-protection',
-        imgUrl: require('@/assets/img/product/library-5.png')
-      },
-      {
-        title: 'cleansing',
-        imgUrl: require('@/assets/img/product/library-6.png')
-      }],
+    categories: [],
     selected: '',
   },
-  {
-    title: 'steps',
-    categories: [
-      {
-        title: 'remove makeup',
-        imgUrl: require('@/assets/img/product/library-1.png')
-      },
-      {
-        title: 'cleanse',
-        imgUrl: require('@/assets/img/product/library-2.png')
-      },
-      {
-        title: 'treat',
-        imgUrl: require('@/assets/img/product/library-3.png')
-      },
-      {
-        title: 'moisture',
-        imgUrl: require('@/assets/img/product/library-4.png')
-      },
-      {
-        title: 'protect',
-        imgUrl: require('@/assets/img/product/library-5.png')
-      }],
-    selected: '',
-  }
 ])
 
 const filterQuery = ref<{[key: string]: string | number}>({
@@ -106,6 +29,89 @@ const filterQuery = ref<{[key: string]: string | number}>({
 const updateFilterQuery = (query: {[key: string]: string | number}) => {
   filterQuery.value = { ...filterQuery.value, ...query }
 }
+const filters = reactive<Filter>({
+  age: {
+    title: 'Age targeted group',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  concerns: {
+    title: 'Targeted Concerns',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  benefits: {
+    title: 'Product Claims (Vegan, Natural, etc)',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  religionDiets: {
+    title: 'Religious Certified Products',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+  skinTypes: {
+    title: 'Targeted Skin Types',
+    subtitle: 'Please select the targeted age group. If the product does not have age specification or warnings for age use, we will show it presnt it in any selection/',
+    variants: [],
+    selectedVariant: '',
+  },
+})
+
+onMounted(() => {
+  axios.get('https://api-www.beautyid.app/skinbenefits?order=ASC&page=1&take=10')
+    .then(res => {
+      library.value[1].categories = res.data.data.map((c: {benefitName: string, id: number}) => ({ title: c.benefitName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
+    })
+  axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=10')
+    .then(res => {
+      library.value[0].categories = res.data.data.map((c: {applicationName: string, id: number}) => ({ title: c.applicationName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
+    })
+  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.age.variants = res.data.data.map((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => ({
+        text: `${item.ageMin} - ${item.ageMax}`,
+        param: item.ageName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.concerns.variants = res.data.data.map((item: { id: number, concernName: string, }) => ({
+        text: item.concernName,
+        param: item.concernName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.benefits.variants = res.data.data.map((item: { id: number, goodBenefitName: string, }) => ({
+        text: item.goodBenefitName,
+        param: item.goodBenefitName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.religionDiets.variants = res.data.data.map((item: { id: number, religionDietName: string, }) => ({
+        text: item.religionDietName,
+        param: item.religionDietName,
+        id: item.id,
+      }))
+    })
+  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+    .then(res => {
+      filters.skinTypes.variants = res.data.data.map((item: { id: number, skinTypeName: string, }) => ({
+        text: item.skinTypeName,
+        param: item.skinTypeName,
+        id: item.id,
+      }))
+    })
+})
 </script>
 
 <template>
@@ -151,7 +157,7 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
         for age </p>
     </div>
 
-    <ProductFilterSelect @updateFilterQuery="updateFilterQuery" />
+    <FilterSelect @updateFilter="(key, value) => {filters[key].selectedVariant = value; updateFilterQuery({[key]: value})}" :filters="filters" />
 
     <router-link :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
@@ -213,10 +219,10 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
 
     &-tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
       border-bottom: 1px solid $black;
-      max-width: 60%;
+      max-width: 50%;
       margin: 0 auto 50px;
 
       button {
@@ -229,11 +235,11 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
       }
 
       @media (max-width: 1200px) {
-        max-width: 80%;
+        max-width: 60%;
       }
       @media (max-width: 1000px) {
         margin: 20px;
-        max-width: 100%;
+        max-width: 80%;
       }
       @media (max-width: 480px) {
         margin-bottom: 20px;
@@ -254,6 +260,7 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
     text-align: center;
 
     a {
+      cursor: pointer;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
