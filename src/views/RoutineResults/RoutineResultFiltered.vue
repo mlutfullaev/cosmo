@@ -10,6 +10,7 @@ import { toNumber } from '@vue/shared'
 import RoutineCard from '@/components/RoutineCard.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
+import TheHeader from '@/layouts/TheHeader.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -53,7 +54,7 @@ watch(route, () => {
 </script>
 
 <template>
-  <TheHeader/>
+  <TheHeader />
 
   <div class="searchResult-top">
     <h2 class="title">Search Results for <span class="bold">{{ $route.params.param }}</span></h2>

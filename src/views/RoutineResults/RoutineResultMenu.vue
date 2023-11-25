@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product } from '@/interfaces'
-import TheFilter from '@/layouts/TheFilter.vue'
+import { Routine } from '@/interfaces'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
+import TheHeader from '@/layouts/TheHeader.vue'
+import RoutineCard from '@/components/RoutineCard.vue'
+import TheFilter from '@/layouts/TheFilter.vue'
 
 const route = useRoute()
 const router = useRouter()
-const routines = ref<Product[]>([])
+const routines = ref<Routine[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
-        router.push(`/product-results/not-found/${route.params.param}`)
+        router.push(`/routine-results/not-found/${route.params.param || ''}`)
         return
       }
       routines.value = res.data.data
@@ -26,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <TheHeader/>
+  <TheHeader />
 
   <div class="productResult-top">
     <div class="bg-orange">

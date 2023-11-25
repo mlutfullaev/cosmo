@@ -1,19 +1,21 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainView from '@/views/MainView.vue'
-import SingleProductView from '@/views/SingleProductView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
-import ProductFilterView from '@/views/ProductFilterView.vue'
-import RoutineFilterView from '@/views/RoutineFilterView.vue'
 import SingleRoutineView from '@/views/SingleRoutineView.vue'
+import RoutineFilterView from '@/views/RoutineFilterView.vue'
 import RoutineResultNotFound from '@/views/RoutineResults/RoutineResultNotFound.vue'
 import RoutineResultFiltered from '@/views/RoutineResults/RoutineResultFiltered.vue'
+import RoutineResultBrand from '@/views/RoutineResults/RoutineResultBrand.vue'
+import RoutineResultMenu from '@/views/RoutineResults/RoutineResultMenu.vue'
+import RoutineIntroView from '@/views/RoutineIntroView.vue'
 import ProductResultSearch from '@/views/ProductResult/ProductResultSearch.vue'
 import ProductResultFiltered from '@/views/ProductResult/ProductResultFiltered.vue'
 import ProductResultBrand from '@/views/ProductResult/ProductResultBrand.vue'
 import ProductResultMenu from '@/views/ProductResult/ProductResultMenu.vue'
 import ProductResultNotFound from '@/views/ProductResult/ProductResultNotFound.vue'
-import RoutineIntroView from '@/views/RoutineIntroView.vue'
 import ProductIntroView from '@/views/ProductIntroView.vue'
+import ProductFilterView from '@/views/ProductFilterView.vue'
+import SingleProductView from '@/views/SingleProductView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -47,6 +49,11 @@ const routes: Array<RouteRecordRaw> = [
     component: ProductResultFiltered
   },
   {
+    path: '/product-results/brand/',
+    name: 'product-results-brand',
+    component: RoutineResultBrand
+  },
+  {
     path: '/product-results/not-found/:param?',
     name: 'product-results-not-found',
     component: ProductResultNotFound
@@ -76,11 +83,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'routine-results-filtered',
     component: RoutineResultFiltered
   },
-  // {
-  //   path: '/routine-results',
-  //   name: 'routine-results',
-  //   component: RoutineResultView
-  // },
+  {
+    path: '/routine-results/menu/:param',
+    name: 'routine-results-menu',
+    component: RoutineResultMenu
+  },
   {
     path: '/routine-results/not-found/:param?',
     name: 'routine-results-not-found',

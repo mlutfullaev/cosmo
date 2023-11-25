@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { Product } from '@/interfaces'
-import ProductCard from '@/components/ProductCard.vue'
-import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import ProductFilterSelect from '@/components/FilterSelect.vue.js'
+import ProductCard from '@/components/ProductCard.vue'
+import TheFilter from '@/layouts/TheFilter.vue'
 import ReligionDiets from '@/components/ReligionDiets.vue'
+import FilterSelect from '@/components/FilterSelect.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -17,7 +17,7 @@ onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
-        router.push(`/product-results/not-found/${route.params.param}`)
+        router.push(`/routine-results/not-found/${route.params.param || ''}`)
         return
       }
       products.value = res.data.data
@@ -38,7 +38,7 @@ onMounted(() => {
     <ReligionDiets description="Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat /" />
   </div>
 
-  <ProductFilterSelect />
+  <FilterSelect />
 
   <div class="text-block">
     <h2 class="title bold">Oily skin person within 25-45 age range looking for hydration and cleansing acne products</h2>
