@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, defineProps } from 'vue'
+import { defineProps, ref, watch } from 'vue'
 
-defineProps<{productLibrary: {[key: string]: {title: string, items: {id: number, param: string, text: string}[]}}}>()
+defineProps<{productLibrary: {title: string, items: {id: number, param: string, text: string}[]}[]}>()
 
 const menuActive = ref(false)
 
@@ -41,8 +41,8 @@ const subMenu = ref('')
           <button @click="subMenu = subMenu === 'product' ? '' : 'product'" class="link bold">SKIN PRODUCTS LIBRARY <span>↓</span></button>
           <div class="sub-menu">
             <div
-              v-for="(lib, key) of productLibrary"
-              :key="key"
+              v-for="lib of productLibrary"
+              :key="lib.title"
               class="sub-menu-item">
               <p class="txt-highlight">{{lib.title}}</p>
               <RouterLink
@@ -59,15 +59,15 @@ const subMenu = ref('')
           <button @click="subMenu = subMenu === 'routine' ? '' : 'routine'" class="link bold">BEUTY ROUTINES LIBRARY <span>↓</span></button>
           <div class="sub-menu">
             <div
-              v-for="(lib, key) of productLibrary"
-              :key="key"
+              v-for="lib of productLibrary"
+              :key="lib.title"
               class="sub-menu-item">
               <p class="txt-highlight">{{lib.title}}</p>
               <RouterLink
                 @click="menuActive = false"
                 class="note"
                 v-for="item in lib.items"
-                :to="`/routines-results/menu/${item.param}`"
+                :to="`/routine-results/menu/${item.param}`"
                 :key="item.id"
               >{{ item.text }}</RouterLink>
             </div>

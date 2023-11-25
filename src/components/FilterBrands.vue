@@ -19,6 +19,10 @@ defineProps(
     where: {
       required: true,
       type: String,
+    },
+    title: {
+      required: false,
+      type: String,
     }
   }
 )
@@ -48,7 +52,7 @@ onMounted(() => {
 
 <template>
   <div class="filterBrands">
-    <p class="txt-highlight">brands</p>
+    <p class="txt-highlight">{{title || 'brands'}}</p>
     <div class="filterBrands-alphabet">
       <button v-for="alpha in alphabet" :class="{ active: activeAlpha === alpha, filterBtn: buttonType === 'button' }" @click="activeAlpha = alpha"
         :key="alpha">
@@ -58,7 +62,7 @@ onMounted(() => {
     <div v-if="buttonType === 'link'" class="filterBrands-content">
       <RouterLink
        v-for="item in filterResults"
-       :to="`/${where}-results/brand/${item.brandName}`"
+       :to="`/${where}${item.brandName}`"
        :key="item.id">
         {{ item.brandName }}
       </RouterLink>

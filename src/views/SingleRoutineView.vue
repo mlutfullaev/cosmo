@@ -303,7 +303,7 @@ const stepSwiper = ref(0)
 
   <div class="sidebar">
     <div class="sidebar-item">
-      <a href="#full-details" class="txt-highlight">like this routine</a>
+      <a href="#" class="txt-highlight">like this routine</a>
       <div class="sidebar-content d-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
           <path d="M19.9 31.8483C19.3269 32.0506 18.3831 32.0506 17.81 31.8483C12.922 30.1798 2 23.2191 2 11.4213C2 6.21348 6.19689 2 11.3714 2C14.439 2 17.1526 3.48314 18.855 5.77528C20.5574 3.48314 23.2879 2 26.3386 2C31.5131 2 35.71 6.21348 35.71 11.4213C35.71 23.2191 24.788 30.1798 19.9 31.8483Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -311,7 +311,7 @@ const stepSwiper = ref(0)
       </div>
     </div>
     <div class="sidebar-item">
-      <a href="#full-details" class="txt-highlight">add to your library TO START USING  THIS ROUTINE</a>
+      <a href="#" class="txt-highlight">add to your library TO START USING  THIS ROUTINE</a>
       <div class="sidebar-content d-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
           <path d="M26.8265 31.2436L18.06 24.288C16.8707 23.3446 15.1313 23.3922 14.0007 24.3997L7.01491 31.2518C5.05811 32.998 1.85547 31.4691 1.85547 28.9181V4.91711C1.85547 3.30753 3.22741 2 4.92113 2H28.7898C30.4814 2 31.8555 3.30546 31.8555 4.91711V29.003C31.8555 31.4753 28.8246 32.8262 26.8287 31.2436H26.8265Z" stroke="currentColor" stroke-width="3" stroke-miterlimit="10"/>
@@ -319,7 +319,7 @@ const stepSwiper = ref(0)
       </div>
     </div>
     <div class="sidebar-item">
-      <a href="#full-details" class="txt-highlight">share this routine</a>
+      <a href="#" class="txt-highlight">share this routine</a>
       <div class="sidebar-content d-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none">
           <path d="M20.8555 1H31.8555M31.8555 1V12M31.8555 1L15.8555 17" stroke="currentColor" stroke-width="2"/>

@@ -201,7 +201,7 @@ const range = ref<[number, number]>([20, 1000])
 
       <FilterBrands
         @change-brand="brand => {selected.brand = brand}"
-        :where="where"
+        :where="where + '-results/brand/'"
         button-type="button" />
 
       <div class="theFilter-bottom d-center">

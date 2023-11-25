@@ -8,29 +8,30 @@ import axios from 'axios'
 
 const alertActive = ref(false)
 const city = ref('city')
-const productLibrary = reactive<{[key: string]: {title: string, items: {id: number, param: string, text: string}[]}}>({
-  categories: {
+const productLibrary = reactive<{title: string, items: {id: number, param: string, text: string}[]}[]>([
+  {
     title: 'Categories',
     items: []
   },
-  skinTypes: {
+  {
     title: 'skin type',
     items: []
   },
-  steps: {
-    title: 'steps',
+  {
+    title: 'Steps',
     items: []
   },
-})
+])
+
 onMounted(() => {
   axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=8')
     .then(res => {
-      productLibrary.categories.items = res.data.data.map((category: { id: number, applicationName: string }) => ({ id: category.id, text: category.applicationName, param: category.applicationName }))
+      productLibrary[0].items = res.data.data.map((category: { id: number, applicationName: string }) => ({ id: category.id, text: category.applicationName, param: category.applicationName }))
     })
   axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=8')
     .then(res => {
-      productLibrary.skinTypes.items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
-      productLibrary.steps.items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
+      productLibrary[1].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
+      productLibrary[2].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
     })
 })
 </script>
@@ -46,15 +47,16 @@ onMounted(() => {
         <span class="min-phone">{{ city }}</span>
       </button>
     </div>
+
     <nav>
       <HeaderSearch />
       <div class="nav-item">
-        <router-link to="/routine-intro">SKIN ROUTINES LIBRARY ↓</router-link>
+        <p>SKIN ROUTINES LIBRARY ↓</p>
         <div class="sub-menu">
           <div class="sub-menu-content">
             <div
-              v-for="(lib, key) of productLibrary"
-              :key="key"
+              v-for="lib of productLibrary"
+              :key="lib.title"
               class="sub-menu-item">
               <p class="txt-highlight">{{lib.title}}</p>
               <RouterLink
@@ -65,16 +67,23 @@ onMounted(() => {
               >{{ item.text }}</RouterLink>
             </div>
           </div>
-          <FilterBrands where="routine" button-type="link" />
+          <FilterBrands
+            title="SELECTION OF ROUTINES BY CONTAINING PRODUCTS OF brands"
+            where="routine-results/brand/"
+            button-type="link" />
+          <FilterBrands
+            title="SELECTION BY authors OF THE ROUTINES"
+            where="routine-results/brand/"
+            button-type="link" />
         </div>
       </div>
       <div class="nav-item">
-        <router-link to="/product-intro">SKIN PRODUCT LIBRARY ↓</router-link>
+        <p>SKIN PRODUCT LIBRARY ↓</p>
         <div class="sub-menu">
           <div class="sub-menu-content">
             <div
-              v-for="(lib, key) of productLibrary"
-              :key="key"
+              v-for="lib of productLibrary"
+              :key="lib.title"
               class="sub-menu-item">
               <p class="txt-highlight">{{lib.title}}</p>
               <RouterLink
@@ -85,7 +94,7 @@ onMounted(() => {
               >{{ item.text }}</RouterLink>
             </div>
           </div>
-          <FilterBrands where="product" button-type="link" />
+          <FilterBrands where="product-results/brand/" button-type="link" />
         </div>
       </div>
       <router-link to="/registration">CREATE PROFILE</router-link>
@@ -127,7 +136,7 @@ header {
     align-items: center;
     gap: 20px;
 
-    a {
+    a, p {
       font-size: 14px;
       font-style: normal;
       font-weight: 700;
@@ -144,14 +153,16 @@ header {
     }
 
     .nav-item {
-
       .sub-menu {
         border-top: 1px solid $black;
         top: 62px;
         position: absolute;
         right: 0;
         background-color: $white;
-        widows: 100%;
+        max-height: calc(100vh - 62px);
+        height: max-content;
+        overflow-y: scroll;
+        width: 100%;
         left: 0;
         visibility: hidden;
         opacity: 0;

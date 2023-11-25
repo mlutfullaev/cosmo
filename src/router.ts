@@ -49,11 +49,6 @@ const routes: Array<RouteRecordRaw> = [
     component: ProductResultFiltered
   },
   {
-    path: '/product-results/brand/',
-    name: 'product-results-brand',
-    component: RoutineResultBrand
-  },
-  {
     path: '/product-results/not-found/:param?',
     name: 'product-results-not-found',
     component: ProductResultNotFound
@@ -87,6 +82,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/routine-results/menu/:param',
     name: 'routine-results-menu',
     component: RoutineResultMenu
+  },
+  {
+    path: '/routine-results/brand/:param',
+    name: 'routine-results-brand',
+    component: RoutineResultBrand
   },
   {
     path: '/routine-results/not-found/:param?',

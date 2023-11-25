@@ -142,7 +142,7 @@ onMounted(() => {
         :category-selected="library[activeLib].selected"/>
     </div>
 
-    <FilterBrands where="product" />
+    <FilterBrands where="product-results/brand/" />
 
     <div class="productFilter-title">
       <a @click="$router.go(-1)">

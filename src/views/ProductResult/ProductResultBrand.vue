@@ -44,6 +44,7 @@ const filters = reactive<Filter>({
     selectedVariant: '',
   },
 })
+
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
@@ -109,7 +110,9 @@ onMounted(() => {
     <ReligionDiets description="Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat /" />
   </div>
 
-  <FilterSelect :filters="filters" />
+  <FilterSelect
+    @update-filter="(key: string, value: string) => {}"
+    :filters="filters" />
 
   <div class="text-block">
     <h2 class="title bold">Oily skin person within 25-45 age range looking for hydration and cleansing acne products</h2>
@@ -131,7 +134,7 @@ onMounted(() => {
   <div class="productResult-bottom bg-img d-center">
     <RouterLink to="/" class="link bold">Watch Routines with {{ $route.params.param }} Products  <span>→</span></RouterLink>
   </div>
-  
+
   <TheFooter/>
 </template>
 
@@ -146,7 +149,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+
     .title {
       font-weight: 400;
 
@@ -178,7 +181,7 @@ onMounted(() => {
       padding: 20px;
     }
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 100%;
   }
@@ -226,7 +229,7 @@ onMounted(() => {
   height: 600px;
   color: #fff;
   text-align: center;
-  
+
   @media (max-width: 1000px) {
     height: 450px;
   }
