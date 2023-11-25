@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     productSearch: '',
+    beauty: true,
   },
   getters: {
   },

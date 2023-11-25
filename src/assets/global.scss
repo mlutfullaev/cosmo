@@ -172,6 +172,12 @@ a {
     padding: 30px;
   }
 }
+.link-block {
+  border-top: 1px solid $black;
+  border-bottom: 1px solid $black;
+  padding: 30px;
+  text-align: center;
+}
 
 .tablet {
   display: none;

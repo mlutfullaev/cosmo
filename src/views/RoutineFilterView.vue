@@ -180,7 +180,7 @@ onMounted(() => {
 
     <FilterSelect :routine="true" @updateFilter="(key, value) => {filters[key].selectedVariant = value; updateFilterQuery({[key]: value})}" :filters="filters" />
 
-    <router-link :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
+    <router-link :to="{path: `/routine-results/filtered/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
       <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>

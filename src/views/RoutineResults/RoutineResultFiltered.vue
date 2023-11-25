@@ -9,27 +9,35 @@ import store from '@/store'
 import { toNumber } from '@vue/shared'
 import RoutineCard from '@/components/RoutineCard.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
+import ThePagination from '@/layouts/ThePagination.vue'
 
 const route = useRoute()
 const router = useRouter()
+const meta = ref<{
+    page: number,
+    take: number,
+    itemCount: number,
+    pageCount: number,
+  } | null>(null)
 const routines = ref<Routine[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=7', {
+  axios.get('https://api-www.beautyid.app/routines?order=ASC', {
     params: route.query
   })
     .then(res => {
       if (!res.data.data.length) {
-        router.push(`/product-results/not-found/${route.params.param || ''}`)
+        router.push('/routine-results/not-found')
         return
       }
       routines.value = res.data.data
       allItems.value = res.data.meta.itemCount
+      meta.value = res.data.meta
     })
 })
 watch(route, () => {
-  axios.get('https://api-www.beautyid.app/routines?order=ASC&page=1&take=7', {
+  axios.get('https://api-www.beautyid.app/routines?order=ASC', {
     params: route.query
   })
     .then(res => {
@@ -67,13 +75,15 @@ watch(route, () => {
       <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
     </div>
   </div>
-  <div class="text-block">
-    <RouterLink to="/" class="link bold">browse more <span>→</span></RouterLink>
-  </div>
 
-  <div class="tablet-link bg-orange tablet" v-if="allItems > 11">
+  <ThePagination v-if="meta && meta.pageCount > 1" :meta="meta" />
+
+  <div class="link-block" v-if="allItems > toNumber(route.query.take) && store.state.beauty">
+    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: toNumber(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
+  </div>
+  <div class="tablet-link bg-orange tablet" v-if="allItems > toNumber(route.query.take) && !store.state.beauty">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
-    <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: toNumber(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
+    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: toNumber(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
   </div>
 
   <RoutinesSteps />
@@ -150,6 +160,10 @@ watch(route, () => {
   }
 }
 
+.routines__list {
+  padding-bottom: 40px;
+}
+
 .tablet-link {
   padding: 20px;
   grid-column: 1 / 3;
@@ -158,10 +172,5 @@ watch(route, () => {
   p {
     padding-bottom: 20px;
   }
-}
-
-.text-block {
-  border-top: 1px solid $black;
-  border-bottom: 1px solid $black;
 }
 </style>
