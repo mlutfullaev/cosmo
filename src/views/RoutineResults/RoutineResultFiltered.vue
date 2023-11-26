@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { Routine } from '@/interfaces'
-import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import store from '@/store'
-import { toNumber } from '@vue/shared'
+import { Routine, StringObject } from '@/interfaces'
+import TheFilter from '@/layouts/TheFilter.vue'
+import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
@@ -43,14 +42,18 @@ watch(route, () => {
   })
     .then(res => {
       if (!res.data.data.length) {
-        // router.push('/routine-results/not-found/')
-        // return
+        router.push('/routine-results/not-found/')
+        return
       }
-      console.log(res.data)
       routines.value = res.data.data
+      meta.value = res.data.meta
       allItems.value = res.data.meta.itemCount
     })
 })
+
+const filter = (filters: StringObject) => {
+  console.log(filters)
+}
 </script>
 
 <template>
@@ -62,7 +65,11 @@ watch(route, () => {
     <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">Routines</h3>
   </div>
-  <TheFilter where="routine" :items-length="allItems"/>
+  <TheFilter
+    @filter="filter"
+    :filters="store.state.routineFilters"
+    where="routine"
+    :items-length="allItems"/>
 
   <div class="routines__list">
     <RoutineCard
@@ -79,18 +86,18 @@ watch(route, () => {
 
   <ThePagination v-if="meta && meta.pageCount > 1" :meta="meta" />
 
-  <div class="link-block" v-if="allItems > toNumber(route.query.take) && store.state.beauty">
-    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: toNumber(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
+  <div class="link-block" v-if="allItems > Number(route.query.take) && store.state.beauty">
+    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: Number(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
   </div>
-  <div class="tablet-link bg-orange tablet" v-if="allItems > toNumber(route.query.take) && !store.state.beauty">
+  <div class="tablet-link bg-orange tablet" v-if="allItems > Number(route.query.take) && !store.state.beauty">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
-    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: toNumber(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
+    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: Number(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
   </div>
 
   <RoutinesSteps />
 
   <SearchResultBottom />
-  
+
   <TheFooter/>
 </template>
 

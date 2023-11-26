@@ -41,11 +41,16 @@
 <style lang="scss" scoped>
 .routines__steps {
   padding: 120px;
+
   &__top {
     display: grid;
     grid-template-columns: 50% 50%;
     gap: 20px;
     justify-items: center;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
   &__inner {
     display: flex;
@@ -57,6 +62,23 @@
       max-width: 210px;
       margin: 0 auto;
     }
+
+    &__item {
+      @media (max-width: 768px) {
+        width: 30%;
+      }
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
+      justify-content: left;
+    }
+  }
+  @media (max-width: 1000px) {
+    padding: 60px 20px;
   }
 }
 </style>

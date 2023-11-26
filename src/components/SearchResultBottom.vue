@@ -32,10 +32,18 @@
     background-image: url("@/assets/img/global/girls-smiling.png");
     color: $white;
     text-align: center;
+    padding: 20px;
   }
 
   &-item {
     padding: 60px;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+      > div:not(.tablet-link) {
+        display: none;
+      }
+    }
   }
 
   @media (max-width: 768px) {
@@ -43,10 +51,6 @@
     grid-template-rows: 300px auto;
     height: max-content;
     padding-top: 30px;
-
-    > div:not(.tablet-link) {
-      display: none;
-    }
   }
 }
 </style>

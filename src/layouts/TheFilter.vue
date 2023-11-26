@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, reactive, ref, watch } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
 import VueSimpleRangeSlider from 'vue-simple-range-slider'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
@@ -13,15 +13,11 @@ defineProps<{
   filters: {[key: string]: {title: string, items: string[]}},
   where: string,
 }>()
-const emit = defineEmits<{(event: 'filter', filters: StringObject): void}>()
+defineEmits<{(event: 'filter', filters: StringObject): void}>()
 
 const popularTags = ref(['moisture', 'uv-protection', 'anti-age', 'dry skin', 'natural'])
-const selected = reactive<StringObject>({})
+const selected = ref<StringObject>({})
 const filterActive = ref(false)
-
-watch(selected, () => {
-  emit('filter', selected)
-})
 
 const range = ref<[number, number]>([20, 1000])
 </script>
@@ -128,7 +124,7 @@ const range = ref<[number, number]>([20, 1000])
             :key="key">
             <button class="txt">{{ filter }}</button>
             <svg
-              @click="selected[filter] = ''"
+              @click="delete selected[key]"
               xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z" fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
@@ -162,7 +158,7 @@ const range = ref<[number, number]>([20, 1000])
           v-for="(filter, key) in filters"
           :key="key">
           <p class="name">{{ filter.title }}</p>
-          <ul class="theFilter-tags">
+          <ul class="theFilter-tags" v-if="filter.items.length">
             <li
               v-for="filterItem in filter.items"
               :key="filterItem"
@@ -171,7 +167,7 @@ const range = ref<[number, number]>([20, 1000])
               <button class="txt" @click="selected[key] = filterItem">{{ filterItem }}</button>
               <svg
                 v-if="selected[key] === filterItem"
-                @click="selected[key] = ''"
+                @click="delete selected[key]"
                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5Z" fill="white" stroke="#FF8A00" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M5.87695 10.1225L10.122 5.87756L5.87695 10.1225Z" fill="white"/>
@@ -181,20 +177,19 @@ const range = ref<[number, number]>([20, 1000])
               </svg>
             </li>
           </ul>
-        </div>
-        <div class="theFilter-item">
-          <p class="name">price range</p>
-          <VueSimpleRangeSlider
-            :min="0"
-            :max="10000"
-            :exponential="true"
-            v-model="range"
-            bar-color="#D7D7D7"
-            active-bar-color="#FF8A00"
-          />
-          <div class="d-sb">
-            <p class="note">Min. Price: ${{range[0]}}</p>
-            <p class="note">Max. Price: ${{range[1]}}</p>
+          <div v-else>
+            <VueSimpleRangeSlider
+              :min="0"
+              :max="10000"
+              :exponential="true"
+              v-model="range"
+              bar-color="#D7D7D7"
+              active-bar-color="#FF8A00"
+            />
+            <div class="d-sb">
+              <p class="note">Min. Price: ${{range[0]}}</p>
+              <p class="note">Max. Price: ${{range[1]}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -205,7 +200,7 @@ const range = ref<[number, number]>([20, 1000])
         button-type="button" />
 
       <div class="theFilter-bottom d-center">
-        <button class="title-secondary" @click="filterActive = false">Apply</button>
+        <button class="title-secondary" @click="() => {$emit('filter', selected); filterActive = false}">Apply</button>
       </div>
     </div>
   </div>
@@ -285,12 +280,14 @@ const range = ref<[number, number]>([20, 1000])
     }
 
     .theFilter-content {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      display: flex;
 
+      .theFilter-item {
+        width: 100%;
+      }
       @media (max-width: 480px) {
+        flex-direction: column;
         grid-row: 3;
-        grid-template-columns: 1fr;
       }
     }
 
