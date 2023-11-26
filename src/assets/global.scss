@@ -417,14 +417,14 @@ a {
     display: grid;
     align-content: space-between;
     padding: 60px;
-    
+
     &.center {
       align-content: center;
       justify-content: center;
     }
     @media screen and (max-width: 1440px) {
       padding: 20px;
-      
+
       img {
         height: 80px;
       }
@@ -640,7 +640,16 @@ a {
     font-size: 16px;
   }
 }
-
+.your-skin {
+  display: inline-block;
+  border-radius: 20px;
+  background: $green;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
 .step {
   font-size: 150px;
   color: $orange;

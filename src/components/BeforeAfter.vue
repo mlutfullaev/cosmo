@@ -110,5 +110,9 @@ const position = ref(50)
     display: block;
     max-width: 100%;
   }
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 </style>

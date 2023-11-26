@@ -155,8 +155,11 @@ const stepSwiper = ref(0)
       </div>
       <div class="main__inner__bottom">
         <div class="main__inner__bottom__item">
-          <!-- <img src="" alt="author-portrait"> -->
-          <p class="txt-highlight">{{ routine.authorName }}</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 30 31" fill="none">
+            <path d="M30 15.5C30 7.235 23.265 0.5 15 0.5C6.735 0.5 0 7.235 0 15.5C0 19.85 1.875 23.765 4.845 26.51C4.845 26.525 4.845 26.525 4.83 26.54C4.98 26.69 5.16 26.81 5.31 26.945C5.4 27.02 5.475 27.095 5.565 27.155C5.835 27.38 6.135 27.59 6.42 27.8C6.525 27.875 6.615 27.935 6.72 28.01C7.005 28.205 7.305 28.385 7.62 28.55C7.725 28.61 7.845 28.685 7.95 28.745C8.25 28.91 8.565 29.06 8.895 29.195C9.015 29.255 9.135 29.315 9.255 29.36C9.585 29.495 9.915 29.615 10.245 29.72C10.365 29.765 10.485 29.81 10.605 29.84C10.965 29.945 11.325 30.035 11.685 30.125C11.79 30.155 11.895 30.185 12.015 30.2C12.435 30.29 12.855 30.35 13.29 30.395C13.35 30.395 13.41 30.41 13.47 30.425C13.98 30.47 14.49 30.5 15 30.5C15.51 30.5 16.02 30.47 16.515 30.425C16.575 30.425 16.635 30.41 16.695 30.395C17.13 30.35 17.55 30.29 17.97 30.2C18.075 30.185 18.18 30.14 18.3 30.125C18.66 30.035 19.035 29.96 19.38 29.84C19.5 29.795 19.62 29.75 19.74 29.72C20.07 29.6 20.415 29.495 20.73 29.36C20.85 29.315 20.97 29.255 21.09 29.195C21.405 29.06 21.72 28.91 22.035 28.745C22.155 28.685 22.26 28.61 22.365 28.55C22.665 28.37 22.965 28.205 23.265 28.01C23.37 27.95 23.46 27.875 23.565 27.8C23.865 27.59 24.15 27.38 24.42 27.155C24.51 27.08 24.585 27.005 24.675 26.945C24.84 26.81 25.005 26.675 25.155 26.54C25.155 26.525 25.155 26.525 25.14 26.51C28.125 23.765 30 19.85 30 15.5ZM22.41 22.955C18.345 20.225 11.685 20.225 7.59 22.955C6.93 23.39 6.39 23.9 5.94 24.455C3.66 22.145 2.25 18.98 2.25 15.5C2.25 8.465 7.965 2.75 15 2.75C22.035 2.75 27.75 8.465 27.75 15.5C27.75 18.98 26.34 22.145 24.06 24.455C23.625 23.9 23.07 23.39 22.41 22.955Z" fill="black"/>
+            <path d="M15 7.89453C11.895 7.89453 9.375 10.4145 9.375 13.5195C9.375 16.5645 11.76 19.0395 14.925 19.1295H15.06H15.165H15.195C18.225 19.0245 20.61 16.5645 20.625 13.5195C20.625 10.4145 18.105 7.89453 15 7.89453Z" fill="black"/>
+          </svg>
+          <p class="txt-highlight">{{ routine.authorName }} <span class="your-skin" v-if="true">Your skintwin</span></p>
         </div>
         <div class="main__inner__bottom__item">
           <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
@@ -347,6 +350,7 @@ const stepSwiper = ref(0)
 
     &__content {
       padding: 60px 60px 120px;
+
       .d-center {
         justify-content: left;
         padding-bottom: 40px;
@@ -372,6 +376,8 @@ const stepSwiper = ref(0)
     }
     &__info {
       position: relative;
+      width: 100%;
+      overflow: hidden;
       padding: 20px 40px;
       border-top: 1px solid $black;
       border-bottom: 1px solid $black;
@@ -402,7 +408,6 @@ const stepSwiper = ref(0)
       }
       &__right {
         display: grid;
-        justify-items: center;
         gap: 5px;
       }
       &__label {
@@ -443,14 +448,31 @@ const stepSwiper = ref(0)
         gap: 5px;
         align-items: center;
 
-        @media (max-width: 1200px) {
-          p:not(:first-child) {
-            display: none;
+        &:not(:first-child) {
+          @media (max-width: 1200px) {
+            p {
+              display: none;
+            }
+            svg {
+              width: 20px;
+              height: auto;
+            }
+          }
+          @media (max-width: 768px) {
+            p {
+              display: inline;
+            }
+          }
+          @media (max-width: 650px) {
+            p {
+              display: none;
+            }
           }
         }
       }
       @media (max-width: 1200px) {
         padding: 20px;
+        gap: 10px;
       }
     }
     &__scan {
@@ -466,6 +488,10 @@ const stepSwiper = ref(0)
         text-align: center;
       }
     }
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 500px auto;
   }
 }
 
@@ -571,6 +597,19 @@ const stepSwiper = ref(0)
         grid-template-columns: auto auto;
       }
     }
+    @media (max-width: 768px) {
+      min-height: auto;
+      border-top: none;
+
+      &.bg-img {
+        background: $white;
+        color: $black
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    padding-top: 50px;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -592,7 +631,15 @@ const stepSwiper = ref(0)
       @include pad();
       border-top: 1px solid $black;
       border-bottom: 1px solid $black;
+
+      @media (max-width: 768px) {
+        background: $orange;
+        border: none;
+      }
     }
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -647,7 +694,7 @@ const stepSwiper = ref(0)
     }
   }
 
-  @media (max-width: 480) {
+  @media (max-width: 480px) {
     display: none;
   }
 }
