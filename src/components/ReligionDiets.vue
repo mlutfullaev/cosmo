@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps, onMounted } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 import axios from 'axios'
@@ -21,7 +21,6 @@ const currentIcon = ref('')
 onMounted(() => {
   axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
     .then(res => {
-      console.log(res.data)
       ReligionDiets.value = res.data.data
     })
 })
@@ -170,7 +169,7 @@ onMounted(() => {
     padding: 50px 0;
     max-width: 1000px;
     margin: 0 auto;
-    
+
     @media (max-width: 768px) {
       padding: 20px 0;
     }
@@ -184,7 +183,7 @@ onMounted(() => {
     }
     .swiper-slide {
       width: max-content;
-      
+
       p {
         padding: 10px 0;
         text-transform: uppercase;
@@ -196,7 +195,7 @@ onMounted(() => {
   }
   .pagination {
     display: none;
-    
+
     @media (max-width: 768px) {
       display: flex;
     }

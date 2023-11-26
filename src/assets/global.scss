@@ -411,7 +411,7 @@ a {
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid $black;
   grid-gap: 60px 20px;
-  padding: 0 60px;
+  padding: 0 60px 20px;
 
   .routine-card__img, .routine-item {
     height: 480px;
@@ -648,6 +648,7 @@ a {
 }
 .your-skin {
   display: inline-block;
+  width: max-content;
   border-radius: 20px;
   background: $green;
   padding: 10px;

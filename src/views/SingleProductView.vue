@@ -2,17 +2,18 @@
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Product, Review, Routine } from '@/interfaces'
+import store from '@/store'
 import axios from 'axios'
 import ProductCard from '@/components/ProductCard.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineGuide from '@/components/RoutineGuide.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
-import ThePagination from '@/layouts/ThePagination.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
+import ThePagination from '@/layouts/ThePagination.vue'
 
 const route = useRoute()
 
@@ -48,7 +49,7 @@ const links = ref([
     title: 'beauty routines'
   },
 ])
-const beauty = ref(true)
+const beauty = store.state.beauty
 const pricesMore = ref(false)
 const samples = ref([
   {
@@ -71,6 +72,7 @@ const samples = ref([
 const activeSample = ref('LOOKFANTASTIC')
 const routines = ref<{routine: Routine}[]>([])
 
+const meta = ref({ page: 1, take: 11, itemCount: 0, pageCount: 0 })
 const product = ref<null | Product>(null)
 const alternatives = ref<Product[]>([])
 const reviews = ref<Review[]>([])
@@ -84,13 +86,14 @@ onMounted(() => {
     .then(res => {
       alternatives.value = res.data.data
     })
-  axios.get(`https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=${beauty.value ? 10 : 2}`)
+  axios.get(`https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=${beauty ? 10 : 2}`)
     .then(res => {
       reviews.value = res.data.data
     })
-  if (beauty.value) {
-    axios.get('https://api-www.beautyid.app/routines/randomnumber/12?order=ASC&page=1&take=12')
+  if (beauty) {
+    axios.get('https://api-www.beautyid.app/routines/randomnumber/12?order=ASC&page=1&take-12')
       .then(res => {
+        meta.value = res.data.meta
         routines.value = res.data.data
       })
   }
@@ -101,6 +104,10 @@ watch(route, () => {
     .then(res => {
       product.value = res.data[0]
     })
+})
+
+watch(meta.value, () => {
+  console.log(meta.value)
 })
 </script>
 
@@ -425,11 +432,15 @@ watch(route, () => {
 
   <section id="routine" v-if="beauty" class="routines">
     <h2 class="title">Routines with Argan oil</h2>
-    <TheFilter where="product" :items-length="routines.length" />
+    <TheFilter
+      where="routine"
+      :items-length="routines.length"
+      :filters="store.state.routineFilters"
+    />
     <div class="routines__list">
       <RoutineCard v-for="routine in routines" :routine="routine.routine" :key="routine.routine.id" />
     </div>
-    <ThePagination :page-count="25" :all="822" :current-page="2" :take="12" />
+    <ThePagination :meta="meta" />
   </section>
 
   <RoutineGuide v-else />
@@ -539,7 +550,7 @@ main {
         justify-self: center;
         max-width: 80%;
         max-height: 686px;
-        
+
         @media (max-width: 1440px) {
           max-height: 400px;
         }
@@ -568,9 +579,11 @@ main {
     @media (max-width: 1200px) {
       padding: 40px;
     }
-
     @media (max-width: 768px) {
       padding: 40px;
+    }
+    @media (max-width: 480px) {
+      padding: 20px;
     }
   }
 
@@ -607,6 +620,9 @@ main {
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+  }
+  @media (max-width: 480px) {
+    padding-top: 61px;
   }
 }
 
@@ -965,14 +981,14 @@ main {
     &:hover {
       background-color: $orange;
       max-width: 550px;
-      
+
       svg path, svg rect, svg circle {
         color: $white;
       }
     }
   }
 
-  @media (max-width: 480) {
+  @media (max-width: 480px) {
     display: none;
   }
 }

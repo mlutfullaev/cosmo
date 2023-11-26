@@ -11,6 +11,7 @@ import BaseReviews from '@/components/BaseReviews.vue'
 import BeforeAfter from '@/components/BeforeAfter.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import 'swiper/css'
+import store from '@/store'
 
 interface Step {
   stepOrder: number,
@@ -21,7 +22,7 @@ interface Step {
   idStepGood: number,
 }
 
-const beauty = ref(true)
+const beauty = store.state.beauty
 const mainLabel = ref(false)
 const route = useRoute()
 

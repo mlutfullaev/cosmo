@@ -50,7 +50,7 @@
     grid-template-columns: auto;
     grid-template-rows: 300px auto;
     height: max-content;
-    padding-top: 30px;
+    padding-top: 0;
   }
 }
 </style>
