@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Routine } from '@/interfaces'
+import { Routine, StringObject } from '@/interfaces'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
 import TheHeader from '@/layouts/TheHeader.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
+import store from '@/store'
+import ThePagination from '@/layouts/ThePagination.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -44,6 +46,10 @@ watch(route, () => {
       allItems.value = res.data.meta.itemCount
     })
 })
+
+const filter = (filters: StringObject) => {
+  console.log(filters)
+}
 </script>
 
 <template>
@@ -69,7 +75,11 @@ watch(route, () => {
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
 
-  <TheFilter :items-length="allItems" where="product"/>
+  <TheFilter
+    @filter="filter"
+    :filters="store.state.routineFilters"
+    where="routine"
+    :items-length="allItems"/>
 
   <div class="routines__list">
     <RoutineCard
@@ -82,6 +92,16 @@ watch(route, () => {
       <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
       <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
     </div>
+  </div>
+
+  <ThePagination v-if="meta && meta.pageCount > 1" :meta="meta" />
+
+  <div class="link-block" v-if="allItems > Number(route.query.take) && store.state.beauty">
+    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: Number(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
+  </div>
+  <div class="tablet-link bg-orange tablet" v-if="allItems > Number(route.query.take) && !store.state.beauty">
+    <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
+    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: Number(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
   </div>
 
   <RoutinesSteps />

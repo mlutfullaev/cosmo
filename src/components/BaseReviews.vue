@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Review } from '@/interfaces'
-import axios from 'axios'
 import { defineProps } from 'vue'
 import BaseRate from '@/components/BaseRate.vue'
 
@@ -10,7 +9,7 @@ defineProps<{reviews: Review[], text: boolean}>()
 <template>
   <div class="base-reviews">
     <div v-for="review in reviews" :key="review.id">
-      <p class="txt bold t-up">{{ review.reviewUser }} <span v-if="text">YOUR SKINTWIN</span></p>
+      <p class="txt bold t-up">{{ review.reviewUser }} <span class="your-skin" v-if="text">YOUR SKINTWIN</span></p>
       <BaseRate :rates="review.reviewRating"/>
       <p class="txt">{{ review.reviewText }}</p>
     </div>
@@ -33,18 +32,18 @@ defineProps<{reviews: Review[], text: boolean}>()
     grid-template-columns: auto auto;
     grid-gap: 20px;
 
-    .txt span {
-      display: inline-block;
-      border-radius: 20px;
-      background: $green;
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-left: 10px;
+    .txt:first-child {
+      display: flex;
+      align-items: center;
     }
     .txt:last-child {
       grid-column: 1 / 3;
+    }
+
+    @media (max-width: 768px) {
+      &:nth-child(n+6) {
+        display: none;
+      }
     }
   }
   @media (max-width: 1000px) {

@@ -90,7 +90,7 @@ const subMenu = ref('')
   padding-left: 1px;
   height: 40px;
   cursor: pointer;
-  z-index: 3;
+  z-index: 4;
 
   span {
     position: relative;
@@ -164,7 +164,7 @@ const subMenu = ref('')
   height: 100vh;
   width: 100%;
   background: #F2F2F6;
-  z-index: 2;
+  z-index: 3;
   transition: .2s;
   display: flex;
   justify-content: right;
@@ -207,7 +207,6 @@ const subMenu = ref('')
           right: 0;
         }
         @media (max-width: 340px) {
-          max-width: 200px;
           justify-self: right;
         }
       }
@@ -222,7 +221,7 @@ const subMenu = ref('')
       }
     }
     @media (max-width: 400px) {
-      padding: 80px 40px 40px;
+      padding: 80px 20px 40px;
       gap: 40px;
       width: 100%;
     }

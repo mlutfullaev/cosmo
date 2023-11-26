@@ -45,6 +45,7 @@ onMounted(() => {
   axios.get(`https://api-www.beautyid.app/reviewsroutines/byroutineid/${route.params.id}?order=ASC&page=1&take=10`)
     .then(res => {
       reviews.value = res.data.data
+      console.log(reviews.value)
     })
   axios.get('https://api-www.beautyid.app/routines/randomnumber/11?order=ASC&page=1&take=11')
     .then(res => {
@@ -246,7 +247,7 @@ const stepSwiper = ref(0)
     <img src="@/assets/img/global/qr.png" alt="qr-code">
   </div>
 
-  <section v-if="beauty" class="reviews">
+  <section v-if="beauty && reviews.length" class="reviews">
     <div class="reviews__content bg-img">
       <div class="reviews__content__top">
         <h3 class="title">All Reviews about this Routine</h3>
@@ -258,7 +259,7 @@ const stepSwiper = ref(0)
     </div>
     <BaseReviews :text="true" :reviews="reviews" />
   </section>
-  <section v-else class="reviews">
+  <section v-else-if="reviews.length" class="reviews">
     <div class="reviews__content">
       <div class="reviews__content__top">
         <h3 class="title">All Reviews about this Routine</h3>
@@ -275,7 +276,7 @@ const stepSwiper = ref(0)
     </div>
     <BaseReviews :text="true" :reviews="reviews" />
   </section>
-
+  <RouterLink to="/" class="link tablet-orange tablet bold">EXPLORE YOUR SKINTWINS EXPERIENCES WITH THIS ROUTINE <span>→</span></RouterLink>
   <div v-if="beauty" class="progress">
     <BeforeAfter/>
     <div class="progress__text">

@@ -65,6 +65,7 @@ const filter = (filters: StringObject) => {
     <h1 class="highlight orange">{{ allItems }}</h1>
     <h3 class="title-secondary">Routines</h3>
   </div>
+
   <TheFilter
     @filter="filter"
     :filters="store.state.routineFilters"
@@ -77,7 +78,7 @@ const filter = (filters: StringObject) => {
       :routine="routine"
       :key="routine.id"
     />
-    <div class="routine-item bg-orange">
+    <div class="routine-item bg-orange" v-if="allItems > Number(route.query.take) && !store.state.beauty">
       <img src="@/assets/img/global/qr.png" alt="qr-code">
       <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
       <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
