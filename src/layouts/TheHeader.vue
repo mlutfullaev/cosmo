@@ -51,7 +51,7 @@ onMounted(() => {
     <nav>
       <HeaderSearch />
       <div class="nav-item">
-        <p>SKIN ROUTINES LIBRARY ↓</p>
+        <router-link to="/routine-intro">SKIN ROUTINES LIBRARY ↓</router-link>
         <div class="sub-menu">
           <div class="sub-menu-content">
             <div
@@ -78,7 +78,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="nav-item">
-        <p>SKIN PRODUCT LIBRARY ↓</p>
+        <router-link to="/product-intro">SKIN PRODUCT LIBRARY ↓</router-link>
         <div class="sub-menu">
           <div class="sub-menu-content">
             <div
@@ -136,7 +136,7 @@ header {
     align-items: center;
     gap: 20px;
 
-    a, p {
+    a {
       font-size: 14px;
       font-style: normal;
       font-weight: 700;
@@ -154,8 +154,8 @@ header {
 
     .nav-item {
       .sub-menu {
-        border-top: 1px solid $black;
-        top: 62px;
+        top: 47px;
+        padding-top: 15px;
         position: absolute;
         right: 0;
         background-color: $white;
@@ -166,10 +166,11 @@ header {
         left: 0;
         visibility: hidden;
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-10px);
         transition: .3s;
 
         &-content {
+          border-top: 1px solid $black;
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
           padding-bottom: 10px;

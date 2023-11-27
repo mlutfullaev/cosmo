@@ -277,7 +277,9 @@ const stepSwiper = ref(0)
     </div>
     <BaseReviews :text="true" :reviews="reviews" />
   </section>
+
   <RouterLink to="/" class="link tablet-orange tablet bold">EXPLORE YOUR SKINTWINS EXPERIENCES WITH THIS ROUTINE <span>→</span></RouterLink>
+
   <div v-if="beauty" class="progress">
     <BeforeAfter/>
     <div class="progress__text">
@@ -346,7 +348,6 @@ const stepSwiper = ref(0)
   &__image {
     background-image: url("@/assets/img/routine/main-img.png");
   }
-
   &__inner {
     position: relative;
 
@@ -432,6 +433,9 @@ const stepSwiper = ref(0)
         &.active {
           transform: translateX(0);
         }
+        @media (max-width: 768px) {
+          padding: 20px;
+        }
       }
       @media (max-width: 1200px) {
         padding: 20px;
@@ -471,6 +475,11 @@ const stepSwiper = ref(0)
             }
           }
         }
+        @media (max-width: 480px) {
+          .your-skin {
+            display: none;
+          }
+        }
       }
       @media (max-width: 1200px) {
         padding: 20px;
@@ -489,8 +498,13 @@ const stepSwiper = ref(0)
         max-width: 100px;
         text-align: center;
       }
+
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
   }
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: 500px auto;
