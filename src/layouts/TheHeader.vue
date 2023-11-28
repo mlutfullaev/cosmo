@@ -153,13 +153,15 @@ header {
     }
 
     .nav-item {
+      padding: 7px 0;
+
       .sub-menu {
         top: 47px;
         padding-top: 15px;
         position: absolute;
         right: 0;
         background-color: $white;
-        max-height: calc(100vh - 62px);
+        max-height: calc(100vh - 47px);
         height: max-content;
         overflow-y: scroll;
         width: 100%;

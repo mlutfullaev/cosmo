@@ -110,24 +110,15 @@ onMounted(() => {
 
     button {
       padding: 0 3px;
-      font-size: 36px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 400;
       transition: .2s;
 
       &.active {
         color: $orange;
       }
-      &.filterBtn {
-        @media (max-width: 480px) {
-          font-size: 14px;
-          font-weight: 400;
-        }
-      }
-      @media (max-width: 1000px) {
-        font-size: 24px;
-      }
-      @media (max-width: 480px) {
-        font-size: 18px;
+      &:hover {
+        color: $orange;
       }
     }
 
