@@ -107,7 +107,7 @@ onMounted(() => {
       <h1 class="highlight">{{ allItems }}</h1>
       <h3 class="title-secondary">{{ $route.params.param }}'s products in our library</h3>
     </div>
-    <ReligionDiets description="Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat /" />
+    <religion-diets :brand-name="$route.params.param" />
   </div>
 
   <FilterSelect

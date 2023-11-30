@@ -3,7 +3,6 @@ import { onMounted, reactive, ref } from 'vue'
 import HeaderSearch from '@/components/HeaderSearch.vue'
 import TheMenu from '@/layouts/TheMenu.vue'
 import CountryAlert from '@/components/CountryAlert.vue'
-import FilterBrands from '@/components/FilterBrands.vue'
 import axios from 'axios'
 
 const alertActive = ref(false)
@@ -67,14 +66,6 @@ onMounted(() => {
               >{{ item.text }}</RouterLink>
             </div>
           </div>
-          <FilterBrands
-            title="SELECTION OF ROUTINES BY CONTAINING PRODUCTS OF brands"
-            where="routine-results/brand/"
-            button-type="link" />
-          <FilterBrands
-            title="SELECTION BY authors OF THE ROUTINES"
-            where="routine-results/brand/"
-            button-type="link" />
         </div>
       </div>
       <div class="nav-item">
@@ -94,10 +85,9 @@ onMounted(() => {
               >{{ item.text }}</RouterLink>
             </div>
           </div>
-          <FilterBrands where="product-results/brand/" button-type="link" />
         </div>
       </div>
-      <router-link to="/registration">CREATE PROFILE</router-link>
+      <router-link to="/registration">LOGIN</router-link>
     </nav>
     <CountryAlert
       :city="city"
@@ -143,15 +133,13 @@ header {
       text-transform: uppercase;
       transition: .3s;
 
-      &:hover {
+      &.router-link-active {
         color: $orange;
       }
-
       @media (max-width: 769px) {
         display: none;
       }
     }
-
     .nav-item {
       padding: 7px 0;
 
@@ -205,6 +193,9 @@ header {
           opacity: 1;
           z-index: 1;
           transform: translateY(0);
+        }
+        > a {
+          color: $orange;
         }
       }
     }

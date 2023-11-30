@@ -133,7 +133,10 @@ const checkBeauty = () => {
     </div>
   </main>
 
-  <ReligionDiets :bg="beauty ? 'claims-bg-beauty.png' : 'claims-bg.jpg'" />
+  <religion-diets
+    v-if="product"
+    :brand-name="product.brand"
+    :bg="beauty ? 'claims-bg-beauty.png' : 'claims-bg.jpg'" />
   <SingleProductSlide v-if="product" :product="product"/>
 
   <section id="prices" class="prices">

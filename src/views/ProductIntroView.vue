@@ -22,13 +22,14 @@ const skinTwins = ref([
 <template>
   <TheHeader/>
   <main class="bg-img">
-    <h1 class="first-title">la roche posay Chanel Siseido La roche posay</h1>
-    <h1 class="second-title">la roche posay Chanel Siseido La roche posay</h1>
-    <h2 class="title">Beauty Products Interactive Library</h2>
-    <h3 class="title-secondary">Connecting You with Brands explaining their products</h3>
+    <div class="main__content">
+      <h2 class="title">Beauty Products Interactive Library</h2>
+      <h3 class="title-secondary">Connecting You with Brands explaining their products</h3>
+    </div>
     <svg xmlns="http://www.w3.org/2000/svg" width="62" height="32" viewBox="0 0 62 32" fill="none">
       <path d="M1 1L31 31L61 1" stroke="black"/>
     </svg>
+    <h4 class="running-text">We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library →  We have 50 000 brands in our library →</h4>
   </main>
   <div class="productIntro">
     <div class="productIntro-inner">
@@ -87,55 +88,50 @@ main {
   background-image: url("@/assets/img/product/intro-bg.png");
   text-align: center;
   overflow: hidden;
-  padding-bottom: 40px;
 
-  h1 {
-    color: $grey;
-    font-size: 250px;
+  .main__content {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    height: calc(100vh - 208px);
+    padding-bottom: 20px;
+
+    h2 {
+      margin: 100px 0 20px;
+
+      @media (max-width: 1000px) {
+        margin: 30px 0 10px;
+      }
+    }
+    h3 {
+      margin-bottom: 50px;
+      @media (max-width: 1200px) {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .running-text {
+    margin-top: 65px;
+    border-top: 1px solid black;
+    font-size: 36px;
+    text-transform: uppercase;
     width: max-content;
     transition: .3s;
     font-weight: 400;
-    line-height: 230px;
     position: relative;
-    animation-duration: 40s;
+    animation-duration: 75s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-
-    &.first-title {
-      animation-name: toRight;
-    }
-
-    &.second-title {
-      animation-name: toLeft;
-    }
-
-    @keyframes toRight {
-      0% {
-        transform: translateX(0);
-        left: 0;
-      }
-      50% {
-        transform: translateX(-100%);
-        left: 100%
-      }
-      100% {
-        transform: translateX(0);
-        left: 0;
-      }
-    }
+    animation-name: toLeft;
 
     @keyframes toLeft {
       0% {
         transform: translateX(-100%);
         left: 100%;
       }
-      50% {
+      100% {
         transform: translateX(0);
         left: 0
-      }
-      100% {
-        transform: translateX(-100%);
-        left: 100%;
       }
     }
 
@@ -147,21 +143,6 @@ main {
     @media (max-width: 480px) {
       font-size: 56px;
       line-height: 55px;
-    }
-  }
-
-  h2 {
-    margin: 100px 0 20px;
-
-    @media (max-width: 1000px) {
-      margin: 30px 0 10px;
-    }
-  }
-
-  h3 {
-    margin-bottom: 50px;
-    @media (max-width: 1200px) {
-      margin-bottom: 0;
     }
   }
 
@@ -208,8 +189,7 @@ main {
     .link {
       padding: 60px;
       display: block;
-      border-top: 1px solid $black;
-      border-bottom: 1px solid $black;
+      background: $orange;
 
       @media (max-width: 1200px) {
         padding: 60px 20px;

@@ -1,5 +1,5 @@
 <template>
-  <section class="searchResult-bottom">
+  <section v-if="!store.state.beauty" class="searchResult-bottom">
     <div class="searchResult-bottom-img bg-img d-center">
       <h1 class="title">We know more than 100 people with same skin as yours</h1>
     </div>
@@ -54,3 +54,10 @@
   }
 }
 </style>
+<script setup lang="ts">
+import store from '@/store'
+
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
+</script>

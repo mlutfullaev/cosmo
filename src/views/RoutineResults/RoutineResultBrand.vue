@@ -4,7 +4,6 @@ import { Product } from '@/interfaces'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import ProductCard from '@/components/ProductCard.vue'
-import TheFilter from '@/layouts/TheFilter.vue'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
 
@@ -35,7 +34,7 @@ onMounted(() => {
       <h1 class="highlight">{{ allItems }}</h1>
       <h3 class="title-secondary">{{ $route.params.param }}'s products in our library</h3>
     </div>
-    <ReligionDiets description="Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat /" />
+    <religion-diets :brand-name="$route.params.param" />
   </div>
 
   <FilterSelect />
@@ -60,7 +59,7 @@ onMounted(() => {
   <div class="productResult-bottom bg-img d-center">
     <RouterLink to="/" class="link bold">Watch Routines with {{ $route.params.param }} Products  <span>→</span></RouterLink>
   </div>
-  
+
   <TheFooter/>
 </template>
 
@@ -75,7 +74,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+
     .title {
       font-weight: 400;
 
@@ -107,7 +106,7 @@ onMounted(() => {
       padding: 20px;
     }
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 100%;
   }
@@ -155,7 +154,7 @@ onMounted(() => {
   height: 600px;
   color: #fff;
   text-align: center;
-  
+
   @media (max-width: 1000px) {
     height: 450px;
   }

@@ -20,7 +20,7 @@ const descriptions = ref([
     description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
   },
 ])
-const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
+const activeDesc = ref('PRODUCT DETAILS')
 
 const checkBeauty = () => {
   store.commit('checkBeauty')
@@ -58,7 +58,7 @@ const checkBeauty = () => {
           </Transition>
         </div>
       </div>
-      <div class="scan">
+      <div class="scan" v-if="!store.state.beauty">
         <img @click="checkBeauty" src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
           <p class="txt bold t-up">scan qr code to make most from product page</p>
