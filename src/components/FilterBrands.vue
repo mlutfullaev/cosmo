@@ -9,7 +9,7 @@ type Brand = {
 }
 
 const emit = defineEmits<{(event: 'changeBrand', brand: string): void}>()
-defineProps(
+const props = defineProps(
   {
     buttonType: {
       required: false,
@@ -28,7 +28,7 @@ defineProps(
 )
 const activeAlpha = ref('A')
 const filterResults = ref<Brand[]>([])
-const alphabet = ref(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+const alphabet = ref([])
 
 watch(activeAlpha, () => {
   axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
@@ -43,9 +43,15 @@ watch(selectedBrand, () => {
 })
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
+  axios.get(`https://api-www.beautyid.app/brands/${props.where === 'product-results/brand/' ? 'getfirstletters' : 'getroutinebrandsfirstletters'}`)
     .then((res) => {
-      filterResults.value = res.data.data
+      alphabet.value = res.data.map((item: { letter: string }) => item.letter)
+      activeAlpha.value = alphabet.value[0]
+
+      axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
+        .then((res) => {
+          filterResults.value = res.data.data
+        })
     })
 })
 </script>

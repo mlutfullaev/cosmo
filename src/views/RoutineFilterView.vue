@@ -51,7 +51,7 @@ const updateFilterQuery = (query: {[key: string]: string | number}) => {
 }
 
 const filters = reactive<Filter>({
-  skinType: {
+  skinTypes: {
     title: 'skin type',
     subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
     variants: [],
@@ -63,13 +63,13 @@ const filters = reactive<Filter>({
     variants: [],
     selectedVariant: '',
   },
-  yourSkin: {
+  melanine: {
     title: 'Your Skin Melanin level (tone of your skin)',
     subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
     variants: [],
     selectedVariant: '',
   },
-  rotineType: {
+  routineType: {
     title: 'Type of Routine  ( when this routine will be used)',
     subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
     variants: [],
@@ -81,7 +81,7 @@ const filters = reactive<Filter>({
     variants: [],
     selectedVariant: '',
   },
-  sensitivity: {
+  skinSensitivity: {
     title: 'Skin Sensitivity Level',
     subtitle: 'Selecting right skin type allows to match routines targeted to Your skin.',
     variants: [],
@@ -96,13 +96,13 @@ const filters = reactive<Filter>({
 })
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/skinbenefits?order=ASC&page=1&take=10')
+  axios.get('https://api-www.beautyid.app/routines/benefits?order=ASC&page=1&take=20')
     .then(res => {
-      library.value.categories = res.data.data.map((c: {benefitName: string, id: number}) => ({ title: c.benefitName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
+      library.value.categories = res.data.data.map((c: {benefitRoutineName: string, id: number}) => ({ title: c.benefitRoutineName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
     })
   axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
     .then(res => {
-      filters.skinType.variants = res.data.data.map((item: any) => ({
+      filters.skinTypes.variants = res.data.data.map((item: any) => ({
         text: item.skinTypeName,
         param: item.skinTypeNameForSearch,
         id: item.id,
@@ -118,7 +118,7 @@ onMounted(() => {
     })
   axios.get('https://api-www.beautyid.app/skintones?order=ASC&page=1&take=10')
     .then(res => {
-      filters.yourSkin.variants = res.data.data.map((item: any) => ({
+      filters.melanine.variants = res.data.data.map((item: any) => ({
         text: item.skintoneName,
         param: item.skintoneName,
         id: item.id,
@@ -126,7 +126,7 @@ onMounted(() => {
     })
   axios.get('https://api-www.beautyid.app/routinetimelimitations?order=ASC&page=1&take=10')
     .then(res => {
-      filters.rotineType.variants = res.data.data.map((item: any) => ({
+      filters.routineType.variants = res.data.data.map((item: any) => ({
         text: item.timeLimitationName,
         param: item.timeLimitationName,
         id: item.id,
@@ -142,7 +142,7 @@ onMounted(() => {
     })
   axios.get('https://api-www.beautyid.app/skinsensitivity?order=ASC&page=1&take=10')
     .then(res => {
-      filters.sensitivity.variants = res.data.data.map((item: any) => ({
+      filters.skinSensitivity.variants = res.data.data.map((item: any) => ({
         text: item.sensitivityName,
         param: item.sensitivityName,
         id: item.id,
@@ -184,12 +184,12 @@ const checkBeauty = () => {
     <FilterSelect :routine="true" @updateFilter="(key, value) => {filters[key].selectedVariant = value; updateFilterQuery({[key]: value})}" :filters="filters" />
 
     <router-link :to="{path: '/routine-results/filtered/', query: filterQuery}" class="link bold">search <span>→</span></router-link>
-    <div class="scan tablet bg-orange">
+    <div v-if="store.state.beauty" class="scan tablet bg-orange">
       <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
     </div>
 
-    <div class="alert min-tablet" :class="{hidden: !alertActive}">
+    <div v-if="store.state.beauty" class="alert min-tablet" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"

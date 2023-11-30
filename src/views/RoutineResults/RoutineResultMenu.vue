@@ -65,7 +65,7 @@ const checkBeauty = () => {
       <h3 class="title-secondary">{{ $route.params.param }}'s routines in our library</h3>
     </div>
     <div class="productResult-scan">
-      <div class="d-center">
+      <div class="d-center" v-if="store.state.beauty">
         <h3 class="title-secondary"><span class="bold">create profile</span> to find the product that is best suited to your skin.</h3>
         <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
       </div>

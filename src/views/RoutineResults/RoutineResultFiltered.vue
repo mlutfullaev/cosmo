@@ -37,7 +37,7 @@ onMounted(() => {
     })
 })
 watch(route, () => {
-  axios.get('https://api-www.beautyid.app/routines?order=ASC', {
+  axios.get('https://api-www.beautyid.app/routines/filtered?order=ASC', {
     params: route.query
   })
     .then(res => {
