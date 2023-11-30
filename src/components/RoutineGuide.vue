@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue'
+import store from '@/store'
 
 defineProps({
   routerLink: {
@@ -16,6 +17,9 @@ defineProps({
     default: false,
   }
 })
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -44,7 +48,7 @@ defineProps({
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
             maximum details about products and experiences Your SkinTwins had with this product.</p>
         </div>
-        <img src="@/assets/img/global/qr.png" alt="" v-if="!intro">
+        <img @click="checkBeauty" src="@/assets/img/global/qr.png" alt="" v-if="!intro">
       </div>
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">Sign up <span>→</span></router-link>

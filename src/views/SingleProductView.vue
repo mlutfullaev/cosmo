@@ -109,6 +109,9 @@ watch(route, () => {
 watch(meta.value, () => {
   console.log(meta.value)
 })
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -267,7 +270,7 @@ watch(meta.value, () => {
     </div>
     <div class="reviews__orange">
       <div class="scan">
-        <img src="@/assets/img/global/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
         <div class="scan-content">
           <p class="txt bold t-up">Make most from Product Page</p>
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
@@ -346,7 +349,7 @@ watch(meta.value, () => {
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
             maximum details about products and experiences Your SkinTwins had with this product.</p>
         </div>
-        <img src="@/assets/img/global/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
       </div>
     </div>
     <div class="samples__content">
@@ -423,7 +426,7 @@ watch(meta.value, () => {
       <h2 class="title">Free samples of Argan Oil available in Moscow</h2>
     </div>
     <div class="d-center">
-      <img src="@/assets/img/global/qr.png" alt="">
+      <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
       <p class="txt bold t-up">Make most from Product Page</p>
       <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
         maximum details about products and experiences Your SkinTwins had with this product.</p>

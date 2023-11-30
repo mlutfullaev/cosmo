@@ -54,6 +54,9 @@ watch(route, () => {
 const filter = (filters: StringObject) => {
   console.log(filters)
 }
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -79,7 +82,7 @@ const filter = (filters: StringObject) => {
       :key="routine.id"
     />
     <div class="routine-item bg-orange" v-if="allItems > Number(route.query.take) && !store.state.beauty">
-      <img src="@/assets/img/global/qr.png" alt="qr-code">
+      <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
       <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
       <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
     </div>

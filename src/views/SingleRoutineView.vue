@@ -63,6 +63,9 @@ watch(route, () => {
 })
 
 const stepSwiper = ref(0)
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -185,7 +188,7 @@ const stepSwiper = ref(0)
         <BaseRate :rates="3.5" :text="true"/>
       </div>
       <div class="main__inner__scan">
-        <img src="@/assets/img/global/qr.png" alt="qr-code">
+        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
         <p class="note">scan qr code to get the full description of this routine</p>
       </div>
     </div>
@@ -245,7 +248,7 @@ const stepSwiper = ref(0)
 
   <div class="scan bg-orange">
     <h2 class="title-secondary">to check the match of this routine to your skin create profile</h2>
-    <img src="@/assets/img/global/qr.png" alt="qr-code">
+    <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
   </div>
 
   <section v-if="beauty && reviews.length" class="reviews">
@@ -270,7 +273,7 @@ const stepSwiper = ref(0)
         </div>
       </div>
       <div class="reviews__content__bottom">
-        <img src="@/assets/img/global/qr.png" alt="qr-code">
+        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
         <h3 class="title-secondary">SCAN QR CODE TO SEE YOUR SKINTWINS EXPERIENCES WITH THIS ROUTINE</h3>
         <p class="txt">SkinTwins are the People with the same Skin Type, Age Group, Ethnicity origin, concerns, Skin conditions and Allergies. In other words Your Skin Twins.</p>
       </div>

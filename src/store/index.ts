@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     productSearch: '',
-    beauty: true,
+    beauty: false,
     productFilters: {
       productCategory: {
         title: 'product category',
@@ -67,6 +67,9 @@ export default createStore({
     updatingProductSearch (state, value) {
       state.productSearch = value
     },
+    checkBeauty (state) {
+      state.beauty = true
+    }
   },
   actions: {
   },

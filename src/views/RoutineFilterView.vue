@@ -4,6 +4,7 @@ import { Filter } from '@/interfaces'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
 import axios from 'axios'
+import store from '@/store'
 
 const alertActive = ref(true)
 const library = ref({
@@ -148,6 +149,9 @@ onMounted(() => {
       }))
     })
 })
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -194,7 +198,7 @@ onMounted(() => {
           <path d="M20.2459 20.2451L11.7559 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <img src="@/assets/img/global/qr.png" alt="">
+      <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
       <div class="scan-content">
         <p class="txt bold t-up">scan qr code to make most from product page</p>
         <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive

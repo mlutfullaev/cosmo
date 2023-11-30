@@ -118,7 +118,7 @@ const next = () => {
         </Transition>
       </div>
       <div class="scan">
-        <img src="@/assets/img/global/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
         <div class="scan-content">
           <p class="txt-highlight">scan qr code to make most from product page</p>
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
@@ -180,7 +180,7 @@ const next = () => {
   grid-template-columns: 50% 50%;
   align-items: center;
   border-bottom: 1px solid $black;
-  
+
   button {
     width: 100%;
     padding: 20px 50px;
@@ -211,7 +211,7 @@ const next = () => {
       .carousel-item img {
         max-width: 80%;
         max-height: 686px;
-          
+
         @media (max-width: 1440px) {
           max-height: 400px;
         }

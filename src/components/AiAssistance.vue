@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import store from '@/store'
 
 const descriptions = ref([
   {
@@ -20,6 +21,10 @@ const descriptions = ref([
   },
 ])
 const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
+
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -54,7 +59,7 @@ const activeDesc = ref('AI ASSISTANCE IN YOUR SMARTPHONE')
         </div>
       </div>
       <div class="scan">
-        <img src="@/assets/img/global/qr.png" alt="">
+        <img @click="checkBeauty" src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
           <p class="txt bold t-up">scan qr code to make most from product page</p>
           <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive

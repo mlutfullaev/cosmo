@@ -5,7 +5,7 @@
     </div>
     <div class="searchResult-bottom-item d-center bg-orange">
       <div>
-        <img src="@/assets/img/global/qr.png" alt="">
+        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
         <div class="scan-content">
           <p class="title-secondary bold">scan qr code to Make most from routine Page</p>
           <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your

@@ -28,6 +28,9 @@ onMounted(() => {
       allItems.value = res.data.meta.itemCount
     })
 })
+const checkBeauty = () => {
+  store.commit('checkBeauty')
+}
 </script>
 
 <template>
@@ -42,7 +45,7 @@ onMounted(() => {
     <div class="productResult-scan">
       <div class="d-center">
         <h3 class="title-secondary"><span class="bold">create profile</span> to find the product that is best suited to your skin.</h3>
-        <img src="@/assets/img/global/qr.png" alt="qr-code">
+        <img @click="checkBeauty" src="@/assets/img/global/qr.png" alt="qr-code">
       </div>
       <h2 class="title">{{ $route.params.param }}</h2>
       <p class="txt">Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products. Search Results for  Oily skin person within 25-45 age range looking for hydration and cleansing acne products.</p>
