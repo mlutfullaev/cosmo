@@ -189,7 +189,7 @@ const checkBeauty = () => {
       <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
     </div>
 
-    <div v-if="store.state.beauty" class="alert min-tablet" :class="{hidden: !alertActive}">
+    <div v-if="!store.state.beauty" class="alert min-tablet" :class="{hidden: !alertActive}">
       <button class="alert-close" @click="alertActive = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"

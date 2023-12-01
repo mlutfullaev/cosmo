@@ -22,7 +22,6 @@ interface Step {
   idStepGood: number,
 }
 
-const beauty = store.state.beauty
 const mainLabel = ref(false)
 const route = useRoute()
 
@@ -187,7 +186,7 @@ const checkBeauty = () => {
         </div>
         <BaseRate :rates="3.5" :text="true"/>
       </div>
-      <div class="main__inner__scan">
+      <div class="main__inner__scan" v-if="!store.state.beauty">
         <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
         <p class="note">scan qr code to get the full description of this routine</p>
       </div>
@@ -198,11 +197,13 @@ const checkBeauty = () => {
     <h2 class="title">Routine's steps</h2>
     <h3 class="steps__title orange">{{ stepSwiper + 1 }} step/{{ steps.length }}</h3>
     <div class="steps__inner">
+
       <button class="steps__inner__prev">
         <svg xmlns="http://www.w3.org/2000/svg" width="102" height="23" viewBox="0 0 102 23" fill="none">
           <path d="M0.939339 10.4393C0.353554 11.0251 0.353554 11.9749 0.939339 12.5607L10.4853 22.1066C11.0711 22.6924 12.0208 22.6924 12.6066 22.1066C13.1924 21.5208 13.1924 20.5711 12.6066 19.9853L4.12132 11.5L12.6066 3.01471C13.1924 2.42892 13.1924 1.47918 12.6066 0.89339C12.0208 0.307604 11.0711 0.307604 10.4853 0.89339L0.939339 10.4393ZM102 10L2 9.99999L2 13L102 13L102 10Z" fill="black"/>
         </svg>
       </button>
+
       <swiper
         @active-index-change="swiper => stepSwiper = swiper.activeIndex"
         :modules="[Pagination, Navigation]"
@@ -222,7 +223,14 @@ const checkBeauty = () => {
           v-for="step in steps"
           :key="step.id"
         >
-          <div class="swiper__block">
+          <div v-if="!store.state.beauty && stepSwiper > 0" class="swiper__block">
+            <div class="swiper__block__scan">
+              <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
+              <h3 class="title-secondary">scan qr code to see all products</h3>
+              <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your SkinTwins .  Use their experiences to make smart beauty decisions.</p>
+            </div>
+          </div>
+          <div v-else class="swiper__block">
             <div class="swiper__block__left" v-if="stepProduct">
               <img :src="`https://api-www.beautyid.app/images/getimage/${stepProduct.mainPicture}`" alt="step-image">
               <p class="name">{{ stepProduct.brand }}</p>
@@ -246,12 +254,12 @@ const checkBeauty = () => {
     <div class="pagination steps__pagination"></div>
   </section>
 
-  <div class="scan bg-orange">
+  <div v-if="!store.state.beauty" class="scan bg-orange">
     <h2 class="title-secondary">to check the match of this routine to your skin create profile</h2>
     <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
   </div>
 
-  <section v-if="beauty && reviews.length" class="reviews">
+  <section v-if="store.state.beauty && reviews.length" class="reviews">
     <div class="reviews__content bg-img">
       <div class="reviews__content__top">
         <h3 class="title">All Reviews about this Routine</h3>
@@ -283,7 +291,7 @@ const checkBeauty = () => {
 
   <RouterLink to="/" class="link tablet-orange tablet bold">EXPLORE YOUR SKINTWINS EXPERIENCES WITH THIS ROUTINE <span>→</span></RouterLink>
 
-  <div v-if="beauty" class="progress">
+  <div v-if="store.state.beauty" class="progress">
     <BeforeAfter/>
     <div class="progress__text">
       <div class="progress__text__top">
@@ -309,7 +317,7 @@ const checkBeauty = () => {
     </div>
   </section>
 
-  <AiAssistance v-if="!beauty"/>
+  <AiAssistance v-if="!store.state.beauty"/>
 
   <div class="sidebar">
     <div class="sidebar-item">
@@ -514,14 +522,6 @@ const checkBeauty = () => {
   }
 }
 
-.scan {
-  justify-content: center;
-
-  h2 {
-    max-width: 500px;
-  }
-}
-
 .steps {
   padding: 60px 0;
   text-align: center;
@@ -546,6 +546,7 @@ const checkBeauty = () => {
         display: grid;
         grid-template-columns: 50% 50%;
         grid-template-rows: 1fr;
+        height: 500px;
         border: 1px solid $black;
 
         &__left {
@@ -568,6 +569,19 @@ const checkBeauty = () => {
             padding-bottom: 20px;
           }
         }
+        &__scan {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          grid-column: 1 / 3;
+          padding: 0 40px;
+
+          img {
+            padding-bottom: 30px;
+          }
+        }
       }
     }
     @media (max-width: 1200px) {
@@ -585,6 +599,14 @@ const checkBeauty = () => {
   }
 }
 
+.scan {
+  justify-content: center;
+
+  h2 {
+    max-width: 500px;
+  }
+}
+
 .reviews {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -599,7 +621,7 @@ const checkBeauty = () => {
     align-content: space-between;
 
     &.bg-img {
-      background: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('@/assets/img/global/girls-smiling.png');
+      background-image: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('@/assets/img/global/girls-smiling.png');
       color: #fff;
     }
     .rating {

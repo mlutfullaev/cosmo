@@ -21,6 +21,7 @@ const productLibrary = reactive<{title: string, items: {id: number, param: strin
     items: []
   },
 ])
+const subMenuListener = ref(null)
 
 onMounted(() => {
   axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=8')
