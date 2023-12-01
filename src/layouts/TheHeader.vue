@@ -5,9 +5,19 @@ import TheMenu from '@/layouts/TheMenu.vue'
 import CountryAlert from '@/components/CountryAlert.vue'
 import axios from 'axios'
 
+interface Library {
+  title: string,
+  viewAll?: string,
+  items: {
+    id: number,
+    param: string,
+    text: string
+  }[]
+}
+
 const alertActive = ref(false)
 const city = ref('city')
-const productLibrary = reactive<{title: string, items: {id: number, param: string, text: string}[]}[]>([
+const productLibrary = reactive<Library[]>([
   {
     title: 'Categories',
     items: []
@@ -20,8 +30,63 @@ const productLibrary = reactive<{title: string, items: {id: number, param: strin
     title: 'Steps',
     items: []
   },
+  {
+    title: 'Brands',
+    items: [],
+    viewAll: '/'
+  },
 ])
-const subMenuListener = ref(null)
+const routineLibrary = reactive<Library[]>([
+  {
+    title: 'Categories',
+    items: []
+  },
+  {
+    title: 'skin type',
+    items: []
+  },
+  {
+    title: 'Steps',
+    viewAll: '/',
+    items: [
+      {
+        id: 0,
+        text: '3 steps',
+        param: '3'
+      },
+      {
+        id: 0,
+        text: '5 steps',
+        param: '5'
+      },
+      {
+        id: 0,
+        text: '7 steps',
+        param: '7'
+      },
+      {
+        id: 0,
+        text: '9 steps',
+        param: '9'
+      },
+      {
+        id: 0,
+        text: '12 steps',
+        param: '12'
+      }
+    ]
+  },
+  {
+    title: 'Authors',
+    viewAll: '/',
+    items: []
+  },
+  {
+    title: 'Brands',
+    viewAll: '/',
+    items: []
+  },
+])
 
 onMounted(() => {
   axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=8')
@@ -32,6 +97,24 @@ onMounted(() => {
     .then(res => {
       productLibrary[1].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
       productLibrary[2].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
+      routineLibrary[1].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
+    })
+  axios.get('https://api-www.beautyid.app/brands?order=ASC&page=1&take=8')
+    .then(res => {
+      productLibrary[3].items = res.data.data.map((category: { id: number, applicationName: string }) => ({ id: category.id, text: category.applicationName, param: category.applicationName }))
+    })
+
+  axios.get('https://api-www.beautyid.app/routines/benefits?order=ASC&page=1&take=8')
+    .then(res => {
+      routineLibrary[0].items = res.data.data.map((category: { id: number, benefitRoutineName: string }) => ({ id: category.id, text: category.benefitRoutineName, param: category.benefitRoutineName }))
+    })
+  axios.get('https://api-www.beautyid.app/routines/authors?order=ASC&page=1&take=8')
+    .then(res => {
+      routineLibrary[3].items = res.data.data.map((category: { id: number, authorName: string }) => ({ id: category.id, text: category.authorName, param: category.authorName }))
+    })
+  axios.get('https://api-www.beautyid.app/brands/routinesbrands?order=ASC&page=1&take=8')
+    .then(res => {
+      routineLibrary[4].items = res.data.data.map((category: { id: number, brandName: string }) => ({ id: category.id, text: category.brandName, param: category.brandName }))
     })
 })
 </script>
@@ -55,7 +138,7 @@ onMounted(() => {
         <div class="sub-menu">
           <div class="sub-menu-content">
             <div
-              v-for="lib of productLibrary"
+              v-for="lib of routineLibrary"
               :key="lib.title"
               class="sub-menu-item">
               <p class="txt-highlight">{{lib.title}}</p>
@@ -65,6 +148,7 @@ onMounted(() => {
                 :to="`/routine-results/menu/${item.param}`"
                 :key="item.id"
               >{{ item.text }}</RouterLink>
+              <RouterLink v-if="lib.viewAll" :to="lib.viewAll" class="note">view all →</RouterLink>
             </div>
           </div>
         </div>
@@ -84,6 +168,7 @@ onMounted(() => {
                 :to="`/product-results/menu/${item.param}`"
                 :key="item.id"
               >{{ item.text }}</RouterLink>
+              <RouterLink v-if="lib.viewAll" :to="lib.viewAll" class="note">view all →</RouterLink>
             </div>
           </div>
         </div>
@@ -162,10 +247,12 @@ header {
 
         &-content {
           border-top: 1px solid $black;
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
+          display: flex;
           padding-bottom: 10px;
 
+          .sub-menu-item {
+            flex: 1;
+          }
           p {
             padding: 20px;
             text-align: center;

@@ -3,6 +3,7 @@ import { defineProps, ref } from 'vue'
 import { Product } from '@/interfaces'
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
+import store from '@/store'
 
 const props = defineProps<{ product: Product }>()
 
@@ -16,6 +17,9 @@ const prev = () => {
 }
 const next = () => {
   currentSlide.value = currentSlide.value === slides.value.length - 1 ? 0 : currentSlide.value + 1
+}
+const checkBeauty = () => {
+  store.commit('checkBeauty')
 }
 </script>
 
@@ -93,7 +97,7 @@ const next = () => {
           </div>
         </Transition>
         <Transition name="tab">
-          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'ingredients'">
+          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'ingredients' && store.state.beauty">
             <p class="txt bold">KEY INGREDIENTS</p>
             <div v-if="product.ingredients">
               <p
@@ -110,14 +114,28 @@ const next = () => {
               euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.
             </p>
           </div>
+          <div class="full-details__inner__tab scan-tab" v-else-if="aboutActiveTab === 'ingredients' && !store.state.beauty">
+            <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
+            <div class="scan-content">
+              <p class="txt-highlight">scan qr code to make most from product page</p>
+              <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
+            </div>
+          </div>
         </Transition>
         <Transition name="tab">
-          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'how to use'">
+          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'how to use' && store.state.beauty">
             <p class="txt">{{ product.manual }}</p>
+          </div>
+          <div class="full-details__inner__tab scan-tab" v-else-if="aboutActiveTab === 'how to use' && !store.state.beauty">
+            <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
+            <div class="scan-content">
+              <p class="txt-highlight">scan qr code to make most from product page</p>
+              <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
+            </div>
           </div>
         </Transition>
       </div>
-      <div class="scan">
+      <div class="scan" v-if="!store.state.beauty">
         <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
         <div class="scan-content">
           <p class="txt-highlight">scan qr code to make most from product page</p>
@@ -288,6 +306,12 @@ const next = () => {
 
       .txt.bold {
         padding-bottom: 10px;
+      }
+      &.scan-tab {
+        display: flex;
+        gap: 20px;
+        height: 100%;
+        align-items: center;
       }
       @media (max-width: 1200px) {
         padding: 40px;

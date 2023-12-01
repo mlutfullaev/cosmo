@@ -15,6 +15,13 @@ import BaseReviews from '@/components/BaseReviews.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
 
+interface Prices {
+  id: number,
+  priceValue: number,
+  priceShopName: string,
+  priceGoodLink: string,
+}
+
 const route = useRoute()
 
 const links = ref([
@@ -73,6 +80,7 @@ const activeSample = ref('LOOKFANTASTIC')
 const routines = ref<{routine: Routine}[]>([])
 
 const meta = ref({ page: 1, take: 11, itemCount: 0, pageCount: 0 })
+const prices = ref<Prices[]>([])
 const product = ref<null | Product>(null)
 const alternatives = ref<Product[]>([])
 const reviews = ref<Review[]>([])
@@ -89,6 +97,10 @@ onMounted(() => {
   axios.get(`https://api-www.beautyid.app/reviews/?order=ASC&page=1&take=${beauty ? 10 : 2}`)
     .then(res => {
       reviews.value = res.data.data
+    })
+  axios.get(`https://api-www.beautyid.app/prices/filtered?idGood=${route.params.id}&lattitude=1&longitude=19&order=ASC&page=1&take=10`)
+    .then(res => {
+      prices.value = res.data.data
     })
   if (beauty) {
     axios.get('https://api-www.beautyid.app/routines/randomnumber/12?order=ASC&page=1&take-12')
@@ -177,10 +189,10 @@ const checkBeauty = () => {
         <h3 class="title-secondary">lookfantastic</h3>
         <p class="txt-highlight">32,00 euro</p>
       </div>
-      <router-link v-if="!beauty" to="/registration" class="link bold">discover more <span>→</span></router-link>
+      <router-link v-if="!store.state.beauty" to="/registration" class="link bold">discover more <span>→</span></router-link>
       <button v-else class="link bold" @click="pricesMore = true">discover more <span>→</span></button>
     </div>
-    <div v-if="beauty" class="prices-more" :class="{ active: pricesMore }">
+    <div v-if="store.state.beauty" class="prices-more" :class="{ active: pricesMore }">
       <div class="prices__inner">
         <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
@@ -198,8 +210,6 @@ const checkBeauty = () => {
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-      </div>
-      <div class="prices__inner">
         <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
@@ -216,8 +226,6 @@ const checkBeauty = () => {
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
         </div>
-      </div>
-      <div class="prices__inner">
         <div class="prices__inner-item d-sb">
           <h3 class="title-secondary">lookfantastic</h3>
           <p class="txt-highlight">32,00 euro</p>
@@ -244,11 +252,11 @@ const checkBeauty = () => {
         </svg>
       </button>
     </div>
-    <router-link v-if="beauty" to="/registration" class="tablet link bold tablet-orange">discover more
+    <router-link v-if="store.state.beauty" to="/registration" class="tablet link bold tablet-orange">discover more
       <span>→</span></router-link>
   </section>
 
-  <section v-if="beauty" class="product-list">
+  <section v-if="store.state.beauty" class="product-list">
     <div class="product-item">
       <h3 class="title t-up">check alternative products</h3>
       <p class="txt">These aternative products to L’Oreal Argan Pure Oil were selected based on the ingredients and
@@ -260,7 +268,7 @@ const checkBeauty = () => {
     </div>
   </section>
 
-  <section id="reviews" class="reviews" v-if="!beauty">
+  <section id="reviews" class="reviews" v-if="!store.state.beauty">
     <div class="reviews__text">
       <div class="reviews__text__top bg-img">
         <h3 class="title">Reviews</h3>
@@ -299,9 +307,9 @@ const checkBeauty = () => {
     <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
 
-  <AiAssistance v-if="!beauty" />
+  <AiAssistance v-if="!store.state.beauty" />
 
-  <section v-if="beauty" id="free-samples" class="samples">
+  <section v-if="store.state.beauty" id="free-samples" class="samples">
     <div class="samples__top d-sb">
       <svg class="min-tablet" xmlns="http://www.w3.org/2000/svg" width="145" height="121" viewBox="0 0 145 121" fill="none">
         <path d="M46.0891 85.9371C28.2096 75.8278 18.2198 55.5045 24.0661 34.9192C29.8557 14.5959 50.1758 0.348587 72.7664 0.610485C96.3787 0.872384 116.018 16.0625 121.069 36.4382C126.178 57.233 115.337 76.6135 98.5924 85.9371C95.7544 83.2134 96.2084 79.8087 96.322 76.3516C102.566 70.9565 105.006 64.1995 103.758 56.3949C102.849 50.8427 99.9546 46.2856 95.2435 42.7762C84.4591 49.8998 82.4725 66.9756 94.0516 76.5088C93.8813 78.4992 94.2218 80.5944 93.3704 82.5848C91.3838 87.2466 85.1402 89.9704 80.1453 88.399C77.5911 87.5609 75.8883 85.8847 74.8098 83.6324C73.9016 81.7467 73.5043 79.7563 73.5043 77.7135C73.4476 71.847 73.5043 65.9281 73.5043 60.0615C79.6344 54.6664 82.1319 48.0666 81.0534 40.3667C80.0885 33.5574 75.945 28.7908 72.4259 26.3813C61.7549 33.4526 59.6548 50.5284 71.2339 60.0615C71.2339 60.1139 71.2907 60.1663 71.2907 60.1663C71.2907 66.2947 71.2907 72.4755 71.2339 78.604C71.2339 80.5944 70.6663 82.4801 69.6446 84.261C67.658 87.8228 63.7983 89.5513 59.5413 88.6609C55.1708 87.7704 52.0489 85.4133 51.0272 81.2753C50.6299 79.7563 50.8002 78.0802 50.6867 76.5088C57.1574 70.9041 59.5413 64.0948 58.2358 56.1854C57.3276 50.7379 54.4329 46.2856 49.7785 42.7762C39.0508 49.7951 36.9507 66.9233 48.6433 76.5611C48.5866 78.2897 48.5866 80.123 48.3595 81.9039C48.0757 83.4229 47.2243 84.7324 46.0891 85.9371ZM72.3691 22.4005C85.4807 30.6765 88.9431 49.3237 76.4559 61.5805C76.4559 61.6329 76.4559 61.6853 76.4559 61.6853C76.4559 67.3423 76.4559 72.9993 76.5126 78.6563C76.5126 80.2277 76.9667 81.7467 77.8749 83.161C79.1236 85.1514 80.9967 86.1466 83.4941 86.0943C88.2052 86.0419 91.5541 82.4277 90.9865 77.9754C78.6128 65.6662 81.9616 47.1761 95.13 38.7953C108.412 47.2285 111.59 65.9281 99.2167 78.0278C99.0465 80.2277 99.16 81.4848 99.6708 82.1134C115.62 71.7946 123.794 52.3093 117.21 33.4002C110.853 15.0149 91.5541 1.91998 69.077 3.33423C47.9054 4.69611 30.253 19.0482 26.1095 38.3239C22.1363 57.1283 31.9558 73.8898 45.1242 82.1134C45.7485 80.8039 45.4647 79.3897 45.5215 78.0802C32.9207 65.7185 36.4966 46.9666 49.6082 38.7953C49.7218 38.8477 49.7785 38.9001 49.892 38.9525C58.6331 45.2904 62.4361 53.5664 61.0738 63.7805C60.3359 69.1232 57.8385 73.7326 53.922 77.7135C53.7517 77.8706 53.6382 78.0802 53.6382 78.2373C53.4112 80.4896 54.0355 82.4801 55.9086 84.1038C59.4845 87.1419 66.0687 87.3514 67.7715 80.8039C68.0553 79.7039 68.1689 78.5516 68.2256 77.3992C68.2824 72.3184 68.2256 67.2376 68.2256 62.1567C68.2256 61.9472 68.2256 61.7901 68.2256 61.6329C55.7384 49.1665 59.3143 30.6241 72.3691 22.4005Z" fill="black" />
@@ -436,7 +444,7 @@ const checkBeauty = () => {
     </div>
   </section>
 
-  <section id="routine" v-if="beauty" class="routines">
+  <section id="routine" v-if="store.state.beauty" class="routines">
     <h2 class="title">Routines with Argan oil</h2>
     <TheFilter
       where="routine"
@@ -721,6 +729,18 @@ main {
 
     &.active {
       left: 0;
+    }
+
+    .prices__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-content: space-between;
+      width: 100%;
+      gap: 30px;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
