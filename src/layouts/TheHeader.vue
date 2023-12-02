@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import HeaderSearch from '@/components/HeaderSearch.vue'
 import TheMenu from '@/layouts/TheMenu.vue'
 import CountryAlert from '@/components/CountryAlert.vue'
@@ -17,6 +17,7 @@ interface Library {
 
 const alertActive = ref(false)
 const city = ref('city')
+const hover = ref(0)
 const productLibrary = reactive<Library[]>([
   {
     title: 'Categories',
@@ -101,7 +102,7 @@ onMounted(() => {
     })
   axios.get('https://api-www.beautyid.app/brands?order=ASC&page=1&take=8')
     .then(res => {
-      productLibrary[3].items = res.data.data.map((category: { id: number, applicationName: string }) => ({ id: category.id, text: category.applicationName, param: category.applicationName }))
+      productLibrary[3].items = res.data.data.map((category: { id: number, brandName: string }) => ({ id: category.id, text: category.brandName, param: category.brandName }))
     })
 
   axios.get('https://api-www.beautyid.app/routines/benefits?order=ASC&page=1&take=8')
@@ -116,6 +117,14 @@ onMounted(() => {
     .then(res => {
       routineLibrary[4].items = res.data.data.map((category: { id: number, brandName: string }) => ({ id: category.id, text: category.brandName, param: category.brandName }))
     })
+})
+
+watch(hover, () => {
+  if (hover.value) {
+    document.body.classList.add('menu-active')
+  } else {
+    document.body.classList.remove('menu-active')
+  }
 })
 </script>
 
@@ -134,9 +143,9 @@ onMounted(() => {
     <nav>
       <HeaderSearch />
       <div class="nav-item">
-        <router-link to="/routine-intro">SKIN ROUTINES LIBRARY ↓</router-link>
-        <div class="sub-menu">
-          <div class="sub-menu-content">
+        <router-link to="/routine-intro" @mouseenter="hover = 1" @mouseleave="hover = 0">SKIN ROUTINES LIBRARY ↓</router-link>
+        <div class="sub-menu" :class="{active: hover === 1}">
+          <div class="sub-menu-content" @mouseenter.stop="hover = 1" @mouseleave="hover = 0">
             <div
               v-for="lib of routineLibrary"
               :key="lib.title"
@@ -154,9 +163,9 @@ onMounted(() => {
         </div>
       </div>
       <div class="nav-item">
-        <router-link to="/product-intro">SKIN PRODUCT LIBRARY ↓</router-link>
-        <div class="sub-menu">
-          <div class="sub-menu-content">
+        <router-link to="/product-intro" @mouseenter="hover = 2" @mouseleave="hover = 0">SKIN PRODUCT LIBRARY ↓</router-link>
+        <div class="sub-menu" :class="{active: hover === 2}">
+          <div class="sub-menu-content" @mouseenter="hover = 2" @mouseleave="hover = 0">
             <div
               v-for="lib of productLibrary"
               :key="lib.title"
@@ -193,7 +202,7 @@ header {
   right: 0;
   background: #fff;
   z-index: 2;
-  padding: 20px;
+  padding: 0 20px;
   border-bottom: 1px solid $black;
 
   .header-items {
@@ -227,16 +236,21 @@ header {
       }
     }
     .nav-item {
-      padding: 7px 0;
 
+      > a {
+        display: block;
+        padding: 20px 0;
+
+        &:hover {
+          color: $orange;
+        }
+      }
       .sub-menu {
-        top: 47px;
-        padding-top: 15px;
+        top: 58px;
         position: absolute;
         right: 0;
-        background-color: $white;
-        max-height: calc(100vh - 47px);
-        height: max-content;
+        background-color: rgba(0, 0, 0, 0.4);
+        height: calc(100vh - 47px);
         overflow-y: scroll;
         width: 100%;
         left: 0;
@@ -245,12 +259,19 @@ header {
         transform: translateY(-10px);
         transition: .3s;
 
+        &.active {
+          visibility: visible;
+          opacity: 1;
+          z-index: 1;
+          transform: translateY(0);
+        }
         &-content {
-          border-top: 1px solid $black;
+          background: #fff;
           display: flex;
           padding-bottom: 10px;
 
           .sub-menu-item {
+            border-top: 1px solid $black;
             flex: 1;
           }
           p {
@@ -274,18 +295,6 @@ header {
           }
         }
       }
-
-      &:hover {
-        .sub-menu {
-          visibility: visible;
-          opacity: 1;
-          z-index: 1;
-          transform: translateY(0);
-        }
-        > a {
-          color: $orange;
-        }
-      }
     }
 
     @media (max-width: 768px) {
@@ -294,6 +303,10 @@ header {
     @media (max-width: 480px) {
       gap: 0;
     }
+  }
+
+  @media (max-width: 768px) {
+    padding: 15px;
   }
 }
 </style>

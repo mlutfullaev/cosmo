@@ -173,74 +173,24 @@ const checkBeauty = () => {
       </div>
     </div>
     <div class="prices__inner">
-      <div class="prices__inner-item d-sb">
-        <h3 class="title-secondary">lookfantastic</h3>
-        <p class="txt-highlight">32,00 euro</p>
-      </div>
-      <div class="prices__inner-item d-sb">
-        <h3 class="title-secondary">sephora</h3>
-        <p class="txt-highlight">32,00 euro</p>
-      </div>
-      <div class="prices__inner-item d-sb">
-        <h3 class="title-secondary">douglas</h3>
-        <p class="txt-highlight">32,00 euro</p>
-      </div>
-      <div class="prices__inner-item d-sb">
-        <h3 class="title-secondary">lookfantastic</h3>
-        <p class="txt-highlight">32,00 euro</p>
+      <div
+        v-for="price in prices.slice(0, 3)"
+        :key="price.id"
+        class="prices__inner-item d-sb">
+        <router-link class="link" :to="price.priceGoodLink">{{price.priceShopName}} <span>→</span></router-link>
+        <p class="txt-highlight">{{price.priceValue}} euro</p>
       </div>
       <router-link v-if="!store.state.beauty" to="/registration" class="link bold">discover more <span>→</span></router-link>
       <button v-else class="link bold" @click="pricesMore = true">discover more <span>→</span></button>
     </div>
     <div v-if="store.state.beauty" class="prices-more" :class="{ active: pricesMore }">
       <div class="prices__inner">
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">lookfantastic</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">sephora</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">douglas</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">lookfantastic</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">lookfantastic</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">sephora</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">douglas</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">lookfantastic</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">lookfantastic</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">sephora</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">douglas</h3>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <h3 class="title-secondary">lookfantastic</h3>
-          <p class="txt-highlight">32,00 euro</p>
+        <div
+          v-for="price in prices"
+          :key="price.id"
+          class="prices__inner-item d-sb">
+          <router-link class="link" :to="price.priceGoodLink">{{price.priceShopName}} <span>→</span></router-link>
+          <p class="txt-highlight">{{price.priceValue}} euro</p>
         </div>
       </div>
       <button class="alert-close" @click="pricesMore = false">
@@ -252,7 +202,7 @@ const checkBeauty = () => {
         </svg>
       </button>
     </div>
-    <router-link v-if="store.state.beauty" to="/registration" class="tablet link bold tablet-orange">discover more
+    <router-link v-if="!store.state.beauty" to="/registration" class="tablet link bold tablet-orange">discover more
       <span>→</span></router-link>
   </section>
 

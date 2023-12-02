@@ -361,6 +361,7 @@ const checkBeauty = () => {
   }
   @media (max-width: 768px) {
     grid-template-columns: auto;
+    border-bottom: none;
   }
 }
 </style>
