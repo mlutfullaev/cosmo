@@ -13,7 +13,7 @@ body {
 }
 
 #app {
-  padding-top: 58px;
+  padding-top: 36px;
 }
 
 .logo {
@@ -413,24 +413,9 @@ a {
   grid-gap: 60px 20px;
   padding: 0 60px 20px;
 
-  .routine-card__img, .routine-item {
-    height: 480px;
+  .routine-item {
+    height: calc(100% - 87px);
 
-    @media screen and (max-width: 1600px) {
-      height: 400px;
-    }
-    @media screen and (max-width: 1440px) {
-      height: 350px
-    }
-    @media screen and (max-width: 1240px) {
-      height: 300px;
-    }
-    @media screen and (max-width: 1000px) {
-      height: 400px;
-    }
-    @media screen and (max-width: 768px) {
-      height: 320px;
-    }
   }
   .routine-item {
     display: grid;

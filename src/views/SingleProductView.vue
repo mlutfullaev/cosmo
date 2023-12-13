@@ -14,6 +14,7 @@ import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
+import { useHelpers } from '../../useHelpers'
 
 interface Prices {
   id: number,
@@ -23,6 +24,7 @@ interface Prices {
 }
 
 const route = useRoute()
+const { updateMeta } = useHelpers()
 
 const links = ref([
   {
@@ -88,7 +90,8 @@ const reviews = ref<Review[]>([])
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
     .then(res => {
-      product.value = res.data[0]
+      product.value = res.data
+      updateMeta({ title: res.data.SEOpageTitle, description: res.data.SEOpageDescription, keywords: res.data.SEOpageKeywords })
     })
   axios.get(`https://api-www.beautyid.app/goods/alternative/${route.params.id}?order=ASC&page=1&take=10`)
     .then(res => {
@@ -114,7 +117,8 @@ onMounted(() => {
 watch(route, () => {
   axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
     .then(res => {
-      product.value = res.data[0]
+      product.value = res.data
+      updateMeta({ title: res.data.SEOpageTitle, description: res.data.SEOpageDescription, keywords: res.data.SEOpageKeywords })
     })
 })
 
@@ -134,7 +138,7 @@ const checkBeauty = () => {
       <div>
         <p>{{ product.brand }}</p>
         <h4>{{ product.name }}</h4>
-        <img :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" alt="product-img">
+        <img :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" :alt="product.SEOmainImageAlt">
       </div>
     </div>
     <div class="main-links">

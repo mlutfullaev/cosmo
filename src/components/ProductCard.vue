@@ -24,7 +24,7 @@ defineProps({
     <BaseRate :rates="product.goodRating || 0"/>
     <h4 class="txt-highlight">{{ product.name }}</h4>
     <p class="txt">from 150$</p>
-    <img v-if="!bgImg" :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" alt="">
+    <img v-if="!bgImg" :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" :alt="product.SEOmainImageAlt">
     <p class="recommended" :class="{active: false}">recommended</p>
     <p class="promoted" :class="{active: true}">promoted</p>
     <button>

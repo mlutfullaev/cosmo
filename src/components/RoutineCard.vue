@@ -19,11 +19,8 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
 </script>
 
 <template>
-  <div class="routine-card">
-    <div
-      class="routine-card__img bg-img"
-      @click="$router.push(`/single-routine/${routine.id}`)"
-      :style="routine.authorImage ? {backgroundImage: `url('https://api-www.beautyid.app/images/getimage/${routine.authorImage}')`} : {backgroundImage: `url('${require('@/assets/img/global/placeholder.png')}')`}">
+  <div class="routine-card" >
+    <div class="routine-card__img bg-img">
       <base-rate :rates="3.5"/>
       <div class="activities">
         <button class="activity d-center">
@@ -57,6 +54,10 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
       </div>
       <!-- <p class="recommended" :class="{active: routine.recommended}">recommended</p>
       <p class="promoted" :class="{active: routine.promoted}">promoted</p> -->
+      <img
+        :src="routine.authorImage ? `https://api-www.beautyid.app/images/getimage/${routine.authorImage}` : `${require('@/assets/img/global/placeholder.png')}`"
+        :alt="routine.SEOimageAlt"
+        @click="$router.push(`/single-routine/${routine.id}`)">
     </div>
     <p class="txt-highlight">{{ routine.routineName }}</p>
     <div class="author">
@@ -70,18 +71,24 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .routine-card {
   position: relative;
+
   .routine-card__img {
     position: relative;
-    cursor: pointer;
-    padding: 20px;
     display: grid;
     align-content: space-between;
     justify-content: right;
 
+    img {
+      width: 100%;
+      cursor: pointer;
+    }
     .activities {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
       display: grid;
       gap: 10px;
       justify-content: right;
@@ -92,6 +99,11 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
         flex-direction: column;
         color: #fff;
       }
+    }
+    .base-rates {
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
   }
 

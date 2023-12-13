@@ -10,6 +10,7 @@ const alternatives = ref<{routine: Routine}[]>([])
 onMounted(() => {
   axios.get('https://api-www.beautyid.app/routines/randomnumber/7?order=ASC&page=1&take=7')
     .then(res => {
+      console.log(res.data)
       alternatives.value = res.data.data
     })
 })
@@ -24,7 +25,7 @@ onMounted(() => {
     <RouterLink to="/routine-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
   <h2 class="title routine-result__title">Check alternative routines</h2>
-  
+
   <div class="routines__list">
     <RoutineCard
       v-for="routine in alternatives"
@@ -37,7 +38,7 @@ onMounted(() => {
   </div>
 
   <SearchResultBottom />
-  
+
   <TheFooter/>
 </template>
 

@@ -9,6 +9,10 @@ export interface Product {
   ingredients: string;
   benefits: string;
   goodRating: number;
+  SEOmainImageAlt: string;
+  SEOpageKeywords: string;
+  SEOpageDescription: string;
+  SEOpageTitle: string;
 }
 
 export interface Routine {
@@ -36,6 +40,8 @@ export interface Routine {
   forSearch: string,
   uploadTag: string,
   id: number,
+  SEOimageAlt: string,
+  SEOhoverText: string,
 }
 
 export type StringObject = {
