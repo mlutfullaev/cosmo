@@ -459,6 +459,7 @@ const checkBeauty = () => {
     </div>
   </div>
 
+
   <TheFooter />
 
 </template>
