@@ -16,7 +16,6 @@ import ProductResultNotFound from '@/views/ProductResult/ProductResultNotFound.v
 import ProductIntroView from '@/views/ProductIntroView.vue'
 import ProductFilterView from '@/views/ProductFilterView.vue'
 import SingleProductView from '@/views/SingleProductView.vue'
-import SingleProductViewNew from '@/views/SingleProductViewNew.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -28,11 +27,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/single-product/:id',
     name: 'single-product',
     component: SingleProductView
-  },
-  {
-    path: '/single-product-new/:id',
-    name: 'single-product-new',
-    component: SingleProductViewNew
   },
   {
     path: '/product-results/search/:param',

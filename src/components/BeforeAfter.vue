@@ -39,15 +39,14 @@ const position = ref(50)
 .before-after {
   display: grid;
   place-items: center;
-  padding: 60px;
   background: $orange;
 
   &-content {
     display: grid;
-    place-content: center;
     position: relative;
     overflow: hidden;
     --position: 50%;
+    width: 100%;
 
     .image-container {
       max-height: 7200px;
