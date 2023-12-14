@@ -76,11 +76,6 @@ const checkBeauty = () => {
       </div>
     </div>
     <div class="full-details__inner">
-      <div class="full-details__inner__buttons">
-        <button v-for="tab in aboutTabs" :class="{ active: aboutActiveTab === tab }" :key="tab"
-          @click="aboutActiveTab = tab">{{ tab }}
-        </button>
-      </div>
       <div>
         <Transition name="tab">
           <div class="full-details__inner__tab" v-if="aboutActiveTab === 'about'">
@@ -135,13 +130,15 @@ const checkBeauty = () => {
           </div>
         </Transition>
       </div>
-      <div class="scan" v-if="!store.state.beauty">
-        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
-        <div class="scan-content">
-          <p class="txt-highlight">scan qr code to make most from product page</p>
-          <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
-        </div>
+      <div class="full-details__inner__buttons">
+        <button
+          v-for="tab in aboutTabs"
+          :class="{ active: aboutActiveTab === tab }"
+          :key="tab"
+          @click="aboutActiveTab = tab"
+        >{{ tab }}</button>
       </div>
+      <router-link to="#" class="link bg-orange">see full details <span>→</span></router-link>
     </div>
     <div class="tablet full-details__accordions">
       <div :class="{ active: aboutActiveTab === 'about' }" class="full-details__accordion">
@@ -188,7 +185,6 @@ const checkBeauty = () => {
         </div>
       </div>
     </div>
-    <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
 </template>
 
@@ -210,7 +206,6 @@ const checkBeauty = () => {
 
     &.active {
       color: $orange;
-      border-bottom: none;
     }
 
     &:not(:first-child) {
@@ -291,12 +286,17 @@ const checkBeauty = () => {
     height: 100%;
     border-left: 1px solid $black;
     display: grid;
-    grid-template-rows: 65px 1fr auto;
+    grid-template-rows: auto 1fr 163px;
     overflow: hidden;
 
     &__buttons {
       display: grid;
       grid-template-columns: repeat(3, auto);
+      align-content: center;
+
+      button:nth-child(-n+3) {
+        border-top: 1px solid $black;
+      }
     }
     &__title {
       padding-bottom: 20px;
@@ -323,10 +323,6 @@ const checkBeauty = () => {
 
     .txt:not(.bold) {
       padding-bottom: 20px;
-    }
-    .scan {
-      align-self: end;
-      background: $orange;
     }
 
     @media (max-width: 900px) {

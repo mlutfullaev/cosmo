@@ -4,23 +4,32 @@ import store from '@/store'
 
 const descriptions = ref([
   {
-    title: 'PRODUCT DETAILS',
+    tabText: 'PRODUCT CHECK TO MATCH YOUR SKIN',
+    title: 'PRODUCT DETAILS AT YOUR FINGERTIPS. JUST ASK THE QUESTION.',
     description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
   },
   {
-    title: 'AI ASSISTANCE IN YOUR SMARTPHONE',
+    tabText: 'EFFICIENCY ASSESMENT',
+    title: 'SELF ASSESMENT AND AI ASSISTANCE TO MAKE BEST EVALUATIONS.',
     description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
   },
   {
-    title: 'SKINTWIN RELEVANT ARTICLES',
-    description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
+    tabText: 'ASSISTANT IN THE STORE AND HOME',
+    title: 'NOT A MINUTE WASTED TO WAIT FOR ASSISTANT.',
+    description: 'Just type the Brand and Product Title or scan barcode to get full assistance about the product in the Store or at Home. Works anywhere you can use your smartphone and internet.)'
   },
   {
-    title: 'REMINDERS, NOTIFICATIONS and more',
-    description: 'Your AI Beauty Assistant is always here for Your needs to make quick search or fetch details of the specific product you have in hand now.  In the Store or at home.  Anything You wanted to know about this product now.'
+    tabText: 'PERSONAL REMINDERS TO START',
+    title: 'KEEP CONTROL OF EVERYTHING',
+    description: 'Tell LUX to remind You to use specific product by Wednesdays only or to start on 15th of March next year and keep it fully under control. LUX will remind you when to start or stop using. No need to keep Your Weekly Routine Card.'
+  },
+  {
+    tabText: 'SAVE IT. CHECK IT LATER.',
+    title: 'PERSONAL. BEAUTY.  LIBRARY. ',
+    description: 'Save the Product name to Your notes and check it later in the Store. Your Product Library is the great way to keep beauty products wish list notes.'
   },
 ])
-const activeDesc = ref('PRODUCT DETAILS')
+const activeDesc = ref('PRODUCT CHECK TO MATCH YOUR SKIN')
 
 const checkBeauty = () => {
   store.commit('checkBeauty')
@@ -29,26 +38,27 @@ const checkBeauty = () => {
 
 <template>
   <section id="ai-assistance" class="ai-assistance">
-    <h3 class="title">Get most Support with Your Personal AI Beauty Assistant</h3>
+    <h2 class="section-title">Ask your question</h2>
+    <h3>Get most with Your Personal AI Beauty Assistant</h3>
     <div class="ai-assistance__content">
       <div class="ai-assistance__content__switcher">
         <button
           v-for="(desc, idx) in descriptions"
           :key="desc.title"
-          @click="activeDesc = desc.title"
+          @click="activeDesc = desc.tabText"
           class="txt-highlight"
-          :class="{active: activeDesc === desc.title}"
-        >0{{ idx + 1 }} {{ desc.title }}
+          :class="{active: activeDesc === desc.tabText}"
+        >0{{ idx + 1 }} {{ desc.tabText }}
         </button>
       </div>
       <div class="ai-assistance__content__inner">
         <div
           class="ai-assistance-item"
           v-for="(desc, idx) in descriptions"
-          :key="desc.title"
-          v-show="activeDesc === desc.title">
+          :key="desc.tabText"
+          v-show="activeDesc === desc.tabText">
           <Transition name="tab">
-            <div v-if="activeDesc === desc.title">
+            <div v-if="activeDesc === desc.tabText">
               <h1 class="ai-assistance-number">0{{ idx + 1 }}</h1>
               <div>
                 <p class="txt-highlight">{{ desc.title }}</p>
@@ -58,14 +68,6 @@ const checkBeauty = () => {
           </Transition>
         </div>
       </div>
-      <div class="scan" v-if="!store.state.beauty">
-        <img @click="checkBeauty" src="@/assets/img/global/qr.png" alt="">
-        <div class="scan-content">
-          <p class="txt bold t-up">scan qr code to make most from product page</p>
-          <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-            maximum details about products and experiences Your SkinTwins had with this product.</p>
-        </div>
-      </div>
     </div>
     <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
@@ -73,16 +75,12 @@ const checkBeauty = () => {
 
 <style lang="scss" scoped>
 .ai-assistance {
-  padding: 100px 60px;
+  padding: 150px 60px;
 
   h3 {
-    text-transform: uppercase;
-    padding-bottom: 50px;
-    max-width: 730px;
-
-    @media (max-width: 768px) {
-      padding: 0 20px;
-    }
+    font-size: 36px;
+    font-weight: 700;
+    padding: 20px 0;
   }
 
   &__content {
@@ -155,14 +153,6 @@ const checkBeauty = () => {
         padding-top: 20px;
       }
     }
-  }
-
-  .scan {
-    grid-column: 2;
-    max-width: 900px;
-    margin-left: auto;
-    padding-left: 0;
-    padding-right: 0;
   }
 
   @media (max-width: 768px) {

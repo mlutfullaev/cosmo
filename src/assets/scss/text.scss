@@ -1,0 +1,55 @@
+
+.link {
+  font-family: 'PT Root UI', serif;
+  font-size: 36px;
+  font-style: normal;
+  text-transform: uppercase;
+
+  &:hover {
+    span {
+      right: -20px;
+    }
+  }
+
+  span {
+    transition: .3s;
+    position: relative;
+    right: 0;
+  }
+  &.bg-orange {
+    font-weight: 700;
+    padding: 60px 0;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+  &.tablet-orange {
+    @media (max-width: 768px) {
+      padding: 20px;
+      width: 100%;
+      background: $orange;
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 1541px) {
+    font-size: 30px;
+  }
+  @media (max-width: 1340px) {
+    font-size: 24px;
+  }
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
+}
+
+.section-title {
+  font-size: 150px;
+  font-weight: 500;
+  color: $orange;
+  line-height: 125px;
+
+  &.black {
+    color: $black;
+  }
+}

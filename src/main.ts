@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import TheHeader from '@/layouts/TheHeader.vue'
 import TheFooter from '@/layouts/TheFooter.vue'
-import '@/assets/global.scss'
+import '@/assets/scss/global.scss'
 
 const app = createApp(App)
 app.use(store)

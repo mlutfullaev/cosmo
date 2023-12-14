@@ -14,7 +14,7 @@ function addStyleResource (rule) {
     .loader('style-resources-loader')
     .options({
       patterns: [
-        path.resolve(__dirname, './src/assets/_assets.scss'),
+        path.resolve(__dirname, './src/assets/scss/_assets.scss'),
       ],
     })
 }
