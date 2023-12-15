@@ -1,20 +1,22 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useHelpers } from '@/useHelpers'
 
+const { validateEmail, sendEmail } = useHelpers()
 const emailInput = ref('')
 const errorInput = ref(false)
 const success = ref(false)
 
-const subscribeHandler = () => {
+const subscribeHandler = async () => {
   if (validateEmail(emailInput.value)) {
-    success.value = true
+    const send = await sendEmail(emailInput.value)
+
+    if (send) {
+      success.value = true
+    }
   } else {
     errorInput.value = true
   }
-}
-
-function validateEmail (email: string): boolean {
-  return !!email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
 }
 </script>
 

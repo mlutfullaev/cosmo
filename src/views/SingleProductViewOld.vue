@@ -14,7 +14,7 @@ import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
-import { useHelpers } from '../../useHelpers'
+import { useHelpers } from '../useHelpers'
 
 interface Prices {
   id: number,

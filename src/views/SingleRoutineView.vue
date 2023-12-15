@@ -14,6 +14,8 @@ import 'swiper/css'
 import store from '@/store'
 import BaseSubscripe from '@/components/BaseSubscripe.vue'
 import ModalSubscribe from '@/components/ModalSubscribe.vue'
+import { useHelpers } from '@/useHelpers'
+import BaseHint from '@/components/BaseHint.vue'
 
 interface Step {
   stepOrder: number,
@@ -25,9 +27,9 @@ interface Step {
 }
 
 const route = useRoute()
+const { updateMeta } = useHelpers()
 
 const steps = ref<Step[]>([])
-const stepProduct = ref<Product | null>(null)
 const routine = ref<Routine | null>(null)
 const reviews = ref<Review[]>([])
 const alternatives = ref<{routine: Routine}[]>([])
@@ -36,17 +38,11 @@ onMounted(() => {
     .then(res => {
       routine.value = res.data.routine
       steps.value = res.data.steps
-      if (steps.value.length) {
-        axios.get(`https://api-www.beautyid.app/goods/byid/${steps.value[0].idStepGood}`)
-          .then(res => {
-            stepProduct.value = res.data[0]
-          })
-      }
+      updateMeta({ title: res.data.SEOpageTitle, description: res.data.SEOpageDescription, keywords: res.data.SEOpageKeywords })
     })
   axios.get(`https://api-www.beautyid.app/reviewsroutines/byroutineid/${route.params.id}?order=ASC&page=1&take=10`)
     .then(res => {
       reviews.value = res.data.data
-      console.log(reviews.value)
     })
   axios.get('https://api-www.beautyid.app/routines/randomnumber/11?order=ASC&page=1&take=11')
     .then(res => {
@@ -129,6 +125,45 @@ const checkBeauty = () => {
       </button>
     </div>
   </main>
+
+  <section class="info bg-img">
+    <div class="hint-content">
+      <h2>beauty <br /> <span>meter</span></h2>
+      <BaseHint hint="bla bla bla bla" />
+    </div>
+    <div class="d-center">
+      <h2 class="orange">130</h2>
+      <h3>Beauties tried this routine and evaluated their results </h3>
+    </div>
+    <div class="info__inner">
+      <h3>VERIFIED RESULTS in 8 weeks</h3>
+      <div class="info__inner__item">
+        <p class="txt-highlight">WRINCKLES</p>
+        <p class="name">improvement by average</p>
+        <h3>15%</h3>
+      </div>
+      <div class="info__inner__item">
+        <p class="txt-highlight">WRINCKLES</p>
+        <p class="name">improvement by average</p>
+        <h3>15%</h3>
+      </div>
+      <div class="info__inner__item">
+        <p class="txt-highlight">WRINCKLES</p>
+        <p class="name">improvement by average</p>
+        <h3>15%</h3>
+      </div>
+      <div class="info__inner__item">
+        <p class="txt-highlight">WRINCKLES</p>
+        <p class="name">improvement by average</p>
+        <h3>15%</h3>
+      </div>
+      <div class="info__inner__item">
+        <p class="txt-highlight">WRINCKLES</p>
+        <p class="name">improvement by average</p>
+        <h3>15%</h3>
+      </div>
+    </div>
+  </section>
 
   <section class="steps" v-if="steps.length">
     <div class="steps__text">
@@ -313,6 +348,59 @@ const checkBeauty = () => {
     grid-template-columns: 1fr;
     grid-template-rows: 500px auto;
   }
+}
+
+.info {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  padding: 60px;
+  background-image: url("@/assets/img/product/claims-bg.jpg");
+
+  .hint-content {
+    h2 {
+      font-size: 65px;
+      font-weight: 700;
+      line-height: 60px;
+      color: $orange;
+      text-transform: uppercase;
+
+      span {
+        font-size: 77px;
+      }
+    }
+  }
+  .d-center {
+    h2 {
+      font-weight: 400;
+      font-size: 96px;
+    }
+    h3 {
+      font-size: 36px;
+      font-weight: 700;
+    }
+  }
+  &__inner {
+    h3 {
+      font-size: 32px;
+      font-weight: 400;
+      text-transform: uppercase;
+      padding-bottom: 5px;
+    }
+    &__item {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      grid-gap: 20px;
+      border-bottom: 1px solid $black;
+      align-items: center;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+;
 }
 
 .steps {

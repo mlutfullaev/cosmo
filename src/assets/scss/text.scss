@@ -1,3 +1,141 @@
+// Text
+
+.title {
+  font-size: 46px;
+  font-weight: 700;
+
+  @media (max-width: 1540px) {
+    font-size: 40px;
+  }
+  @media (max-width: 1140px) {
+    font-size: 36px;
+  }
+  @media (max-width: 1000px) {
+    font-size: 30px;
+  }
+}
+
+.title-secondary {
+  font-size: 36px;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 44px;
+
+  @media (max-width: 1000px) {
+    line-height: 30px;
+    font-size: 18px;
+  }
+}
+
+.txt {
+  font-size: 20px;
+
+  &.grey {
+    color: $grey-dark;
+  }
+  @media (max-width: 1540px) {
+    font-size: 16px;
+  }
+}
+
+.txt-highlight {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  span {
+    font-weight: 400;
+  }
+  @media (max-width: 1540px) {
+    font-size: 16px;
+  }
+}
+.your-skin {
+  display: inline-block;
+  width: max-content;
+  border-radius: 20px;
+  background: $green;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+.step {
+  font-size: 150px;
+  color: $orange;
+  font-weight: 400;
+  text-align: center;
+
+  @media (max-width: 1340px) {
+    font-size: 110px;
+  }
+  @media (max-width: 768px) {
+    font-size: 96px;
+  }
+}
+
+.note {
+  font-size: 14px;
+}
+
+.name {
+  text-transform: uppercase;
+  font-size: 20px;
+
+  span {
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+}
+
+.text {
+  font-size: 24px;
+
+  @media (max-width: 1540px) {
+    font-size: 20px;
+  }
+}
+
+.highlight {
+  color: $black;
+  font-family: 'PT Root UI', serif;
+  font-size: 250px;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+
+  @media (max-width: 1340px) {
+    font-size: 150px;
+  }
+  @media (max-width: 1000px) {
+    font-size: 96px;
+  }
+  @media (max-width: 768px) {
+    font-size: 200px;
+  }
+  @media (max-width: 480px) {
+    font-size: 150px;
+  }
+}
+
+.t-up {
+  text-transform: uppercase;
+}
+
+.orange {
+  color: $orange;
+}
+
+.bold {
+  font-weight: 700;
+}
 
 .link {
   font-family: 'PT Root UI', serif;

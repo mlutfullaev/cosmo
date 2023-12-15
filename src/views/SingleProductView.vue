@@ -14,9 +14,10 @@ import BaseRate from '@/components/BaseRate.vue'
 import BaseReviews from '@/components/BaseReviews.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
-import { useHelpers } from '../../useHelpers'
+import { useHelpers } from '../useHelpers'
 import BaseSubscripe from '@/components/BaseSubscripe.vue'
 import ModalSubscribe from '@/components/ModalSubscribe.vue'
+import BaseHint from '@/components/BaseHint.vue'
 
 interface Prices {
   id: number,
@@ -135,7 +136,10 @@ const checkBeauty = () => {
   <section id="reviews" class="reviews" v-if="!store.state.beauty">
     <div class="reviews__text">
       <div class="reviews__text__content">
-        <h2 class="section-title">Reviews</h2>
+        <div class="hint-content">
+          <h2 class="section-title">Reviews </h2>
+          <BaseHint hint="lalalalalalallalallalalalalalalalalal" />
+        </div>
         <h2 class="section-title black">4.7/5</h2>
         <BaseRate :rates="4.5"/>
         <div class="section-subtitle">
@@ -459,7 +463,6 @@ const checkBeauty = () => {
     </div>
   </div>
 
-
   <TheFooter />
 
 </template>
@@ -582,7 +585,10 @@ main {
       align-content: start;
 
       h2 {
-        padding: 10px 0;
+        display: flex;
+        line-height: 120px;
+
+        padding-bottom: 10px;
       }
     }
   }
