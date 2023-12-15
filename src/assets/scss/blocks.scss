@@ -1,16 +1,39 @@
 .services-card {
+  position: relative;
   min-height: 480px;
   display: grid;
   grid-template-rows: 1fr auto;
+  transition: .3s;
+  overflow: hidden;
 
   padding: 60px;
 
+  .bg-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    transition: .3s;
+  }
   h2 {
     padding-bottom: 10px;
   }
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
   .link {
+    position: relative;
+    z-index: 1;
     width: max-content;
     margin-left: auto;
+  }
+  &:hover .bg-img {
+    height: 110%;
+    width: 100%;
   }
   &.disabled {
     position: relative;

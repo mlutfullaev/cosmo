@@ -240,10 +240,11 @@ const checkBeauty = () => {
       <p class="txt">These services are available  for Natural Leaf Argan Oil for all skin profiles directly from Brand or connected Retailers in the area around you.  Services available for Your skin profile can be seen only after login.</p>
     </div>
     <div class="services__inner">
-      <div class="services-card  bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-1.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SAMPLES FOR HONEST REVIEW </h2>
-          <p class="txt">Get involved into New Products Reviews Programs</p>
+          <h2 class="title-secondary bold">YOUR REVIEW MATTERS</h2>
+          <p class="txt">Let Your SkinTwins know Your Experience with this product.</p>
         </div>
         <router-link to="#" class="link">
           <span>
@@ -253,20 +254,11 @@ const checkBeauty = () => {
           </span>
         </router-link>
       </div>
-      <div class="services-card bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
-        <h2 class="title-secondary bold">VIRTUAL DERMATOLOGIST CONSULTANCY </h2>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-3.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SAMPLES FOR HONEST REVIEW </h2>
-          <p class="txt">Get involved into New Products Reviews Programs</p>
+          <h2 class="title-secondary bold">SAMPLES FOR HONEST REVIEW</h2>
+          <p class="txt">Get involved into New Product Review as qualified Tester</p>
         </div>
         <router-link to="#" class="link">
           <span>
@@ -276,10 +268,11 @@ const checkBeauty = () => {
           </span>
         </router-link>
       </div>
-      <div class="services-card disabled bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-5.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">TESTERS FOR QUICK TRY</h2>
-          <p class="txt">Small Testers of this product are are available at selected Retailers to the targeted skin groups only .</p>
+          <h2 class="title-secondary bold">SPEAK OUT DIRECTLY TO THE BRAND</h2>
+          <p class="txt">Direct line to pass Your Suggestions about this product to Brand.  We connect you with benefits Brand is ready to give in exchange to valuable suggestions.</p>
         </div>
         <router-link to="#" class="link">
           <span>
@@ -289,10 +282,11 @@ const checkBeauty = () => {
           </span>
         </router-link>
       </div>
-      <div class="services-card bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-7.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SAMPLES FOR HONEST REVIEW </h2>
-          <p class="txt">Get involved into New Products Reviews Programs</p>
+          <h2 class="title-secondary bold">BEAUTYMETER</h2>
+          <p class="txt">Track Your Skin developments to evaluate efficiency of this product.</p>
         </div>
         <router-link to="#" class="link">
           <span>
@@ -302,20 +296,11 @@ const checkBeauty = () => {
           </span>
         </router-link>
       </div>
-      <div class="services-card bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
-        <h2 class="title-secondary bold">VIRTUAL DERMATOLOGIST CONSULTANCY </h2>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-2.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SAMPLES FOR HONEST REVIEW </h2>
-          <p class="txt">Get involved into New Products Reviews Programs</p>
+          <h2 class="title-secondary bold">QUICK TRY WITH TESTERS</h2>
+          <p class="txt">Testing Samples for You are available in your area</p>
         </div>
         <router-link to="#" class="link">
           <span>
@@ -325,10 +310,40 @@ const checkBeauty = () => {
           </span>
         </router-link>
       </div>
-      <div class="services-card bg-img" :style="{backgroundImage: `url('${require('@/assets/img/global/banner.png')}')`}">
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-4.jpg')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">TESTERS FOR QUICK TRY</h2>
-          <p class="txt">Small Testers of this product are are available at selected Retailers to the targeted skin groups only .</p>
+          <h2 class="title-secondary bold">EXPIRY DATE CHECK</h2>
+          <p class="txt">Scan Barcode and check expiry date</p>
+          <img src="@/assets/img/global/qr.png" alt="qr-code">
+        </div>
+        <router-link to="#" class="link">
+          <span>
+            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
+            </svg>
+          </span>
+        </router-link>
+      </div>
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-6.png')}')`}"></div>
+        <div class="services-card__content">
+          <h2 class="title-secondary bold"> VIRTUAL DERMATOLOGIST SUPPORT</h2>
+          <p class="txt">Video call support by DermoTeam is available related to this product.</p>
+        </div>
+        <router-link to="#" class="link">
+          <span>
+            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
+            </svg>
+          </span>
+        </router-link>
+      </div>
+      <div class="services-card">
+        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-8.png')}')`}"></div>
+        <div class="services-card__content">
+          <h2 class="title-secondary bold">SAVE IT TO YOUR LIBRARY</h2>
+          <p class="txt">Scan QR code and safe this product for future into Your Personal Library</p>
         </div>
         <router-link to="#" class="link">
           <span>
