@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import auth from './auth'
 
 export default createStore({
   state: {
@@ -68,13 +69,12 @@ export default createStore({
       state.productSearch = value
     },
     checkBeauty (state) {
-      console.log(true)
       state.beauty = true
-      console.log(state)
     }
   },
   actions: {
   },
   modules: {
+    auth,
   }
 })

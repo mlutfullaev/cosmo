@@ -16,6 +16,8 @@ import ProductResultNotFound from '@/views/ProductResult/ProductResultNotFound.v
 import ProductIntroView from '@/views/ProductIntroView.vue'
 import ProductFilterView from '@/views/ProductFilterView.vue'
 import SingleProductView from '@/views/SingleProductView.vue'
+import VueCookies from 'vue-cookies'
+import store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -117,6 +119,18 @@ const router = createRouter({
     }
     return { top: 0 }
   },
+})
+
+router.beforeEach((to, from, next) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const auth = VueCookies.get('auth')
+  if (auth) {
+    store.commit('updateLogin', { isLoggedIn: true, user: { name: auth.username } })
+    next()
+  } else {
+    window.location.pathname = '/login/index.html'
+  }
 })
 
 export default router

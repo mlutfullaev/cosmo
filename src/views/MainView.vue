@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useHelpers } from '@/useHelpers'
+
+const { updateMeta } = useHelpers()
+
+onMounted(() => {
+  updateMeta({ title: 'Cosmo', description: 'cosmo is a good website', keywords: 'cosmo, wiki, cool' })
+})
 </script>
 
 <template>
