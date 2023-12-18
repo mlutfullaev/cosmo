@@ -2,7 +2,7 @@
 import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 
-const emit = defineEmits<{(event: 'alert', alert: boolean): void, (event: 'city', city: string): void }>()
+const emit = defineEmits<{(event: 'alert', alert: boolean): void, (event: 'city', city: string): void, (event: 'hideLocation'): void}>()
 const props = defineProps<{ alertActive: boolean, city: string }>()
 
 const another = ref(false)
@@ -17,6 +17,7 @@ watch(() => props.alertActive, () => {
 const cities = ref([] as string[])
 const allCities = ref([] as string[])
 const searchModel = ref('')
+
 function onSearch () {
   if (searchModel.value.length) {
     cities.value = allCities.value.filter(city => city.includes(searchModel.value))
@@ -39,7 +40,7 @@ onMounted(() => {
         emit('city', res.data.city.name)
       })
   } else {
-    emit('city', localStorage.getItem('location') || 'city')
+    emit('hideLocation')
   }
 })
 const fetchCities = () => {

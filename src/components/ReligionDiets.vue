@@ -41,7 +41,7 @@ onMounted(() => {
     id="about"
     class="religionDiets bg-img"
     :style="bg ? { backgroundImage: `url('${require(`@/assets/img/product/${bg}`)}` } : ''">
-    <img v-if="brand.brandLogo" :src="`url('${require(`@/assets/img/product/${brand.brandLogo}`)}`" :alt="brand.SEOlogoAlt">
+    <img v-if="brand.brandLogo" :src="`https://api-www.beautyid.app/images/getimage/${brand.brandLogo}`" :alt="brand.SEOlogoAlt">
     <h2 class="title-secondary bold">{{brandName}}</h2>
     <p class="txt" v-if="brand.brandDescription">
       {{ brand.brandDescription }}

@@ -17,6 +17,7 @@ interface Library {
 
 const alertActive = ref(false)
 const city = ref('city')
+const location = ref(true)
 const hover = ref(0)
 const productLibrary = reactive<Library[]>([
   {
@@ -132,7 +133,7 @@ watch(hover, () => {
   <header class="d-sb">
     <div class="header-items d-sb">
       <router-link to="/" class="logo">cosmo.<span>wiki</span></router-link>
-      <button class="d-center" @click="alertActive = true">
+      <button class="d-center" @click="alertActive = true" v-if="location">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="19" viewBox="0 0 13 19" fill="none">
           <path d="M6.31574 18.0585C5.32689 17.1153 4.42552 16.096 3.57358 15.0273C2.58093 13.7798 1.67956 12.4677 0.983557 11.0262C0.542377 10.1173 0.192476 9.17405 0.0593614 8.16618C-0.138409 6.6791 0.158247 5.29091 0.945525 4.02442C1.98382 2.35098 3.49372 1.34691 5.43338 1.02363C8.00059 0.597665 10.6325 1.85655 11.937 4.10809C12.9639 5.88041 13.0742 7.73641 12.4124 9.65706C11.918 11.0909 11.1649 12.384 10.3016 13.6201C9.22905 15.1604 8.012 16.5752 6.68086 17.8988C6.62761 17.952 6.57056 18.0052 6.51352 18.0547H6.31194L6.31574 18.0585ZM3.4747 7.37129C3.4747 8.98769 4.79824 10.3036 6.42984 10.3036C8.03102 10.3036 9.35456 8.98008 9.35836 7.3789C9.35836 5.75491 8.05004 4.42756 6.44506 4.42376C4.79444 4.41995 3.4785 5.72828 3.4747 7.37129Z" fill="black"/>
         </svg>
@@ -143,7 +144,11 @@ watch(hover, () => {
     <nav>
       <HeaderSearch />
       <div class="nav-item">
-        <router-link to="/routine-intro" @mouseenter="hover = 1" @mouseleave="hover = 0">SKIN ROUTINES LIBRARY ↓</router-link>
+        <router-link
+          to="/routine-intro"
+          @mouseenter="hover = 1"
+          @click="hover = 0"
+          @mouseleave="hover = 0">SKIN ROUTINES LIBRARY ↓</router-link>
         <div class="sub-menu" :class="{active: hover === 1}">
           <div class="sub-menu-content" @mouseenter.stop="hover = 1" @mouseleave="hover = 0">
             <div
@@ -156,14 +161,23 @@ watch(hover, () => {
                 v-for="item in lib.items"
                 :to="`/routine-results/menu/${item.param}`"
                 :key="item.id"
+                @click="hover = 0"
               >{{ item.text }}</RouterLink>
-              <RouterLink v-if="lib.viewAll" :to="lib.viewAll" class="note">view all →</RouterLink>
+              <RouterLink
+                v-if="lib.viewAll"
+                :to="lib.viewAll"
+                @click="hover = 0"
+                class="note">view all →</RouterLink>
             </div>
           </div>
         </div>
       </div>
       <div class="nav-item">
-        <router-link to="/product-intro" @mouseenter="hover = 2" @mouseleave="hover = 0">SKIN PRODUCT LIBRARY ↓</router-link>
+        <router-link
+          to="/product-intro"
+          @mouseenter="hover = 2"
+          @click="hover = 0"
+          @mouseleave="hover = 0">SKIN PRODUCT LIBRARY ↓</router-link>
         <div class="sub-menu" :class="{active: hover === 2}">
           <div class="sub-menu-content" @mouseenter="hover = 2" @mouseleave="hover = 0">
             <div
@@ -176,8 +190,13 @@ watch(hover, () => {
                 v-for="item in lib.items"
                 :to="`/product-results/menu/${item.param}`"
                 :key="item.id"
+                @click="hover = 0"
               >{{ item.text }}</RouterLink>
-              <RouterLink v-if="lib.viewAll" :to="lib.viewAll" class="note">view all →</RouterLink>
+              <RouterLink
+                v-if="lib.viewAll"
+                :to="lib.viewAll"
+                @click="hover = 0"
+                class="note">view all →</RouterLink>
             </div>
           </div>
         </div>
@@ -187,6 +206,7 @@ watch(hover, () => {
     <CountryAlert
       :city="city"
       :alert-active="alertActive"
+      @hideLocation="location = false"
       @alert="(value: boolean) => alertActive = value"
       @city="(value: string) => city = value"/>
   </header>

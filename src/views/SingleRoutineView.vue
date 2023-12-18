@@ -72,7 +72,7 @@ const checkBeauty = () => {
     <div class="main__image bg-img"></div>
     <div class="main__inner">
       <div class="main__inner__top">
-        <h2>Spring Revitalising Routine</h2>
+        <h2 class="section-text">Spring Revitalising Routine</h2>
         <p class="txt">Personalized Beauty Routine for Individuals for scandic people with oily problematic skin. Unlock the Secrets of Scandic Beauty: Embrace a Natural, Effortless, and Radiant Routine.</p>
         <div class="d-center">
           <router-link to="#">#dry skin</router-link>
@@ -128,12 +128,12 @@ const checkBeauty = () => {
 
   <section class="info bg-img">
     <div class="hint-content">
-      <h2>beauty <br /> <span>meter</span></h2>
+      <h2>beauty <span>meter</span></h2>
       <BaseHint hint="bla bla bla bla" />
     </div>
     <div class="d-center">
       <h2 class="orange">130</h2>
-      <h3>Beauties tried this routine and evaluated their results </h3>
+      <h3 class="section-text">Beauties tried this routine and evaluated their results </h3>
     </div>
     <div class="info__inner">
       <h3>VERIFIED RESULTS in 8 weeks</h3>
@@ -167,33 +167,31 @@ const checkBeauty = () => {
 
   <section class="steps" v-if="steps.length">
     <div class="steps__text">
-      <div class="steps__text__content">
-        <h2 class="section-title">5 Step Beauty Ritual</h2>
-        <p class="txt">This routine is intended for use during Spring and Early Summer to keep Dry skin hydrated and prepared for comming Summer direct sun exposure.  Noisturing skin done on multiple steps and provided universal get-prepared foundation for next step in Your Beauty Journey.</p>
-      </div>
-      <button @click="modalActive = true"  class="link bg-orange">SEE PRODUCTS USED IN THIS ROUTINE <span>→</span></button>
+      <h2 class="section-title">5 Step Beauty Ritual</h2>
+      <p class="txt">This routine is intended for use during Spring and Early Summer to keep Dry skin hydrated and prepared for comming Summer direct sun exposure.  Noisturing skin done on multiple steps and provided universal get-prepared foundation for next step in Your Beauty Journey.</p>
     </div>
     <div class="steps__inner bg-img">
-      <div class="steps__inner__content">
+      <div class="steps__inner__content block-scroll">
         <div
           v-for="(step, index) in steps"
           :key="step.id"
           class="steps__item">
           <div class="steps__item__text">
-            <h3>{{step.stepName}}</h3>
+            <h3 class="section-text">{{step.stepName}}</h3>
             <p class="txt">{{step.stepDescription}}</p>
           </div>
           <h3 class="steps__item__step">{{index + 1}}.</h3>
         </div>
       </div>
     </div>
+    <button @click="modalActive = true"  class="link bg-orange">SEE PRODUCTS USED IN THIS ROUTINE <span>→</span></button>
   </section>
 
-  <section id="reviews" class="reviews">
+  <section v-if="routine" id="reviews" class="reviews">
     <div class="reviews__text">
       <div class="reviews__text__content">
         <h2 class="section-title">Reviews</h2>
-        <h2 class="section-title black">4.7/5</h2>
+        <h2 class="section-title black">{{routine.authorRank}}/5</h2>
         <BaseRate :rates="4.5"/>
         <div class="section-subtitle">
           <h3>126</h3>
@@ -205,6 +203,24 @@ const checkBeauty = () => {
     <div class="reviews__picture bg-img">
       <h3 class="title">Check your SkinTwins experiences with Argan Oil</h3>
     </div>
+  </section>
+
+  <section id="routine" class="routines" v-if="alternatives.length">
+    <div class="routines__top">
+      <h2 class="section-title">Alternative Routines</h2>
+      <div class="section-subtitle">
+        <h3>130</h3>
+        <p>Beautyties are using this product in their registered routines</p>
+      </div>
+      <p class="txt">Beauty Routines where Natural Leaf Argon Oil is used as part of the ritual. These Routines are selected based on the general use without any skin type or skin specifics filtration. To see personalised routines recommendation You should login.  </p>
+    </div>
+    <div class="routines__list">
+      <RoutineCard v-for="routine in alternatives" :routine="routine.routine" :key="routine.routine.id" />
+      <div class="routine-item center bg-orange min-tablet">
+        <router-link to="#" class="link bold">SEE MORE ROUTINES <span>→</span></router-link>
+      </div>
+    </div>
+    <router-link to="#" class="link bold tablet bg-orange">SEE MORE ROUTINES <span>→</span></router-link>
   </section>
 
   <div class="progress">
@@ -219,59 +235,12 @@ const checkBeauty = () => {
     <BeforeAfter/>
   </div>
 
-  <section id="routine" class="routines" v-if="alternatives.length">
-    <div class="routines__top">
-      <div>
-        <h2 class="section-title">Alternative Routines</h2>
-        <div class="section-subtitle">
-          <h3>130</h3>
-          <p>Beautyties are using this product in their registered routines</p>
-        </div>
-      </div>
-      <p class="txt">Beauty Routines where Natural Leaf Argon Oil is used as part of the ritual. These Routines are selected based on the general use without any skin type or skin specifics filtration. To see personalised routines recommendation You should login.  </p>
-    </div>
-    <div class="routines__list">
-      <RoutineCard v-for="routine in alternatives" :routine="routine.routine" :key="routine.routine.id" />
-      <div class="routine-item center bg-orange">
-        <router-link to="#" class="link bold bg-orange">SEE MORE ROUTINES <span>→</span></router-link>
-      </div>
-    </div>
-  </section>
-
   <AiAssistance v-if="!store.state.beauty"/>
 
   <BaseSubscripe />
 
   <div class="modal" :class="{active: modalActive}" @click="modalActive = false">
     <ModalSubscribe :active="modalActive" />
-  </div>
-
-  <div class="sidebar">
-    <div class="sidebar-item">
-      <a href="#" class="txt-highlight">like this routine</a>
-      <div class="sidebar-content d-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="34" viewBox="0 0 38 34" fill="none">
-          <path d="M19.9 31.8483C19.3269 32.0506 18.3831 32.0506 17.81 31.8483C12.922 30.1798 2 23.2191 2 11.4213C2 6.21348 6.19689 2 11.3714 2C14.439 2 17.1526 3.48314 18.855 5.77528C20.5574 3.48314 23.2879 2 26.3386 2C31.5131 2 35.71 6.21348 35.71 11.4213C35.71 23.2191 24.788 30.1798 19.9 31.8483Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-    <div class="sidebar-item">
-      <a href="#" class="txt-highlight">add to your library TO START USING  THIS ROUTINE</a>
-      <div class="sidebar-content d-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
-          <path d="M26.8265 31.2436L18.06 24.288C16.8707 23.3446 15.1313 23.3922 14.0007 24.3997L7.01491 31.2518C5.05811 32.998 1.85547 31.4691 1.85547 28.9181V4.91711C1.85547 3.30753 3.22741 2 4.92113 2H28.7898C30.4814 2 31.8555 3.30546 31.8555 4.91711V29.003C31.8555 31.4753 28.8246 32.8262 26.8287 31.2436H26.8265Z" stroke="currentColor" stroke-width="3" stroke-miterlimit="10"/>
-        </svg>
-      </div>
-    </div>
-    <div class="sidebar-item">
-      <a href="#" class="txt-highlight">share this routine</a>
-      <div class="sidebar-content d-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none">
-          <path d="M20.8555 1H31.8555M31.8555 1V12M31.8555 1L15.8555 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M13.8555 5H3.85547C2.7509 5 1.85547 5.89543 1.85547 7V29C1.85547 30.1046 2.7509 31 3.85547 31H25.8555C26.96 31 27.8555 30.1046 27.8555 29V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
   </div>
 
   <TheFooter/>
@@ -295,9 +264,6 @@ const checkBeauty = () => {
     padding: 60px;
 
     &__top {
-      h2 {
-        font-size: 36px;
-      }
       p {
         padding: 10px 0;
       }
@@ -323,12 +289,17 @@ const checkBeauty = () => {
         }
       }
     }
+
+    @media (max-width: 1200px) {
+      padding: 20px;
+    }
   }
   &__hint {
     display: flex;
-    position: absolute;
-    top: 0;
+    position: fixed;
+    top: 57px;
     right: 20px;
+    z-index: 2;
 
     button {
       background: #000;
@@ -353,12 +324,15 @@ const checkBeauty = () => {
 .info {
   display: grid;
   grid-gap: 30px;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 300px auto auto;
   align-items: center;
   padding: 60px;
   background-image: url("@/assets/img/product/claims-bg.jpg");
 
   .hint-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+
     h2 {
       font-size: 65px;
       font-weight: 700;
@@ -368,6 +342,13 @@ const checkBeauty = () => {
 
       span {
         font-size: 77px;
+
+        @media (max-width: 768px) {
+          font-size: inherit;
+        }
+      }
+      @media (max-width: 768px) {
+        font-weight: 500;
       }
     }
   }
@@ -376,10 +357,12 @@ const checkBeauty = () => {
       font-weight: 400;
       font-size: 96px;
     }
-    h3 {
-      font-size: 36px;
-      font-weight: 700;
-    }
+
+    @media (max-width: 1200px) and (min-width: 768px) {
+      flex-direction: column;
+      align-items: start;
+      gap: 0;
+  }
   }
   &__inner {
     h3 {
@@ -400,7 +383,17 @@ const checkBeauty = () => {
       }
     }
   }
-;
+
+  @media (max-width: 1400px) {
+    padding: 60px 40px;
+    grid-gap: 20px;
+  }
+  @media (max-width: 1200px) {
+    padding: 60px 20px;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .steps {
@@ -408,20 +401,21 @@ const checkBeauty = () => {
   grid-template-columns: 1fr 1fr;
 
   &__text {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    padding-top: 100px;
+    padding: 100px 20px 20px;
 
-    &__content {
-      padding: 0 20px;
-    }
     h2 {
       padding-bottom: 30px;
+    }
+
+    @media (max-width: 1000px) {
+      padding-top: 20px;
     }
   }
   &__inner {
     border-left: 1px solid $black;
+    background-position: top center;
     background-image: url("@/assets/img/routine/steps-bg.png");
+    grid-row: 1 / 3;
 
     padding: 100px 20px;
 
@@ -429,18 +423,6 @@ const checkBeauty = () => {
       max-height: 700px;
       overflow-y: auto;
 
-      &::-webkit-scrollbar {
-        width: 7px;
-      }
-      &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: #888;
-      }
-      &::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
       .steps__item {
         display: grid;
         grid-template-columns: 1fr auto 1fr;
@@ -448,8 +430,6 @@ const checkBeauty = () => {
 
         &__text {
           h3 {
-            font-size: 36px;
-            font-weight: bold;
             border-bottom: 1px solid $orange;
 
             padding-bottom: 10px;
@@ -462,6 +442,10 @@ const checkBeauty = () => {
           font-weight: 400;
           position: relative;
           top: -10px;
+
+          @media (max-width: 1000px) {
+            font-size: 56px;
+          }
         }
         &:nth-child(even) {
           .steps__item__step {
@@ -474,13 +458,32 @@ const checkBeauty = () => {
         }
       }
     }
+
+    @media (max-width: 1000px) {
+      padding: 50px 20px;
+    }
+    @media (max-width: 768px) {
+      grid-row: 2;
+    }
+  }
+  button {
+    grid-column: 1;
+    grid-row: 2;
+
+    @media (max-width: 768px) {
+      grid-row: 3;
+    }
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 }
 
 .reviews {
   border-bottom: 1px solid $black;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   height: 1000px;
 
   &__text {
@@ -499,7 +502,7 @@ const checkBeauty = () => {
     }
   }
   &__picture {
-    @include pad();
+    padding: 60px;
     background-image: url("@/assets/img/product/reviews-img.png");
     color: $white;
     display: flex;
@@ -508,7 +511,13 @@ const checkBeauty = () => {
     text-align: center;
 
     @media (max-width: 768px) {
-      display: none;
+      padding: 120px 20px;
+      grid-row: 1;
+
+      .title {
+        max-width: 410px;
+        margin: 0 auto;
+      }
     }
   }
 
@@ -516,6 +525,47 @@ const checkBeauty = () => {
     grid-template-columns: auto;
     height: auto;
     border: none;
+  }
+}
+
+.routines {
+  padding-top: 200px;
+
+  &__top {
+    padding: 0 20px 40px;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+
+    .section-title {
+      @media (max-width: 1200px) {
+        grid-column: 1 / 3;
+      }
+    }
+    .section-subtitle {
+      grid-column: 1;
+      grid-row: 2;
+
+      @media (max-width: 768px) {
+        grid-column: 1 / 3;
+      }
+    }
+    .txt {
+      grid-column: 2;
+      grid-row: 1 / 3;
+
+      @media (max-width: 1200px) {
+        grid-row: 2;
+        grid-column: 2;
+      }
+      @media (max-width: 768px) {
+        grid-row: 3;
+        grid-column: 1 / 3;
+      }
+    }
+  }
+  @media (max-width: 1000px) {
+    padding-top: 50px;
   }
 }
 
@@ -537,64 +587,6 @@ const checkBeauty = () => {
   }
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-  }
-}
-
-.routines {
-  padding-top: 200px;
-
-  &__top {
-    padding: 0 20px 40px;
-    display: grid;
-    grid-gap: 20px;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.sidebar {
-  position: fixed;
-  top: 50%;
-  display: grid;
-  transform: translateY(-50%);
-  right: 0;
-
-  &-item {
-    display: grid;
-    gap: 10px;
-    align-items: center;
-    justify-content: right;
-    justify-self: right;
-    grid-template-columns: auto auto;
-    max-width: 60px;
-    overflow: hidden;
-    transition: .3s;
-    background-color: #fff;
-
-    a {
-      padding-left: 15px;
-      width: max-content;
-      color: #fff;
-    }
-    .sidebar-content {
-      width: 60px;
-      height: 55px;
-    }
-    svg path, svg rect, svg circle {
-      transition: .3s;
-      color: $orange;
-    }
-    &:hover {
-      background-color: $orange;
-      max-width: 550px;
-
-      svg path, svg rect, svg circle {
-        color: $white;
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    display: none;
   }
 }
 </style>

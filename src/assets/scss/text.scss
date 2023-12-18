@@ -27,6 +27,15 @@
   }
 }
 
+.section-text {
+  font-size: 36px;
+  font-weight: 700;
+
+  @media (max-width: 1000px) {
+    font-size: 30px;
+  }
+}
+
 .txt {
   font-size: 20px;
 
@@ -156,10 +165,17 @@
   }
   &.bg-orange {
     font-weight: 700;
-    padding: 60px 0;
+    padding: 60px 20px;
     text-align: center;
     display: block;
     width: 100%;
+
+    @media (max-width: 1000px) {
+      padding: 40px 20px;
+    }
+    @media (max-width: 768px) {
+      padding: 20px;
+    }
   }
   &.tablet-orange {
     @media (max-width: 768px) {
@@ -187,6 +203,13 @@
   color: $orange;
   line-height: 145px;
 
+  @media (max-width: 1200px) {
+    font-size: 140px;
+  }
+  @media (max-width: 1000px) {
+    font-size: 80px;
+    line-height: 80px;
+  }
   &.black {
     color: $black;
   }

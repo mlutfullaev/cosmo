@@ -18,6 +18,7 @@ import { useHelpers } from '../useHelpers'
 import BaseSubscripe from '@/components/BaseSubscripe.vue'
 import ModalSubscribe from '@/components/ModalSubscribe.vue'
 import BaseHint from '@/components/BaseHint.vue'
+import router from '@/router'
 
 interface Prices {
   id: number,
@@ -120,8 +121,12 @@ const checkBeauty = () => {
       </div>
     </div>
     <div class="main-links">
-      <div v-for="link in links" :key="link.link" class="main-links-item">
-        <RouterLink :to="`#${link.link}`" class="link">{{ link.title }}</RouterLink>
+      <div
+        v-for="link in links"
+        :key="link.link"
+        class="main-links-item"
+        @click="router.push(`#${link.link}`)">
+        <h3 class="title-secondary">{{ link.title }}</h3>
         <p class="txt t-up">{{ link.description }}</p>
       </div>
     </div>
@@ -166,7 +171,7 @@ const checkBeauty = () => {
 <!--    <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>-->
 <!--  </section>-->
 
-  <section id="prices" class="prices">
+  <section id="prices" class="prices" v-if="prices.length">
     <div class="prices__text">
       <h2 class="section-title">Prices</h2>
       <div class="section-subtitle">
@@ -185,18 +190,6 @@ const checkBeauty = () => {
           class="prices__inner__content__item d-sb">
           <router-link class="link bold" :to="price.priceGoodLink">{{price.priceShopName}} <span>→</span></router-link>
           <p class="txt-highlight">{{price.priceValue}} euro</p>
-        </div>
-        <div class="prices__inner__content__item d-sb">
-          <router-link class="link bold" to="#">lookfantastic <span>→</span></router-link>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner__content__item d-sb">
-          <router-link class="link bold" to="#">lookfantastic <span>→</span></router-link>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner__content__item d-sb">
-          <router-link class="link bold" to="#">lookfantastic <span>→</span></router-link>
-          <p class="txt-highlight">32,00 euro</p>
         </div>
       </div>
       <button @click="modalActive = true" class="link bg-orange">CHECK YOUR SKIN TYPE REVIEWS <span>→</span></button>
@@ -549,6 +542,7 @@ main {
     display: grid;
 
     &-item {
+      cursor: pointer;
       padding: 30px 50px;
 
       &:not(:last-child) {
@@ -666,10 +660,9 @@ main {
 
     &__content {
       padding: 100px 60px;
-      display: flex;
+      display: grid;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
 
       &__item {
         padding: 40px 10px;
