@@ -69,7 +69,6 @@ const checkBeauty = () => {
         </div>
       </div>
     </div>
-    <router-link to="#" class="tablet link bold tablet-orange">discover more <span>→</span></router-link>
   </section>
 </template>
 
@@ -80,7 +79,7 @@ const checkBeauty = () => {
   h3 {
     font-size: 36px;
     font-weight: 700;
-    padding: 20px 0;
+    padding: 10px 0 60px;
   }
 
   &__content {
@@ -107,7 +106,6 @@ const checkBeauty = () => {
     }
     @media (max-width: 768px) {
       grid-template-columns: auto;
-      padding: 0 20px;
       grid-gap: 20px;
     }
   }
@@ -142,6 +140,9 @@ const checkBeauty = () => {
       @media (max-width: 1000px) {
         font-size: 96px;
       }
+      @media (max-width: 768px) {
+        border-top: 1px solid $black;
+      }
     }
 
     p {
@@ -151,12 +152,20 @@ const checkBeauty = () => {
       &.txt-highlight {
         border-top: 1px solid $black;
         padding-top: 20px;
+
+        @media (max-width: 768px) {
+          border-top: none;
+          padding-top: 0;
+        }
       }
     }
   }
 
+  @media (max-width: 1200px) {
+    padding: 120px 20px;
+  }
   @media (max-width: 768px) {
-    padding: 60px 0;
+    padding: 60px 20px;
   }
 }
 </style>

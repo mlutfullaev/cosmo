@@ -315,6 +315,9 @@ header {
           }
         }
       }
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
 
     @media (max-width: 768px) {

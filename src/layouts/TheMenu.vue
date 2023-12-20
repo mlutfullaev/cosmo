@@ -84,7 +84,7 @@ const subMenu = ref('')
 <style lang="scss" scoped>
 .btn-burger {
   position: fixed;
-  top: 13px;
+  top: 8px;
   right: 13px;
   width: 40px;
   padding-left: 1px;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 import { Product } from '@/interfaces'
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
@@ -7,20 +7,20 @@ import store from '@/store'
 
 const props = defineProps<{ product: Product }>()
 
-const aboutActiveTab = ref('about')
-const aboutTabs = ref(['about', 'ingredients', 'how to use'])
+const activeTab = ref('')
+const tabs = ref(['Full details', 'Key Ingredients'])
 
 const slides = ref(JSON.parse(props.product.pictures))
-const currentSlide = ref(0)
+const currentSlide = ref<string | number>(0)
 const prev = () => {
-  currentSlide.value = currentSlide.value ? currentSlide.value - 1 : slides.value.length - 1
+  currentSlide.value = currentSlide.value ? +currentSlide.value - 1 : slides.value.length - 1
 }
 const next = () => {
-  currentSlide.value = currentSlide.value === slides.value.length - 1 ? 0 : currentSlide.value + 1
+  currentSlide.value = currentSlide.value === slides.value.length - 1 ? 0 : +currentSlide.value + 1
 }
-const checkBeauty = () => {
-  store.commit('checkBeauty')
-}
+onMounted(() => {
+  activeTab.value = tabs.value[0]
+})
 </script>
 
 <template>
@@ -75,115 +75,19 @@ const checkBeauty = () => {
         ></button>
       </div>
     </div>
-    <div class="full-details__inner">
-      <div>
-        <Transition name="tab">
-          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'about'">
-            <h3 class="title" style="padding-bottom: 20px">{{ product.name }}</h3>
-            <p class="txt" style="padding-bottom: 20px">{{ product.description }}</p>
-            <p class="txt-highlight">benefits:</p>
-            <div v-if="product.benefits">
-              <p
-                class="txt-highlight"
-                v-for="benefit in product.benefits.split('``')"
-                :key="benefit"
-                >+ {{ benefit }}</p>
-            </div>
-          </div>
-        </Transition>
-        <Transition name="tab">
-          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'ingredients' && store.state.beauty">
-            <p class="txt bold">KEY INGREDIENTS</p>
-            <div v-if="product.ingredients">
-              <p
-                v-for="(ingredient, idx) in product.ingredients.split('``')"
-                class="txt bold"
-                :key="ingredient"
-              >{{ idx + 1 }}: {{ ingredient }}</p>
-              <br />
-            </div>
-            <p class="txt">
-              <b>Full ingredients: </b>
-              dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus
-              nunc. Viverra massa tincidunt massa nibh vestibulum proin vitae enim lectus. Convallis dolor hac integer
-              euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.
-            </p>
-          </div>
-          <div class="full-details__inner__tab scan-tab" v-else-if="aboutActiveTab === 'ingredients' && !store.state.beauty">
-            <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
-            <div class="scan-content">
-              <p class="txt-highlight">scan qr code to make most from product page</p>
-              <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
-            </div>
-          </div>
-        </Transition>
-        <Transition name="tab">
-          <div class="full-details__inner__tab" v-if="aboutActiveTab === 'how to use' && store.state.beauty">
-            <p class="txt">{{ product.manual }}</p>
-          </div>
-          <div class="full-details__inner__tab scan-tab" v-else-if="aboutActiveTab === 'how to use' && !store.state.beauty">
-            <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
-            <div class="scan-content">
-              <p class="txt-highlight">scan qr code to make most from product page</p>
-              <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
-            </div>
-          </div>
-        </Transition>
-      </div>
-      <div class="full-details__inner__buttons">
-        <button
-          v-for="tab in aboutTabs"
-          :class="{ active: aboutActiveTab === tab }"
-          :key="tab"
-          @click="aboutActiveTab = tab"
-        >{{ tab }}</button>
-      </div>
-      <router-link to="#" class="link bg-orange">see full details <span>→</span></router-link>
+    <div class="full-details__buttons">
+      <button
+        v-for="tab in tabs"
+        :key="tab"
+        @click="activeTab = tab"
+        :class="{active: activeTab === tab}"
+      >{{ tab }}</button>
     </div>
-    <div class="tablet full-details__accordions">
-      <div :class="{ active: aboutActiveTab === 'about' }" class="full-details__accordion">
-        <button :class="{ active: aboutActiveTab === 'about' }" @click="aboutActiveTab = 'about'">about</button>
-        <div class="full-details__inner__tab">
-          <h3 class="title" style="padding-bottom: 20px">{{ product.name }}</h3>
-          <p class="txt" style="padding-bottom: 20px">{{ product.description }}</p>
-          <p class="txt-highlight">benefits:</p>
-          <div v-if="product.benefits">
-            <p
-              class="txt-highlight"
-              v-for="benefit in product.benefits.split('``')"
-              :key="benefit"
-              >+ {{ benefit }}</p>
-          </div>
-        </div>
-      </div>
-      <div :class="{ active: aboutActiveTab === 'ingredients' }" class="full-details__accordion">
-        <button :class="{ active: aboutActiveTab === 'ingredients' }" @click="aboutActiveTab = 'ingredients'">ingredients</button>
-        <div class="full-details__inner__tab">
-          <p class="txt bold">KEY INGREDIENTS</p>
-          <div v-if="product.ingredients">
-            <p
-              v-for="(ingredient, idx) in product.ingredients.split('``')"
-              class="txt bold"
-              :key="ingredient"
-            >{{ idx + 1 }}: {{ ingredient }}</p>
-            <br />
-          </div>
-          <p class="txt">
-            <b>Full ingredients: </b>
-            dolor sit amet consectetur. Cursus aenean odio proin eget non aliquam. Tincidunt nunc auctor nibh risus
-            nunc. Viverra massa tincidunt massa nibh vestibulum proin vitae enim lectus. Convallis dolor hac integer
-            euismod in id cras elit purus. Ornare tortor sociis eu massa. Dui egestas est.
-          </p>
-        </div>
-      </div>
-      <div :class="{ active: aboutActiveTab === 'how to use' }" class="full-details__accordion">
-        <button :class="{ active: aboutActiveTab === 'how to use' }" @click="aboutActiveTab = 'how to use'">
-          how to use
-        </button>
-        <div class="full-details__inner__tab">
-          <p class="txt">{{ product.manual }}</p>
-        </div>
-      </div>
+    <div class="full-details__inner">
+      <p class="txt-highlight orange tablet">{{ activeTab }}</p>
+      <h3 class="title">{{ product.name }}</h3>
+      <p class="txt">{{ product.description }}</p>
+      <router-link to="#" class="link bg-orange">see full details <span>→</span></router-link>
     </div>
   </section>
 </template>
@@ -192,32 +96,14 @@ const checkBeauty = () => {
 .full-details {
   display: grid;
   grid-template-columns: 50% 50%;
+  grid-template-rows: auto 1fr;
   align-items: center;
   border-bottom: 1px solid $black;
 
-  button {
-    width: 100%;
-    padding: 20px 50px;
-    text-transform: uppercase;
-    font-size: 20px;
-    transition: .3s;
-    color: $black;
-    border-bottom: 1px solid $black;
-
-    &.active {
-      color: $orange;
-    }
-
-    &:not(:first-child) {
-      border-left: 1px solid $black;
-    }
-
-    @media (max-width: 1200px) {
-      padding: 20px;
-    }
-  }
   &__slider {
     position: relative;
+    grid-row: 1 / 3;
+    grid-column: 1;
     padding: 50px 20px;
 
     #carousel {
@@ -276,85 +162,70 @@ const checkBeauty = () => {
       padding: 30px;
     }
     @media (max-width: 768px) {
+      grid-row: 2;
+
       padding: 20px;
+
       .pagination {
         display: flex;
       }
     }
   }
+  &__buttons {
+    padding: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    border-left: 1px solid $black;
+    gap: 10px;
+
+    button {
+      border: 1px solid $black;
+      text-transform: uppercase;
+      background-color: transparent;
+      width: max-content;
+      font-size: 14px;
+      padding: 10px;
+      transition: .3s;
+
+      &.active, &:hover {
+        border-color: $orange;
+        font-weight: 700;
+        color: $white;
+        background-color: $orange;
+      }
+    }
+    @media (max-width: 1200px) {
+      padding: 60px 20px;
+    }
+    @media (max-width: 768px) {
+      border-left: none;
+      grid-row: 1;
+    }
+  }
   &__inner {
     height: 100%;
     border-left: 1px solid $black;
-    display: grid;
-    grid-template-rows: auto 1fr 163px;
-    overflow: hidden;
+    position: relative;
+    padding: 0 60px 140px;
 
-    &__buttons {
-      display: grid;
-      grid-template-columns: repeat(3, auto);
-      align-content: center;
-
-      button:nth-child(-n+3) {
-        border-top: 1px solid $black;
-      }
+    .txt-highlight {
+      padding-bottom: 10px;
     }
-    &__title {
+    h3 {
       padding-bottom: 20px;
     }
-    &__tab {
-      padding: 60px;
-
-      .txt.bold {
-        padding-bottom: 10px;
-      }
-      &.scan-tab {
-        display: flex;
-        gap: 20px;
-        height: 100%;
-        align-items: center;
-      }
-      @media (max-width: 1200px) {
-        padding: 40px;
-      }
-      @media (max-width: 1000px) {
-        padding: 20px;
-      }
+    .link {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
 
-    .txt:not(.bold) {
-      padding-bottom: 20px;
-    }
-
-    @media (max-width: 900px) {
-      border-top: 1px solid $black;
-      grid-template-rows: auto auto auto;
-    }
-    @media (max-width: 768px) {
-      display: none;
-    }
-  }
-  &__accordion {
-    button {
-      text-align: left;
-    }
-    .full-details__inner__tab {
-      max-height: 0;
-      overflow: hidden;
-      transition: .3s;
-      padding: 0 20px;
-    }
-
-    &.active {
-      .full-details__inner__tab {
-        padding: 20px;
-        max-height: 400px;
-      }
+    @media (max-width: 1200px) {
+      padding: 0 20px 140px;
     }
   }
 
-  @media (max-width: 1000px) {
-    grid-template-columns: 46% 54%;
-  }
   @media (max-width: 768px) {
     grid-template-columns: auto;
     border-bottom: none;

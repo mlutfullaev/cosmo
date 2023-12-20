@@ -415,7 +415,7 @@ a {
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid $black;
   grid-gap: 60px 20px;
-  padding: 0 60px 20px;
+  padding: 60px;
 
   .routine-item {
     display: grid;
@@ -447,12 +447,22 @@ a {
       grid-column: 1;
     }
   }
+
+  @media screen and (max-width: 1200px) {
+    padding: 60px 20px;
+  }
   @media screen and (max-width: 1000px) {
+    padding: 20px;
     grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
   }
   @media screen and (max-width: 768px) {
     padding: 20px;
     gap: 20px;
+
+    .routine-card:nth-child(7) {
+      display: none;
+    }
   }
   @media (max-width: 480px) {
     grid-template-columns: 1fr;

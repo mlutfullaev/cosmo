@@ -93,12 +93,12 @@ const checkBeauty = () => {
           </p>
           <BaseRate rates="4.5" :text="true" />
         </div>
-        <div class="d-sb">
-          <div>
+        <div>
+          <div class="d-sb">
             <h3>ROUTINE BUDGET: </h3>
-            <div class="txt grey">We estimate Budget of this Routine  based on average pricing in your area.</div>
+            <h3 class="bold">130 EURO</h3>
           </div>
-          <h3 class="bold">130 EURO</h3>
+          <div class="txt grey">We estimate Budget of this Routine  based on average pricing in your area.</div>
         </div>
       </div>
     </div>
@@ -190,12 +190,15 @@ const checkBeauty = () => {
   <section v-if="routine" id="reviews" class="reviews">
     <div class="reviews__text">
       <div class="reviews__text__content">
-        <h2 class="section-title">Reviews</h2>
+        <div class="hint-content">
+          <h2 class="section-title">Reviews</h2>
+          <base-hint hint="Prices provided by the Connected Stores. COSMO.WIKI is independent platform from any Brand or Store, provides unbiased pricing presentation  from connected stores and pricing aggregators." />
+        </div>
         <h2 class="section-title black">{{routine.authorRank}}/5</h2>
         <BaseRate :rates="4.5"/>
         <div class="section-subtitle">
           <h3>126</h3>
-          <p>Beauties Reviewed leafs argan oil</p>
+          <p>Reviews for Natures Leafs Argan Oil in Moscow, Russian Federation</p>
         </div>
       </div>
       <button @click="modalActive = true" class="link bg-orange">CHECK YOUR SKIN TYPE REVIEWS <span>→</span></button>
@@ -210,9 +213,10 @@ const checkBeauty = () => {
       <h2 class="section-title">Alternative Routines</h2>
       <div class="section-subtitle">
         <h3>130</h3>
-        <p>Beautyties are using this product in their registered routines</p>
+        <p>Routines are targeting the same concerns.</p>
       </div>
-      <p class="txt">Beauty Routines where Natural Leaf Argon Oil is used as part of the ritual. These Routines are selected based on the general use without any skin type or skin specifics filtration. To see personalised routines recommendation You should login.  </p>
+      <p class="txt">Routines handling the same concerns or using the similar products can be found in this section. <br/><br/>
+        * To get more personal routine recommendations, which include skin profile parameters based recommendations, you are required to have the skin profile.</p>
     </div>
     <div class="routines__list">
       <RoutineCard v-for="routine in alternatives" :routine="routine.routine" :key="routine.routine.id" />
@@ -264,6 +268,8 @@ const checkBeauty = () => {
     padding: 60px;
 
     &__top {
+      padding-bottom: 40px;
+
       p {
         padding: 10px 0;
       }
@@ -282,15 +288,21 @@ const checkBeauty = () => {
       h3 {
         font-size: 32px;
         text-transform: uppercase;
-        font-weight: 500;
+        font-weight: 400;
 
         &.bold {
           font-weight: 700;
         }
       }
+      .d-sb:first-child {
+        padding-bottom: 20px;
+      }
     }
 
     @media (max-width: 1200px) {
+      padding: 60px 20px;
+    }
+    @media (max-width: 768px) {
       padding: 20px;
     }
   }
@@ -327,12 +339,9 @@ const checkBeauty = () => {
   grid-template-columns: 300px auto auto;
   align-items: center;
   padding: 60px;
-  background-image: url("@/assets/img/product/claims-bg.jpg");
+  background-image: url("@/assets/img/global/bg.jpg");
 
   .hint-content {
-    display: grid;
-    grid-template-columns: auto 1fr;
-
     h2 {
       font-size: 65px;
       font-weight: 700;
@@ -382,6 +391,10 @@ const checkBeauty = () => {
         border-bottom: none;
       }
     }
+
+    @media (max-width: 900px) and (min-width: 768px) {
+      grid-column: 1 / 3;
+    }
   }
 
   @media (max-width: 1400px) {
@@ -390,6 +403,9 @@ const checkBeauty = () => {
   }
   @media (max-width: 1200px) {
     padding: 60px 20px;
+  }
+  @media (max-width: 900px) {
+    grid-template-columns: auto auto;
   }
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -420,7 +436,7 @@ const checkBeauty = () => {
     padding: 100px 20px;
 
     &__content {
-      max-height: 700px;
+      max-height: 665px;
       overflow-y: auto;
 
       .steps__item {
@@ -469,6 +485,7 @@ const checkBeauty = () => {
   button {
     grid-column: 1;
     grid-row: 2;
+    align-self: end;
 
     @media (max-width: 768px) {
       grid-row: 3;
@@ -510,14 +527,17 @@ const checkBeauty = () => {
     align-items: center;
     text-align: center;
 
+    .title {
+      max-width: 556px;
+      margin: 0 auto;
+
+      @media (max-width: 768px) {
+        max-width: 410px;
+      }
+    }
     @media (max-width: 768px) {
       padding: 120px 20px;
       grid-row: 1;
-
-      .title {
-        max-width: 410px;
-        margin: 0 auto;
-      }
     }
   }
 
@@ -532,7 +552,7 @@ const checkBeauty = () => {
   padding-top: 200px;
 
   &__top {
-    padding: 0 20px 40px;
+    padding: 0 40px 40px;
     display: grid;
     grid-gap: 20px;
     grid-template-columns: 1fr 1fr;

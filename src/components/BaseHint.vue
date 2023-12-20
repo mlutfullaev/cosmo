@@ -50,12 +50,16 @@ defineProps({ hint: String })
     display: none;
     position: absolute;
     left: 50%;
-    transform: translate3d(-30px, calc(-100% - 10px), 0);
+    bottom: 0;
+    transform: translate3d(-30px, -42px, 0);
     background-color: $grey-dark;
     color: #fff;
     padding: 8px;
     border-radius: 4px;
     font-size: 12px;
+    max-width: 200px;
+    width: max-content;
+    min-width: 50px;
 
     &::before {
       content: '';
