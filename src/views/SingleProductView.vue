@@ -158,7 +158,7 @@ watch(route, () => {
     <router-link to="/" class="link bold">MORE ABOUT BRAND <span>→</span></router-link>
   </section>
 
-  <SingleProductSlide v-if="product" :product="product"/>
+  <SingleProductSlide @modal-active="modalActive = true" v-if="product" :product="product"/>
 
   <section id="reviews" class="reviews" v-if="!store.state.beauty">
     <div class="reviews__text">

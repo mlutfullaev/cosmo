@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue'
+import { defineProps, defineEmits, onMounted, ref } from 'vue'
 import { Product } from '@/interfaces'
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
-import store from '@/store'
 
 const props = defineProps<{ product: Product }>()
+defineEmits<{(event: 'modal-active'): void}>()
 
 const activeTab = ref('')
 const tabs = ref(['Full details', 'Key Ingredients'])
@@ -87,7 +87,7 @@ onMounted(() => {
       <p class="txt-highlight orange tablet">{{ activeTab }}</p>
       <h3 class="title">{{ product.name }}</h3>
       <p class="txt">{{ product.description }}</p>
-      <router-link to="#" class="link bg-orange">see full details <span>→</span></router-link>
+      <router-link to="#" @click="$emit('modal-active')" class="link bg-orange">see full details <span>→</span></router-link>
     </div>
   </section>
 </template>

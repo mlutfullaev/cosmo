@@ -122,11 +122,25 @@ onMounted(() => {
 
 watch(hover, () => {
   if (hover.value) {
-    document.body.classList.add('menu-active')
+    disableScroll()
   } else {
-    document.body.classList.remove('menu-active')
+    enableScroll()
   }
 })
+
+function disableScroll () {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
+
+  window.onscroll = function () {
+    window.scrollTo(scrollLeft, scrollTop)
+  }
+}
+
+function enableScroll () {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  window.onscroll = function () {}
+}
 </script>
 
 <template>
@@ -145,39 +159,10 @@ watch(hover, () => {
       <HeaderSearch />
       <div class="nav-item">
         <router-link
-          to="/routine-intro"
-          @mouseenter="hover = 1"
-          @click="hover = 0"
-          @mouseleave="hover = 0">SKIN ROUTINES LIBRARY ↓</router-link>
-        <div class="sub-menu" :class="{active: hover === 1}">
-          <div class="sub-menu-content" @mouseenter.stop="hover = 1" @mouseleave="hover = 0">
-            <div
-              v-for="lib of routineLibrary"
-              :key="lib.title"
-              class="sub-menu-item">
-              <p class="txt-highlight">{{lib.title}}</p>
-              <RouterLink
-                class="note"
-                v-for="item in lib.items"
-                :to="`/routine-results/menu/${item.param}`"
-                :key="item.id"
-                @click="hover = 0"
-              >{{ item.text }}</RouterLink>
-              <RouterLink
-                v-if="lib.viewAll"
-                :to="lib.viewAll"
-                @click="hover = 0"
-                class="note">view all →</RouterLink>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="nav-item">
-        <router-link
           to="/product-intro"
           @mouseenter="hover = 2"
           @click="hover = 0"
-          @mouseleave="hover = 0">SKIN PRODUCT LIBRARY ↓</router-link>
+          @mouseleave="hover = 0">SKINcare products ↓ </router-link>
         <div class="sub-menu" :class="{active: hover === 2}">
           <div class="sub-menu-content" @mouseenter="hover = 2" @mouseleave="hover = 0">
             <div
@@ -201,7 +186,36 @@ watch(hover, () => {
           </div>
         </div>
       </div>
-      <router-link to="/registration">LOGIN</router-link>
+      <div class="nav-item">
+        <router-link
+          to="/routine-intro"
+          @mouseenter="hover = 1"
+          @click="hover = 0"
+          @mouseleave="hover = 0">SKINcare ROUTINEs ↓</router-link>
+        <div class="sub-menu" :class="{active: hover === 1}">
+          <div class="sub-menu-content" @mouseenter.stop="hover = 1" @mouseleave="hover = 0">
+            <div
+              v-for="lib of routineLibrary"
+              :key="lib.title"
+              class="sub-menu-item">
+              <p class="txt-highlight">{{lib.title}}</p>
+              <RouterLink
+                class="note"
+                v-for="item in lib.items"
+                :to="`/routine-results/menu/${item.param}`"
+                :key="item.id"
+                @click="hover = 0"
+              >{{ item.text }}</RouterLink>
+              <RouterLink
+                v-if="lib.viewAll"
+                :to="lib.viewAll"
+                @click="hover = 0"
+                class="note">view all →</RouterLink>
+            </div>
+          </div>
+        </div>
+      </div>
+      <router-link class="login" to="/registration">LOGIN</router-link>
     </nav>
     <CountryAlert
       :city="city"
@@ -222,7 +236,7 @@ header {
   right: 0;
   background: #fff;
   z-index: 2;
-  padding: 0 20px;
+  padding: 0 60px;
   border-bottom: 1px solid $black;
 
   .header-items {
@@ -248,9 +262,6 @@ header {
       text-transform: uppercase;
       transition: .3s;
 
-      &.router-link-active {
-        color: $orange;
-      }
       @media (max-width: 769px) {
         display: none;
       }
@@ -261,6 +272,9 @@ header {
         display: block;
         padding: 20px 0;
 
+        &.router-link-active {
+          color: $orange;
+        }
         &:hover {
           color: $orange;
         }
@@ -271,7 +285,7 @@ header {
         right: 0;
         background-color: rgba(0, 0, 0, 0.4);
         height: calc(100vh - 47px);
-        overflow-y: scroll;
+        overflow-y: auto;
         width: 100%;
         left: 0;
         visibility: hidden;
@@ -317,6 +331,17 @@ header {
       }
       @media (max-width: 768px) {
         display: none;
+      }
+    }
+    .login {
+      background-color: $orange;
+      color: $black;
+      transition: .3s;
+
+      padding: 5px 12px;
+
+      &:hover {
+        color: $white;
       }
     }
 

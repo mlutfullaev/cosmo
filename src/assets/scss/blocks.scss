@@ -107,6 +107,7 @@
 
 .modal {
   position: fixed;
+  padding: 60px;
   top: 0;
   height: 100vh;
   width: 100%;
@@ -124,6 +125,11 @@
     z-index: 10;
     visibility: visible;
   }
+
+  @media (max-width: 1000px) {
+    padding: 40px;
+  }
+
 }
 
 .hint-content {
