@@ -243,7 +243,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-1.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">YOUR REVIEW MATTERS</h2>
+          <h2>YOUR REVIEW MATTERS</h2>
           <p class="txt">Let Your SkinTwins know Your Experience with this product.</p>
         </div>
         <router-link to="#" class="link">
@@ -257,7 +257,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-3.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SAMPLES FOR HONEST REVIEW</h2>
+          <h2>SAMPLES FOR HONEST REVIEW</h2>
           <p class="txt">Get involved into New Product Review as qualified Tester</p>
         </div>
         <router-link to="#" class="link">
@@ -271,7 +271,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-5.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SPEAK OUT DIRECTLY TO THE BRAND</h2>
+          <h2>SPEAK OUT DIRECTLY TO THE BRAND</h2>
           <p class="txt">Direct line to pass Your Suggestions about this product to Brand.  We connect you with benefits Brand is ready to give in exchange to valuable suggestions.</p>
         </div>
         <router-link to="#" class="link">
@@ -285,7 +285,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-7.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">BEAUTYMETER</h2>
+          <h2>BEAUTYMETER</h2>
           <p class="txt">Track Your Skin developments to evaluate efficiency of this product.</p>
         </div>
         <router-link to="#" class="link">
@@ -299,7 +299,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-2.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">QUICK TRY WITH TESTERS</h2>
+          <h2>QUICK TRY WITH TESTERS</h2>
           <p class="txt">Testing Samples for You are available in your area</p>
         </div>
         <router-link to="#" class="link">
@@ -313,7 +313,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-4.jpg')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">EXPIRY DATE CHECK</h2>
+          <h2>EXPIRY DATE CHECK</h2>
           <p class="txt">Scan Barcode and check expiry date</p>
           <img src="@/assets/img/global/qr.png" alt="qr-code">
         </div>
@@ -342,7 +342,7 @@ watch(route, () => {
       <div class="services-card">
         <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-8.png')}')`}"></div>
         <div class="services-card__content">
-          <h2 class="title-secondary bold">SAVE IT TO YOUR LIBRARY</h2>
+          <h2>SAVE IT TO YOUR LIBRARY</h2>
           <p class="txt">Scan QR code and safe this product for future into Your Personal Library</p>
         </div>
         <router-link to="#" class="link">
@@ -488,15 +488,15 @@ main {
           font-size: 24px;
         }
       }
-      a {
-        text-transform: uppercase;
-      }
       p {
         color: $black;
         padding-top: 20px;
 
         @media (max-width: 1200px) {
           padding-top: 10px;
+        }
+        @media (max-width: 480px) {
+          display: none;
         }
       }
 
@@ -506,15 +506,15 @@ main {
       @media (max-width: 1200px) {
         padding: 20px;
       }
+      @media (max-width: 480px) {
+        padding: 16px 20px;
+      }
     }
   }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
-  }
-  @media (max-width: 480px) {
-    padding-top: 61px;
   }
 }
 
@@ -525,6 +525,24 @@ main {
 
   p {
     padding: 60px 0;
+
+    @media (max-width: 768px) {
+      padding: 40px 0;
+    }
+    @media (max-width: 480px) {
+      padding: 16px 0;
+    }
+  }
+
+  img {
+    max-width: 200px;
+    max-height: 150px;
+    @media (max-width: 768px) {
+      max-width: 180px;
+    }
+    @media (max-width: 480px) {
+      max-width: 120px;
+    }
   }
 }
 

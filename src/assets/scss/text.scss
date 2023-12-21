@@ -45,6 +45,9 @@
   @media (max-width: 1540px) {
     font-size: 16px;
   }
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 }
 
 .txt-highlight {
@@ -207,6 +210,10 @@
   color: $orange;
   line-height: 135px;
 
+  &.black {
+    color: $black;
+  }
+
   @media (max-width: 1200px) {
     font-size: 140px;
   }
@@ -214,7 +221,8 @@
     font-size: 80px;
     line-height: 80px;
   }
-  &.black {
-    color: $black;
+  @media (max-width: 480px) {
+    font-size: 60px;
+    line-height: 60px;
   }
 }

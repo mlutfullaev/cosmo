@@ -41,7 +41,7 @@ const subscribeHandler = async () => {
 
 <style lang="scss" scoped>
 .base-subscribe {
-  background-image: url("@/assets/img/product/claims-bg.jpg");
+  background-image: url("@/assets/img/global/bg.jpg");
   padding: 60px 20px;
   text-align: center;
   display: flex;
@@ -57,6 +57,13 @@ const subscribeHandler = async () => {
     font-weight: 700;
 
     padding-bottom: 20px;
+
+    @media (max-width: 768px) {
+      font-size: 30px;
+    }
+    @media (max-width: 480px) {
+      font-size: 24px;
+    }
   }
   .txt {
     max-width: 980px;
@@ -66,7 +73,8 @@ const subscribeHandler = async () => {
   }
   input {
     border: 1px solid $black;
-    width: 450px;
+    max-width: 450px;
+    width: 100%;
     color: $grey-dark;
     background-color: transparent;
     font-size: 20px;

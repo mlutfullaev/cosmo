@@ -131,9 +131,9 @@ const checkBeauty = () => {
       <h2>beauty <span>meter</span></h2>
       <BaseHint hint="bla bla bla bla" />
     </div>
-    <div class="d-center">
-      <h2 class="orange">130</h2>
-      <h3 class="section-text">Beauties tried this routine and evaluated their results </h3>
+    <div class="section-subtitle">
+      <h3>130</h3>
+      <p>Beauties tried this routine and evaluated their results </p>
     </div>
     <div class="info__inner">
       <h3>VERIFIED RESULTS in 8 weeks</h3>
@@ -288,10 +288,17 @@ const checkBeauty = () => {
       h3 {
         font-size: 32px;
         text-transform: uppercase;
-        font-weight: 400;
+        font-weight: 500;
 
         &.bold {
           font-weight: 700;
+        }
+
+        @media (max-width: 1000px) {
+          font-size: 24px;
+        }
+        @media (max-width: 480px) {
+          font-size: 18px;
         }
       }
       .d-sb:first-child {
@@ -360,18 +367,6 @@ const checkBeauty = () => {
         font-weight: 500;
       }
     }
-  }
-  .d-center {
-    h2 {
-      font-weight: 400;
-      font-size: 96px;
-    }
-
-    @media (max-width: 1200px) and (min-width: 768px) {
-      flex-direction: column;
-      align-items: start;
-      gap: 0;
-  }
   }
   &__inner {
     h3 {
@@ -508,13 +503,16 @@ const checkBeauty = () => {
     grid-template-rows: 1fr auto;
 
     &__content {
-      padding: 40px;
+      padding: 60px;
       display: grid;
       justify-items: left;
       align-content: start;
 
       h2 {
         padding: 10px 0;
+      }
+      @media (max-width: 1200px) {
+        padding: 60px 20px;
       }
     }
   }
@@ -536,7 +534,6 @@ const checkBeauty = () => {
       }
     }
     @media (max-width: 768px) {
-      padding: 120px 20px;
       grid-row: 1;
     }
   }
@@ -583,6 +580,10 @@ const checkBeauty = () => {
         grid-column: 1 / 3;
       }
     }
+
+    @media (max-width: 1200px) {
+      padding: 0 20px 40px;
+    }
   }
   @media (max-width: 1000px) {
     padding-top: 50px;
@@ -598,10 +599,13 @@ const checkBeauty = () => {
     align-content: space-between;
 
     &__top {
-      padding: 30px;
+      padding: 60px;
 
       h2 {
-        padding-bottom: 40px;
+        padding-bottom: 20px;
+      }
+      @media (max-width: 1200px) {
+        padding: 60px 20px;
       }
     }
   }
