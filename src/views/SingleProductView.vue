@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, onBeforeUnmount } from 'vue'
+import { onMounted, ref, watch, onBeforeUnmount, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { Product, Review, Routine } from '@/interfaces'
 import store from '@/store'
@@ -73,14 +73,16 @@ const menuNav = ref()
 const meta = ref({ page: 1, take: 11, itemCount: 0, pageCount: 0 })
 const brand = ref<Brand | null>(null)
 const prices = ref<Prices[]>([])
-const product = ref<null | Product>(null)
+const product = reactive({} as Product)
 const alternatives = ref<Product[]>([])
 const reviews = ref<Review[]>([])
+const componentKey = ref(0)
 
 onMounted(() => {
   axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
     .then(res => {
-      product.value = res.data
+      Object.assign(product, res.data)
+      componentKey.value++
       updateMeta({ title: res.data.SEOpageTitle, description: res.data.SEOpageDescription, keywords: res.data.SEOpageKeywords })
 
       axios.get(`https://api-www.beautyid.app/brands/byname/${res.data.brand}?order=ASC&page=1&take=10`)
@@ -111,7 +113,8 @@ onMounted(() => {
 watch(route, () => {
   axios.get(`https://api-www.beautyid.app/goods/byid/${route.params.id}`)
     .then(res => {
-      product.value = res.data
+      Object.assign(product, res.data)
+      componentKey.value++
       updateMeta({ title: res.data.SEOpageTitle, description: res.data.SEOpageDescription, keywords: res.data.SEOpageKeywords })
 
       axios.get(`https://api-www.beautyid.app/brands/byname/${res.data.brandName}?order=ASC&page=1&take=10`)
@@ -196,7 +199,7 @@ function shareClick (e: MouseEvent) {
     </div>
   </div>
 
-  <main v-if="product">
+  <main v-if="Object.keys(product).length">
     <div class="main-inner d-center">
       <div>
         <p>{{ product.brand }}</p>
@@ -222,10 +225,14 @@ function shareClick (e: MouseEvent) {
     <p class="txt" v-if="brand.brandDescription">
       {{ brand.brandDescription }}
     </p>
-    <router-link to="/" class="link bold">MORE ABOUT BRAND <span>→</span></router-link>
+    <router-link :to="`/product-results/brand/${brand.brandName}`" class="link bold">MORE ABOUT BRAND <span>→</span></router-link>
   </section>
 
-  <SingleProductSlide @modal-active="modalActive = true" v-if="product" :product="product"/>
+  <SingleProductSlide
+    v-if="Object.keys(product).length"
+    @modal-active="modalActive = true"
+    :component-key="componentKey"
+    :product="product"/>
 
   <section id="reviews" class="reviews" v-if="!store.state.beauty">
     <div class="reviews__text">
@@ -262,7 +269,7 @@ function shareClick (e: MouseEvent) {
           v-for="price in prices.slice(0, 3)"
           :key="price.id"
           class="prices__inner__content__item d-sb">
-          <router-link class="link bold" :to="price.priceGoodLink">{{price.priceShopName}} <span>→</span></router-link>
+          <a class="link bold" target="_blank" :href="price.priceGoodLink">{{price.priceShopName}} <span>→</span></a>
           <p class="txt-highlight">{{price.priceValue}} euro</p>
         </div>
       </div>

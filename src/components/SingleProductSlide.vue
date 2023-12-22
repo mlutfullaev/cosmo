@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, onMounted, ref } from 'vue'
+import { defineProps, defineEmits, ref, watch } from 'vue'
 import { Product } from '@/interfaces'
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
-const props = defineProps<{ product: Product }>()
+const props = defineProps<{ product: Product, componentKey: number }>()
 defineEmits<{(event: 'modal-active'): void}>()
 
 const activeTab = ref('')
-const tabs = ref(['Full details', 'Key Ingredients'])
+const tabs = ref<string[]>([])
+const possibleTabs: {value: string, key: keyof Product}[] = [
+  { value: 'TARGETED SKIN TYPE', key: 'skinTypes' },
+  { value: 'HOW TO USE', key: 'manual' },
+  { value: 'HOW TO STORE', key: 'storage' },
+  { value: 'WARNING / LIMITATIONS IN USE', key: 'warning' },
+  { value: 'TARGETED CONCERNS', key: 'concerns' },
+  { value: 'CLAIMS / CERTIFICATIONS', key: 'certificates' },
+  { value: 'RELIGIOUS CERTIFICATIONS', key: 'religionDietsIds' },
+]
 
 const slides = ref(JSON.parse(props.product.pictures))
 const currentSlide = ref<string | number>(0)
@@ -18,8 +27,13 @@ const prev = () => {
 const next = () => {
   currentSlide.value = currentSlide.value === slides.value.length - 1 ? 0 : +currentSlide.value + 1
 }
-onMounted(() => {
-  activeTab.value = tabs.value[0]
+
+possibleTabs.forEach(possibleTab => {
+  console.log(possibleTab)
+  if (props.product[possibleTab.key]) {
+    console.log('passed')
+    tabs.value = [...tabs.value, possibleTab.value]
+  }
 })
 </script>
 
@@ -76,6 +90,9 @@ onMounted(() => {
       </div>
     </div>
     <div class="full-details__buttons">
+      <button :class="{active: activeTab === ''}" @click="activeTab = ''">
+        Full details
+      </button>
       <button
         v-for="tab in tabs"
         :key="tab"
@@ -85,8 +102,9 @@ onMounted(() => {
     </div>
     <div class="full-details__inner">
       <p class="txt-highlight orange tablet">{{ activeTab }}</p>
-      <h3 class="title">{{ product.name }}</h3>
-      <p class="txt">{{ product.description }}</p>
+      <h3 v-if="activeTab === ''" class="title">{{ product.name }}</h3>
+      <p v-if="activeTab" class="txt">{{ product.description }}</p>
+      <p v-else class="txt">{{product[activeTab]}}</p>
       <router-link to="#" @click="$emit('modal-active')" class="link bg-orange">see full details <span>→</span></router-link>
     </div>
   </section>
@@ -206,7 +224,7 @@ onMounted(() => {
     height: 100%;
     border-left: 1px solid $black;
     position: relative;
-    padding: 0 60px 140px;
+    padding: 0 60px 180px;
 
     .txt-highlight {
       padding-bottom: 10px;
@@ -222,7 +240,13 @@ onMounted(() => {
     }
 
     @media (max-width: 1200px) {
-      padding: 0 20px 140px;
+      padding: 0 20px 170px;
+    }
+    @media (max-width: 1000px) {
+      padding-bottom: 120px;
+    }
+    @media (max-width: 768px) {
+      padding-bottom: 80px;
     }
   }
 

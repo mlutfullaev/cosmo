@@ -1,11 +1,17 @@
 export interface Product {
+  id: number;
   name: string;
   brand: string;
   mainPicture: string;
   description: string;
-  id: number,
+  skinTypes?: string;
   pictures: string;
-  manual: string;
+  manual?: string;
+  storage?: string;
+  warning?: string;
+  concerns?: string;
+  certificates?: string;
+  religionDietsIds?: string;
   ingredients: string;
   benefits: string;
   goodRating: number;
