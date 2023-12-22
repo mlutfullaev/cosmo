@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="full-details" class="full-details">
+  <section id="about" class="full-details">
     <div class="full-details__slider">
       <Carousel
         id="carousel"

@@ -7,21 +7,12 @@ import ShareWindow from './ShareWindow.vue'
 defineProps<{routine: Routine}>()
 
 const sendAlert = ref(false)
-const sendRef = ref<VNodeRef | undefined>(undefined)
-// const sendLocationLeft = ref(false)
-// const onSendAlert = (e) => {
-//   sendAlert.value = true
-//   if (window.screen.width - e.screenX > e.screenX) {
-//     sendLocationLeft.value = true
-//   }
-// }
-
 </script>
 
 <template>
-  <div class="routine-card" >
+  <div class="routine-card" :id="routine.id">
     <div class="routine-card__img bg-img">
-      <base-rate :rates="3.5"/>
+      <base-rate :rates="3.5" :text="true"/>
       <div class="activities">
         <button class="activity d-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
@@ -41,7 +32,7 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
           <!-- {{ routine.saves }} -->
           123
         </button>
-        <button :ref="sendRef" @click.stop="sendAlert = true" class="activity d-center">
+        <button @click="sendAlert = true" class="activity d-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path
               d="M5.49868 4.61869L12.6671 2.22922C15.884 1.15691 17.6318 2.91313 16.5679 6.13005L14.1785 13.2984C12.5742 18.1196 9.9399 18.1196 8.33566 13.2984L7.62641 11.1707L5.49868 10.4615C0.677523 8.85723 0.677523 6.23137 5.49868 4.61869Z"
@@ -67,7 +58,10 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
       </svg>
       <p class="note">{{ routine.authorName }}</p>
     </div>
-    <ShareWindow :send-alert="sendAlert" @close-alert="sendAlert = false" />
+    <ShareWindow
+      v-if="sendAlert"
+      :send-alert="sendAlert"
+      @close-alert="sendAlert = false" />
   </div>
 </template>
 
@@ -109,6 +103,11 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
 
   & > p {
     padding: 15px 0;
+
+    @media (max-width: 480px) {
+      font-size: 14px;
+      padding: 10px 0;
+    }
   }
 
   .author {
@@ -122,6 +121,29 @@ const sendRef = ref<VNodeRef | undefined>(undefined)
       font-size: 14px;
       font-weight: 700;
       text-transform: uppercase;
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+      }
+      @media (max-width: 480px) {
+        font-size: 10px;
+      }
+    }
+    svg {
+      @media (max-width: 768px) {
+        width: 20px;
+        height: auto;
+      }
+    }
+  }
+
+  .base-rates svg {
+    @media (max-width: 1200px) {
+      width: 15px;
+      height: auto;
+    }
+    @media (max-width: 480px) {
+      width: 10px;
     }
   }
 }

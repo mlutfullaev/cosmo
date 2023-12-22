@@ -40,28 +40,21 @@ export default defineComponent({
   display: grid;
   justify-items: right;
   gap: 5px;
-  
+
   &__icons {
     display: flex;
     justify-content: right;
     align-items: center;
     gap: 5px;
-
-    @media (max-width: 1000px) {
-      svg {
-        width: 10px;
-        height: auto;
-      }
-    }
   }
   p {
     color: #D7D7D7;
     font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
-    @media (max-width: 1000px) {
-      font-size: 12px;
-    }
+    //@media (max-width: 1000px) {
+    //  font-size: 12px;
+    //}
   }
 }
 </style>

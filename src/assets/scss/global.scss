@@ -370,6 +370,10 @@ a {
       border-bottom: 1px solid $black;
       border-right: 1px solid $black;
     }
+    @media (max-width: 500px) {
+      border-right: none;
+      border-bottom: none;
+    }
   }
   .product-item {
     border-bottom: 1px solid $black;
@@ -407,6 +411,7 @@ a {
   }
   @media screen and (max-width: 500px) {
     grid-template-columns: 1fr;
+    grid-gap: 0;
   }
 }
 

@@ -23,7 +23,7 @@ defineProps({
     :style="bgImg ? {backgroundImage: `url('https://api-www.beautyid.app/images/getimage/${product.mainPicture}')`}: {}">
     <BaseRate :rates="product.goodRating || 0"/>
     <h4 class="txt-highlight">{{ product.name }}</h4>
-    <p class="txt">from 150$</p>
+    <p class="txt">from <span>150$</span></p>
     <img v-if="!bgImg" :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" :alt="product.SEOmainImageAlt">
     <p class="recommended" :class="{active: false}">recommended</p>
     <p class="promoted" :class="{active: true}">promoted</p>
@@ -38,7 +38,7 @@ defineProps({
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .product-card {
   position: relative;
   display: grid;
@@ -81,8 +81,35 @@ defineProps({
     }
   }
 
+  .base-rates {
+    padding-bottom: 10px;
+
+    svg {
+      @media (max-width: 1200px) {
+        width: 15px;
+        height: auto;
+      }
+      @media (max-width: 1000px) {
+        width: 20px;
+      }
+      @media (max-width: 768px) {
+        width: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .txt-highlight {
+      font-weight: 400;
+
+      padding-bottom: 5px;
+    }
+    .txt span {
+      font-weight: 700;
+    }
+  }
   @media (max-width: 1000px) {
-    padding: 10px;
+    padding-top: 10px;
   }
 }
 </style>

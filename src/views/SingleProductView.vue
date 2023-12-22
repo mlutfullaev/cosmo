@@ -1,23 +1,17 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { Product, Review, Routine } from '@/interfaces'
 import store from '@/store'
 import axios from 'axios'
 import ProductCard from '@/components/ProductCard.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
-import RoutineGuide from '@/components/RoutineGuide.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
-import TheFilter from '@/layouts/TheFilter.vue'
-import ReligionDiets from '@/components/ReligionDiets.vue'
 import BaseRate from '@/components/BaseRate.vue'
-import BaseReviews from '@/components/BaseReviews.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
-import ThePagination from '@/layouts/ThePagination.vue'
-import { useHelpers } from '../useHelpers'
+import { useHelpers } from '@/useHelpers'
 import BaseSubscripe from '@/components/BaseSubscripe.vue'
 import ModalSubscribe from '@/components/ModalSubscribe.vue'
-import BaseHint from '@/components/BaseHint.vue'
 import router from '@/router'
 
 interface Prices {
@@ -39,7 +33,7 @@ const { updateMeta } = useHelpers()
 
 const links = ref([
   {
-    link: 'full-details',
+    link: 'about',
     description: 'Details this product in table and full details from brand.',
     title: 'FULL PRODUCT DETAILS'
   },
@@ -64,7 +58,7 @@ const links = ref([
     title: 'ALTERNATIVES'
   },
   {
-    link: 'routine',
+    link: 'routines',
     description: 'Registered Beauty routines where this products is used.  ',
     title: 'ROUTINES WHERE USED'
   },
@@ -73,6 +67,8 @@ const beauty = store.state.beauty
 const pricesMore = ref(false)
 const routines = ref<{routine: Routine}[]>([])
 const modalActive = ref(false)
+const menuActive = ref(false)
+const menuNav = ref()
 
 const meta = ref({ page: 1, take: 11, itemCount: 0, pageCount: 0 })
 const brand = ref<Brand | null>(null)
@@ -124,10 +120,81 @@ watch(route, () => {
         })
     })
 })
+watch(menuActive, () => {
+  window.addEventListener('click', shareClick)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('click', shareClick)
+})
+
+function shareClick (e: MouseEvent) {
+  if (menuNav.value && !menuNav.value.parentElement.contains(e.target as Node)) {
+    menuActive.value = false
+  }
+}
 </script>
 
 <template>
   <TheHeader />
+
+  <div class="header__hint">
+    <button class="txt-highlight">GUIDE ME</button>
+    <router-link
+      v-for="link in links"
+      :key="link.link"
+      :to="`#${link.link}`"
+      class="txt-highlight">{{link.link}}</router-link>
+    <button @click="menuActive = !menuActive" class="btn-burger" :class="{active: menuActive}">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none">
+        <symbol id="line" viewBox="0 0 150 1">
+          <line y1="0.5" x2="150" y2="0.5"/>
+        </symbol>
+        <symbol id="circle" viewBox="0 0 182 182">
+          <circle cx="91" cy="91" r="87.5"/>
+        </symbol>
+      </svg>
+      <span></span>
+      <svg class="circle">
+        <use xlink:href="#circle"/>
+      </svg>
+    </button>
+    <button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.03283 1C1.43866 1 1 1.45279 1 1.95856V13.9591C1 14.8181 2.09567 15.3217 2.73888 14.7599L6.23104 11.3345L6.23996 11.3266C6.9875 10.6604 8.12872 10.6302 8.91299 11.2523L13.1598 14.6218H13.1608L13.2973 14.73C14.0048 15.2911 15 14.7724 15 14.0015V1.95856C15 1.45221 14.5607 1 13.9672 1H2.03283ZM0 1.95856C0 0.854735 0.933283 0 2.03283 0H13.9672C15.0652 0 16 0.853251 16 1.95856V14.0015C16 15.6384 14.1157 16.4708 12.8255 15.6218H12.8112L8.29153 12.0357C7.88934 11.7167 7.29671 11.7315 6.91336 12.066L3.42142 15.4911L3.41262 15.499C2.0979 16.6722 0 15.6474 0 13.9591V1.95856Z" fill="white"/>
+      </svg>
+    </button>
+    <button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.8523 11.0225C16.0416 11.2005 16.0508 11.4983 15.8727 11.6877L11.4348 16.4065C11.2567 16.5958 10.9589 16.605 10.7696 16.4269C10.5802 16.2488 10.5711 15.951 10.7491 15.7617L15.1871 11.0429C15.3651 10.8536 15.663 10.8444 15.8523 11.0225Z" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 11.3653C0 11.1054 0.21069 10.8947 0.47059 10.8947H15.5295C15.7894 10.8947 16.0001 11.1054 16.0001 11.3653C16.0001 11.6252 15.7894 11.8359 15.5295 11.8359H0.47059C0.21069 11.8359 0 11.6252 0 11.3653Z" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.23093 0.682475C5.42025 0.860531 5.42939 1.15835 5.25133 1.34768L0.813395 6.0665C0.635339 6.25582 0.337518 6.26496 0.148193 6.0869C-0.0411322 5.90885 -0.0502678 5.61103 0.127788 5.4217L4.56573 0.70288C4.74378 0.513555 5.0416 0.50442 5.23093 0.682475Z" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 5.74416C0 5.48426 0.21069 5.27357 0.47059 5.27357H15.5295C15.7894 5.27357 16.0001 5.48426 16.0001 5.74416C16.0001 6.00406 15.7894 6.21475 15.5295 6.21475H0.47059C0.21069 6.21475 0 6.00406 0 5.74416Z" fill="white"/>
+      </svg>
+    </button>
+    <button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.399 1.43749H9.3744V0.5H14.9994V6.12496H14.0619V2.1004L7.36213 8.80014L6.69922 8.13724L13.399 1.43749Z" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.34373 3.31249C1.56709 3.31249 0.937493 3.94209 0.937493 4.71873V13.1562C0.937493 13.9328 1.56709 14.5624 2.34373 14.5624H10.7812C11.5578 14.5624 12.1874 13.9328 12.1874 13.1562V9.4062C12.1874 9.14731 12.3973 8.93745 12.6562 8.93745C12.915 8.93745 13.1249 9.14731 13.1249 9.4062V13.1562C13.1249 14.4506 12.0756 15.4999 10.7812 15.4999H2.34373C1.04932 15.4999 0 14.4506 0 13.1562V4.71873C0 3.42432 1.04932 2.375 2.34373 2.375H6.0937C6.35259 2.375 6.56245 2.58486 6.56245 2.84375C6.56245 3.10263 6.35259 3.31249 6.0937 3.31249H2.34373Z" fill="white"/>
+      </svg>
+    </button>
+    <button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.33167 0.5C11.1172 0.512682 14.1739 3.04315 14.8668 6.62848C15.6384 10.6267 12.9478 14.6001 8.95385 15.3581C7.24201 15.6835 5.60854 15.4477 4.05589 14.6674C4.0553 14.6672 4.05451 14.667 4.05351 14.6667C4.0483 14.6653 4.04027 14.6637 4.03014 14.6627C4.02006 14.6618 4.01023 14.6616 4.00171 14.6621C3.99758 14.6623 3.99424 14.6627 3.99179 14.663C3.99053 14.6632 3.98962 14.6634 3.98904 14.6635C3.58189 14.7656 3.18586 14.8723 2.78535 14.9802C2.49321 15.0589 2.19868 15.1382 1.89571 15.2169C1.89561 15.2169 1.89582 15.2169 1.89571 15.2169C1.20306 15.3971 0.484521 15.0457 0.287926 14.3214L0.287449 14.3196C0.225967 14.0895 0.226525 13.8294 0.284226 13.6019C0.28411 13.6023 0.283995 13.6028 0.28388 13.6032L0.738817 13.7162L0.28458 13.6005C0.284462 13.6009 0.284343 13.6014 0.284226 13.6019C0.458888 12.8985 0.649792 12.1993 0.84074 11.5054L0.840967 11.5045C0.848236 11.4783 0.847035 11.4687 0.846882 11.4675C0.846691 11.4657 0.845283 11.4527 0.829803 11.422C0.829906 11.4222 0.830009 11.4224 0.830112 11.4226L1.24791 11.21L0.829492 11.4213C0.829596 11.4216 0.8297 11.4218 0.829803 11.422C-1.34349 7.14906 0.921176 2.02308 5.54148 0.755665C6.17567 0.582342 6.82623 0.501632 7.32858 0.5L7.33167 0.5ZM7.3301 1.4375C6.91301 1.43902 6.34573 1.50778 5.78934 1.65981C1.74201 2.77014 -0.239146 7.25317 1.6657 10.9975L1.66632 10.9987C1.78741 11.2385 1.81913 11.485 1.74452 11.7545C1.55345 12.4489 1.36532 13.1382 1.19375 13.8292L1.19305 13.8319C1.17355 13.9085 1.17415 14.0057 1.19294 14.0767C1.24149 14.2539 1.41239 14.374 1.65976 14.3096C1.94281 14.2361 2.23282 14.158 2.52486 14.0794C2.93791 13.9682 3.35566 13.8557 3.76598 13.7529L3.77157 13.7515C3.98592 13.7006 4.25531 13.7189 4.47183 13.8272L4.47286 13.8277C5.84501 14.5183 7.27054 14.7238 8.7788 14.4371C12.2613 13.7762 14.6199 10.2967 13.9464 6.80637C13.3405 3.67121 10.677 1.4494 7.3301 1.4375Z" fill="white"/>
+        <path d="M10.7892 8.79804C10.5653 8.79804 10.3787 8.72336 10.2279 8.57102C10.0771 8.42017 10.001 8.23348 10.001 8.00945C10.001 7.78541 10.0756 7.59872 10.2279 7.44787C10.3787 7.29702 10.5653 7.22085 10.7892 7.22085C11.0132 7.22085 11.1998 7.29553 11.3506 7.44787C11.5014 7.59872 11.5775 7.78541 11.5775 8.00945C11.5775 8.23348 11.5029 8.42017 11.3506 8.57102C11.1998 8.72187 11.0132 8.79804 10.7892 8.79804Z" fill="white"/>
+        <path d="M4.20843 8.75169C3.98449 8.75169 3.79788 8.67701 3.64709 8.52467C3.4963 8.37382 3.42017 8.18713 3.42017 7.9631C3.42017 7.73907 3.49481 7.55237 3.64709 7.40152C3.79788 7.25067 3.98449 7.1745 4.20843 7.1745C4.43237 7.1745 4.61899 7.24918 4.76977 7.40152C4.92056 7.55237 4.9967 7.73907 4.9967 7.9631C4.9967 8.18713 4.92205 8.37382 4.76977 8.52467C4.61899 8.67552 4.43237 8.75169 4.20843 8.75169Z" fill="white"/>
+        <path d="M7.42376 8.82482C7.19983 8.82482 7.01321 8.75014 6.86242 8.5978C6.71164 8.44695 6.6355 8.26026 6.6355 8.03622C6.6355 7.81219 6.71014 7.6255 6.86242 7.47465C7.01321 7.3238 7.19983 7.24763 7.42376 7.24763C7.6477 7.24763 7.83432 7.32231 7.98511 7.47465C8.13589 7.6255 8.21203 7.81219 8.21203 8.03622C8.21203 8.26026 8.13739 8.44695 7.98511 8.5978C7.83432 8.74865 7.6477 8.82482 7.42376 8.82482Z" fill="white"/>
+      </svg>
+    </button>
+    <div class="header__hint__menu" ref="menuNav" :class="{active: menuActive}">
+      <button class="txt-highlight" @click="menuActive = false">GUIDE ME</button>
+      <router-link
+        v-for="link in links"
+        :key="link.link"
+        :to="`#${link.link}`"
+        @click="menuActive = false"
+        class="txt-highlight">{{link.link}}</router-link>
+    </div>
+  </div>
 
   <main v-if="product">
     <div class="main-inner d-center">
@@ -356,7 +423,7 @@ watch(route, () => {
     </div>
   </section>
 
-  <section class="products" v-if="alternatives.length">
+  <section id="alternatives" class="products" v-if="alternatives.length">
     <div class="products__top">
       <h2 class="section-title">Alternatives</h2>
       <div class="section-subtitle">
@@ -373,7 +440,7 @@ watch(route, () => {
     </div>
   </section>
 
-  <section id="routine" class="routines" v-if="routines.length">
+  <section id="routines" class="routines" v-if="routines.length">
     <div class="routines__top">
       <h2 class="section-title">Routines</h2>
       <div class="section-subtitle">
@@ -404,6 +471,45 @@ watch(route, () => {
 </template>
 
 <style lang="scss" scoped>
+.header__hint {
+
+  &__menu {
+    top: calc(100% + 1px);
+    position: absolute;
+    left: 0;
+    padding: 0 20px;
+    right: 0;
+    display: grid;
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+
+    &.active {
+      max-height: 1000px;
+    }
+    .txt-highlight {
+      text-align: left;
+    }
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+
+    > .txt-highlight {
+      display: none;
+    }
+  }
+}
+
 main {
   display: grid;
   grid-template-columns: 50% 50%;
@@ -451,6 +557,16 @@ main {
         font-size: 46px;
         font-weight: 700;
         padding-bottom: 20px;
+
+        @media (max-width: 1200px) {
+          font-size: 36px;
+        }
+        @media (max-width: 1000px) {
+          font-size: 36px;
+        }
+        @media (max-width: 480px) {
+          font-size: 24px;
+        }
       }
     }
 
@@ -562,17 +678,22 @@ main {
       justify-items: left;
       align-content: start;
 
-      h2 {
+      .section-title.black {
         display: flex;
-        line-height: 120px;
 
-        padding-bottom: 10px;
+        padding: 10px 0;
+      }
+      .section-subtitle {
+        padding-top: 10px;
       }
       @media (max-width: 1200px) {
         padding: 60px 20px;
       }
       @media (max-width: 1000px) {
         padding: 40px 20px;
+      }
+      @media (max-width: 768px) {
+        padding: 20px;
       }
     }
   }
@@ -638,6 +759,11 @@ main {
         @media (max-width: 1000px) {
           padding: 20px 0;
         }
+        @media (max-width: 768px) {
+          .txt-highlight {
+            font-weight: 400;
+          }
+        }
       }
       @media (max-width: 1200px) {
         padding: 60px 20px;
@@ -686,7 +812,7 @@ main {
   }
 
   @media (max-width: 768px) {
-    padding: 60px 0 0;
+    padding: 30px 0 0;
     grid-template-columns: 1fr;
     gap: 20px;
     grid-template-rows: auto auto;
