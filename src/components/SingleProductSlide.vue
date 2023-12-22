@@ -103,7 +103,7 @@ possibleTabs.forEach(possibleTab => {
     <div class="full-details__inner">
       <p class="txt-highlight orange tablet">{{ activeTab }}</p>
       <h3 v-if="activeTab === ''" class="title">{{ product.name }}</h3>
-      <p v-if="activeTab" class="txt">{{ product.description }}</p>
+      <p v-if="activeTab === ''" class="txt">{{ product.description }}</p>
       <p v-else class="txt">{{product[activeTab]}}</p>
       <router-link to="#" @click="$emit('modal-active')" class="link bg-orange">see full details <span>→</span></router-link>
     </div>
