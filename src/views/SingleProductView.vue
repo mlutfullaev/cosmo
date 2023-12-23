@@ -135,12 +135,13 @@ function shareClick (e: MouseEvent) {
     menuActive.value = false
   }
 }
+
 </script>
 
 <template>
   <TheHeader />
 
-  <div class="header__hint">
+  <div class="header__hint" :class="{active: store.state.showLater}">
     <button class="txt-highlight">GUIDE ME</button>
     <router-link
       v-for="link in links"

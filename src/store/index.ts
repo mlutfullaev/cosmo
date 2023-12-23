@@ -1,10 +1,19 @@
 import { createStore } from 'vuex'
 import auth from './auth'
 
-export default createStore({
+window.onscroll = () => {
+  if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+    store.commit('updateShowLater', true)
+  } else {
+    store.commit('updateShowLater', false)
+  }
+}
+
+const store = createStore({
   state: {
     productSearch: '',
     beauty: false,
+    showLater: false,
     productFilters: {
       productCategory: {
         title: 'product category',
@@ -70,6 +79,9 @@ export default createStore({
     },
     checkBeauty (state) {
       state.beauty = true
+    },
+    updateShowLater (state, value) {
+      state.showLater = value
     }
   },
   actions: {
@@ -78,3 +90,5 @@ export default createStore({
     auth,
   }
 })
+
+export default store

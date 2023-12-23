@@ -29,9 +29,7 @@ const next = () => {
 }
 
 possibleTabs.forEach(possibleTab => {
-  console.log(possibleTab)
   if (props.product[possibleTab.key]) {
-    console.log('passed')
     tabs.value = [...tabs.value, possibleTab.value]
   }
 })

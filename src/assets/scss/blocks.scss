@@ -182,10 +182,18 @@
 .header__hint {
   display: flex;
   position: fixed;
-  top: 57px;
   right: 20px;
   z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s;
+  top: 0;
 
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    top: 57px;
+  }
   button, a {
     font-size: 14px;
     background: #000;

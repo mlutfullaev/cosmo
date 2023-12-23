@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import store from '@/store'
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -7,22 +8,13 @@ const scrollToTop = () => {
     behavior: 'smooth',
   })
 }
-
-const buttonActive = ref(false)
-window.onscroll = () => {
-  if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-    buttonActive.value = true
-  } else {
-    buttonActive.value = false
-  }
-}
 </script>
 
 <template>
   <footer>
     <button
       class="scrollToTop"
-      :class="{active: buttonActive}"
+      :class="{active: store.state.showLater}"
       @click="scrollToTop">
       <svg xmlns="http://www.w3.org/2000/svg" width="17" height="25" viewBox="0 0 17 25" fill="none">
         <path d="M0 8.48657L8.43023 0L16.8605 8.48657V11.6337L9.62452 4.34936V25H7.23595V4.27864L0 11.5629V8.48657Z"

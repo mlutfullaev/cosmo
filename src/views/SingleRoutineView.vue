@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import axios from 'axios'
+import store from '@/store'
+import { useHelpers } from '@/useHelpers'
 import { useRoute } from 'vue-router'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper/modules'
-import { Product, Review, Routine } from '@/interfaces'
+import { Review, Routine } from '@/interfaces'
 import AiAssistance from '@/components/AiAssistance.vue'
 import BaseRate from '@/components/BaseRate.vue'
-import BaseReviews from '@/components/BaseReviews.vue'
 import BeforeAfter from '@/components/BeforeAfter.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
-import 'swiper/css'
-import store from '@/store'
 import BaseSubscripe from '@/components/BaseSubscripe.vue'
 import ModalSubscribe from '@/components/ModalSubscribe.vue'
-import { useHelpers } from '@/useHelpers'
 import BaseHint from '@/components/BaseHint.vue'
+import 'swiper/css'
 
 interface Step {
   stepOrder: number,
@@ -68,7 +65,7 @@ const checkBeauty = () => {
 <template>
   <TheHeader/>
 
-  <div class="header__hint">
+  <div class="header__hint" :class="{active: store.state.showLater}">
     <button class="txt-highlight">GUIDE ME</button>
     <button>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

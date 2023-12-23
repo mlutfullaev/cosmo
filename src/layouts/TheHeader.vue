@@ -247,7 +247,7 @@ header {
   left: 0;
   right: 0;
   background: #fff;
-  z-index: 2;
+  z-index: 3;
   padding: 0 60px;
   border-bottom: 1px solid $black;
 
