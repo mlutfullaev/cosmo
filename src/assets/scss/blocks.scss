@@ -194,23 +194,6 @@
     visibility: visible;
     top: 57px;
   }
-  button, a {
-    font-size: 14px;
-    background: #000;
-    color: #fff;
-    padding: 12px;
-    transition: .3s;
-    margin-left: 1px;
-    border: none;
-
-    &:hover {
-      background: $orange;
-    }
-
-    @media (max-width: 1000px) {
-      font-size: 12px;
-    }
-  }
   .btn-burger {
     position: static;
     height: auto;

@@ -75,3 +75,17 @@ export interface Filter {
     selectedVariant: string | number
   }
 }
+
+export interface Meta {
+  page: number;
+  take: number;
+  itemCount: number;
+  pageCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
+
+export interface BasicResponse<T> {
+  meta: Meta,
+  data: T[]
+}

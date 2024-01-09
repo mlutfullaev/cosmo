@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product } from '@/interfaces'
+import { Product } from '@/assets/interfaces'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import ProductCard from '@/components/ProductCard.vue'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
+import { API_URL } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,7 +14,7 @@ const products = ref<Product[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
+  axios.get(`${API_URL}goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
         router.push(`/routine-results/not-found/${route.params.param || ''}`)

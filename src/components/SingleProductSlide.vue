@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from 'vue'
-import { Product } from '@/interfaces'
+import { Product } from '@/assets/interfaces'
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
+import { API_URL } from '@/assets/constants'
 
 const props = defineProps<{ product: Product, componentKey: number }>()
 defineEmits<{(event: 'modal-active'): void}>()
@@ -45,7 +46,7 @@ possibleTabs.forEach(possibleTab => {
         :autoplay="5000"
         v-model="currentSlide">
         <Slide class="carousel-item" v-for="slide in slides" :key="slide.picture">
-          <img :src="`https://api-www.beautyid.app/images/getimage/${slide.picture}`" alt="">
+          <img :src="`${API_URL}images/getimage/${slide.picture}`" alt="">
         </Slide>
       </Carousel>
       <Carousel
@@ -57,7 +58,7 @@ possibleTabs.forEach(possibleTab => {
         <Slide v-for="(slide, idx) in slides" :key="slide.picture">
           <div class="thumbnails-item" @click="currentSlide = idx">
             <img
-              :src="`https://api-www.beautyid.app/images/getimage/${slide.picture}`"
+              :src="`${API_URL}images/getimage/${slide.picture}`"
               alt="">
           </div>
         </Slide>

@@ -4,6 +4,7 @@ import HeaderSearch from '@/components/HeaderSearch.vue'
 import TheMenu from '@/layouts/TheMenu.vue'
 import CountryAlert from '@/components/CountryAlert.vue'
 import axios from 'axios'
+import { API_URL } from '@/assets/constants'
 
 interface Library {
   title: string,
@@ -91,30 +92,30 @@ const routineLibrary = reactive<Library[]>([
 ])
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=8')
+  axios.get(`${API_URL}forms?order=ASC&page=1&take=8`)
     .then(res => {
       productLibrary[0].items = res.data.data.map((category: { id: number, applicationName: string }) => ({ id: category.id, text: category.applicationName, param: category.applicationName }))
     })
-  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=8')
+  axios.get(`${API_URL}skintypes?order=ASC&page=1&take=8`)
     .then(res => {
       productLibrary[1].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
       productLibrary[2].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
       routineLibrary[1].items = res.data.data.map((skinType: { id: number, skinTypeName: string, skinTypeNameForSearch: string }) => ({ id: skinType.id, text: skinType.skinTypeName, param: skinType.skinTypeNameForSearch }))
     })
-  axios.get('https://api-www.beautyid.app/brands?order=ASC&page=1&take=8')
+  axios.get(`${API_URL}brands?order=ASC&page=1&take=8`)
     .then(res => {
       productLibrary[3].items = res.data.data.map((category: { id: number, brandName: string }) => ({ id: category.id, text: category.brandName, param: category.brandName }))
     })
 
-  axios.get('https://api-www.beautyid.app/routines/benefits?order=ASC&page=1&take=8')
+  axios.get(`${API_URL}routines/benefits?order=ASC&page=1&take=8`)
     .then(res => {
       routineLibrary[0].items = res.data.data.map((category: { id: number, benefitRoutineName: string }) => ({ id: category.id, text: category.benefitRoutineName, param: category.benefitRoutineName }))
     })
-  axios.get('https://api-www.beautyid.app/routines/authors?order=ASC&page=1&take=8')
+  axios.get(`${API_URL}routines/authors?order=ASC&page=1&take=8`)
     .then(res => {
       routineLibrary[3].items = res.data.data.map((category: { id: number, authorName: string }) => ({ id: category.id, text: category.authorName, param: category.authorName }))
     })
-  axios.get('https://api-www.beautyid.app/brands/routinesbrands?order=ASC&page=1&take=8')
+  axios.get(`${API_URL}brands/routinesbrands?order=ASC&page=1&take=8`)
     .then(res => {
       routineLibrary[4].items = res.data.data.map((category: { id: number, brandName: string }) => ({ id: category.id, text: category.brandName, param: category.brandName }))
     })

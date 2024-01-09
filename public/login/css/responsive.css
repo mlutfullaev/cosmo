@@ -1,3 +1,20 @@
+@media only screen and (max-width: 1660px) {
+  .gallery .img-description {
+    bottom: 5%;
+    width: 100%;
+  }
+  .gallery .img-hover-effect .img-title {
+    width: max-content;
+  }
+}
+
+@media only screen and (max-width: 1220px) {
+  .gallery .img-description {
+    bottom: 0;
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 767px) {
 
   /* ----------------------------------

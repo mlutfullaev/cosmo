@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { Filter } from '@/interfaces'
+import { Filter } from '@/assets/interfaces'
 import axios from 'axios'
 import store from '@/store'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
+import { API_URL } from '@/assets/constants'
 
 const alertActive = ref(true)
 const activeLib = ref(0)
@@ -63,15 +64,15 @@ const filters = reactive<Filter>({
 })
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/skinbenefits?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}skinbenefits?order=ASC&page=1&take=10`)
     .then(res => {
       library.value[1].categories = res.data.data.map((c: {benefitName: string, id: number}) => ({ title: c.benefitName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
     })
-  axios.get('https://api-www.beautyid.app/forms?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}forms?order=ASC&page=1&take=10`)
     .then(res => {
       library.value[0].categories = res.data.data.map((c: {applicationName: string, id: number}) => ({ title: c.applicationName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
     })
-  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}ages?order=ASC&page=1&take=10`)
     .then(res => {
       filters.age.variants = res.data.data.map((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => ({
         text: `${item.ageMin} - ${item.ageMax}`,
@@ -79,7 +80,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}concerns?order=ASC&page=1&take=10`)
     .then(res => {
       filters.concerns.variants = res.data.data.map((item: { id: number, concernName: string, }) => ({
         text: item.concernName,
@@ -87,7 +88,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}goodbenefits?order=ASC&page=1&take=10`)
     .then(res => {
       filters.benefits.variants = res.data.data.map((item: { id: number, goodBenefitName: string, }) => ({
         text: item.goodBenefitName,
@@ -95,7 +96,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}religiondiets?order=ASC&page=1&take=10`)
     .then(res => {
       filters.religionDiets.variants = res.data.data.map((item: { id: number, religionDietName: string, }) => ({
         text: item.religionDietName,
@@ -103,7 +104,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}skintypes?order=ASC&page=1&take=10`)
     .then(res => {
       filters.skinTypes.variants = res.data.data.map((item: { id: number, skinTypeName: string, }) => ({
         text: item.skinTypeName,
@@ -168,7 +169,7 @@ onMounted(() => {
     <TheFooter/>
 
     <div class="alert min-tablet" :class="{hidden: !alertActive}">
-      <button class="alert-close" @click="alertActive = false">
+      <button class="btn-close" @click="alertActive = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"
                 stroke="black" stroke-linecap="round" stroke-linejoin="round"/>

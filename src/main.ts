@@ -8,6 +8,7 @@ import TheHeader from '@/layouts/TheHeader.vue'
 import TheFooter from '@/layouts/TheFooter.vue'
 import VueCookies from 'vue-cookies'
 import '@/assets/scss/global.scss'
+
 const app = createApp(App)
 app.use(store)
 app.use(router)

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { Filter, Product } from '@/interfaces'
+import { Filter, Product } from '@/assets/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import ReligionDiets from '@/components/ReligionDiets.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
+import { API_URL } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -46,7 +47,7 @@ const filters = reactive<Filter>({
 })
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
+  axios.get(`${API_URL}goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
         router.push(`/product-results/not-found/${route.params.param}`)
@@ -55,7 +56,7 @@ onMounted(() => {
       products.value = res.data.data
       allItems.value = res.data.meta.itemCount
     })
-  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}ages?order=ASC&page=1&take=10`)
     .then(res => {
       filters.age.variants = res.data.data.map((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => ({
         text: `${item.ageMin} - ${item.ageMax}`,
@@ -63,7 +64,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}concerns?order=ASC&page=1&take=10`)
     .then(res => {
       filters.concerns.variants = res.data.data.map((item: { id: number, concernName: string, }) => ({
         text: item.concernName,
@@ -71,7 +72,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/goodbenefits?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}goodbenefits?order=ASC&page=1&take=10`)
     .then(res => {
       filters.benefits.variants = res.data.data.map((item: { id: number, goodBenefitName: string, }) => ({
         text: item.goodBenefitName,
@@ -79,7 +80,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}religiondiets?order=ASC&page=1&take=10`)
     .then(res => {
       filters.religionDiets.variants = res.data.data.map((item: { id: number, religionDietName: string, }) => ({
         text: item.religionDietName,
@@ -87,7 +88,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}skintypes?order=ASC&page=1&take=10`)
     .then(res => {
       filters.skinTypes.variants = res.data.data.map((item: { id: number, skinTypeName: string, }) => ({
         text: item.skinTypeName,

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { Filter } from '@/interfaces'
+import { Filter } from '@/assets/interfaces'
 import FilterCategories from '@/components/FilterCategories.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
 import axios from 'axios'
 import store from '@/store'
+import { API_URL } from '@/assets/constants'
 
 const alertActive = ref(true)
 const library = ref({
@@ -96,11 +97,11 @@ const filters = reactive<Filter>({
 })
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/routines/benefits?order=ASC&page=1&take=20')
+  axios.get(`${API_URL}routines/benefits?order=ASC&page=1&take=20`)
     .then(res => {
       library.value.categories = res.data.data.map((c: {benefitRoutineName: string, id: number}) => ({ title: c.benefitRoutineName, id: c.id, imgUrl: require('@/assets/img/product/library-1.png') }))
     })
-  axios.get('https://api-www.beautyid.app/skintypes?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}skintypes?order=ASC&page=1&take=10`)
     .then(res => {
       filters.skinTypes.variants = res.data.data.map((item: any) => ({
         text: item.skinTypeName,
@@ -108,7 +109,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/concerns?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}concerns?order=ASC&page=1&take=10`)
     .then(res => {
       filters.concerns.variants = res.data.data.map((item: any) => ({
         text: item.concernName,
@@ -116,7 +117,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/skintones?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}skintones?order=ASC&page=1&take=10`)
     .then(res => {
       filters.melanine.variants = res.data.data.map((item: any) => ({
         text: item.skintoneName,
@@ -124,7 +125,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/routinetimelimitations?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}routinetimelimitations?order=ASC&page=1&take=10`)
     .then(res => {
       filters.routineType.variants = res.data.data.map((item: any) => ({
         text: item.timeLimitationName,
@@ -132,7 +133,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/ages?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}ages?order=ASC&page=1&take=10`)
     .then(res => {
       filters.age.variants = res.data.data.map((item: { ageMin: number; ageMax: number, id: number, ageName: string, }) => ({
         text: `${item.ageMin} - ${item.ageMax}`,
@@ -140,7 +141,7 @@ onMounted(() => {
         id: item.id,
       }))
     })
-  axios.get('https://api-www.beautyid.app/skinsensitivity?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}skinsensitivity?order=ASC&page=1&take=10`)
     .then(res => {
       filters.skinSensitivity.variants = res.data.data.map((item: any) => ({
         text: item.sensitivityName,
@@ -190,7 +191,7 @@ const checkBeauty = () => {
     </div>
 
     <div v-if="!store.state.beauty" class="alert min-tablet" :class="{hidden: !alertActive}">
-      <button class="alert-close" @click="alertActive = false">
+      <button class="btn-close" @click="alertActive = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
           <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"
                 stroke="black" stroke-linecap="round" stroke-linejoin="round"/>

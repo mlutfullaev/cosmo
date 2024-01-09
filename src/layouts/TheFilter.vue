@@ -6,7 +6,7 @@ import { Navigation } from 'swiper/modules'
 import FilterBrands from '@/components/FilterBrands.vue'
 import 'swiper/css'
 import 'vue-simple-range-slider/css'
-import { StringObject } from '@/interfaces'
+import { StringObject } from '@/assets/interfaces'
 
 defineProps<{
   itemsLength: number,

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue'
-import BaseRate from '@/components/BaseRate.vue'
-import { Product } from '@/interfaces'
+import BaseRate from '@/baseComponents/BaseRate.vue'
+import { Product } from '@/assets/interfaces'
+import { API_URL } from '@/assets/constants'
 
 defineProps({
   product: Object as PropType<Product>,
@@ -20,11 +21,11 @@ defineProps({
     @click="$router.push(`/single-product/${product ? product.id : ''}`)"
     class="product-card"
     :class="bgImg ? 'bg-img' : ''"
-    :style="bgImg ? {backgroundImage: `url('https://api-www.beautyid.app/images/getimage/${product.mainPicture}')`}: {}">
+    :style="bgImg ? {backgroundImage: `url('${API_URL}images/getimage/${product.mainPicture}')`}: {}">
     <BaseRate :rates="product.goodRating || 0"/>
     <h4 class="txt-highlight">{{ product.name }}</h4>
     <p class="txt">from <span>150$</span></p>
-    <img v-if="!bgImg" :src="`https://api-www.beautyid.app/images/getimage/${product.mainPicture}`" :alt="product.SEOmainImageAlt">
+    <img v-if="!bgImg" :src="`${API_URL}images/getimage/${product.mainPicture}`" :alt="product.SEOmainImageAlt">
     <p class="recommended" :class="{active: false}">recommended</p>
     <p class="promoted" :class="{active: true}">promoted</p>
     <button>

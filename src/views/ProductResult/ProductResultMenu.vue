@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product, StringObject } from '@/interfaces'
+import { Product, StringObject } from '@/assets/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import store from '@/store'
+import { API_URL, productFilters } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,7 +19,7 @@ const filter = (filters: StringObject) => {
 }
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
+  axios.get(`${API_URL}goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
         router.push(`/product-results/not-found/${route.params.param}`)
@@ -60,7 +61,7 @@ const checkBeauty = () => {
     :items-length="allItems"
     where="product"
     @filter="filter"
-    :filters="store.state.productFilters"/>
+    :filters="productFilters"/>
 
   <section class="product-list" v-if="products.length">
     <ProductCard

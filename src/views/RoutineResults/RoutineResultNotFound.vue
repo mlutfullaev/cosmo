@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Routine } from '@/interfaces'
+import { Routine } from '@/assets/interfaces'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
+import { API_URL } from '@/assets/constants'
 
 const alternatives = ref<{routine: Routine}[]>([])
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/routines/randomnumber/7?order=ASC&page=1&take=7')
+  axios.get(`${API_URL}routines/randomnumber/7?order=ASC&page=1&take=7`)
     .then(res => {
       console.log(res.data)
       alternatives.value = res.data.data

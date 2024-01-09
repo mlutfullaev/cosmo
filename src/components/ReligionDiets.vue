@@ -3,6 +3,7 @@ import { defineProps, onMounted, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 import axios from 'axios'
+import { API_URL } from '@/assets/constants'
 
 interface Brand {
   id: number,
@@ -24,11 +25,11 @@ const ReligionDiets = ref<{religionDietName: string, id: number}[]>([])
 const brand = ref<null | Brand>(null)
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/brands/byname/${props.brandName}?order=ASC&page=1&take=10`)
+  axios.get(`${API_URL}brands/byname/${props.brandName}?order=ASC&page=1&take=10`)
     .then(res => {
       brand.value = res.data.data[0]
     })
-  axios.get('https://api-www.beautyid.app/religiondiets?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}religiondiets?order=ASC&page=1&take=10`)
     .then(res => {
       ReligionDiets.value = res.data.data
     })
@@ -41,7 +42,7 @@ onMounted(() => {
     id="about"
     class="religionDiets bg-img"
     :style="bg ? { backgroundImage: `url('${require(`@/assets/img/product/${bg}`)}` } : ''">
-    <img v-if="brand.brandLogo" :src="`https://api-www.beautyid.app/images/getimage/${brand.brandLogo}`" :alt="brand.SEOlogoAlt">
+    <img v-if="brand.brandLogo" :src="`${API_URL}images/getimage/${brand.brandLogo}`" :alt="brand.SEOlogoAlt">
     <h2 class="title-secondary bold">{{brandName}}</h2>
     <p class="txt" v-if="brand.brandDescription">
       {{ brand.brandDescription }}

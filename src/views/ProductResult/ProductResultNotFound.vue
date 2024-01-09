@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product } from '@/interfaces'
+import { Product } from '@/assets/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
+import { API_URL } from '@/assets/constants'
 
 const alternatives = ref<Product[]>([])
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/goods/alternative/22346?order=ASC&page=1&take=10')
+  axios.get(`${API_URL}goods/alternative/22346?order=ASC&page=1&take=10`)
     .then(res => {
       alternatives.value = res.data.data
     })
@@ -23,7 +24,7 @@ onMounted(() => {
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  
+
   <section class="product-list">
     <div class="product-item">
       <h3 class="title t-up">check alternative products</h3>
@@ -37,7 +38,7 @@ onMounted(() => {
   </section>
 
   <SearchResultBottom />
-  
+
   <TheFooter/>
 </template>
 

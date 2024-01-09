@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Routine, StringObject } from '@/interfaces'
+import { Routine, StringObject } from '@/assets/interfaces'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
@@ -10,6 +10,7 @@ import RoutineCard from '@/components/RoutineCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import store from '@/store'
 import ThePagination from '@/layouts/ThePagination.vue'
+import { API_URL, routineFilters } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -23,7 +24,7 @@ const routines = ref<Routine[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
+  axios.get(`${API_URL}goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
         router.push(`/routine-results/not-found/${route.params.param || ''}`)
@@ -35,7 +36,7 @@ onMounted(() => {
     })
 })
 watch(route, () => {
-  axios.get(`https://api-www.beautyid.app/goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
+  axios.get(`${API_URL}goods/bynamebrand/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
         router.push(`/routine-results/not-found/${route.params.param || ''}`)
@@ -80,7 +81,7 @@ const checkBeauty = () => {
 
   <TheFilter
     @filter="filter"
-    :filters="store.state.routineFilters"
+    :filters="routineFilters"
     where="routine"
     :items-length="allItems"/>
 

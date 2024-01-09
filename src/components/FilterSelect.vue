@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, ref, defineEmits } from 'vue'
-import { Filter } from '@/interfaces'
+import { Filter } from '@/assets/interfaces'
 
 const props = defineProps<{filters: Filter, routine?: boolean}>()
 defineEmits<{(event: 'updateFilter', key: string, value: string): void}>()

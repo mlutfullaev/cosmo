@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Product, StringObject } from '@/interfaces'
+import { Product, StringObject } from '@/assets/interfaces'
 import ProductCard from '@/components/ProductCard.vue'
 import TheFilter from '@/layouts/TheFilter.vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import store from '@/store'
+import { API_URL, productFilters } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,7 +15,7 @@ const products = ref<Product[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/goods/byname/${route.params.param}?order=ASC&page=1&take=11`)
+  axios.get(`${API_URL}goods/byname/${route.params.param}?order=ASC&page=1&take=11`)
     .then(res => {
       if (!res.data.data.length) {
         router.push(`/product-results/not-found/${route.params.param}`)
@@ -40,12 +41,12 @@ const filter = (filters: StringObject) => {
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. </p>
     <RouterLink to="/product-filter" class="link bold">specify your search <span>→</span></RouterLink>
   </div>
-  
+
   <TheFilter
     :items-length="allItems"
     where="product"
     @filter="filter"
-    :filters="store.state.productFilters"/>
+    :filters="productFilters"/>
 
   <section v-if="products.length" class="product-list">
     <ProductCard

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { VNodeRef, defineProps, ref } from 'vue'
-import { Routine } from '@/interfaces'
-import BaseRate from '@/components/BaseRate.vue'
+import { defineProps, ref } from 'vue'
+import { Routine } from '@/assets/interfaces'
+import BaseRate from '@/baseComponents/BaseRate.vue'
 import ShareWindow from './ShareWindow.vue'
+import { API_URL } from '@/assets/constants'
 
 defineProps<{routine: Routine}>()
 
@@ -46,7 +47,7 @@ const sendAlert = ref(false)
       <!-- <p class="recommended" :class="{active: routine.recommended}">recommended</p>
       <p class="promoted" :class="{active: routine.promoted}">promoted</p> -->
       <img
-        :src="routine.authorImage ? `https://api-www.beautyid.app/images/getimage/${routine.authorImage}` : `${require('@/assets/img/global/placeholder.png')}`"
+        :src="routine.authorImage ? `${API_URL}images/getimage/${routine.authorImage}` : `${require('@/assets/img/global/placeholder.png')}`"
         :alt="routine.SEOimageAlt"
         @click="$router.push(`/single-routine/${routine.id}`)">
     </div>

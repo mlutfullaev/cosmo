@@ -2,15 +2,16 @@
 import { onMounted, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import axios from 'axios'
-import { Routine } from '@/interfaces'
+import { Routine } from '@/assets/interfaces'
 import RoutineGuide from '@/components/RoutineGuide.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import 'swiper/css'
+import { API_URL } from '@/assets/constants'
 
 const alternatives = ref<{routine: Routine}[]>([])
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/routines/randomnumber/7?order=ASC&page=1&take=7')
+  axios.get(`${API_URL}routines/randomnumber/7?order=ASC&page=1&take=7`)
     .then(res => {
       alternatives.value = res.data.data
     })
@@ -397,12 +398,12 @@ const swiperConfig = {
     }
     svg {
       align-self: end;
-      
+
       @media (max-width: 1000px) {
         display: none;
       }
     }
-    
+
     @media (max-width: 1000px) {
       height: 600px;
     }
@@ -438,7 +439,7 @@ const swiperConfig = {
 
       a {
         align-self: end;
-        
+
         @media (max-width: 768px) {
           display: none;
         }

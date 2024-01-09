@@ -3,13 +3,14 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import store from '@/store'
-import { Routine, StringObject } from '@/interfaces'
+import { Routine, StringObject } from '@/assets/interfaces'
 import TheFilter from '@/layouts/TheFilter.vue'
 import SearchResultBottom from '@/components/SearchResultBottom.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import RoutinesSteps from '@/components/RoutinesSteps.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
 import TheHeader from '@/layouts/TheHeader.vue'
+import { API_URL, routineFilters } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -23,7 +24,7 @@ const routines = ref<Routine[]>([])
 const allItems = ref(0)
 
 onMounted(() => {
-  axios.get('https://api-www.beautyid.app/routines?order=ASC', {
+  axios.get(`${API_URL}routines?order=ASC`, {
     params: route.query
   })
     .then(res => {
@@ -37,7 +38,7 @@ onMounted(() => {
     })
 })
 watch(route, () => {
-  axios.get('https://api-www.beautyid.app/routines/filtered?order=ASC', {
+  axios.get(`${API_URL}routines/filtered?order=ASC`, {
     params: route.query
   })
     .then(res => {
@@ -71,7 +72,7 @@ const checkBeauty = () => {
 
   <TheFilter
     @filter="filter"
-    :filters="store.state.routineFilters"
+    :filters="routineFilters"
     where="routine"
     :items-length="allItems"/>
 

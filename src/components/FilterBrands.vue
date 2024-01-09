@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, onMounted, PropType, ref, watch } from 'vue'
 import axios from 'axios'
+import { API_URL } from '@/assets/constants'
 
 type Brand = {
   id: number,
@@ -31,7 +32,7 @@ const filterResults = ref<Brand[]>([])
 const alphabet = ref([])
 
 watch(activeAlpha, () => {
-  axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
+  axios.get(`${API_URL}brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
     .then((res) => {
       filterResults.value = res.data.data
     })
@@ -43,12 +44,12 @@ watch(selectedBrand, () => {
 })
 
 onMounted(() => {
-  axios.get(`https://api-www.beautyid.app/brands/${props.where === 'product-results/brand/' ? 'getfirstletters' : 'getroutinebrandsfirstletters'}`)
+  axios.get(`${API_URL}brands/${props.where === 'product-results/brand/' ? 'getfirstletters' : 'getroutinebrandsfirstletters'}`)
     .then((res) => {
       alphabet.value = res.data.map((item: { letter: string }) => item.letter)
       activeAlpha.value = alphabet.value[0]
 
-      axios.get(`https://api-www.beautyid.app/brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
+      axios.get(`${API_URL}brands/byfirstletter/${activeAlpha.value}?order=ASC&take=30`)
         .then((res) => {
           filterResults.value = res.data.data
         })

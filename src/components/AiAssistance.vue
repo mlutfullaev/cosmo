@@ -30,10 +30,6 @@ const descriptions = ref([
   },
 ])
 const activeDesc = ref('PRODUCT CHECK TO MATCH YOUR SKIN')
-
-const checkBeauty = () => {
-  store.commit('checkBeauty')
-}
 </script>
 
 <template>

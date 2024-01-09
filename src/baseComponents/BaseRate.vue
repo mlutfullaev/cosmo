@@ -1,19 +1,6 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    rates: {
-      required: true,
-      type: Number,
-    },
-    text: {
-      required: false,
-      type: Boolean,
-      default: false,
-    }
-  }
-})
+<script lang="ts" setup>
+import { defineProps } from 'vue'
+defineProps<{rates: number, text?: boolean}>()
 </script>
 
 <template>
@@ -52,9 +39,6 @@ export default defineComponent({
     font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
-    //@media (max-width: 1000px) {
-    //  font-size: 12px;
-    //}
   }
 }
 </style>
