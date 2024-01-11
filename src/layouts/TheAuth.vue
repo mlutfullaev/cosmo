@@ -12,6 +12,7 @@ const emits = defineEmits<{(event: 'close'): void }>()
 
 const type = ref('login')
 const emailValidate = ref(false)
+const errorMessage = ref('')
 const name = ref('')
 const email = ref('')
 const password = ref('')
@@ -31,7 +32,9 @@ const login = () => {
       console.log(emits('close'))
     })
     .catch(err => {
-      console.log(err)
+      if (err.response.status === 401) {
+        errorMessage.value = 'Username or password is incorrect'
+      }
     })
 }
 
@@ -46,12 +49,15 @@ const register = () => {
     password: password.value,
     email: email.value
   })
-    .then(res => {
-      console.log(res)
+    .then(() => {
+      errorMessage.value = ''
       login()
     })
     .catch(err => {
-      console.log(err)
+      console.log(err.response.status)
+      if (err.response.status === 400) {
+        errorMessage.value = 'Username or Email already registered'
+      }
     })
 }
 
@@ -63,6 +69,10 @@ const resetPassword = () => {
 
 watch(email, () => {
   if (emailValidate.value) emailValidate.value = false
+})
+
+watch([type, name, email, password], () => {
+  errorMessage.value = ''
 })
 </script>
 
@@ -157,6 +167,7 @@ watch(email, () => {
      </div>
      <button @click="resetPassword" :disabled="!email.length" class="btn btn-orange">Send link</button>
    </form>
+   <p class="error" v-if="errorMessage">{{errorMessage}}</p>
  </div>
 </template>
 
@@ -165,6 +176,13 @@ watch(email, () => {
   padding: 60px;
   text-align: center;
 
+  p {
+    font-size: 14px;
+
+    &.error {
+      color: #dc0606;
+    }
+  }
   .form {
     display: grid;
     grid-gap: 10px;
@@ -211,11 +229,11 @@ watch(email, () => {
     .btn-orange {
       width: 100%;
       font-size: 20px;
-      //color: #fff;
     }
-    p {
-      font-size: 14px;
-    }
+  }
+
+  @media (max-width: 500px) {
+    padding: 60px 20px;
   }
 }
 </style>

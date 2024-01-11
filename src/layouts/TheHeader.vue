@@ -298,10 +298,6 @@ header {
       font-weight: 700;
       text-transform: uppercase;
       transition: .3s;
-
-      @media (max-width: 769px) {
-        display: none;
-      }
     }
     .nav-item {
 
@@ -384,7 +380,7 @@ header {
     }
 
     @media (max-width: 768px) {
-      padding-right: 40px;
+      padding-right: 60px;
     }
     @media (max-width: 480px) {
       gap: 0;
