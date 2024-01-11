@@ -133,6 +133,14 @@ watch(hover, () => {
   }
 })
 
+watch(sidebarActive, () => {
+  if (sidebarActive.value) {
+    document.body.classList.add('menu-active')
+  } else {
+    document.body.classList.remove('menu-active')
+  }
+})
+
 function disableScroll () {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop
   const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
