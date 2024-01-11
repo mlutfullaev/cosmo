@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_URL } from '@/assets/constants'
+import { Login } from '@/assets/interfaces'
 
 export function useHelpers () {
   function updateMeta (meta: { description?: string, keywords?: string, title?: string }) {
@@ -61,5 +62,31 @@ export function useHelpers () {
     })
   }
 
-  return { updateMeta, validateEmail, sendEmail, getImageDimensions }
+  function setCookie (cName: string, cValue: Login, expDays: string) {
+    const date = new Date()
+    let exp = 0
+    switch (expDays.slice(-1)) {
+      case 's':
+        exp = +expDays.slice(0, -1) * 1000
+        break
+      case 'm':
+        exp = +expDays.slice(0, -1) * 60 * 1000
+        break
+      case 'h':
+        exp = +expDays.slice(0, -1) * 60 * 60 * 1000
+        break
+      case 'd':
+        exp = +expDays.slice(0, -1) * 24 * 60 * 60 * 1000
+        break
+      default:
+        exp = +expDays.slice(0, -1)
+        break
+    }
+    date.setTime(date.getTime() + exp)
+    const expires = 'expires=' + date.toUTCString()
+    console.log(expires)
+    document.cookie = cName + '=' + JSON.stringify(cValue) + '; ' + expires + '; path=/'
+  }
+
+  return { updateMeta, validateEmail, sendEmail, getImageDimensions, setCookie }
 }

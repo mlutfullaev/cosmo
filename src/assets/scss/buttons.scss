@@ -88,6 +88,11 @@ button {
   align-items: center;
   color: #fff;
   background-color: #000;
+  transition: .3s;
+
+  &:hover {
+    background-color: $orange;
+  }
 }
 
 .btn-close {

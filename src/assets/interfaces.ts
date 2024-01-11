@@ -89,3 +89,9 @@ export interface BasicResponse<T> {
   meta: Meta,
   data: T[]
 }
+
+export interface Login {
+  username: string,
+  expiresIn: string,
+  accessToken: string
+}

@@ -13,7 +13,7 @@ import RoutineCard from '@/components/RoutineCard.vue'
 import SingleProductSlide from '@/components/SingleProductSlide.vue'
 import BaseSubscripe from '@/baseComponents/BaseSubscripe.vue'
 import TheReviews from '@/components/TheReviews.vue'
-import { API_URL, emptyRes, samples } from '@/assets/constants'
+import { API_URL, emptyRes, samples, services } from '@/assets/constants'
 import ThePagination from '@/layouts/ThePagination.vue'
 
 interface Prices {
@@ -306,8 +306,7 @@ function shareClick (e: MouseEvent) {
       </div>
       <button class="btn-close" @click="pricesMore = false">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z"
-                stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M16 31C24.25 31 31 24.25 31 16C31 7.75 24.25 1 16 1C7.75 1 1 7.75 1 16C1 24.25 7.75 31 16 31Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M11.7559 20.2451L20.2459 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M20.2459 20.2451L11.7559 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
@@ -321,112 +320,17 @@ function shareClick (e: MouseEvent) {
       <p class="txt">These services are available  for Natural Leaf Argan Oil for all skin profiles directly from Brand or connected Retailers in the area around you.  Services available for Your skin profile can be seen only after login.</p>
     </div>
     <div class="services__inner">
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-1.png')}')`}"></div>
+      <div
+        class="services-card"
+        v-for="service in services"
+        :key="service.title">
+        <div class="bg-img" :style="{backgroundImage: `url('${require(`@/assets/img/${service.backgroundUrl}`)}')`}"></div>
         <div class="services-card__content">
-          <h2>YOUR REVIEW MATTERS</h2>
-          <p class="txt">Let Your SkinTwins know Your Experience with this product.</p>
+          <h2>{{service.title}}</h2>
+          <p class="txt">{{service.text}}</p>
+          <img v-if="service.qrCode" src="@/assets/img/global/qr.png" alt="qr-code">
         </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-3.png')}')`}"></div>
-        <div class="services-card__content">
-          <h2>SAMPLES FOR HONEST REVIEW</h2>
-          <p class="txt">Get involved into New Product Review as qualified Tester</p>
-        </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-5.png')}')`}"></div>
-        <div class="services-card__content">
-          <h2>SPEAK OUT DIRECTLY TO THE BRAND</h2>
-          <p class="txt">Direct line to pass Your Suggestions about this product to Brand.  We connect you with benefits Brand is ready to give in exchange to valuable suggestions.</p>
-        </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-7.png')}')`}"></div>
-        <div class="services-card__content">
-          <h2>BEAUTYMETER</h2>
-          <p class="txt">Track Your Skin developments to evaluate efficiency of this product.</p>
-        </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-2.png')}')`}"></div>
-        <div class="services-card__content">
-          <h2>QUICK TRY WITH TESTERS</h2>
-          <p class="txt">Testing Samples for You are available in your area</p>
-        </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-4.jpg')}')`}"></div>
-        <div class="services-card__content">
-          <h2>EXPIRY DATE CHECK</h2>
-          <p class="txt">Scan Barcode and check expiry date</p>
-          <img src="@/assets/img/global/qr.png" alt="qr-code">
-        </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-6.png')}')`}"></div>
-        <div class="services-card__content">
-          <h2 class="title-secondary bold white"> VIRTUAL DERMATOLOGIST SUPPORT</h2>
-          <p class="txt white">Video call support by DermoTeam is available related to this product.</p>
-        </div>
-        <router-link to="#" class="link">
-          <span>
-            <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>
-            </svg>
-          </span>
-        </router-link>
-      </div>
-      <div class="services-card">
-        <div class="bg-img" :style="{backgroundImage: `url('${require('@/assets/img/product/sample-banner-8.png')}')`}"></div>
-        <div class="services-card__content">
-          <h2>SAVE IT TO YOUR LIBRARY</h2>
-          <p class="txt">Scan QR code and safe this product for future into Your Personal Library</p>
-        </div>
-        <router-link to="#" class="link">
+        <router-link :to="service.link" class="link">
           <span>
             <svg width="68" height="44" viewBox="0 0 68 44" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.224609 20.2436H60.3206L40.9286 0.851562H46.4966L68.0006 22.3556L46.4966 43.8596H40.9286L60.3206 24.4676H0.224609V20.2436Z" fill="black"/>

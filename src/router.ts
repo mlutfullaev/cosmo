@@ -18,6 +18,7 @@ import ProductFilterView from '@/views/ProductFilterView.vue'
 import SingleProductView from '@/views/SingleProductView.vue'
 import VueCookies from 'vue-cookies'
 import store from '@/store'
+import ProfileView from '@/views/ProfileView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -105,6 +106,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'registration',
     component: RegistrationView
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
+  },
 ]
 
 const router = createRouter({
@@ -130,6 +136,13 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     window.location.pathname = '/login/index.html'
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const login = VueCookies.get('login')
+  if (login.accessToken) {
+    store.commit('login', login.username)
   }
 })
 
