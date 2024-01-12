@@ -18,6 +18,13 @@ const checkScroll = () => {
     hideScrollbar.value = scrollPosition >= threshold
   }
 }
+
+const scrollDown = () => {
+  const container = contentRef.value
+  if (container) {
+    container.scrollTop += 300
+  }
+}
 </script>
 
 <template>
@@ -37,12 +44,28 @@ const checkScroll = () => {
         <BaseRate :rates="review.reviewRating"/>
         <p class="txt">{{ review.reviewText }}</p>
       </div>
+      <div
+        v-for="review in reviews"
+        class="base-reviews__item"
+        :key="review.id">
+        <p class="txt bold t-up">
+          {{ review.reviewUser }}
+          <span class="your-skin" v-if="false">YOUR SKINTWIN</span>
+        </p>
+        <BaseRate :rates="review.reviewRating"/>
+        <p class="txt">{{ review.reviewText }}</p>
+      </div>
     </div>
-    <div class="base-reviews__scrollbar" v-if="!hideScrollbar || reviews.length > 5">
-      <svg xmlns="http://www.w3.org/2000/svg" width="92" height="30" viewBox="0 0 92 30" fill="none">
-        <path d="M1.00001 1.85547L45.9999 27.8555L91 1.85548" stroke="black" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </div>
+    <Transition name="smooth">
+      <div
+        @click="scrollDown"
+        class="base-reviews__scrollbar"
+        v-if="!hideScrollbar || reviews.length > 5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="92" height="30" viewBox="0 0 92 30" fill="none">
+          <path d="M1.00001 1.85547L45.9999 27.8555L91 1.85548" stroke="black" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -55,6 +78,7 @@ const checkScroll = () => {
     max-height: 1000px;
     overflow-y: auto;
     height: 100%;
+    scroll-behavior: smooth;
 
     &::-webkit-scrollbar {
       display: none;
@@ -73,12 +97,6 @@ const checkScroll = () => {
     }
     .txt:last-child {
       grid-column: 1 / 3;
-    }
-
-    @media (max-width: 768px) {
-      &:nth-child(n+6) {
-        display: none;
-      }
     }
   }
   &__scrollbar {

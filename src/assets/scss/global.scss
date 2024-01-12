@@ -216,6 +216,7 @@ a {
   height: 50px;
   padding: 10px;
   border-radius: 50%;
+  z-index: 100;
 
   &.active {
     visibility: visible;
@@ -439,5 +440,17 @@ a {
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
+}
+
+// Animations
+
+.smooth-enter-active,
+.smooth-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.smooth-enter-from,
+.smooth-leave-to {
+  opacity: 0;
 }
 

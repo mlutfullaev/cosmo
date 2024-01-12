@@ -146,7 +146,7 @@ function shareClick (e: MouseEvent) {
       :key="link.link"
       :to="`#${link.link}`"
       class="btn-black txt-highlight">{{link.link}}</router-link>
-    <button @click="menuActive = !menuActive" class="btn-burger" :class="{active: menuActive}">
+    <button @click="menuActive = !menuActive" class="btn-black btn-burger" :class="{active: menuActive}">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none">
         <symbol id="line" viewBox="0 0 150 1">
           <line y1="0.5" x2="150" y2="0.5"/>

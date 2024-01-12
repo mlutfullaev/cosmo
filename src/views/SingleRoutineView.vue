@@ -63,7 +63,7 @@ watch(route, () => {
 <template>
   <TheHeader/>
 
-  <div class="header__hint" :class="{active: showLater}">
+  <div class="header__hint" :class="{active: store.state.showLater}">
     <button class="btn-black txt-highlight">GUIDE ME</button>
     <button class="btn-black">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

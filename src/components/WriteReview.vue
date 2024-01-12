@@ -64,6 +64,7 @@ const text = ref('')
     outline: none;
     padding: 8px;
     font-size: 20px;
+    min-height: 300px;
   }
   .base-rates {
     width: max-content;

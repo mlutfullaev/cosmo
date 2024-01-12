@@ -12,6 +12,7 @@
   .gallery .img-description {
     bottom: 0;
     width: 100%;
+    transform: translate(-50%, -20%)
   }
 }
 
