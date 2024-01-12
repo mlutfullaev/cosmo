@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-
-import { ref, watch, defineEmits } from 'vue'
+import { ref, watch, defineEmits, defineProps } from 'vue'
 import { useHelpers } from '@/useHelpers'
 import axios from 'axios'
 import { API_URL } from '@/assets/constants'
@@ -8,9 +7,10 @@ import store from '@/store'
 import { Login } from '@/assets/interfaces'
 
 const { setCookie, validateEmail } = useHelpers()
+const props = defineProps<{type?: string}>()
 const emits = defineEmits<{(event: 'close'): void }>()
 
-const type = ref('login')
+const type = ref(props.type || 'login')
 const emailValidate = ref(false)
 const errorMessage = ref('')
 const name = ref('')
@@ -65,6 +65,10 @@ const resetPassword = () => {
   if (!validateEmail(email.value)) {
     emailValidate.value = true
   }
+}
+
+const newPassword = () => {
+  console.log(true)
 }
 
 watch(email, () => {
@@ -167,6 +171,37 @@ watch([type, name, email, password], () => {
      </div>
      <button @click="resetPassword" :disabled="!email.length" class="btn btn-orange">Send link</button>
    </form>
+   <form action="" class="auth__content form" v-if="type === 'password-reset'">
+     <h3 class="txt-highlight">PASSWORD RESET</h3>
+     <div class="form-input">
+       <input v-if="!showPassword" type="password" id="password" v-model="password">
+       <input v-else type="text" id="password" v-model="password">
+       <label for="password" :class="{active: password.length}">Password</label>
+       <button class="icon" @click.prevent="showPassword = !showPassword">
+         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
+           <path d="M11.9655 4.1621C11.9479 4.2016 11.5245 5.1409 10.5828 6.0826C9.32864 7.33695 7.74385 8 6 8C4.25615 8 2.67135 7.337 1.41716 6.08265C0.475458 5.1409 0.0520088 4.20155 0.0344588 4.16205C0.011739 4.11091 0 4.05556 0 3.9996C0 3.94364 0.011739 3.8883 0.0344588 3.83715C0.0520588 3.79765 0.475458 2.85855 1.41721 1.91695C2.6714 0.6629 4.2561 0 6 0C7.7439 0 9.3286 0.6629 10.5828 1.91695C11.5245 2.85855 11.9479 3.7976 11.9655 3.83715C11.9883 3.8883 12 3.94364 12 3.9996C12 4.05556 11.9882 4.11096 11.9655 4.1621ZM6 5.7996C6.35601 5.7996 6.70402 5.69403 7.00002 5.49625C7.29603 5.29846 7.52674 5.01734 7.66298 4.68843C7.79922 4.35952 7.83486 3.9976 7.76541 3.64844C7.69596 3.29927 7.52452 2.97854 7.27279 2.72681C7.02106 2.47507 6.70033 2.30364 6.35116 2.23419C6.002 2.16473 5.64008 2.20038 5.31117 2.33662C4.98226 2.47285 4.70114 2.70356 4.50336 2.99957C4.30557 3.29558 4.2 3.64359 4.2 3.9996C4.20053 4.47683 4.39034 4.93436 4.72779 5.27181C5.06524 5.60926 5.52277 5.79907 6 5.7996Z" fill="#666666"/>
+         </svg>
+       </button>
+     </div>
+     <div class="form-input">
+       <input v-if="!showConfPassword" type="password" id="confirm-password" v-model="confPassword">
+       <input v-else type="text" id="confirm-password" v-model="confPassword">
+       <label for="confirm-password" :class="{active: confPassword.length}">Confirm Password</label>
+       <button class="icon" @click.prevent="showConfPassword = !showConfPassword">
+         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
+           <path d="M11.9655 4.1621C11.9479 4.2016 11.5245 5.1409 10.5828 6.0826C9.32864 7.33695 7.74385 8 6 8C4.25615 8 2.67135 7.337 1.41716 6.08265C0.475458 5.1409 0.0520088 4.20155 0.0344588 4.16205C0.011739 4.11091 0 4.05556 0 3.9996C0 3.94364 0.011739 3.8883 0.0344588 3.83715C0.0520588 3.79765 0.475458 2.85855 1.41721 1.91695C2.6714 0.6629 4.2561 0 6 0C7.7439 0 9.3286 0.6629 10.5828 1.91695C11.5245 2.85855 11.9479 3.7976 11.9655 3.83715C11.9883 3.8883 12 3.94364 12 3.9996C12 4.05556 11.9882 4.11096 11.9655 4.1621ZM6 5.7996C6.35601 5.7996 6.70402 5.69403 7.00002 5.49625C7.29603 5.29846 7.52674 5.01734 7.66298 4.68843C7.79922 4.35952 7.83486 3.9976 7.76541 3.64844C7.69596 3.29927 7.52452 2.97854 7.27279 2.72681C7.02106 2.47507 6.70033 2.30364 6.35116 2.23419C6.002 2.16473 5.64008 2.20038 5.31117 2.33662C4.98226 2.47285 4.70114 2.70356 4.50336 2.99957C4.30557 3.29558 4.2 3.64359 4.2 3.9996C4.20053 4.47683 4.39034 4.93436 4.72779 5.27181C5.06524 5.60926 5.52277 5.79907 6 5.7996Z" fill="#666666"/>
+         </svg>
+       </button>
+     </div>
+     <button
+       @click.prevent="newPassword"
+       :disabled="password.length < 4 || confPassword !== password"
+       class="btn btn-orange">reset password</button>
+     <p>
+       Don’t you have an account?
+       <button class="t-up bold" @click.prevent="type = 'reg'">Sign up</button>
+     </p>
+   </form>
    <p class="error" v-if="errorMessage">{{errorMessage}}</p>
  </div>
 </template>
@@ -181,54 +216,6 @@ watch([type, name, email, password], () => {
 
     &.error {
       color: #dc0606;
-    }
-  }
-  .form {
-    display: grid;
-    grid-gap: 10px;
-
-    &-input {
-      border: 1px solid $black;
-      position: relative;
-
-      &.error {
-        border-color: #dc0606;
-      }
-      .icon {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-      }
-      label {
-        position: absolute;
-        top: 50%;
-        left: 20px;
-        transform: translateY(-50%);
-        transition: .3s;
-        color: $grey-dark;
-        font-size: 10px;
-
-        &.active {
-          top: 5px;
-          transform: translateY(0);
-        }
-      }
-      input {
-        font-size: 14px;
-        border: none;
-        padding: 18px 20px 10px;
-        outline: none;
-        width: 100%;
-      }
-      input:focus + label {
-        top: 5px;
-        transform: translateY(0);
-      }
-    }
-    .btn-orange {
-      width: 100%;
-      font-size: 20px;
     }
   }
 

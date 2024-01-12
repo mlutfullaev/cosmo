@@ -19,6 +19,7 @@ import SingleProductView from '@/views/SingleProductView.vue'
 import VueCookies from 'vue-cookies'
 import store from '@/store'
 import ProfileView from '@/views/ProfileView.vue'
+import PasswordResetView from '@/views/PasswordResetView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -110,6 +111,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/password-reset',
+    name: 'password-reset',
+    component: PasswordResetView
   },
 ]
 

@@ -71,11 +71,19 @@ const write = ref(false)
       justify-items: left;
       align-content: start;
 
-      .section-title:last-of-type {
-        color: inherit;
-        display: flex;
+      .section-title {
+        &:last-of-type {
+          color: inherit;
+          display: flex;
 
-        padding: 10px 0;
+          padding: 10px 0;
+        }
+        @media (max-width: 1350px) and (min-width: 1200px) {
+          font-size: 130px;
+        }
+        @media (max-width: 1125px) and (min-width: 1000px) {
+          font-size: 110px;
+        }
       }
       .section-subtitle {
         padding-top: 10px;

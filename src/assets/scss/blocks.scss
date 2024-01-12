@@ -158,6 +158,58 @@
 
 }
 
+.form {
+  display: grid;
+  grid-gap: 10px;
+
+  h3 {
+    padding-bottom: 20px;
+  }
+  &-input {
+    border: 1px solid $black;
+    position: relative;
+
+    &.error {
+      border-color: #dc0606;
+    }
+    .icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+    }
+    label {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      transition: .3s;
+      color: $grey-dark;
+      font-size: 10px;
+
+      &.active {
+        top: 5px;
+        transform: translateY(0);
+      }
+    }
+    input {
+      font-size: 14px;
+      border: none;
+      padding: 18px 20px 10px;
+      outline: none;
+      width: 100%;
+    }
+    input:focus + label {
+      top: 5px;
+      transform: translateY(0);
+    }
+  }
+  .btn-orange {
+    width: 100%;
+    font-size: 20px;
+  }
+}
+
 .hint-content {
   display: grid;
   grid-template-columns: auto 1fr;

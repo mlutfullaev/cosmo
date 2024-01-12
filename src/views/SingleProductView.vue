@@ -464,9 +464,7 @@ main {
 
     > div {
       position: relative;
-      display: grid;
       padding: 20px;
-      grid-template-rows: repeat(3, auto);
       justify-content: center;
       background-color: $white;
       width: 100%;
