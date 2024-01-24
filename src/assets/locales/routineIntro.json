@@ -1,0 +1,59 @@
+{
+  "mainTitle": {
+    "en": "Interactive Library of the Daily Beauty Routines"
+  },
+  "mainSubtitle": {
+    "en": "You Beauty Rituals Discoveries supported by Your Community and AI."
+  },
+  "categoryTitle": {
+    "en": "Find Routine matches best for you"
+  },
+  "categoryTxt": {
+    "en": "We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product. Check details, receive Answers, collect samples and Discover Alternative Productsdirectly from Product Interactive Label."
+  },
+  "categories": {
+    "en": "categories"
+  },
+  "morningRoutine": {
+    "en": "morning Routine "
+  },
+  "nightRoutine": {
+    "en": "night Routine "
+  },
+  "spring": {
+    "en": "spring"
+  },
+  "longFlight": {
+    "en": "long flight"
+  },
+  "winter": {
+    "en": "winter"
+  },
+  "stepNumbers": {
+    "en": "number of steps"
+  },
+  "skinTypes": {
+    "en": "skin types"
+  },
+  "dry": {
+    "en": "dry"
+  },
+  "oily": {
+    "en": "oily"
+  },
+  "normal": {
+    "en": "normal"
+  },
+  "sensitive": {
+    "en": "sensitive"
+  },
+  "combination": {
+    "en": "combination"
+  },
+  "randomPick": {
+    "en": "Random pick of Routines from Our Library"
+  },
+  "seeMoreRoutines": {
+    "en": "See more Routines Designed for You"
+  }
+}

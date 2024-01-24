@@ -1,0 +1,74 @@
+{
+  "product": {
+    "en": "product"
+  },
+  "library": {
+    "en": "library"
+  },
+  "subtitle": {
+    "en": "Select what your skin needs or choose a step to find the product that is best suited to your skin"
+  },
+  "weCanDo": {
+    "en": "We can do in-depth selection as well"
+  },
+  "productSelectTarget": {
+    "en": "Please select the targeted age group. If the product does not have age specification or warnings for age"
+  },
+  "weCollectBeauty": {
+    "en": "We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product."
+  },
+  "scanQrCodeLux": {
+    "en": "Scan qr code to get LUX AI "
+  },
+  "scanQrCode": {
+    "en": "scan qr code to make most from product page"
+  },
+  "routineTitle": {
+    "en": "Most Searched Routines shortcuts"
+  },
+  "routineSelection": {
+    "en": "Routine selection Assistant"
+  },
+  "routineSelectionTxt": {
+    "en": "For best results  we recommend to identify your criteria's in most of the fileds."
+  },
+  "search": {
+    "en": "search"
+  },
+  "filterSelect": {
+    "en": "Please select Your age group to make relevant search"
+  },
+  "filterTxt": {
+    "en": "IF you are not sure about your skin type, take a look at your mid-afternoon reflection. If you’re oilier all over, you have an oily skin type. If skin’s starting to feel parched, you're dry. Somewhere in the middle? Call it balanced."
+  },
+  "combination": {
+    "en": "Combination"
+  },
+  "dryTxt": {
+    "en": "You’ll be dry in some areas and oily in others (usually around the nose, chin and forehead), with some  blackheads, slightly shiny skin and more visible pores."
+  },
+  "dry": {
+    "en": "dry"
+  },
+  "oily": {
+    "en": "oily"
+  },
+  "oilTxt": {
+    "en": "Produces lots of natural oils, which might mean you’re prone to more visible pores, a shiny complexion, blackheads and spots."
+  },
+  "skinTxt": {
+    "en": "Your skin might crack, peel or become itchy quite easily, especially when it’s cold out. You’ll tend to have more visible lines, red patches and a rougher complexion."
+  },
+  "normal": {
+    "en": "normal"
+  },
+  "welBalanced": {
+    "en": "Well-balanced, no severe sensitivity, barely visible pores and a radiant complexion. Not too dry and not too oily."
+  },
+  "notSureStart": {
+    "en": "Really not sure? Just pick"
+  },
+  "notSureEnd": {
+    "en": " as this is what the majority of people are."
+  }
+}

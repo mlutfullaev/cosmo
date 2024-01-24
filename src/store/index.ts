@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import auth from './auth'
 import { useHelpers } from '@/useHelpers'
+import { locales } from '@/assets/constants'
 
 const { setCookie } = useHelpers()
 
@@ -19,6 +20,7 @@ const store = createStore({
     username: '',
     showLater: false,
     modalSubscribe: false,
+    lang: 'en',
   },
   getters: {
   },
@@ -40,6 +42,10 @@ const store = createStore({
       state.beauty = false
       state.username = ''
       setCookie('login', { username: '', accessToken: '', expiresIn: '1s' }, '1s')
+    },
+    switchLanguage (state, value) {
+      state.lang = value
+      localStorage.setItem('locale', value)
     }
   },
   actions: {

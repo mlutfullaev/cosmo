@@ -7,6 +7,8 @@ import FilterBrands from '@/components/FilterBrands.vue'
 import 'swiper/css'
 import 'vue-simple-range-slider/css'
 import { StringObject } from '@/assets/interfaces'
+import layoutsText from '@/assets/locales/layouts.json'
+import store from '../store'
 
 defineProps<{
   itemsLength: number,
@@ -75,7 +77,7 @@ const range = ref<[number, number]>([20, 1000])
       Filters <span v-if="selected.length">({{ selected.length }})</span>
     </button>
 
-    <p class="txt-highlight">Popular tags:</p>
+    <p class="txt-highlight">{{layoutsText.popularTags[store.state.lang]}}:</p>
 
     <swiper
       :navigation="({
@@ -116,7 +118,7 @@ const range = ref<[number, number]>([20, 1000])
 
     <div class="theFilter-inner" :class="{active: filterActive}">
       <div class="theFilter-top d-sb" v-if="Object.keys(selected).length">
-        <p class="name">Applied filters</p>
+        <p class="name">{{layoutsText.appliedFilters[store.state.lang]}}</p>
         <ul class="theFilter-tags d-center">
           <li
             v-for="(filter, key) in selected"
@@ -200,7 +202,7 @@ const range = ref<[number, number]>([20, 1000])
         button-type="button" />
 
       <div class="theFilter-bottom d-center">
-        <button class="title-secondary" @click="() => {$emit('filter', selected); filterActive = false}">Apply</button>
+        <button class="title-secondary" @click="() => {$emit('filter', selected); filterActive = false}">{{layoutsText.apply[store.state.lang]}}</button>
       </div>
     </div>
   </div>

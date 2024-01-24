@@ -10,12 +10,12 @@ import BaseRate from '@/baseComponents/BaseRate.vue'
 import BeforeAfter from '@/components/BeforeAfter.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import BaseSubscripe from '@/baseComponents/BaseSubscripe.vue'
-import ModalSubscribe from '@/components/ModalSubscribe.vue'
 import BaseHint from '@/baseComponents/BaseHint.vue'
 import 'swiper/css'
 import { API_URL, emptyRes } from '@/assets/constants'
 import TheReviews from '@/components/TheReviews.vue'
 import ThePagination from '@/layouts/ThePagination.vue'
+import text from '@/assets/locales/singleRoutine.json'
 
 interface Step {
   stepOrder: number,
@@ -28,7 +28,7 @@ interface Step {
 
 const route = useRoute()
 const { updateMeta } = useHelpers()
-const { beauty, showLater } = store.state
+const { beauty } = store.state
 
 const steps = ref<Step[]>([])
 const routine = ref<Routine | null>(null)
@@ -64,7 +64,7 @@ watch(route, () => {
   <TheHeader/>
 
   <div class="header__hint" :class="{active: store.state.showLater}">
-    <button class="btn-black txt-highlight">GUIDE ME</button>
+    <button class="btn-black txt-highlight">{{text.guideMe[store.state.lang]}}</button>
     <button class="btn-black">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M2.03283 1C1.43866 1 1 1.45279 1 1.95856V13.9591C1 14.8181 2.09567 15.3217 2.73888 14.7599L6.23104 11.3345L6.23996 11.3266C6.9875 10.6604 8.12872 10.6302 8.91299 11.2523L13.1598 14.6218H13.1608L13.2973 14.73C14.0048 15.2911 15 14.7724 15 14.0015V1.95856C15 1.45221 14.5607 1 13.9672 1H2.03283ZM0 1.95856C0 0.854735 0.933283 0 2.03283 0H13.9672C15.0652 0 16 0.853251 16 1.95856V14.0015C16 15.6384 14.1157 16.4708 12.8255 15.6218H12.8112L8.29153 12.0357C7.88934 11.7167 7.29671 11.7315 6.91336 12.066L3.42142 15.4911L3.41262 15.499C2.0979 16.6722 0 15.6474 0 13.9591V1.95856Z" fill="white"/>
@@ -90,8 +90,8 @@ watch(route, () => {
     <div class="main__image bg-img"></div>
     <div class="main__inner">
       <div class="main__inner__top">
-        <h2 class="section-text">Spring Revitalising Routine</h2>
-        <p class="txt">Personalized Beauty Routine for Individuals for scandic people with oily problematic skin. Unlock the Secrets of Scandic Beauty: Embrace a Natural, Effortless, and Radiant Routine.</p>
+        <h2 class="section-text">{{text.mainTitle[store.state.lang]}}</h2>
+        <p class="txt">{{text.mainSubtitle[store.state.lang]}}</p>
         <div class="d-center">
           <router-link to="#">#dry skin</router-link>
           <router-link to="#">#5step</router-link>
@@ -107,16 +107,16 @@ watch(route, () => {
               <path d="M15 7.89453C11.895 7.89453 9.375 10.4145 9.375 13.5195C9.375 16.5645 11.76 19.0395 14.925 19.1295H15.06H15.165H15.195C18.225 19.0245 20.61 16.5645 20.625 13.5195C20.625 10.4145 18.105 7.89453 15 7.89453Z" fill="black"/>
             </svg>
             {{ routine.authorName }}
-            <span class="your-skin" v-if="true">Your skintwin</span>
+            <span class="your-skin" v-if="true">{{text.yourSkin[store.state.lang]}}</span>
           </p>
           <BaseRate rates="4.5" :text="true" />
         </div>
         <div>
           <div class="d-sb">
-            <h3>ROUTINE BUDGET: </h3>
-            <h3 class="bold">130 EURO</h3>
+            <h3>{{text.routineBudget[store.state.lang]}}: </h3>
+            <h3 class="bold t-up">130 {{text.euro[store.state.lang]}}</h3>
           </div>
-          <div class="txt grey">We estimate Budget of this Routine  based on average pricing in your area.</div>
+          <div class="txt grey">{{text.weEstimateBudget[store.state.lang]}}</div>
         </div>
       </div>
     </div>
@@ -124,38 +124,43 @@ watch(route, () => {
 
   <section v-show="false" class="info bg-img">
     <div class="hint-content">
-      <h2>beauty <span>meter</span></h2>
+      <h2>{{text.beauty[store.state.lang]}} <span>{{text.meter[store.state.lang]}}</span></h2>
       <BaseHint hint="bla bla bla bla" />
     </div>
     <div class="section-subtitle">
       <h3>130</h3>
-      <p>Beauties tried this routine and evaluated their results </p>
+      <p>{{text.beautiesTried[store.state.lang]}} </p>
     </div>
     <div class="info__inner">
-      <h3>VERIFIED RESULTS in 8 weeks</h3>
+      <h3>{{text.verifiedResults[store.state.lang]}}</h3>
       <div class="info__inner__item">
-        <p class="txt-highlight">WRINCKLES</p>
-        <p class="name">improvement by average</p>
+        <p class="txt-highlight">{{text.wrinckles[store.state.lang]}}</p>
+        <p class="name">{{text.wrincklesText[store.state.lang]}}</p>
         <h3>15%</h3>
       </div>
       <div class="info__inner__item">
-        <p class="txt-highlight">WRINCKLES</p>
-        <p class="name">improvement by average</p>
+        <p class="txt-highlight">{{text.wrinckles[store.state.lang]}}</p>
+        <p class="name">{{text.wrincklesText[store.state.lang]}}</p>
         <h3>15%</h3>
       </div>
       <div class="info__inner__item">
-        <p class="txt-highlight">WRINCKLES</p>
-        <p class="name">improvement by average</p>
+        <p class="txt-highlight">{{text.wrinckles[store.state.lang]}}</p>
+        <p class="name">{{text.wrincklesText[store.state.lang]}}</p>
         <h3>15%</h3>
       </div>
       <div class="info__inner__item">
-        <p class="txt-highlight">WRINCKLES</p>
-        <p class="name">improvement by average</p>
+        <p class="txt-highlight">{{text.wrinckles[store.state.lang]}}</p>
+        <p class="name">{{text.wrincklesText[store.state.lang]}}</p>
         <h3>15%</h3>
       </div>
       <div class="info__inner__item">
-        <p class="txt-highlight">WRINCKLES</p>
-        <p class="name">improvement by average</p>
+        <p class="txt-highlight">{{text.wrinckles[store.state.lang]}}</p>
+        <p class="name">{{text.wrincklesText[store.state.lang]}}</p>
+        <h3>15%</h3>
+      </div>
+      <div class="info__inner__item">
+        <p class="txt-highlight">{{text.wrinckles[store.state.lang]}}</p>
+        <p class="name">{{text.wrincklesText[store.state.lang]}}</p>
         <h3>15%</h3>
       </div>
     </div>
@@ -163,8 +168,8 @@ watch(route, () => {
 
   <section class="steps" v-if="steps.length">
     <div class="steps__text">
-      <h2 class="section-title">5 Step Beauty Ritual</h2>
-      <p class="txt">This routine is intended for use during Spring and Early Summer to keep Dry skin hydrated and prepared for comming Summer direct sun exposure.  Noisturing skin done on multiple steps and provided universal get-prepared foundation for next step in Your Beauty Journey.</p>
+      <h2 class="section-title">5 {{text.stepBeautyRitual[store.state.lang]}}</h2>
+      <p class="txt">{{text.stepTxt[store.state.lang]}}</p>
     </div>
     <div class="steps__inner bg-img">
       <div class="steps__inner__content block-scroll">
@@ -180,7 +185,7 @@ watch(route, () => {
         </div>
       </div>
     </div>
-    <button @click="store.commit('updateModalSubscribe', true)"  class="link bg-orange">SEE PRODUCTS USED IN THIS ROUTINE <span>→</span></button>
+    <button @click="store.commit('updateModalSubscribe', true)"  class="link bg-orange">{{text.seeProducts[store.state.lang]}} <span>→</span></button>
   </section>
 
   <TheReviews />
@@ -188,33 +193,32 @@ watch(route, () => {
   <div class="progress">
     <div class="progress__text">
       <div class="progress__text__top">
-        <h2 class="section-title">Check Your Progress</h2>
-        <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your SkinTwins .
-          Use their experiences to make smart beauty decisions.</p>
+        <h2 class="section-title">{{text.checkYourProgress[store.state.lang]}}</h2>
+        <p class="txt">{{text.checkYourProgressTxt[store.state.lang]}}</p>
       </div>
-      <button @click="store.commit('updateModalSubscribe', true)" class="link bg-orange">Start Your Beauty Discovery <span>→</span></button>
+      <button @click="store.commit('updateModalSubscribe', true)" class="link bg-orange">{{text.startDiscovery[store.state.lang]}} <span>→</span></button>
     </div>
     <BeforeAfter/>
   </div>
 
   <section id="routine" class="routines" v-if="alternatives.data.length">
     <div class="routines__top">
-      <h2 class="section-title">Alternative Routines</h2>
+      <h2 class="section-title">{{text.alternativeRoutines[store.state.lang]}}</h2>
       <div class="section-subtitle">
         <h3>130</h3>
-        <p>Routines are targeting the same concerns.</p>
+        <p>{{text.alternativeRoutinesSubtitle[store.state.lang]}}</p>
       </div>
-      <p class="txt">Routines handling the same concerns or using the similar products can be found in this section. <br/><br/>
-        * To get more personal routine recommendations, which include skin profile parameters based recommendations, you are required to have the skin profile.</p>
+      <p class="txt">
+        {{text.alternativeRoutinesTxt[store.state.lang]}}</p>
     </div>
     <div class="routines__list">
       <RoutineCard v-for="routine in alternatives.data" :routine="routine.routine" :key="routine.routine.id" />
       <div v-if="!beauty" class="routine-item center bg-orange min-tablet">
-        <router-link to="#" class="link bold">SEE MORE ROUTINES <span>→</span></router-link>
+        <router-link to="#" class="link bold">{{text.seeMoreRoutines[store.state.lang]}}<span>→</span></router-link>
       </div>
     </div>
     <ThePagination v-if="alternatives.meta.pageCount > 1" :meta="alternatives.meta" />
-    <router-link v-if="!beauty" to="#" class="link bold tablet bg-orange">SEE MORE ROUTINES <span>→</span></router-link>
+    <router-link v-if="!beauty" to="#" class="link bold tablet bg-orange">{{text.seeMoreRoutines[store.state.lang]}}<span>→</span></router-link>
   </section>
 
   <AiAssistance v-if="!beauty"/>

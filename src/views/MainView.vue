@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useHelpers } from '@/useHelpers'
+import mainText from '@/assets/locales/main.json'
+import store from '../store'
 
 const { updateMeta } = useHelpers()
 
@@ -13,21 +15,23 @@ onMounted(() => {
   <TheHeader/>
   <main>
     <div class="main-item d-center bg-orange find-details">
-      <router-link to="/product-intro" class="link bold">Find Details about Beauty Products <span>→</span></router-link>
+      <router-link to="/product-intro" class="link bold">{{mainText.findDetails[store.state.lang]}} <span>→</span></router-link>
     </div>
     <div class="main-item d-center get-ai">
-      <router-link to="/product-intro" class="link bold">Get Your AI Personal Beauty Assistant <span>→</span>
+      <router-link to="/product-intro" class="link bold">
+        {{mainText.getYourAi[store.state.lang]}} <span>→</span>
       </router-link>
       <p class="main-num">02</p>
     </div>
     <div class="main-item bg-img discover-beauty">
       <h2 class="main-num-large">03</h2>
-      <router-link to="/routine-intro" class="link bold">Discover Beauty Routines for every occasion <span>→</span>
+      <router-link to="/routine-intro" class="link bold">
+        {{mainText.discoverBeauty[store.state.lang]}} <span>→</span>
       </router-link>
     </div>
     <div class="main-item d-center bg-orange find-what">
       <p class="main-num">04</p>
-      <router-link to="/registration" class="link bold">Find what your SkinTwin are using <span>→</span></router-link>
+      <router-link to="/registration" class="link bold">{{mainText.findYourSkin[store.state.lang]}} <span>→</span></router-link>
     </div>
     <div class="main-item bg-img number-one">
       <h1 class="main-num-large orange">01</h1>
@@ -35,7 +39,7 @@ onMounted(() => {
     <div class="main-item bg-img first-img"></div>
     <div class="main-item bg-img second-img"></div>
     <div class="main-item d-center independent-library">
-      <h1 class="main-title">Independent Library of Beauty Products and Skin Routines Experiences</h1>
+      <h1 class="main-title">{{mainText.independentLibrary[store.state.lang]}}</h1>
     </div>
   </main>
   <TheFooter/>

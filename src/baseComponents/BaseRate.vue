@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
+import text from '@/assets/locales/components.json'
+import store from '../store'
 defineProps<{rates: number, text?: boolean}>()
 </script>
 
@@ -18,7 +20,7 @@ defineProps<{rates: number, text?: boolean}>()
         <path d="M10.0005 0.607178V17.484L4.50831 20.5291C4.06744 20.7768 3.49822 20.4014 3.59156 19.8783L4.64166 13.3962L0.174576 8.81619C-0.169623 8.45329 0.0187279 7.84846 0.532942 7.7567L6.67518 6.82234L9.43377 0.940878C9.53378 0.71563 9.76714 0.607178 10.0005 0.607178Z" :fill="rate - 0.5 === rates ? '#FF8A00' : rate <= rates ? '#FF8A00' : '#666666'"/>
       </svg>
     </div>
-    <p v-if="text">251 Reviews</p>
+    <p v-if="text">251 {{text.reviews[store.state.lang]}}</p>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue'
 import store from '@/store'
+import text from '@/assets/locales/components.json'
 
 defineProps({
   routerLink: {
@@ -24,34 +25,32 @@ const checkBeauty = () => {
 
 <template>
   <section id="routine" class="routine">
-    <h1 class="routine-title">routine guide</h1>
+    <h1 class="routine-title">{{text.routineGuide[store.state.lang]}}</h1>
     <div class="routine-inner">
       <img src="@/assets/img/product/routine-1.png" class="min-tablet routine-item-img" alt="routine-img">
       <img src="@/assets/img/product/routine-1-tablet.png" class="tablet min-phone routine-item-img" alt="routine-img">
       <img src="@/assets/img/product/routine-1-phone.png" class="phone routine-item-img" alt="routine-img">
       <div class="routine-item-discover">
-        <p class="txt" v-if="!intro">Argan oil is used in 2818 Routines in COSMO.WIKI Routine Library</p>
+        <p class="txt" v-if="!intro">{{text.routineGuideTxt[store.state.lang]}}</p>
         <router-link :to="routerLink.link" class="link bold tablet-orange">{{ routerLink.value }} <span>→</span>
         </router-link>
       </div>
       <div class="routine-item-share" v-if="!intro">
-        <h3 class="title">Share Your Routines with Friends</h3>
-        <p class="txt">Make Routine. Share Signup to be the first to hear about exclusive deals,special offers and
-          upcoming collections</p>
+        <h3 class="title">{{text.shareWithFriends[store.state.lang]}}</h3>
+        <p class="txt">{{text.makeRoutine[store.state.lang]}}</p>
       </div>
       <div class="routine-item-signup d-center" v-if="!intro">
-        <router-link to="/registration" class="link bold tablet-orange">Sign up <span>→</span></router-link>
+        <router-link to="/registration" class="link bold tablet-orange">{{text.signUp[store.state.lang]}} <span>→</span></router-link>
       </div>
       <div class="d-center routine-item-scan" v-if="!intro">
         <div class="scan-content">
-          <h3 class="title">Check Routines designed for Your Skin Type</h3>
-          <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-            maximum details about products and experiences Your SkinTwins had with this product.</p>
+          <h3 class="title">{{text.checkRoutines[store.state.lang]}}</h3>
+          <p class="txt">{{text.WeCollectBeautyProducts[store.state.lang]}}.</p>
         </div>
         <img @click="checkBeauty" src="@/assets/img/global/qr.png" alt="" v-if="!intro">
       </div>
     </div>
-    <router-link to="#" class="tablet link bold tablet-orange">Sign up <span>→</span></router-link>
+    <router-link to="#" class="tablet link bold tablet-orange">{{text.signUp[store.state.lang]}} <span>→</span></router-link>
   </section>
 </template>
 

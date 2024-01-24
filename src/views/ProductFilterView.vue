@@ -7,6 +7,7 @@ import FilterCategories from '@/components/FilterCategories.vue'
 import FilterBrands from '@/components/FilterBrands.vue'
 import FilterSelect from '@/components/FilterSelect.vue'
 import { API_URL } from '@/assets/constants'
+import text from '@/assets/locales/filter.json'
 
 const alertActive = ref(true)
 const activeLib = ref(0)
@@ -120,9 +121,9 @@ onMounted(() => {
     <TheHeader/>
 
     <div class="productFilter-library bg-img">
-      <h3 class="title-secondary"><span>product</span> library</h3>
+      <h3 class="title-secondary"><span>{{text.product[store.state.lang]}}</span> {{text.library[store.state.lang]}}</h3>
       <p class="name">
-        Select what your skin needs or choose a step to find the product that is best suited to your skin
+        {{text.subtitle[store.state.lang]}}
       </p>
       <div class="productFilter-library-tabs">
         <button
@@ -153,17 +154,20 @@ onMounted(() => {
             fill="black"/>
         </svg>
       </a>
-      <h1 class="title">We can do in-depth selection as well</h1>
-      <p class="txt">Please select the targeted age group. If the product does not have age specification or warnings
-        for age </p>
+      <h1 class="title">{{text.weCanDo[store.state.lang]}}</h1>
+      <p class="txt">
+        {{text.productSelectTarget[store.state.lang]}}
+      </p>
     </div>
 
     <FilterSelect @updateFilter="(key, value) => {filters[key].selectedVariant = value; updateFilterQuery({[key]: value})}" :filters="filters" />
 
     <router-link :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: filterQuery}" class="link bold">search <span>→</span></router-link>
     <div class="scan tablet bg-orange">
-      <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
-      <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
+      <p class="txt" style="padding-bottom: 10px">
+        {{text.weCollectBeauty[store.state.lang]}}
+      </p>
+      <router-link to="/" class="link bold">{{text.scanQrCodeLux[store.state.lang]}}<span>→</span></router-link>
     </div>
 
     <TheFooter/>
@@ -177,11 +181,10 @@ onMounted(() => {
           <path d="M20.2459 20.2451L11.7559 11.7551" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
+      <img src="@/assets/img/global/qr.png" alt="">
       <div class="scan-content">
-        <p class="txt bold t-up">scan qr code to make most from product page</p>
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-          maximum details about products and experiences Your SkinTwins had with this product.</p>
+        <p class="txt bold t-up">{{text.scanQrCode[store.state.lang]}}</p>
+        <p class="txt">{{text.weCollectBeauty[store.state.lang]}}</p>
       </div>
     </div>
   </div>

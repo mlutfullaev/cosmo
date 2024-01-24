@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, RouterView } from 'vue-router'
 import MainView from '@/views/MainView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
 import SingleRoutineView from '@/views/SingleRoutineView.vue'
@@ -18,110 +18,131 @@ import ProductFilterView from '@/views/ProductFilterView.vue'
 import SingleProductView from '@/views/SingleProductView.vue'
 import VueCookies from 'vue-cookies'
 import store from '@/store'
-import ProfileView from '@/views/ProfileView.vue'
+import ProfileView from '@/views/Profile/ProfileView.vue'
 import PasswordResetView from '@/views/PasswordResetView.vue'
+import { locales } from '@/assets/constants'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '',
     name: 'main',
     component: MainView
   },
   {
-    path: '/single-product/:id',
+    path: 'single-product/:id',
     name: 'single-product',
     component: SingleProductView
   },
   {
-    path: '/product-results/search/:param',
+    path: 'product-results/search/:param',
     name: 'product-results-search',
     component: ProductResultSearch
   },
   {
-    path: '/product-results/brand/:param',
+    path: 'product-results/brand/:param',
     name: 'product-results-brand',
     component: ProductResultBrand
   },
   {
-    path: '/product-results/menu/:param',
+    path: 'product-results/menu/:param',
     name: 'product-results-menu',
     component: ProductResultMenu
   },
   {
-    path: '/product-results/filtered/',
+    path: 'product-results/filtered/',
     name: 'product-results-filtered',
     component: ProductResultFiltered
   },
   {
-    path: '/product-results/not-found/:param?',
+    path: 'product-results/not-found/:param?',
     name: 'product-results-not-found',
     component: ProductResultNotFound
   },
   {
-    path: '/product-filter',
+    path: 'product-filter',
     name: 'product-filter',
     component: ProductFilterView
   },
   {
-    path: '/product-intro',
+    path: 'product-intro',
     name: 'product-intro',
     component: ProductIntroView
   },
   {
-    path: '/routine-filter',
+    path: 'routine-filter',
     name: 'routine-filter',
     component: RoutineFilterView
   },
   {
-    path: '/single-routine/:id',
+    path: 'single-routine/:id',
     name: 'singe-routine',
     component: SingleRoutineView
   },
   {
-    path: '/routine-results/filtered',
+    path: 'routine-results/filtered',
     name: 'routine-results-filtered',
     component: RoutineResultFiltered
   },
   {
-    path: '/routine-results/menu/:param',
+    path: 'routine-results/menu/:param',
     name: 'routine-results-menu',
     component: RoutineResultMenu
   },
   {
-    path: '/routine-results/brand/:param',
+    path: 'routine-results/brand/:param',
     name: 'routine-results-brand',
     component: RoutineResultBrand
   },
   {
-    path: '/routine-results/not-found/:param?',
+    path: 'routine-results/not-found/:param?',
     name: 'routine-results-not-found',
     component: RoutineResultNotFound
   },
   {
-    path: '/routine-intro',
+    path: 'routine-intro',
     name: 'routine-intro',
     component: RoutineIntroView
   },
   {
-    path: '/registration',
+    path: 'registration',
     name: 'registration',
     component: RegistrationView
   },
   {
-    path: '/profile',
+    path: 'profile',
     name: 'profile',
     component: ProfileView
   },
   {
-    path: '/password-reset',
+    path: 'password-reset',
     name: 'password-reset',
     component: PasswordResetView
   },
 ]
 
+const languageMiddleware = (to: any, _from: any, next: any) => {
+  const paramLocale = to.params.locale
+
+  if (!locales.includes(paramLocale)) {
+    console.log(true)
+    router.replace({ params: { locale: store.state.lang } })
+    next()
+  }
+
+  store.commit('switchLanguage', paramLocale)
+  next()
+}
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
+  routes: [
+    {
+      path: '/:locale?',
+      component: RouterView,
+      beforeEnter: languageMiddleware,
+      children: routes
+    }
+  ],
   scrollBehavior (to, from, savedPosition) {
     if (to.hash) {
       return {

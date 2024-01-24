@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import store from '@/store'
+import layoutsText from '@/assets/locales/layouts.json'
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -24,8 +24,7 @@ const scrollToTop = () => {
     <div class="footer">
       <div class="footer-item">
         <router-link to="/" class="logo">cosmo<span>.wiki</span></router-link>
-        <p>Make smart Beauty decisions with Independed Skincare Wikipedia for Beauty products and Routine
-          references.</p>
+        <p>{{layoutsText.makeSmartDecision[store.state.lang]}}</p>
         <div class="d-center">
           <router-link to="#" class="note">Contact us</router-link>
           <a href="#" class="note-2">
@@ -35,26 +34,26 @@ const scrollToTop = () => {
             </svg>
           </a>
         </div>
-        <p class="note-2">©2023 COSMO.WIKI. All rights reserved</p>
-        <router-link to="#" class="note-2">Legals</router-link>
+        <p class="note-2">©2023 COSMO.WIKI. {{layoutsText.allRightsReserved[store.state.lang]}}</p>
+        <router-link to="#" class="note-2">{{layoutsText.legals[store.state.lang]}}</router-link>
       </div>
       <div class="footer-item">
-        <router-link to="/product-intro" class="note">Skincare Products Library</router-link>
-        <router-link to="/routine-intro" class="note">Routines Library</router-link>
-        <router-link to="/registration" class="note">your Beauty ID</router-link>
+        <router-link to="/product-intro" class="note">{{layoutsText.skincareProductsLibrary[store.state.lang]}}</router-link>
+        <router-link to="/routine-intro" class="note">{{layoutsText.routineLibrary[store.state.lang]}}</router-link>
+        <router-link to="/registration" class="note">{{layoutsText.yourBeautyId[store.state.lang]}}</router-link>
       </div>
       <div class="footer-item">
-        <p class="note">Connect with LUX AI Personal Beauty Assistant</p>
+        <p class="note">{{layoutsText.connectLux[store.state.lang]}}</p>
         <router-link to="/" class="note-2">Telegram</router-link>
         <router-link to="/" class="note-2">Whatsapp</router-link>
         <router-link to="/" class="note-2">Android</router-link>
         <router-link to="/" class="note-2">IOS</router-link>
       </div>
       <div class="footer-item">
-        <p class="note">Our Story</p>
-        <router-link to="#" class="note-2">For Retailers</router-link>
-        <router-link to="#" class="note-2">For Brands</router-link>
-        <router-link to="#" class="note-2">Our DermoBoard</router-link>
+        <p class="note">{{layoutsText.ourStory[store.state.lang]}}</p>
+        <router-link to="#" class="note-2">{{layoutsText.forRetailers[store.state.lang]}}</router-link>
+        <router-link to="#" class="note-2">{{layoutsText.forBrands[store.state.lang]}}</router-link>
+        <router-link to="#" class="note-2">{{layoutsText.ourDermoBoard[store.state.lang]}}</router-link>
       </div>
     </div>
   </footer>

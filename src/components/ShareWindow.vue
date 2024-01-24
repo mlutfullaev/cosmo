@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { defineEmits, onBeforeUnmount, ref, watch } from 'vue'
+import text from '@/assets/locales/components.json'
+import store from '../store'
 
 const emits = defineEmits<{(event: 'close-alert'): void}>()
 
@@ -35,7 +37,7 @@ function shareClick (e: MouseEvent) {
       </svg>
     </button>
 
-    <p class="share-window-el txt-highlight">Share this routine with skintwins</p>
+    <p class="share-window-el txt-highlight">{{text.shareWithSkinTwins[store.state.lang]}}</p>
     <div class="share-window-el d-sb">
       <button class="share-window-el share-item">
         <img src="@/assets/img/product/share.png" alt="person-icon">

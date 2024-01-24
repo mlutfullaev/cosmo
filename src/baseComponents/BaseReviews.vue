@@ -2,6 +2,8 @@
 import { Review } from '@/assets/interfaces'
 import { defineProps, ref } from 'vue'
 import BaseRate from '@/baseComponents/BaseRate.vue'
+import store from '../store'
+import text from '@/assets/locales/components.json'
 
 defineProps<{reviews: Review[]}>()
 
@@ -39,7 +41,7 @@ const scrollDown = () => {
         :key="review.id">
         <p class="txt bold t-up">
           {{ review.reviewUser }}
-          <span class="your-skin" v-if="false">YOUR SKINTWIN</span>
+          <span class="your-skin" v-if="false">{{text.yourSkin[store.state.lang]}}</span>
         </p>
         <BaseRate :rates="review.reviewRating"/>
         <p class="txt">{{ review.reviewText }}</p>
@@ -50,7 +52,7 @@ const scrollDown = () => {
         :key="review.id">
         <p class="txt bold t-up">
           {{ review.reviewUser }}
-          <span class="your-skin" v-if="false">YOUR SKINTWIN</span>
+          <span class="your-skin" v-if="false">{{text.yourSkin[store.state.lang]}}</span>
         </p>
         <BaseRate :rates="review.reviewRating"/>
         <p class="txt">{{ review.reviewText }}</p>

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useHelpers } from '@/useHelpers'
+import store from '../store'
+import text from '@/assets/locales/components.json'
 
 const { validateEmail, sendEmail } = useHelpers()
 const emailInput = ref('')
@@ -22,20 +24,20 @@ const subscribeHandler = async () => {
 
 <template>
  <section v-if="!success" class="base-subscribe bg-img">
-   <h2>Subscribe to updates</h2>
-   <p class="txt">Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat id at/</p>
+   <h2>{{text.subscribeToUpdates[store.state.lang]}}</h2>
+   <p class="txt">{{text.subscribeText[store.state.lang]}}</p>
    <input
      @input="errorInput ? errorInput = false : null"
      :class="{error: errorInput}"
      type="text" v-model="emailInput"
      placeholder="Your email">
-   <p class="note">Subscribing you agree to our Policy bla bla</p>
+   <p class="note">{{text.subscribingYouAgree[store.state.lang]}}</p>
 
-   <button class="link bold" @click="subscribeHandler">SUBSCRIBE <span>→</span></button>
+   <button class="link bold" @click="subscribeHandler">{{text.subscribe[store.state.lang]}} <span>→</span></button>
  </section>
   <section v-else class="base-subscribe base-subscribe--success bg-img ">
-    <h2>Thank you!</h2>
-    <p class="txt">Aliquam eget lectus a neque porta tincidunt. Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat id at// Suspendisse et vestibulum enim. Nullam quis dui ut nibh tempor mollis. Nunc fermentum mollis ante vel finibus. Phasellus quis tellus vel arcu dapibus volutpat id at/</p>
+    <h2>{{text.thankYou[store.state.lang]}}!</h2>
+    <p class="txt">{{text.subscribeText[store.state.lang]}}</p>
   </section>
 </template>
 

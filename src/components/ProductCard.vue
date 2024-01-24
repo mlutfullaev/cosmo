@@ -3,6 +3,8 @@ import { defineProps, PropType } from 'vue'
 import BaseRate from '@/baseComponents/BaseRate.vue'
 import { Product } from '@/assets/interfaces'
 import { API_URL } from '@/assets/constants'
+import text from '@/assets/locales/components.json'
+import store from '../store'
 
 defineProps({
   product: Object as PropType<Product>,
@@ -26,8 +28,8 @@ defineProps({
     <h4 class="txt-highlight">{{ product.name }}</h4>
     <p class="txt">from <span>150$</span></p>
     <img v-if="!bgImg" :src="`${API_URL}images/getimage/${product.mainPicture}`" :alt="product.SEOmainImageAlt">
-    <p class="recommended" :class="{active: false}">recommended</p>
-    <p class="promoted" :class="{active: true}">promoted</p>
+    <p class="recommended" :class="{active: false}">{{text.recommended[store.state.lang]}}</p>
+    <p class="promoted" :class="{active: true}">{{text.promoted[store.state.lang]}}</p>
     <button>
       <svg xmlns="http://www.w3.org/2000/svg" width="36" height="34" viewBox="0 0 36 34" fill="none">
         <path d="M33.8351 22.2065L24.4531 31.6073" stroke="#292D32" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>

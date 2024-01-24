@@ -6,6 +6,7 @@ import FilterSelect from '@/components/FilterSelect.vue'
 import axios from 'axios'
 import store from '@/store'
 import { API_URL } from '@/assets/constants'
+import text from '@/assets/locales/filter.json'
 
 const alertActive = ref(true)
 const library = ref({
@@ -160,7 +161,7 @@ const checkBeauty = () => {
     <TheHeader/>
 
     <div class="productFilter-library bg-img">
-      <h3 class="title-secondary">Most Searched Routines shortcuts</h3>
+      <h3 class="title-secondary">{{text.routineTitle[store.state.lang]}}</h3>
       <FilterCategories
         :categories="library"
         @category-select="(category) => {
@@ -171,8 +172,8 @@ const checkBeauty = () => {
     </div>
 
     <div class="productFilter-title">
-      <h1 class="title">Routine selection Assistant</h1>
-      <p class="txt">For best results  we recommend to identify your criteria's in most of the fileds.</p>
+      <h1 class="title">{{text.routineSelection[store.state.lang]}}</h1>
+      <p class="txt">{{text.routineSelectionTxt[store.state.lang]}}</p>
       <a @click="$router.go(-1)">
         <svg xmlns="http://www.w3.org/2000/svg" width="62" height="24" viewBox="0 0 62 24" fill="none">
           <path
@@ -184,10 +185,10 @@ const checkBeauty = () => {
 
     <FilterSelect :routine="true" @updateFilter="(key, value) => {filters[key].selectedVariant = value; updateFilterQuery({[key]: value})}" :filters="filters" />
 
-    <router-link :to="{path: '/routine-results/filtered/', query: filterQuery}" class="link bold">search <span>→</span></router-link>
+    <router-link :to="{path: '/routine-results/filtered/', query: filterQuery}" class="link bold">{{text.search[store.state.lang]}} <span>→</span></router-link>
     <div v-if="store.state.beauty" class="scan tablet bg-orange">
-      <p class="txt" style="padding-bottom: 10px">We collect Beauty Products details from Brands, Retailers and other users for You to receive maximum details about products and experiences Your SkinTwins had with this product.</p>
-      <router-link to="/" class="link bold">Scan qr code to get LUX AI <span>→</span></router-link>
+      <p class="txt" style="padding-bottom: 10px">{{text.weCollectBeauty[store.state.lang]}}</p>
+      <router-link to="/" class="link bold">{{text.scanQrCodeLux[store.state.lang]}}<span>→</span></router-link>
     </div>
 
     <div v-if="!store.state.beauty" class="alert min-tablet" :class="{hidden: !alertActive}">
@@ -201,9 +202,8 @@ const checkBeauty = () => {
       </button>
       <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
       <div class="scan-content">
-        <p class="txt bold t-up">scan qr code to make most from product page</p>
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-          maximum details about products and experiences Your SkinTwins had with this product.</p>
+        <p class="txt bold t-up">{{text.scanQrCode[store.state.lang]}}</p>
+        <p class="txt">{{text.weCollectBeauty[store.state.lang]}}</p>
       </div>
     </div>
 

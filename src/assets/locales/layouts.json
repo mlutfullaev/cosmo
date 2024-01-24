@@ -1,0 +1,71 @@
+{
+  "login": {
+    "en": "LOGIN"
+  },
+  "popularTags": {
+    "en": "Popular tags"
+  },
+  "appliedFilters": {
+    "en": "Applied filters"
+  },
+  "apply": {
+    "en": "Apply"
+  },
+  "skincareProducts": {
+    "en": "SKINcare products"
+  },
+  "viewAll": {
+    "en": "view all"
+  },
+  "makeSmartDecision": {
+    "en": "Make smart Beauty decisions with Independent Skincare Wikipedia for Beauty products and Routine references."
+  },
+  "allRightsReserved": {
+    "en": "All rights reserved"
+  },
+  "legals": {
+    "en": "Legals"
+  },
+  "skincareProductsLibrary": {
+    "en": "Skincare Products Library"
+  },
+  "skincareRoutines": {
+    "en": "SKINcare ROUTINEs"
+  },
+  "routineLibrary": {
+    "en": "Routine Library"
+  },
+  "yourBeautyId": {
+    "en": "Your Beauty ID"
+  },
+  "connectLux": {
+    "en": "Connect with LUX AI Personal Beauty Assistant"
+  },
+  "ourStory": {
+    "en": "Our Story"
+  },
+  "forRetailers": {
+    "en": "For Retailers"
+  },
+  "forBrands": {
+    "en": "For Brands"
+  },
+  "ourDermoBoard": {
+    "en": "Our DermoBoard"
+  },
+  "skinProductsLib": {
+    "en": "Skin Products Library"
+  },
+  "beautyRoutinesLib": {
+    "en": "BEAUTY ROUTINES LIBRARY"
+  },
+  "personalAiAssistant": {
+    "en": "PERSONAL AI ASSISTANT"
+  },
+  "createProfile": {
+    "en": "create profile"
+  },
+  "howToUse": {
+    "en": "how to use"
+  }
+}

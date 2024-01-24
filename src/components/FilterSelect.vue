@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { defineProps, ref, defineEmits } from 'vue'
 import { Filter } from '@/assets/interfaces'
+import text from '@/assets/locales/filter.json'
+import store from '../store'
 
 const props = defineProps<{filters: Filter, routine?: boolean}>()
 defineEmits<{(event: 'updateFilter', key: string, value: string): void}>()
@@ -21,7 +23,7 @@ const activeTab = ref<number | string>(Object.keys(props.filters)[0])
         <h3>{{ filterTab.title }} <span></span></h3>
         <p>{{ filterTab.subtitle }}</p>
         <div class="content-tab active">
-          <p class="txt-highlight">Please select Your age group to make relevant search</p>
+          <p class="txt-highlight">{{text.filterSelect[store.state.lang]}}</p>
           <div class="filter-buttons">
             <button
               v-for="variant in filterTab.variants"
@@ -42,7 +44,7 @@ const activeTab = ref<number | string>(Object.keys(props.filters)[0])
         v-for="(filterTab, idx) in filters"
         :class="{active: activeTab === idx}"
         :key="filterTab.title">
-        <p class="txt-highlight">Please select Your age group to make relevant search</p>
+        <p class="txt-highlight">{{text.filterSelect[store.state.lang]}}</p>
         <div class="productFilter-buttons">
           <button
             v-for="variant in filterTab.variants"
@@ -54,18 +56,18 @@ const activeTab = ref<number | string>(Object.keys(props.filters)[0])
         </div>
       </div>
       <div class="productFilter-text" v-if="routine">
-        <p class="txt">IF you are not sure about your skin type, take a look at your mid-afternoon reflection. If you’re oilier all over, you have an oily skin type. If skin’s starting to feel parched, you're dry. Somewhere in the middle? Call it balanced.</p>
+        <p class="txt">{{text.filterTxt[store.state.lang]}}</p>
         <div>
-          <p class="txt-highlight">Combination</p>
-          <p class="txt">You’ll be dry in some areas and oily in others (usually around the nose, chin and forehead), with some  blackheads, slightly shiny skin and more visible pores.</p>
-          <p class="txt-highlight">oily</p>
-          <p class="txt">Produces lots of natural oils, which might mean you’re prone to more visible pores, a shiny complexion, blackheads and spots.</p>
-          <p class="txt-highlight">dry</p>
-          <p class="txt">Your skin might crack, peel or become itchy quite easily, especially when it’s cold out. You’ll tend to have more visible lines, red patches and a rougher complexion.</p>
-          <p class="txt-highlight">normal</p>
-          <p class="txt">Well-balanced, no severe sensitivity, barely visible pores and a radiant complexion. Not too dry and not too oily.</p>
+          <p class="txt-highlight">{{text.combination[store.state.lang]}}</p>
+          <p class="txt">{{text.dryTxt[store.state.lang]}}</p>
+          <p class="txt-highlight">{{text.oily[store.state.lang]}}</p>
+          <p class="txt">{{text.oilTxt[store.state.lang]}}</p>
+          <p class="txt-highlight">{{text.dry[store.state.lang]}}</p>
+          <p class="txt">{{text.skinTxt[store.state.lang]}}</p>
+          <p class="txt-highlight">{{text.normal[store.state.lang]}}</p>
+          <p class="txt">{{text.welBalanced[store.state.lang]}}</p>
         </div>
-        <p class="txt">Really not sure? Just pick <span class="txt-highlight">Combination</span> as this is what the majority of people are.</p>
+        <p class="txt">{{text.notSureStart[store.state.lang]}}<span class="txt-highlight">{{text.combination[store.state.lang]}}</span> {{text.notSureEnd[store.state.lang]}}</p>
       </div>
     </div>
 

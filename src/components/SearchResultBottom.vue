@@ -1,21 +1,24 @@
+<script lang="ts" setup>
+import text from '@/assets/locales/components.json'
+import store from '@/store'
+</script>
+
 <template>
   <section v-if="!store.state.beauty" class="searchResult-bottom">
     <div class="searchResult-bottom-img bg-img d-center">
-      <h1 class="title">We know more than 100 people with same skin as yours</h1>
+      <h1 class="title">{{text.WeKnowPeople[store.state.lang]}}</h1>
     </div>
     <div class="searchResult-bottom-item d-center bg-orange">
       <div>
-        <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="">
+        <img src="@/assets/img/global/qr.png" alt="">
         <div class="scan-content">
-          <p class="title-secondary bold">scan qr code to Make most from routine Page</p>
-          <p class="txt">People with the same age group, ethnicity origin, skin conditions and concerns are your
-            SkinTwins and you to see their experiences with {ROUTINE NAME}.</p>
+          <p class="title-secondary bold">{{text.scanQrCode[store.state.lang]}}</p>
+          <p class="txt">{{text.resultsBottomTxt[store.state.lang]}}</p>
         </div>
       </div>
       <div class="tablet-link bg-orange tablet">
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-          maximum details about products and experiences Your SkinTwins had with this product.</p>
-        <RouterLink class="link bold" to="#">try lux ai <span>→</span></RouterLink>
+        <p class="txt">{{text.WeCollectBeautyProducts[store.state.lang]}}</p>
+        <RouterLink class="link bold" to="#">{{text.tryLuxAi[store.state.lang]}}<span>→</span></RouterLink>
       </div>
     </div>
   </section>
@@ -54,10 +57,3 @@
   }
 }
 </style>
-<script setup lang="ts">
-import store from '@/store'
-
-const checkBeauty = () => {
-  store.commit('checkBeauty')
-}
-</script>

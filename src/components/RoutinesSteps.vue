@@ -1,5 +1,6 @@
 <script setup lang="ts">
-
+import text from '@/assets/locales/components.json'
+import store from '../store'
 </script>
 
 <template>
@@ -11,28 +12,28 @@
     <div class="routines__steps__inner">
       <div class="routines__steps__inner__item">
         <h3 class="step">03</h3>
-        <h4 class="title-secondary">STEPS</h4>
-        <p class="txt">Achieve radiant skin with a simple 3-step beauty routine</p>
+        <h4 class="title-secondary">{{text.steps[store.state.lang]}}</h4>
+        <p class="txt">{{text.stepsTxt[store.state.lang]}}</p>
       </div>
       <div class="routines__steps__inner__item">
         <h3 class="step">05</h3>
-        <h4 class="title-secondary">STEPS</h4>
-        <p class="txt">Achieve radiant skin with a simple 3-step beauty routine</p>
+        <h4 class="title-secondary">{{text.steps[store.state.lang]}}</h4>
+        <p class="txt">{{text.stepsTxt[store.state.lang]}}</p>
       </div>
       <div class="routines__steps__inner__item">
         <h3 class="step">07</h3>
-        <h4 class="title-secondary">STEPS</h4>
-        <p class="txt">Achieve radiant skin with a simple 3-step beauty routine</p>
+        <h4 class="title-secondary">{{text.steps[store.state.lang]}}</h4>
+        <p class="txt">{{text.stepsTxt[store.state.lang]}}</p>
       </div>
       <div class="routines__steps__inner__item">
         <h3 class="step">10</h3>
-        <h4 class="title-secondary">STEPS</h4>
-        <p class="txt">Achieve radiant skin with a simple 3-step beauty routine</p>
+        <h4 class="title-secondary">{{text.steps[store.state.lang]}}</h4>
+        <p class="txt">{{text.stepsTxt[store.state.lang]}}</p>
       </div>
       <div class="routines__steps__inner__item">
         <h3 class="step">12</h3>
-        <h4 class="title-secondary">STEPS</h4>
-        <p class="txt">Achieve radiant skin with a simple 3-step beauty routine</p>
+        <h4 class="title-secondary">{{text.steps[store.state.lang]}}</h4>
+        <p class="txt">{{text.stepsTxt[store.state.lang]}}</p>
       </div>
     </div>
   </section>

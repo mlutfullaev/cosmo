@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import text from '@/assets/locales/components.json'
+import store from '../store'
 </script>
 
 <template>
   <section class="luxAi">
-    <h1 class="luxAi-title tablet">lux ai</h1>
+    <h1 class="luxAi-title tablet">{{text.luxAi[store.state.lang]}}</h1>
     <div class="luxAi-inner">
       <div class="luxAi-inner-item d-center">
         <h1 class="luxAi-word min-tablet">L</h1>
         <div class="luxAi-inner-item-active">
           <h3 class="title-secondary">
-            Answers to Your questions based on enriched product data profiles in the library
+            {{text.luxL[store.state.lang]}}
           </h3>
         </div>
       </div>
@@ -17,7 +19,7 @@
         <h1 class="luxAi-word min-tablet">U</h1>
         <div class="luxAi-inner-item-active">
           <h3 class="title-secondary">
-            Check Your SkinTwins experiences with products and routines for Your daily doze of Inspirations
+            {{text.luxU[store.state.lang]}}
           </h3>
         </div>
       </div>
@@ -25,7 +27,7 @@
         <h1 class="luxAi-word min-tablet">X</h1>
         <div class="luxAi-inner-item-active">
           <h3 class="title-secondary">
-            Bookmark the Products and Routines to check or try later. No need to search later.
+            {{text.luxX[store.state.lang]}}
           </h3>
         </div>
       </div>
@@ -33,7 +35,7 @@
         <h1 class="luxAi-word min-tablet">A</h1>
         <div class="luxAi-inner-item-active">
           <h3 class="title-secondary">
-            Compare pricing in the retail stores on the spot to get the best deals near you
+            {{text.luxA[store.state.lang]}}
           </h3>
         </div>
       </div>
@@ -41,12 +43,13 @@
         <h1 class="luxAi-word min-tablet">I</h1>
         <div class="luxAi-inner-item-active">
           <h3 class="title-secondary">
-            Stop checking all - See only what is relevant to Your Skin. Personalised search with products matching your skin.
+            {{text.luxI[store.state.lang]}}
           </h3>
         </div>
       </div>
       <div class="luxAi-inner-item d-center">
-        <h2 class="title">Get most Support with Your Personal AI Beauty Assistant </h2>
+        <h2 class="title">
+          {{text.getMostSupport[store.state.lang]}}</h2>
       </div>
     </div>
   </section>

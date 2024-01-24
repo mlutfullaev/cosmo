@@ -137,3 +137,5 @@ export const emptyRes = {
     hasNextPage: false,
   }
 }
+
+export const locales = ['en', 'ru']

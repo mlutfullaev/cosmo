@@ -7,6 +7,7 @@ import BaseRate from '@/baseComponents/BaseRate.vue'
 import axios from 'axios'
 import store from '@/store'
 import { API_URL } from '@/assets/constants'
+import text from '@/assets/locales/components.json'
 
 const reviews = ref<Review[]>([])
 const beauty = store.state.beauty
@@ -25,25 +26,27 @@ const write = ref(false)
   <section id="reviews" class="reviews" >
     <div class="reviews__text" :class="{['bg-img']: beauty}">
       <div class="reviews__text__content">
-        <h2 class="section-title">Reviews</h2>
+        <h2 class="section-title">{{text.reviews[store.state.lang]}}</h2>
         <h2 class="section-title">4.7/5</h2>
         <BaseRate :rates="4.5"/>
         <div class="section-subtitle">
           <h3>126</h3>
-          <p>Beauties Reviewed leafs argan oil</p>
+          <p>{{text.reviewsTxt[store.state.lang]}}</p>
         </div>
       </div>
-      <button v-if="beauty" @click="write = true" class="link bg-orange">Write a review <span>→</span></button>
+      <button v-if="beauty" @click="write = true" class="link bg-orange">{{text.writeReview[store.state.lang]}} <span>→</span></button>
       <button
         v-else
         @click="store.commit('updateModalSubscribe', true)"
         class="link bg-orange"
-      >CHECK YOUR SKIN TYPE REVIEWS <span>→</span></button>
+      >
+        {{text.checkSkinType[store.state.lang]}} <span>→</span>
+      </button>
     </div>
     <BaseReviews v-if="beauty && !write" :reviews="reviews"/>
     <WriteReview v-else-if="beauty && write" @close="write = false"/>
     <div v-else class="reviews__picture bg-img">
-      <h3 class="title">Check your SkinTwins experiences with Argan Oil</h3>
+      <h3 class="title">{{text.checkSkinTwin[store.state.lang]}}</h3>
     </div>
   </section>
 </template>

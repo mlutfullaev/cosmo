@@ -8,6 +8,8 @@ import AiAssistance from '@/components/AiAssistance.vue'
 import RoutineCard from '@/components/RoutineCard.vue'
 import 'swiper/css'
 import { API_URL } from '@/assets/constants'
+import text from '@/assets/locales/routineIntro.json'
+import store from '../store'
 
 const alternatives = ref<{routine: Routine}[]>([])
 onMounted(() => {
@@ -39,23 +41,21 @@ const swiperConfig = {
   <TheHeader/>
   <div class="routineIntro">
     <main class="bg-img">
-      <h1 class="title">Interactive Library of the Daily Beauty Routines</h1>
-      <h2 class="title-secondary">You Beauty Rituals Discoveries supported by Your Community and AI.</h2>
+      <h1 class="title">{{text.mainTitle[store.state.lang]}}</h1>
+      <h2 class="title-secondary">{{text.mainSubtitle[store.state.lang]}}</h2>
       <svg xmlns="http://www.w3.org/2000/svg" width="62" height="33" viewBox="0 0 62 33" fill="none">
         <path d="M1 1L31 31L61 1" stroke="black" stroke-width="2"/>
       </svg>
     </main>
     <section class="categories">
       <div class="categories-texts">
-        <h1 class="title">Find Routine matches best for you
+        <h1 class="title">{{text.categoryTitle[store.state.lang]}}
         </h1>
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-          maximum details about products and experiences Your SkinTwins had with this product. Check details, receive
-          Answers, collect samples and Discover Alternative Productsdirectly from Product Interactive Label. </p>
+        <p class="txt">{{text.categoryTxt[store.state.lang]}} </p>
         <RouterLink to="/routine-filter" class="link bold">Start Your Beauty Discovery <span>→</span></RouterLink>
       </div>
       <div class="categories-content">
-        <p class="txt t-up">categories</p>
+        <p class="txt t-up">{{text.categories[store.state.lang]}}</p>
         <swiper v-bind="swiperConfig">
           <swiper-slide>
             <button>
@@ -98,7 +98,7 @@ const swiperConfig = {
                   </clipPath>
                 </defs>
               </svg>
-              <span class="note bold t-up">morning Routine </span>
+              <span class="note bold t-up">{{text.morningRoutine[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -111,7 +111,7 @@ const swiperConfig = {
                   d="M62.8824 82.8199C54.8962 82.6556 48.6673 79.8769 43.7384 74.3194C40.3739 70.5192 38.3167 66.0689 37.8238 61.0258C36.9023 51.4823 40.3311 43.7747 48.0029 38.0101C50.3174 36.2743 52.939 35.0885 55.732 34.3313C56.0391 34.2456 56.3677 34.1027 56.6035 34.4385C56.8606 34.8028 56.582 35.0599 56.3677 35.3171C52.8532 39.5816 51.2246 44.5033 51.696 49.9894C52.3746 57.9041 56.4606 63.6116 63.6396 66.8975C70.0543 69.8406 76.4475 69.4691 82.5621 65.8546C83.4765 65.3117 84.298 64.6117 85.1623 63.9831C85.398 63.8116 85.6123 63.5831 85.9266 63.7759C86.2624 63.9759 86.1909 64.2902 86.0981 64.5831C83.1193 74.2765 76.6832 80.2269 66.7683 82.3485C65.3111 82.6628 63.7967 82.7128 62.8681 82.8199H62.8824Z"
                   fill="#FF8A00"/>
               </svg>
-              <span class="note bold t-up">night Routine </span>
+              <span class="note bold t-up">{{text.nightRoutine[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -124,7 +124,7 @@ const swiperConfig = {
                   d="M59.9174 29.7012C58.2889 29.7012 56.9368 29.1335 55.8387 28.0055C54.7406 26.8775 54.1953 25.4731 54.1953 23.7998C54.1953 22.1265 54.7406 20.7221 55.8387 19.5942C56.9368 18.4662 58.2964 17.8984 59.9174 17.8984C61.5384 17.8984 62.898 18.4662 63.9961 19.5942C65.0942 20.7221 65.6395 22.1265 65.6395 23.7998C65.6395 25.4731 65.0942 26.8775 63.9961 28.0055C62.898 29.1335 61.5384 29.7012 59.9174 29.7012ZM55.8985 40.757H63.9363V103.558H55.8985V40.7495V40.757Z"
                   fill="#FF8A00"/>
               </svg>
-              <span class="note bold t-up">spring</span>
+              <span class="note bold t-up">{{text.spring[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -137,7 +137,7 @@ const swiperConfig = {
                   d="M59.9174 29.7012C58.2889 29.7012 56.9368 29.1335 55.8387 28.0055C54.7406 26.8775 54.1953 25.4731 54.1953 23.7998C54.1953 22.1265 54.7406 20.7221 55.8387 19.5942C56.9368 18.4662 58.2964 17.8984 59.9174 17.8984C61.5384 17.8984 62.898 18.4662 63.9961 19.5942C65.0942 20.7221 65.6395 22.1265 65.6395 23.7998C65.6395 25.4731 65.0942 26.8775 63.9961 28.0055C62.898 29.1335 61.5384 29.7012 59.9174 29.7012ZM55.8985 40.757H63.9363V103.558H55.8985V40.7495V40.757Z"
                   fill="#FF8A00"/>
               </svg>
-              <span class="note bold t-up">long flight</span>
+              <span class="note bold t-up">{{text.longFlight[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -150,11 +150,11 @@ const swiperConfig = {
                   d="M59.9174 29.7012C58.2889 29.7012 56.9368 29.1335 55.8387 28.0055C54.7406 26.8775 54.1953 25.4731 54.1953 23.7998C54.1953 22.1265 54.7406 20.7221 55.8387 19.5942C56.9368 18.4662 58.2964 17.8984 59.9174 17.8984C61.5384 17.8984 62.898 18.4662 63.9961 19.5942C65.0942 20.7221 65.6395 22.1265 65.6395 23.7998C65.6395 25.4731 65.0942 26.8775 63.9961 28.0055C62.898 29.1335 61.5384 29.7012 59.9174 29.7012ZM55.8985 40.757H63.9363V103.558H55.8985V40.7495V40.757Z"
                   fill="#FF8A00"/>
               </svg>
-              <span class="note bold t-up">winter</span>
+              <span class="note bold t-up">{{text.winter[store.state.lang]}}</span>
             </button>
           </swiper-slide>
         </swiper>
-        <p class="txt t-up">number of steps</p>
+        <p class="txt t-up">{{text.stepNumbers[store.state.lang]}}</p>
         <swiper v-bind="swiperConfig">
           <swiper-slide>
             <button>
@@ -247,7 +247,7 @@ const swiperConfig = {
             </button>
           </swiper-slide>
         </swiper>
-        <p class="txt t-up">skin types</p>
+        <p class="txt t-up">{{text.skinTypes[store.state.lang]}}</p>
         <swiper v-bind="swiperConfig">
           <swiper-slide>
             <button>
@@ -269,7 +269,7 @@ const swiperConfig = {
                   </clipPath>
                 </defs>
               </svg>
-              <span class="note bold t-up">dry</span>
+              <span class="note bold t-up">{{text.dry[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -302,7 +302,7 @@ const swiperConfig = {
                   </clipPath>
                 </defs>
               </svg>
-              <span class="note bold t-up">oily</span>
+              <span class="note bold t-up">{{text.oily[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -320,7 +320,7 @@ const swiperConfig = {
                   </clipPath>
                 </defs>
               </svg>
-              <span class="note bold t-up">normal</span>
+              <span class="note bold t-up">{{text.normal[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -338,7 +338,7 @@ const swiperConfig = {
                   </clipPath>
                 </defs>
               </svg>
-              <span class="note bold t-up">sensitive</span>
+              <span class="note bold t-up">{{text.sensitive[store.state.lang]}}</span>
             </button>
           </swiper-slide>
           <swiper-slide>
@@ -356,7 +356,7 @@ const swiperConfig = {
                   </clipPath>
                 </defs>
               </svg>
-              <span class="note bold t-up">combination</span>
+              <span class="note bold t-up">{{text.combination[store.state.lang]}}</span>
             </button>
           </swiper-slide>
         </swiper>
@@ -364,7 +364,7 @@ const swiperConfig = {
     </section>
     <RoutineGuide :router-link="{value: 'Start Your Beauty Discovery', link: '/routine-filter'}" :intro="true"/>
     <section class="routines">
-      <h1 class="title">Random pick of Routines from Our Library</h1>
+      <h1 class="title">{{text.randomPick[store.state.lang]}}</h1>
       <div class="routines__list">
         <RoutineCard
           v-for="routine in alternatives"
@@ -372,7 +372,7 @@ const swiperConfig = {
           :key="routine.routine.id"
         />
         <div class="routine-item bg-orange center">
-          <RouterLink to="/" class="link bold">See more Routines Designed for You <span>→</span></RouterLink>
+          <RouterLink to="/" class="link bold">{{text.seeMoreRoutines[store.state.lang]}} <span>→</span></RouterLink>
         </div>
       </div>
     </section>

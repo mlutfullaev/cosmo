@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 import axios from 'axios'
+import text from '@/assets/locales/components.json'
+import store from '../store'
 
 const emit = defineEmits<{(event: 'alert', alert: boolean): void, (event: 'city', city: string): void, (event: 'hideLocation'): void}>()
 const props = defineProps<{ alertActive: boolean, city: string }>()
@@ -66,12 +68,12 @@ const fetchCities = () => {
       </svg>
     </button>
     <div class="location-correct" v-if="!another">
-      <p class="name">Are you in <span>{{ city }}?</span></p>
-      <button class="btn btn-orange" @click="$emit('alert', false)">Yes</button>
-      <button class="btn" @click="fetchCities">Choose city</button>
+      <p class="name">{{text.areUIn[store.state.lang]}} <span>{{ city }}?</span></p>
+      <button class="btn btn-orange" @click="$emit('alert', false)">{{text.yes[store.state.lang]}}</button>
+      <button class="btn" @click="fetchCities">{{text.chooseCity[store.state.lang]}}</button>
     </div>
     <div v-else class="location-another">
-      <h2 class="title">Choose your city</h2>
+      <h2 class="title">{{text.chooseYourCity[store.state.lang]}}</h2>
       <input
         class="input-search"
         v-model="searchModel"

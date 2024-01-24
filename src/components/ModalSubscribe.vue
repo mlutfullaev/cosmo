@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useHelpers } from '@/useHelpers'
+import text from '@/assets/locales/components.json'
+import store from '../store'
 
 const { validateEmail, sendEmail } = useHelpers()
 const emailInput = ref('')
@@ -35,8 +37,8 @@ const subscribeHandler = async () => {
     </svg>
     <div class="bg-img"></div>
     <div class="modal-subscribe__inner d-center">
-      <h2>Currently site is open only for beta testers</h2>
-      <p class="txt">To become the early adopter and enjoy early bird benefits, please subscribe</p>
+      <h2>{{text.siteForBetaTesters[store.state.lang]}}</h2>
+      <p class="txt">{{text.toBecomeAdopter[store.state.lang]}}</p>
       <input
         @input="errorInput ? errorInput = false : null"
         :class="{error: errorInput}"
@@ -44,12 +46,12 @@ const subscribeHandler = async () => {
         placeholder="Your email">
       <p class="note">Subscribing you agree to our Policy bla bla</p>
 
-      <button class="link bold" @click="subscribeHandler">SUBSCRIBE <span>→</span></button>
+      <button class="link bold" @click="subscribeHandler">{{text.subscribe[store.state.lang]}} <span>→</span></button>
     </div>
   </div>
   <div v-else class="modal-subscribe--success">
-    <h2>Thank you and Welcome to COSMO.WIKI Community!</h2>
-    <p class="txt">You will be among the first to try advantages of Your SkinTwin Community wisdom and receive benefits of early use of functions when they become available. Please expect from us early bird invitations to get new experiences.</p>
+    <h2>{{text.thankYouAndWelcome[store.state.lang]}}</h2>
+    <p class="txt">{{text.YouWillBeAmong[store.state.lang]}}</p>
   </div>
 </template>
 

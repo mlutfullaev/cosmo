@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import store from '@/store'
+import text from '@/assets/locales/components.json'
 
 const descriptions = ref([
   {
@@ -34,8 +35,8 @@ const activeDesc = ref('PRODUCT CHECK TO MATCH YOUR SKIN')
 
 <template>
   <section id="ai-assistance" class="ai-assistance">
-    <h2 class="section-title">Ask your question</h2>
-    <h3>Get most with Your Personal AI Beauty Assistant</h3>
+    <h2 class="section-title">{{text.aiAssistanceTitle[store.state.lang]}}</h2>
+    <h3>{{text.aiAssistanceText[store.state.lang]}}</h3>
     <div class="ai-assistance__content">
       <div class="ai-assistance__content__switcher">
         <button

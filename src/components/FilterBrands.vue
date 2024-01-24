@@ -2,6 +2,8 @@
 import { defineEmits, defineProps, onMounted, PropType, ref, watch } from 'vue'
 import axios from 'axios'
 import { API_URL } from '@/assets/constants'
+import text from '@/assets/locales/components.json'
+import store from '../store'
 
 type Brand = {
   id: number,
@@ -59,7 +61,7 @@ onMounted(() => {
 
 <template>
   <div class="filterBrands">
-    <p class="txt-highlight">{{title || 'brands'}}</p>
+    <p class="txt-highlight">{{title || text.brands[store.state.lang]}}</p>
     <div class="filterBrands-alphabet">
       <button v-for="alpha in alphabet" :class="{ active: activeAlpha === alpha, filterBtn: buttonType === 'button' }" @click="activeAlpha = alpha"
         :key="alpha">

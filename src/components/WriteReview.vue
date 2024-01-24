@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import BaseEditableRate from '@/baseComponents/BaseEditableRate.vue'
+import BaseDrag from '@/baseComponents/BaseDrag.vue'
+import texts from '@/assets/locales/components.json'
+import store from '../store'
+
+const rate = ref(0)
+const file = ref()
+const text = ref('')
+</script>
+
 <template>
   <div class="write-review">
     <button class="btn-close" @click="$emit('close')">
@@ -8,33 +20,26 @@
       </svg>
     </button>
 
-    <h3>Add the photo of barcode</h3>
-    <p class="txt">To verify your review we need to check the information on your product</p>
+    <h3>{{texts.addPhotoBarcode[store.state.lang]}}</h3>
+    <p class="txt">{{texts.toVerifyNeedInfo[store.state.lang]}}</p>
 
     <BaseDrag @file-dropped="uploadedFile => file = uploadedFile" />
 
-    <h3>rate</h3>
+    <h3>{{texts.rate[store.state.lang]}}</h3>
     <BaseEditableRate @rate="(selected) => rate = selected" :rates="rate" />
 
-    <h3>Add a text</h3>
-    <textarea v-model="text" placeholder="Write a review to tell us what you’ve enjoyed"></textarea>
+    <h3>{{texts.addText[store.state.lang]}}</h3>
+    <textarea v-model="text" :placeholder="texts.textareaPlaceholder[store.state.lang]"></textarea>
 
     <button
       class="btn btn-orange"
       @click="$emit('close')"
-      :disabled="!rate">Send</button>
+      :disabled="!rate"
+    >
+      {{texts.send[store.state.lang]}}
+    </button>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import BaseEditableRate from '@/baseComponents/BaseEditableRate.vue'
-import BaseDrag from '@/baseComponents/BaseDrag.vue'
-
-const rate = ref(0)
-const file = ref()
-const text = ref('')
-</script>
 
 <style lang="scss" scoped>
 .write-review {

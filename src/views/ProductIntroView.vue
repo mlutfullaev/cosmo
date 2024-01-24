@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import AiAssistance from '@/components/AiAssistance.vue'
 import LuxAi from '@/components/LuxAi.vue'
+import text from '@/assets/locales/productIntro.json'
+import store from '../store'
 
 const productPages = ref([
   'Full Details assistant',
@@ -23,22 +25,19 @@ const skinTwins = ref([
   <TheHeader/>
   <main class="bg-img">
     <div class="main__content">
-      <h2 class="title">Beauty Products Interactive Library</h2>
-      <h3 class="title-secondary">Connecting You with Brands explaining their products</h3>
+      <h2 class="title">{{text.mainTitle[store.state.lang]}}</h2>
+      <h3 class="title-secondary">{{text.mainSubtitle[store.state.lang]}}</h3>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" width="62" height="32" viewBox="0 0 62 32" fill="none">
       <path d="M1 1L31 31L61 1" stroke="black"/>
     </svg>
-    <h4 class="running-text">We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library → We have 50 000 brands in our library →  We have 50 000 brands in our library →</h4>
+    <h4 class="running-text">{{text.runningText[store.state.lang]}} → {{text.runningText[store.state.lang]}} → {{text.runningText[store.state.lang]}} → {{text.runningText[store.state.lang]}} → {{text.runningText[store.state.lang]}} → {{text.runningText[store.state.lang]}} → {{text.runningText[store.state.lang]}} →  {{text.runningText[store.state.lang]}} →</h4>
   </main>
   <div class="productIntro">
     <div class="productIntro-inner">
       <div class="productIntro-inner-content">
-        <h2 class="title">Make most from Product Page</h2>
-        <p class="txt">We collect Beauty Products details from Brands, Retailers and other users for You to receive
-          maximum details about products and experiences Your SkinTwins had with this product. Check details, receive
-          Answers, collect samples and Discover Alternative Productsdirectly from Product Interactive Label.
-        </p>
+        <h2 class="title">{{text.makeMost[store.state.lang]}}</h2>
+        <p class="txt">{{text.makeMostTxt[store.state.lang]}}</p>
         <h3
           class="title-secondary bold"
           v-for="(item, idx) in productPages"
@@ -50,7 +49,7 @@ const skinTwins = ref([
           {{ idx + 1 < 10 ? '0' : '' }}{{ idx + 1 }} {{ item }}
         </h3>
       </div>
-      <RouterLink to="/product-filter" class="link bold tablet-orange">Start Your Beauty Discovery <span>→</span>
+      <RouterLink to="/product-filter" class="link bold tablet-orange">{{text.startYourBeauty[store.state.lang]}}<span>→</span>
       </RouterLink>
     </div>
     <div class="bg-img" :style='{backgroundImage: `url("${require("@/assets/img/product/intro-1.png")}")`}'></div>
@@ -59,10 +58,8 @@ const skinTwins = ref([
     <div class="bg-img" :style='{backgroundImage: `url("${require("@/assets/img/global/girls-smiling.png")}")`}'></div>
     <div class="productIntro-inner">
       <div class="productIntro-inner-content">
-        <h2 class="title">Соnnect with your SkinTwins</h2>
-        <p class="txt">Your SkinTwins are the people with the same skin, age group, ethinical origin, skin condition and
-          concerns. We let You to check experiences of the second You to check experiences with the products which are
-          most relevant to You.</p>
+        <h2 class="title">{{text.connectWithSkintwins[store.state.lang]}}</h2>
+        <p class="txt">{{text.connectTxt[store.state.lang]}}</p>
         <h3
           class="title-secondary bold"
           v-for="(item, idx) in skinTwins"
@@ -74,7 +71,7 @@ const skinTwins = ref([
           {{ idx + 1 < 10 ? '0' : '' }}{{ idx + 1 }} {{ item }}
         </h3>
       </div>
-      <RouterLink to="/registration" class="link bold tablet-orange">JOIN YOU SKINTWIN COMMUNITY <span>→</span>
+      <RouterLink to="/registration" class="link bold tablet-orange">{{text.joinSkintwin[store.state.lang]}} <span>→</span>
       </RouterLink>
     </div>
   </div>

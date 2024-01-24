@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { defineProps, ref, watch } from 'vue'
+import layoutsText from '@/assets/locales/layouts.json'
+import store from '../store'
 
 defineProps<{productLibrary: {title: string, items: {id: number, param: string, text: string}[]}[]}>()
 
@@ -38,7 +40,7 @@ const subMenu = ref('')
     <div class="menu-inner" :class="{active: menuActive}">
       <div class="menu-content">
         <div class="menu-item" :class="{active: subMenu === 'product'}">
-          <button @click="subMenu = subMenu === 'product' ? '' : 'product'" class="link bold">SKIN PRODUCTS LIBRARY <span>↓</span></button>
+          <button @click="subMenu = subMenu === 'product' ? '' : 'product'" class="link bold t-up">{{layoutsText.skinProductsLib[store.state.lang]}}<span>↓</span></button>
           <div class="sub-menu">
             <div
               v-for="lib of productLibrary"
@@ -56,7 +58,7 @@ const subMenu = ref('')
           </div>
         </div>
         <div class="menu-item" :class="{active: subMenu === 'routine'}">
-          <button @click="subMenu = subMenu === 'routine' ? '' : 'routine'" class="link bold">BEUTY ROUTINES LIBRARY <span>↓</span></button>
+          <button @click="subMenu = subMenu === 'routine' ? '' : 'routine'" class="link bold t-up">{{layoutsText.beautyRoutinesLib[store.state.lang]}} <span>↓</span></button>
           <div class="sub-menu">
             <div
               v-for="lib of productLibrary"
@@ -73,9 +75,9 @@ const subMenu = ref('')
             </div>
           </div>
         </div>
-        <router-link @click="menuActive = false" to="/" class="link bold">PERSONAL AI ASSISTANT <span>→</span></router-link>
-        <router-link @click="menuActive = false" to="/registration" class="link bold">create profile <span>→</span></router-link>
-        <router-link @click="menuActive = false" to="/" class="link bold">how to use <span>→</span></router-link>
+        <router-link @click="menuActive = false" to="/" class="link bold">{{layoutsText.personalAiAssistant[store.state.lang]}} <span>→</span></router-link>
+        <router-link @click="menuActive = false" to="/registration" class="link bold">{{layoutsText.createProfile[store.state.lang]}} <span>→</span></router-link>
+        <router-link @click="menuActive = false" to="/" class="link bold">{{layoutsText.howToUse[store.state.lang]}} <span>→</span></router-link>
       </div>
     </div>
   </div>

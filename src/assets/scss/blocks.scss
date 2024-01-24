@@ -210,6 +210,20 @@
   }
 }
 
+.input-form {
+  border: 1px solid $black;
+  width: 100%;
+  max-width: 416px;
+  padding: 13px 8px;
+  font-size: 20px;
+  outline: $grey-dark;
+
+  &:disabled {
+    background-color: #D7D7D7;
+    color: $grey-dark;
+  }
+}
+
 .hint-content {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -392,4 +406,11 @@
     //  left: 0;
     //}
   }
+}
+
+.profile-list {
+  display: grid;
+  border-top: 1px solid $black;
+  border-left: 1px solid $black;
+  grid-template-columns: 1fr 1fr;
 }

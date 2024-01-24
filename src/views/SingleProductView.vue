@@ -6,6 +6,7 @@ import { BasicResponse, Product, Routine } from '@/assets/interfaces'
 import router from '@/router'
 import store from '@/store'
 import axios from 'axios'
+import text from '@/assets/locales/singleProduct.json'
 
 import ProductCard from '@/components/ProductCard.vue'
 import AiAssistance from '@/components/AiAssistance.vue'
@@ -140,7 +141,7 @@ function shareClick (e: MouseEvent) {
   <TheHeader />
 
   <div class="header__hint" :class="{active: store.state.showLater}">
-    <button class="btn-black txt-highlight">GUIDE ME</button>
+    <button class="btn-black txt-highlight">{{text.guideMe[store.state.lang]}}</button>
     <router-link
       v-for="link in links"
       :key="link.link"
@@ -188,7 +189,7 @@ function shareClick (e: MouseEvent) {
       </svg>
     </button>
     <div class="header__hint__menu" ref="menuNav" :class="{active: menuActive}">
-      <button class="btn-black txt-highlight" @click="menuActive = false">GUIDE ME</button>
+      <button class="btn-black txt-highlight" @click="menuActive = false">{{text.guideMe[store.state.lang]}}</button>
       <router-link
         v-for="link in links"
         :key="link.link"
@@ -248,7 +249,7 @@ function shareClick (e: MouseEvent) {
     <p class="txt" v-if="brand.brandDescription">
       {{ brand.brandDescription }}
     </p>
-    <router-link :to="`/product-results/brand/${brand.brandName}`" class="link bold">MORE ABOUT BRAND <span>→</span></router-link>
+    <router-link :to="`/product-results/brand/${brand.brandName}`" class="link bold">{{text.moreAboutBrand[store.state.lang]}}<span>→</span></router-link>
   </section>
 
   <SingleProductSlide
@@ -261,12 +262,11 @@ function shareClick (e: MouseEvent) {
 
   <section id="prices" class="prices" v-if="prices.length">
     <div class="prices__text">
-      <h2 class="section-title">Prices</h2>
+      <h2 class="section-title">{{text.prices[store.state.lang]}}</h2>
       <div class="section-subtitle">
         <h3>46</h3>
         <p>
-          For Natures Leafs Argan Oil
-          in Moscow, Russian Federation
+          {{text.pricesText[store.state.lang]}}
         </p>
       </div>
     </div>
@@ -277,10 +277,15 @@ function shareClick (e: MouseEvent) {
           :key="price.id"
           class="prices__inner__content__item d-sb">
           <a class="link bold" target="_blank" :href="price.priceGoodLink">{{price.priceShopName}} <span>→</span></a>
-          <p class="txt-highlight">{{price.priceValue}} euro</p>
+          <p class="txt-highlight">{{price.priceValue}} {{text.euro[store.state.lang]}}</p>
         </div>
       </div>
-      <button @click="store.commit('updateModalSubscribe', true)" class="link bg-orange">CHECK YOUR SKIN TYPE REVIEWS <span>→</span></button>
+      <button
+        @click="store.commit('updateModalSubscribe', true)"
+        class="link bg-orange"
+      >
+        {{text.checkSkinTwin[store.state.lang]}}<span>→</span>
+      </button>
     </div>
     <div v-if="store.state.beauty" class="prices-more" :class="{ active: pricesMore }">
       <div class="prices__inner">
@@ -289,19 +294,7 @@ function shareClick (e: MouseEvent) {
           :key="price.id"
           class="prices__inner-item d-sb">
           <router-link class="link bold" :to="price.priceGoodLink">{{price.priceShopName}} <span>→</span></router-link>
-          <p class="txt-highlight">{{price.priceValue}} euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <router-link class="link bold" to="#">lookfantastic <span>→</span></router-link>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <router-link class="link bold" to="#">lookfantastic <span>→</span></router-link>
-          <p class="txt-highlight">32,00 euro</p>
-        </div>
-        <div class="prices__inner-item d-sb">
-          <router-link class="link bold" to="#">lookfantastic <span>→</span></router-link>
-          <p class="txt-highlight">32,00 euro</p>
+          <p class="txt-highlight">{{price.priceValue}} {{text.euro[store.state.lang]}}</p>
         </div>
       </div>
       <button class="btn-close" @click="pricesMore = false">
@@ -316,8 +309,8 @@ function shareClick (e: MouseEvent) {
 
   <section id="services" class="services">
     <div class="services__top">
-      <h2 class="section-title">Available services</h2>
-      <p class="txt">These services are available  for Natural Leaf Argan Oil for all skin profiles directly from Brand or connected Retailers in the area around you.  Services available for Your skin profile can be seen only after login.</p>
+      <h2 class="section-title">{{text.availableServices[store.state.lang]}}</h2>
+      <p class="txt">{{text.availableServicesText[store.state.lang]}}</p>
     </div>
     <div class="services__inner">
       <div
@@ -343,24 +336,24 @@ function shareClick (e: MouseEvent) {
 
   <section id="alternatives" class="products" v-if="alternatives.data.length">
     <div class="products__top">
-      <h2 class="section-title">Alternatives</h2>
+      <h2 class="section-title">{{text.alternatives[store.state.lang]}}</h2>
       <div class="section-subtitle">
         <h3>12</h3>
-        <p>Alternative products are available for Argan Oil</p>
+        <p>{{text.alternativesSubtitle[store.state.lang]}}</p>
       </div>
-      <p class="txt">These Alternative Products for Natural Leafs Argan Oil are selected based on the generic skin type claims only without any filtration based on skin individual specifics. To see detailed alternative products based on ingredients used and personalised recommendation you should login.</p>
+      <p class="txt">{{text.alternativesText[store.state.lang]}}</p>
     </div>
     <div class="product-list">
       <ProductCard v-for="product in alternatives.data" :key="product.id" :product="product" />
       <div v-if="!beauty" class="product-item bg-orange center">
-        <router-link to="#" class="link bold bg-orange">SEE MORE ALTERNATIVE PRODUCTS <span>→</span></router-link>
+        <router-link to="#" class="link bold bg-orange">{{text.seeMoreAlternatives[store.state.lang]}}<span>→</span></router-link>
       </div>
     </div>
     <ThePagination v-if="alternatives.meta.pageCount > 1" :meta="alternatives.meta" />
   </section>
 
   <section v-if="beauty" id="free-samples" class="samples">
-    <h3 class="section-title">Free samples</h3>
+    <h3 class="section-title">{{text.freeSamples[store.state.lang]}}</h3>
     <div class="samples__buttons">
       <a
         v-for="sample in samples"
@@ -387,21 +380,21 @@ function shareClick (e: MouseEvent) {
 
   <section id="routines" class="routines" v-if="routines.data.length">
     <div class="routines__top">
-      <h2 class="section-title">Routines</h2>
+      <h2 class="section-title">{{text.routines[store.state.lang]}}</h2>
       <div class="section-subtitle">
         <h3>130</h3>
-        <p>Beautyties are using this product in their registered routines</p>
+        <p>{{text.routinesSubtitle[store.state.lang]}}</p>
       </div>
-      <p class="txt">Beauty Routines where Natural Leaf Argon Oil is used as part of the ritual. These Routines are selected based on the general use without any skin type or skin specifics filtration. To see personalised routines recommendation You should login.  </p>
+      <p class="txt">{{text.routinesTxt[store.state.lang]}} </p>
     </div>
     <div class="routines__list">
       <RoutineCard v-for="routine in routines.data" :routine="routine.routine" :key="routine.routine.id" />
       <div v-if="!beauty" class="routine-item center bg-orange min-tablet">
-        <router-link to="#" class="link bold">SEE MORE ROUTINES <span>→</span></router-link>
+        <router-link to="#" class="link bold">{{text.seeMoreRoutines[store.state.lang]}} <span>→</span></router-link>
       </div>
     </div>
     <ThePagination v-if="routines.meta.pageCount > 1" :meta="routines.meta" />
-    <router-link v-if="!beauty" to="#" class="link bold tablet bg-orange">SEE MORE ROUTINES <span>→</span></router-link>
+    <router-link v-if="!beauty" to="#" class="link bold tablet bg-orange">{{text.seeMoreRoutines[store.state.lang]}}<span>→</span></router-link>
   </section>
 
   <AiAssistance v-if="!store.state.beauty" />
