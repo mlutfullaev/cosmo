@@ -123,10 +123,11 @@ const routes: Array<RouteRecordRaw> = [
 const languageMiddleware = (to: any, _from: any, next: any) => {
   const paramLocale = to.params.locale
 
-  if (!locales.includes(paramLocale)) {
+  if (!paramLocale) {
+    router.push(`/${store.state.lang}${to.fullPath}`)
+  } else if (!locales.includes(paramLocale)) {
     console.log(true)
-    router.replace({ params: { locale: store.state.lang } })
-    next()
+    router.push(`/${store.state.lang}${to.fullPath.replace(/\/[^/]+/, '')}`)
   }
 
   store.commit('switchLanguage', paramLocale)
@@ -171,6 +172,18 @@ router.beforeEach((to, from, next) => {
   if (login.accessToken) {
     store.commit('login', login.username)
   }
+
+  const paramLocale = to.params.locale as string
+
+  if (!paramLocale) {
+    router.push(`/${store.state.lang}${to.fullPath}`)
+  } else if (!locales.includes(paramLocale)) {
+    console.log(true)
+    router.push(`/${store.state.lang}${to.fullPath.replace(/\/[^/]+/, '')}`)
+  }
+
+  store.commit('switchLanguage', paramLocale)
+  next()
 })
 
 export default router
