@@ -54,6 +54,7 @@ onUnmounted(() => {
 .dropdown {
   position: relative;
   width: 100%;
+  font-size: 20px;
 }
 
 .dropdown-select {
