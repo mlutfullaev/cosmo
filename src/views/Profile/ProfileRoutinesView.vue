@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import CreateRoutine from '@/views/Profile/CreateRoutine.vue'
 
-const createProduct = ref(false)
+const create = ref(false)
 const products = ref([])
 
 </script>
 
 <template>
-  <div v-if="!createProduct" class="profile-routines">
+  <div v-if="!create" class="profile-routines">
     <h1 class="title-secondary">MY SAVED routines</h1>
     <p class="txt-highlight">no routines here yet</p>
     <p class="txt">
@@ -18,16 +19,14 @@ const products = ref([])
     </p>
     <div class="d-sb">
       <h1 class="title-secondary">MY addED routines</h1>
-      <button class="btn btn-outline">Add new +</button>
+      <button class="btn btn-outline" @click="create = true">CREATE new ROUTINE +</button>
     </div>
     <p class="txt-highlight" v-if="!products.length">no routines here yet</p>
     <div v-else class="profile-list">
 
     </div>
   </div>
-  <div v-else class="profile-routines">
-
-  </div>
+  <CreateRoutine v-else @close="create = false" />
 </template>
 
 <style scoped lang="scss">
@@ -37,6 +36,11 @@ const products = ref([])
   }
   > h1:first-child {
     padding-top: 0;
+  }
+
+  .btn {
+    padding: 8px 40px;
+    font-size: 20px;
   }
 }
 </style>

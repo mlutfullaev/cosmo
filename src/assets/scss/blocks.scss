@@ -247,6 +247,16 @@
     }
   }
 }
+.textarea-form {
+  resize: none;
+  width: 100%;
+  border: none;
+  background-color: #F3F3F3;
+  outline: none;
+  padding: 8px;
+  font-size: 20px;
+  min-height: 300px;
+}
 
 .hint-content {
   display: grid;

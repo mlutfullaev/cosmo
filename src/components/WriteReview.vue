@@ -29,7 +29,7 @@ const text = ref('')
     <BaseEditableRate @rate="(selected) => rate = selected" :rates="rate" />
 
     <h3>{{texts.addText[store.state.lang]}}</h3>
-    <textarea v-model="text" :placeholder="texts.textareaPlaceholder[store.state.lang]"></textarea>
+    <textarea class="textarea-form" v-model="text" :placeholder="texts.textareaPlaceholder[store.state.lang]"></textarea>
 
     <button
       class="btn btn-orange"
@@ -61,7 +61,7 @@ const text = ref('')
     padding-bottom: 5px;
   }
 
-  textarea {
+  .textarea-form {
     resize: none;
     width: 100%;
     border: none;

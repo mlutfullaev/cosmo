@@ -149,10 +149,6 @@ const allergiesOptions = ['Sensitive', 'Oily-Normal']
 
 <style lang="scss" scoped>
 .profile-skin {
-  //padding: 60px;
-
-  h1 {
-  }
   .btn {
     padding: 8px;
     font-size: 20px;
