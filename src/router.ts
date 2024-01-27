@@ -21,6 +21,10 @@ import store from '@/store'
 import ProfileView from '@/views/Profile/ProfileView.vue'
 import PasswordResetView from '@/views/PasswordResetView.vue'
 import { locales } from '@/assets/constants'
+import ProfileSkinView from '@/views/Profile/ProfileSkinView.vue'
+import ProfileAccountView from '@/views/Profile/ProfileAccountView.vue'
+import ProfileProductsView from '@/views/Profile/ProfileProductsView.vue'
+import ProfileRoutinesView from '@/views/Profile/ProfileRoutinesView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -111,7 +115,29 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: 'profile',
     name: 'profile',
-    component: ProfileView
+    component: ProfileView,
+    children: [
+      {
+        path: '',
+        name: '',
+        component: ProfileSkinView
+      },
+      {
+        path: 'account',
+        name: 'account',
+        component: ProfileAccountView
+      },
+      {
+        path: 'products',
+        name: 'products',
+        component: ProfileProductsView
+      },
+      {
+        path: 'routines',
+        name: 'routines',
+        component: ProfileRoutinesView
+      },
+    ]
   },
   {
     path: 'password-reset',
@@ -120,27 +146,12 @@ const routes: Array<RouteRecordRaw> = [
   },
 ]
 
-const languageMiddleware = (to: any, _from: any, next: any) => {
-  const paramLocale = to.params.locale
-
-  if (!paramLocale) {
-    router.push(`/${store.state.lang}${to.fullPath}`)
-  } else if (!locales.includes(paramLocale)) {
-    console.log(true)
-    router.push(`/${store.state.lang}${to.fullPath.replace(/\/[^/]+/, '')}`)
-  }
-
-  store.commit('switchLanguage', paramLocale)
-  next()
-}
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
       path: '/:locale?',
       component: RouterView,
-      beforeEnter: languageMiddleware,
       children: routes
     }
   ],

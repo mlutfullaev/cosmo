@@ -1,16 +1,12 @@
 <script lang="ts" setup>
 import store from '@/store'
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import ProfileSkinView from '@/views/Profile/ProfileSkinView.vue'
-import ProfileProductsView from '@/views/Profile/ProfileProductsView.vue'
-import ProfileRoutinesView from '@/views/Profile/ProfileRoutinesView.vue'
-import ProfileAccountView from '@/views/Profile/ProfileAccountView.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const activePage = ref('skin')
 const pages = ref([
   {
-    link: 'skin',
+    link: '',
     text: 'Skin Profile'
   },
   {
@@ -18,7 +14,7 @@ const pages = ref([
     text: 'Products'
   },
   {
-    link: 'routine',
+    link: 'routines',
     text: 'Routine'
   },
   {
@@ -27,8 +23,10 @@ const pages = ref([
   },
 ])
 const router = useRouter()
+const route = useRoute()
 
 onMounted(() => {
+  console.log(route)
   if (!store.state.beauty) {
     router.push('/')
   }
@@ -45,25 +43,22 @@ const logout = () => {
   <div class="profile">
     <div class="profile__sidebar">
       <div class="profile__sidebar__buttons">
-        <button
+        <router-link
           v-for="page in pages"
           :key="page.link"
           class="btn btn-outline"
-          :class="{'btn-orange': page.link === activePage}"
-          @click="activePage = page.link"
+          :to="'/profile/' + page.link"
+          :class="{'btn-orange': route.name === page.link}"
         >
           {{page.text}}
-        </button>
+        </router-link>
       </div>
 
       <button class="btn btn-outline" @click="logout">
         log out
       </button>
     </div>
-    <ProfileSkinView v-if="activePage === 'skin'" />
-    <ProfileProductsView v-if="activePage === 'products'" />
-    <ProfileRoutinesView v-if="activePage === 'routine'" />
-    <ProfileAccountView v-if="activePage === 'account'" />
+    <router-view></router-view>
   </div>
   <TheFooter />
 </template>
@@ -95,7 +90,7 @@ const logout = () => {
       }
     }
 
-    button {
+    a, button {
       padding: 16px;
       width: max-content;
       font-size: 20px;

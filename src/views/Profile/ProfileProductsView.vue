@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ProfileItem from '@/components/ProfileItem.vue'
+import CreateProduct from './CreateProduct.vue'
 
 const createProduct = ref(false)
 const products = ref([
@@ -55,13 +56,11 @@ const products = ref([
     </div>
     <div class="d-sb">
       <h1 class="title-secondary">MY addED PRODUCTS</h1>
-      <button class="btn btn-outline">Add new +</button>
+      <button class="btn btn-outline" @click="createProduct = true">Add new +</button>
     </div>
     <p class="txt-highlight" v-if="!products.length">no products here yet</p>
   </div>
-  <div v-else class="profile-products">
-
-  </div>
+  <CreateProduct v-else @close="createProduct = false" />
 </template>
 
 <style scoped lang="scss">
@@ -71,6 +70,11 @@ const products = ref([
   }
   > h1:first-child {
     padding-top: 0;
+  }
+  .btn {
+    padding: 8px;
+    font-size: 20px;
+    width: 416px;
   }
 }
 </style>
