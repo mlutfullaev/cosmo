@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import store from '@/store'
 import layoutsText from '@/assets/locales/layouts.json'
+import FooterModal from '@/components/FooterModal.vue'
+import { ref } from 'vue'
+
+const footerModal = ref(false)
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -98,7 +102,7 @@ const scrollToTop = () => {
         </div>
       </div>
       <div class="footer__bottom">
-        <p class="txt change-location">Change location and language &nbsp;&nbsp; <button class="note">PRAHA,CZ  - ENGLISH</button></p>
+        <p class="txt change-location">Change location and language &nbsp;&nbsp; <button class="note" @click="footerModal = true">PRAHA,CZ  - ENGLISH</button></p>
         <p class="txt">©2023 COSMO.WIKI. All rights reserved</p>
         <div>
           <router-link to="/">Privacy policy</router-link>
@@ -106,6 +110,7 @@ const scrollToTop = () => {
         </div>
       </div>
     </div>
+    <FooterModal @close="footerModal = false" :active="footerModal" />
   </footer>
 </template>
 

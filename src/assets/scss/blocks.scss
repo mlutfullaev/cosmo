@@ -448,33 +448,3 @@
   border-left: 1px solid $black;
   grid-template-columns: 1fr 1fr;
 }
-
-.modal {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  transition: opacity .2s;
-  visibility: hidden;
-  pointer-events: none;
-  left: 100%;
-  opacity: 0;
-
-  &.active {
-    left: 0;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-  &__content {
-    position: relative;
-    padding: 36px;
-    border: 1px solid #000;
-    background: $white;
-    box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.25);
-  }
-}

@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown" ref="dropdown" @click="toggleDropdown">
-    <div class="dropdown-select" :class="{opened: isOpen}">
-      <label class="label">{{label ? label : ph}}</label>
+    <div class="dropdown-select" :class="{opened: isOpen, noLabel: typeof !ph}">
+      <label v-if="ph" class="label">{{label ? label : ph}}</label>
       <span>{{ selected ? selected : ph }}</span>
       <svg :class="{opened: isOpen}" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="#FF8A00">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.4 7.69922L0 6.29922L6 0.299219L12 6.29922L10.6 7.69922L6 3.09922L1.4 7.69922Z" fill="inherit"/>
@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, defineProps, defineEmits } from 'vue'
 
-defineProps<{selected: string, options: string[], ph: string, label?: string}>()
+defineProps<{selected: string, options: string[], ph?: string, label?: string}>()
 const emit = defineEmits<{(event: 'change', value: string): void}>()
 
 const isOpen = ref(false)
@@ -83,6 +83,9 @@ onUnmounted(() => {
   }
   &.opened {
     border-bottom: none;
+  }
+  &.noLabel {
+    padding: 8px 15px 8px 8px;
   }
 }
 

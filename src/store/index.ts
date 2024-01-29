@@ -34,7 +34,7 @@ const store = createStore({
     updateModalSubscribe (state, value: boolean) {
       state.modalSubscribe = value
     },
-    login (state, value: string) {
+    login (state, value) {
       state.beauty = true
       state.username = value
     },
