@@ -11,7 +11,7 @@ const scrollToTop = () => {
 </script>
 
 <template>
-  <footer>
+  <footer class="footer">
     <button
       class="scrollToTop"
       :class="{active: store.state.showLater}"
@@ -21,49 +21,120 @@ const scrollToTop = () => {
           fill="white" />
       </svg>
     </button>
-    <div class="footer">
-      <div class="footer-item">
-        <router-link to="/" class="logo">cosmo<span>.wiki</span></router-link>
-        <p>{{layoutsText.makeSmartDecision[store.state.lang]}}</p>
-        <div class="d-center">
-          <router-link to="#" class="note">Contact us</router-link>
-          <a href="#" class="note-2">
-            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 448 512">
-              <path
-                d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-            </svg>
-          </a>
-        </div>
-        <p class="note-2">©2023 COSMO.WIKI. {{layoutsText.allRightsReserved[store.state.lang]}}</p>
-        <router-link to="#" class="note-2">{{layoutsText.legals[store.state.lang]}}</router-link>
+    <router-link to="/" class="logo">
+      <img src="@/assets/img/icons/logo.svg" alt="logo">
+    </router-link>
+    <p class="txt footer__subtitle">Independed Skincare Wikipedia for Beauty products and Routine.  We help You to make smart Beauty Decisions for Your Skin. </p>
+    <p class="txt-highlight footer__title">get to know cosmo.wiki</p>
+    <div class="footer__inner">
+      <div class="footer__item">
+        <p class="note">Products</p>
+        <router-link to="/product-filter">Product finder</router-link>
+        <router-link to="/product-filter">Skin Types</router-link>
+        <router-link to="/product-filter">Alternative product finder</router-link>
+        <router-link to="/product-filter">Sampling finder</router-link>
+        <router-link to="/product-filter">Top 10 searched products for acne </router-link>
+        <router-link to="/product-filter">Top 10 searched products for wrinkles </router-link>
+        <router-link to="/product-filter">Top 10 searched products for dull skin </router-link>
       </div>
-      <div class="footer-item">
-        <router-link to="/product-intro" class="note">{{layoutsText.skincareProductsLibrary[store.state.lang]}}</router-link>
-        <router-link to="/routine-intro" class="note">{{layoutsText.routineLibrary[store.state.lang]}}</router-link>
-        <router-link to="/registration" class="note">{{layoutsText.yourBeautyId[store.state.lang]}}</router-link>
+      <div class="footer__item">
+        <p class="note">routines</p>
+        <router-link to="/routine-filter">Routine Finder</router-link>
+        <router-link to="/product-filter">Concern Targeted  routines</router-link>
+        <router-link to="/product-filter">Most used routines for normal skin</router-link>
+        <router-link to="/product-filter">Most used routines for combination skin</router-link>
+        <router-link to="/product-filter">Most used routines for oily skin</router-link>
+        <router-link to="/product-filter">Most used routines for dry skin</router-link>
       </div>
-      <div class="footer-item">
-        <p class="note">{{layoutsText.connectLux[store.state.lang]}}</p>
-        <router-link to="/" class="note-2">Telegram</router-link>
-        <router-link to="/" class="note-2">Whatsapp</router-link>
-        <router-link to="/" class="note-2">Android</router-link>
-        <router-link to="/" class="note-2">IOS</router-link>
+      <div class="footer__item">
+        <p class="note">AI SERVICES</p>
+        <router-link to="/product-filter">Beautymeter</router-link>
+        <router-link to="/product-filter">Personal Beauty AI Assistant in Your messenger</router-link>
+        <router-link to="/product-filter">Assistant in Your Browser</router-link>
+        <router-link to="/product-filter">Products Insights and introductions</router-link>
+        <router-link to="/product-filter">Routine insights recommendation</router-link>
+        <router-link to="/product-filter">Special offers near you</router-link>
+        <router-link to="/product-filter">Store Navigator</router-link>
       </div>
-      <div class="footer-item">
-        <p class="note">{{layoutsText.ourStory[store.state.lang]}}</p>
-        <router-link to="#" class="note-2">{{layoutsText.forRetailers[store.state.lang]}}</router-link>
-        <router-link to="#" class="note-2">{{layoutsText.forBrands[store.state.lang]}}</router-link>
-        <router-link to="#" class="note-2">{{layoutsText.ourDermoBoard[store.state.lang]}}</router-link>
+      <div class="footer__item">
+        <p class="note">USER MANUALS </p>
+        <router-link to="/product-filter">Create free account</router-link>
+        <router-link to="/product-filter">How to find products or routines</router-link>
+        <router-link to="/product-filter">How to write reviews for products</router-link>
+        <router-link to="/product-filter">How to check product to match my skin</router-link>
+        <router-link to="/product-filter">How to check your SkinTwin Community ID</router-link>
+        <router-link to="/product-filter">How to publish You routines</router-link>
+        <router-link to="/product-filter">How to find beast deal for skincare products</router-link>
+      </div>
+      <div class="footer__item">
+        <p class="note">about us</p>
+        <router-link to="/product-filter">About COSMO.WIKI</router-link>
+        <router-link to="/product-filter">Our Policy</router-link>
+        <router-link to="/product-filter">Dermoboard</router-link>
+        <router-link to="/product-filter">Contact us</router-link>
+      </div>
+      <div class="footer__item">
+        <p class="note">beauty advisory cooperation</p>
+        <router-link to="/product-filter">Dermatologists</router-link>
+        <router-link to="/product-filter">Beauty periodicals</router-link>
+        <router-link to="/product-filter">Beauty consultants</router-link>
+        <router-link to="/product-filter">Universities</router-link>
+      </div>
+      <div class="footer__item">
+        <p class="note">Industry cooperation</p>
+        <router-link to="/product-filter">Brands</router-link>
+        <router-link to="/product-filter">Retailers</router-link>
+        <router-link to="/product-filter">Technology partners</router-link>
+        <router-link to="/product-filter">Consultants</router-link>
+      </div>
+      <div class="footer__item">
+        <p class="note">INDUSTRY - MANUALS</p>
+        <router-link to="/product-filter">New Products submission</router-link>
+        <router-link to="/product-filter">Pricing submission</router-link>
+        <router-link to="/product-filter">List on COSMO.WIK</router-link>
+        <router-link to="/product-filter">on-Product page Surveys activation</router-link>
+        <router-link to="/product-filter">Product reviews management</router-link>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="txt change-location">Change location and language &nbsp;&nbsp; <button class="note">PRAHA,CZ  - ENGLISH</button></p>
+      <p class="txt">©2023 COSMO.WIKI. All rights reserved</p>
+      <div>
+        <router-link to="/">Privacy policy</router-link>
+        <router-link to="/">Legals</router-link>
       </div>
     </div>
   </footer>
 </template>
 
 <style lang="scss" scoped>
-footer {
+.footer {
   background: $grey;
   padding: 60px;
 
+  > a {
+    width: max-content;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+
+    img {
+      height: 40px;
+    }
+  }
+
+  &__subtitle {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 20px;
+    padding: 60px 0;
+  }
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 20px;
+  }
   .note {
     font-size: 14px;
     font-weight: 700;
@@ -71,45 +142,19 @@ footer {
     transition: .3s;
   }
 
-  .note-2 {
-    font-size: 14px;
-    transition: .3s;
-
-    svg {
-      transition: .3s;
-    }
-  }
-
-  a.note:hover {
-    color: $orange;
-  }
-
-  a.note-2:hover {
-    color: $orange;
-
-    svg {
-      fill: $orange;
-    }
-  }
-
-  .footer {
+  &__inner {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-content: space-between;
     gap: 50px;
 
-    &-item {
+    .footer__item {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
 
-      .logo {
-        font-size: 24px;
-        padding-bottom: 20px;
-      }
-
-      .d-center {
-        justify-content: space-between;
+      .note {
+        padding-bottom: 8px;
       }
     }
 
@@ -118,6 +163,29 @@ footer {
     }
     @media (max-width: 550px) {
       grid-template-columns: auto;
+    }
+  }
+
+  &__bottom {
+    display: grid;
+    grid-template-columns: auto auto;
+
+    .change-location {
+      grid-column: 1 / 3;
+      border-bottom: 1px solid $black
+    }
+    p {
+      padding: 20px 0;
+    }
+    div {
+      padding: 20px 0;
+      justify-self: right;
+      font-weight: 700;
+      font-size: 14px;
+
+      a {
+        padding-left: 20px
+      }
     }
   }
 
