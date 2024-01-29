@@ -5,8 +5,7 @@ import store from '@/store'
 </script>
 
 <template>
-<!--  <router-view/>-->
-  <TheFooter />
+  <router-view/>
   <div class="modal" :class="{active: store.state.modalSubscribe}" @click="store.commit('updateModalSubscribe', false)">
     <ModalSubscribe :active="store.state.modalSubscribe" />
   </div>
