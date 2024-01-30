@@ -1,20 +1,34 @@
 <script lang="ts" setup>
-import { defineEmits, defineProps, ref, watch } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
 import BaseModal from '@/baseComponents/BaseModal.vue'
 import BaseSelect from '@/baseComponents/BaseSelect.vue'
 import store from '@/store'
-defineEmits<{(event: 'close'): void}>()
+import router from '@/router'
+import { useRoute } from 'vue-router'
+const emits = defineEmits<{(event: 'close'): void}>()
 defineProps<{active: boolean}>()
 
+const route = useRoute()
+
 const country = ref('Home')
-const language = ref('English')
 const languages: Record<string, string> = {
   English: 'en',
   Russian: 'ru',
 }
+const language = ref('English')
+Object.keys(languages).forEach(key => {
+  if (languages[key] === store.state.lang) {
+    language.value = key
+  }
+})
 
 const saveChanges = () => {
   store.commit('switchLanguage', languages[language.value])
+  router.push({
+    name: route.name as string,
+    params: { ...route.params, locale: store.state.lang }
+  })
+  emits('close')
 }
 </script>
 

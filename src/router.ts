@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw, RouterView } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, RouterView, useRoute } from 'vue-router'
 import MainView from '@/views/MainView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
 import SingleRoutineView from '@/views/SingleRoutineView.vue'
@@ -186,14 +186,15 @@ router.beforeEach((to, from, next) => {
 
   const paramLocale = to.params.locale as string
 
-  if (!paramLocale) {
-    router.push(`/${store.state.lang}${to.fullPath}`)
-  } else if (!locales.includes(paramLocale)) {
-    console.log(true)
-    router.push(`/${store.state.lang}${to.fullPath.replace(/\/[^/]+/, '')}`)
+  if (!paramLocale || !locales.includes(paramLocale)) {
+    router.push({
+      name: to.name as string,
+      params: { ...to.params, locale: store.state.lang }
+    })
+  } else {
+    store.commit('switchLanguage', paramLocale)
   }
 
-  store.commit('switchLanguage', paramLocale)
   next()
 })
 
