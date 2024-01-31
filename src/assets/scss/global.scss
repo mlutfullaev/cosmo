@@ -13,10 +13,21 @@
 
 body {
   font-family: 'PT Root UI', serif;
+
+  &.hide-header {
+    #app {
+      padding-top: 0;
+
+      header {
+        top: calc($header-size * -2);
+      }
+    }
+  }
 }
 
 #app {
-  padding-top: 36px;
+  transition: .3s;
+  padding-top: $header-size;
 }
 
 .logo {

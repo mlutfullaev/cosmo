@@ -2,9 +2,10 @@
 import store from '@/store'
 import layoutsText from '@/assets/locales/layouts.json'
 import FooterModal from '@/components/FooterModal.vue'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const footerModal = ref(false)
+const footerRef = ref<HTMLDivElement>()
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -12,10 +13,30 @@ const scrollToTop = () => {
     behavior: 'smooth',
   })
 }
+function checkFooterVisibility () {
+  const footer = footerRef.value
+  if (!footer) return
+  const rect = footer.getBoundingClientRect()
+  const isVisible = rect.top < (window.innerHeight - window.innerHeight / 2) && rect.bottom >= 0
+  if (isVisible) {
+    document.body.classList.add('hide-header')
+  } else {
+    document.body.classList.remove('hide-header')
+  }
+}
+
+onMounted(() => {
+  console.log(true)
+  checkFooterVisibility()
+  window.addEventListener('scroll', checkFooterVisibility)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', checkFooterVisibility)
+})
 </script>
 
 <template>
-  <footer class="footer">
+  <footer class="footer" ref="footerRef">
     <button
       class="scrollToTop"
       :class="{active: store.state.showLater}"

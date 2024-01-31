@@ -114,12 +114,12 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: 'profile',
-    name: 'profile',
+    name: '',
     component: ProfileView,
     children: [
       {
         path: '',
-        name: '',
+        name: 'profile',
         component: ProfileSkinView
       },
       {
@@ -187,6 +187,7 @@ router.beforeEach((to, from, next) => {
   const paramLocale = to.params.locale as string
 
   if (!paramLocale || !locales.includes(paramLocale)) {
+    console.log(to)
     router.push({
       name: to.name as string,
       params: { ...to.params, locale: store.state.lang }

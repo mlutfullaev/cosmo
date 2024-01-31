@@ -260,6 +260,7 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
+  transition: .3s;
   left: 0;
   right: 0;
   background: #fff;

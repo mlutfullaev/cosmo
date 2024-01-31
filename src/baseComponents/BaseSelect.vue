@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown" ref="dropdown" @click="toggleDropdown">
-    <div class="dropdown-select" :class="{opened: isOpen, noLabel: typeof !ph}">
+    <div class="dropdown-select" :class="{opened: isOpen, noLabel: !ph}">
       <label v-if="ph" class="label">{{label ? label : ph}}</label>
       <span>{{ selected ? selected : ph }}</span>
       <svg :class="{opened: isOpen}" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="#FF8A00">
