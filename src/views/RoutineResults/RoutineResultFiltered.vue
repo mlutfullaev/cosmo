@@ -23,7 +23,7 @@ const meta = ref<{
 const routines = ref<Routine[]>([])
 const allItems = ref(0)
 
-onMounted(() => {
+const getItems = () => {
   axios.get(`${API_URL}routines?order=ASC`, {
     params: route.query
   })
@@ -36,27 +36,28 @@ onMounted(() => {
       allItems.value = res.data.meta.itemCount
       meta.value = res.data.meta
     })
-})
-watch(route, () => {
-  axios.get(`${API_URL}routines/filtered?order=ASC`, {
-    params: route.query
-  })
-    .then(res => {
-      if (!res.data.data.length) {
-        router.push('/routine-results/not-found/')
-        return
-      }
-      routines.value = res.data.data
-      meta.value = res.data.meta
-      allItems.value = res.data.meta.itemCount
-    })
-})
+}
+
+onMounted(() => getItems())
+watch(route, () => getItems())
 
 const filter = (filters: StringObject) => {
   console.log(filters)
 }
-const checkBeauty = () => {
-  store.commit('checkBeauty')
+
+const moreItems = () => {
+  axios.get(`${API_URL}routines?order=ASC`, {
+    params: {
+      ...route.query,
+      take: 12,
+      page: route.query.page + 1,
+    }
+  })
+    .then(res => {
+      if (!res.data.data.length) return
+      console.log(res.data)
+      routines.value = [...routines.value, ...res.data.data]
+    })
 }
 </script>
 
@@ -83,7 +84,7 @@ const checkBeauty = () => {
       :key="routine.id"
     />
     <div class="routine-item bg-orange" v-if="allItems > Number(route.query.take) && !store.state.beauty">
-      <img src="@/assets/img/global/qr.png" @click="checkBeauty" alt="qr-code">
+      <img src="@/assets/img/global/qr.png" alt="qr-code">
       <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research. We recommend you to narrow your search by using our AI Supported Beauty Product Search.</p>
       <RouterLink to="/routine-filter" class="link bold">To start AI search please scan QR code</RouterLink>
     </div>
@@ -91,12 +92,12 @@ const checkBeauty = () => {
 
   <ThePagination v-if="meta && meta.pageCount > 1" :meta="meta" />
 
-  <div class="link-block" v-if="allItems > Number(route.query.take) && store.state.beauty">
-    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: Number(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
+  <div class="link-block" v-if="allItems > routines.length && store.state.beauty">
+    <button class="bold link" @click="moreItems">discover more <span>→</span></button>
   </div>
-  <div class="tablet-link bg-orange tablet" v-if="allItems > Number(route.query.take) && !store.state.beauty">
+  <div class="tablet-link bg-orange tablet" v-if="allItems > routines.length && !store.state.beauty">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
-    <RouterLink class="link bold" :to="{path: `/routine-results/filtered/`, query: {...route.query, take: Number(route.query.take) + 8}}">browser more <span>→</span></RouterLink>
+    <button class="bold link" @click="moreItems">discover <br/> more <span>→</span></button>
   </div>
 
   <RoutinesSteps />

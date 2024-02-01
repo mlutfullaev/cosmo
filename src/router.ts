@@ -20,7 +20,7 @@ import VueCookies from 'vue-cookies'
 import store from '@/store'
 import ProfileView from '@/views/Profile/ProfileView.vue'
 import PasswordResetView from '@/views/PasswordResetView.vue'
-import { locales } from '@/assets/constants'
+import { API_URL, locales } from '@/assets/constants'
 import ProfileSkinView from '@/views/Profile/ProfileSkinView.vue'
 import ProfileAccountView from '@/views/Profile/ProfileAccountView.vue'
 import ProfileProductsView from '@/views/Profile/ProfileProductsView.vue'
@@ -147,7 +147,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/:locale?',
@@ -155,7 +155,7 @@ const router = createRouter({
       children: routes
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior (to) {
     if (to.hash) {
       return {
         el: to.hash,
@@ -189,7 +189,7 @@ router.beforeEach((to, from, next) => {
   if (!paramLocale || !locales.includes(paramLocale)) {
     console.log(to)
     router.push({
-      name: to.name as string,
+      ...to,
       params: { ...to.params, locale: store.state.lang }
     })
   } else {

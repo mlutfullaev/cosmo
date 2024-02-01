@@ -14,20 +14,7 @@ const router = useRouter()
 const products = ref<Product[]>([])
 const allItems = ref(0)
 
-onMounted(() => {
-  axios.get(`${API_URL}goods/filtered`, {
-    params: route.query
-  })
-    .then(res => {
-      if (!res.data.data.length) {
-        router.push(`/product-results/not-found/${route.params.param || ''}`)
-        return
-      }
-      products.value = res.data.data
-      allItems.value = res.data.meta.itemCount
-    })
-})
-watch(route, () => {
+const getItems = () => {
   axios.get(`${API_URL}goods/filtered`, {
     params: route.query
   })
@@ -39,7 +26,25 @@ watch(route, () => {
       products.value = res.data.data
       allItems.value = res.data.meta.itemCount
     })
-})
+}
+
+onMounted(() => getItems())
+watch(route, () => getItems())
+
+const moreItems = () => {
+  axios.get(`${API_URL}goods/filtered`, {
+    params: {
+      ...route.query,
+      take: 12,
+      page: route.query.page + 1,
+    }
+  })
+    .then(res => {
+      if (!res.data.data.length) return
+      console.log(res.data)
+      products.value = [...products.value, ...res.data.data]
+    })
+}
 
 const filter = (filters: StringObject) => {
   console.log(filters)
@@ -67,14 +72,14 @@ const filter = (filters: StringObject) => {
       :key="product.id"
       :product="product"
     />
-    <div class="product-item center tablet" v-if="allItems > 11">
-      <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: Number(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
+    <div class="product-item center tablet" v-if="allItems > products.length">
+      <button class="bold link" @click="moreItems">discover <br/> more <span>→</span></button>
     </div>
   </section>
 
-  <div class="tablet-link bg-orange tablet" v-if="allItems > 11">
+  <div class="tablet-link bg-orange tablet" v-if="allItems > products.length">
     <p class="txt">Your search shows more than 25 products which makes it difficult to make efficient research.</p>
-    <RouterLink class="link bold" :to="{path: `/product-results/filtered/${store.state.productSearch}`, query: {...route.query, page: Number(route.query.page) + 1}}">discover more <span>→</span></RouterLink>
+    <button class="bold link" @click="moreItems">discover <br/> more <span>→</span></button>
   </div>
 
   <SearchResultBottom />
