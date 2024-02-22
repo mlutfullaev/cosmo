@@ -50,12 +50,12 @@ const moreItems = () => {
     params: {
       ...route.query,
       take: 12,
-      page: route.query.page + 1,
+      page: meta.value ? +meta.value.page : 1 + 1,
     }
   })
     .then(res => {
       if (!res.data.data.length) return
-      console.log(res.data)
+      meta.value = res.data.meta
       routines.value = [...routines.value, ...res.data.data]
     })
 }

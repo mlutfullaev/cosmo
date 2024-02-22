@@ -11,6 +11,7 @@ import { API_URL, productFilters } from '@/assets/constants'
 
 const route = useRoute()
 const router = useRouter()
+const page = ref(0)
 const products = ref<Product[]>([])
 const allItems = ref(0)
 
@@ -25,6 +26,7 @@ const getItems = () => {
       }
       products.value = res.data.data
       allItems.value = res.data.meta.itemCount
+      page.value = +res.data.meta.page
     })
 }
 
@@ -36,12 +38,12 @@ const moreItems = () => {
     params: {
       ...route.query,
       take: 12,
-      page: route.query.page + 1,
+      page: page.value + 1,
     }
   })
     .then(res => {
       if (!res.data.data.length) return
-      console.log(res.data)
+      page.value = page.value + 1
       products.value = [...products.value, ...res.data.data]
     })
 }
