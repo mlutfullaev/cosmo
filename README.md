@@ -1,4 +1,7 @@
-# cosmo
+# Cosmo
+
+Username: sdfgsdg-6
+Password: 123456
 
 ## Project setup
 ```
